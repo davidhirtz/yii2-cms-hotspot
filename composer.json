@@ -6,11 +6,11 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "../../../../meineregion/vendor/davidhirtz/yii2-cms": "dev-master"
+    "davidhirtz/yii2-cms": "dev-master"
   },
   "autoload": {
     "psr-4": {
-      "davidhirtz\\yii2\\hotspot\\": ""
+      "davidhirtz\\yii2\\annotation\\": ""
     }
   },
   "extra": {
