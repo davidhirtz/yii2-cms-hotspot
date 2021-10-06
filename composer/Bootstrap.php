@@ -2,9 +2,13 @@
 
 namespace davidhirtz\yii2\annotation\composer;
 
+use davidhirtz\yii2\annotation\assets\AdminAsset;
+use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
 use Yii;
+use yii\base\WidgetEvent;
+use yii\helpers\Url;
 
 /**
  * Class Bootstrap
@@ -42,6 +46,18 @@ class Bootstrap implements BootstrapInterface
                     'davidhirtz\yii2\annotation\models\AnnotationAsset',
                 ],
             ],
+        ]);
+
+        Yii::$container->set(AssetActiveForm::class, [
+            'on afterRun' => function (WidgetEvent $event) {
+                /** @var AssetActiveForm $form */
+                $form = $event->sender;
+
+                if ($form->model->file->hasPreview()) {
+                    AdminAsset::register($view = $form->getView());
+                    $view->registerJs('Skeleton.registerAnnotations("'. Url::toRoute(['/admin/annotation/create', 'id' => $form->model->id]) .'")');
+                }
+            }
         ]);
 
         $app->setMigrationNamespace('davidhirtz\yii2\annotation\migrations');
