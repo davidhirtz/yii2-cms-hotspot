@@ -1,9 +1,9 @@
 <?php
 
-namespace davidhirtz\yii2\annotation\models\base;
+namespace davidhirtz\yii2\hotspot\models\base;
 
-use davidhirtz\yii2\annotation\models\queries\AnnotationQuery;
-use davidhirtz\yii2\annotation\modules\admin\widgets\forms\AnnotationActiveForm;
+use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
+use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\models\queries\AssetQuery;
@@ -19,8 +19,8 @@ use davidhirtz\yii2\skeleton\models\User;
 use Yii;
 
 /**
- * Class Annotation
- * @package davidhirtz\yii2\annotation\models\base
+ * Class Hotspot
+ * @package davidhirtz\yii2\hotspot\models\base
  *
  * @property int $id
  * @property int $status
@@ -37,10 +37,10 @@ use Yii;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  * @property Asset $asset
- * @property \davidhirtz\yii2\annotation\models\AnnotationAsset[] $annotationAssets
- * @method static \davidhirtz\yii2\annotation\models\Annotation findOne($condition)
+ * @property \davidhirtz\yii2\hotspot\models\HotspotAsset[] $hotspotAssets
+ * @method static \davidhirtz\yii2\hotspot\models\Hotspot findOne($condition)
  */
-class Annotation extends ActiveRecord implements AssetParentInterface
+class Hotspot extends ActiveRecord implements AssetParentInterface
 {
     use I18nAttributesTrait;
     use ModuleTrait;
@@ -134,7 +134,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public function afterValidate()
     {
-        // Disable annotation move / clone for now ...
+        // Disable hotspot move / clone for now ...
         if (!$this->getIsNewRecord() && $this->isAttributeChanged('asset_id')) {
             $this->addInvalidAttributeError('asset_id');
         }
@@ -149,7 +149,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
-            $this->recalculateAssetAnnotationCount();
+            $this->recalculateAssetHotspotCount();
             $this->asset->update();
         }
 
@@ -166,7 +166,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
         }
 
         if ($this->asset_count) {
-            foreach ($this->annotationAssets as $asset) {
+            foreach ($this->hotspotAssets as $asset) {
                 $asset->delete();
             }
         }
@@ -180,7 +180,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
     public function afterDelete()
     {
         if (!$this->asset->isDeleted()) {
-            $this->recalculateAssetAnnotationCount();
+            $this->recalculateAssetHotspotCount();
             $this->asset->update();
         }
 
@@ -201,10 +201,10 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public function getAssets()
     {
-        return $this->hasMany(\davidhirtz\yii2\annotation\models\AnnotationAsset::class, ['annotation_id' => 'id'])
+        return $this->hasMany(\davidhirtz\yii2\hotspot\models\HotspotAsset::class, ['hotspot_id' => 'id'])
             ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')
-            ->inverseOf('annotation');
+            ->inverseOf('hotspot');
     }
 
     /**
@@ -217,7 +217,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
     }
 
     /**
-     * @return AnnotationQuery
+     * @return HotspotQuery
      */
     public function findSiblings()
     {
@@ -225,11 +225,11 @@ class Annotation extends ActiveRecord implements AssetParentInterface
     }
 
     /**
-     * @return AnnotationQuery
+     * @return HotspotQuery
      */
     public static function find()
     {
-        return Yii::createObject(AnnotationQuery::class, [get_called_class()]);
+        return Yii::createObject(HotspotQuery::class, [get_called_class()]);
     }
 
     /**
@@ -242,11 +242,11 @@ class Annotation extends ActiveRecord implements AssetParentInterface
     }
 
     /**
-     * Recalculates the asset's annotation count.
+     * Recalculates the asset's hotspot count.
      */
-    protected function recalculateAssetAnnotationCount()
+    protected function recalculateAssetHotspotCount()
     {
-        $this->asset->setAttribute('annotation_count', (int)static::findSiblings()->count());
+        $this->asset->setAttribute('hotspot_count', (int)static::findSiblings()->count());
     }
 
     /**
@@ -291,16 +291,16 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public function getTrailModelType(): string
     {
-        return Yii::t('annotation', 'Annotation');
+        return Yii::t('hotspot', 'Hotspot');
     }
 
     /**
-     * @return AnnotationActiveForm
+     * @return HotspotActiveForm
      */
     public function getActiveForm()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return static::getTypes()[$this->type]['activeForm'] ?? AnnotationActiveForm::class;
+        return static::getTypes()[$this->type]['activeForm'] ?? HotspotActiveForm::class;
     }
 
     /**
@@ -308,7 +308,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public function getAdminRoute()
     {
-        return $this->id ? ['/admin/annotation/update', 'id' => $this->id] : false;
+        return $this->id ? ['/admin/hotspot/update', 'id' => $this->id] : false;
     }
 
     /**
@@ -316,7 +316,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public function getHtmlId()
     {
-        return $this->getI18nAttribute('slug') ?: ('annotation-' . $this->id);
+        return $this->getI18nAttribute('slug') ?: ('hotspot-' . $this->id);
     }
 
     /**
@@ -333,9 +333,9 @@ class Annotation extends ActiveRecord implements AssetParentInterface
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'asset_id' => Yii::t('annotation', 'Asset'),
-            'link' => Yii::t('annotation', 'Link'),
-            'annotation_count' => Yii::t('annotation', 'Annotations'),
+            'asset_id' => Yii::t('hotspot', 'Asset'),
+            'link' => Yii::t('hotspot', 'Link'),
+            'hotspot_count' => Yii::t('hotspot', 'Hotspots'),
         ]);
     }
 
@@ -344,7 +344,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public function formName()
     {
-        return 'Annotation';
+        return 'Hotspot';
     }
 
     /**
@@ -352,6 +352,6 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public static function tableName()
     {
-        return static::getModule()->getTableName('annotation');
+        return static::getModule()->getTableName('hotspot');
     }
 }

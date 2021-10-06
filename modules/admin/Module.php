@@ -1,19 +1,19 @@
 <?php
 
-namespace davidhirtz\yii2\annotation\modules\admin;
+namespace davidhirtz\yii2\hotspot\modules\admin;
 
 use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class Module
- * @package davidhirtz\yii2\annotation\modules\admin
+ * @package davidhirtz\yii2\hotspot\modules\admin
  * @property \davidhirtz\yii2\skeleton\modules\admin\Module $module
  */
 class Module extends \yii\base\Module
 {
     /**
-     * @var string the module display name, defaults to "Annotations"
+     * @var string the module display name, defaults to "Hotspots"
      */
     public $name;
 
@@ -21,13 +21,13 @@ class Module extends \yii\base\Module
      * @var array
      */
     protected $defaultControllerMap = [
-        'annotation' => [
-            'class' => 'davidhirtz\yii2\annotation\modules\admin\controllers\AnnotationController',
-            'viewPath' => '@annotation/modules/admin/views/annotation',
+        'hotspot' => [
+            'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotController',
+            'viewPath' => '@hotspot/modules/admin/views/hotspot',
         ],
-        'annotation-asset' => [
-            'class' => 'davidhirtz\yii2\annotation\modules\admin\controllers\AnnotationAssetController',
-            'viewPath' => '@annotation/modules/admin/views/annotation-asset',
+        'hotspot-asset' => [
+            'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotAssetController',
+            'viewPath' => '@hotspot/modules/admin/views/hotspot-asset',
         ],
     ];
 
@@ -37,7 +37,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         if (!$this->name) {
-            $this->name = Yii::t('annotation', 'Annotations');
+            $this->name = Yii::t('hotspot', 'Hotspots');
         }
 
         $this->module->controllerMap = ArrayHelper::merge(array_merge($this->module->controllerMap, $this->defaultControllerMap), $this->controllerMap);

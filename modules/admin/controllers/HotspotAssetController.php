@@ -1,15 +1,15 @@
 <?php
 
-namespace davidhirtz\yii2\annotation\modules\admin\controllers;
+namespace davidhirtz\yii2\hotspot\modules\admin\controllers;
 
-use davidhirtz\yii2\annotation\models\AnnotationAsset;
-use davidhirtz\yii2\annotation\models\Entry;
-use davidhirtz\yii2\annotation\modules\admin\controllers\traits\AnnotationAssetTrait;
-use davidhirtz\yii2\annotation\modules\admin\controllers\traits\AnnotationTrait;
-use davidhirtz\yii2\annotation\modules\admin\controllers\traits\EntryTrait;
-use davidhirtz\yii2\annotation\modules\admin\controllers\traits\SectionTrait;
+use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\hotspot\models\Entry;
+use davidhirtz\yii2\hotspot\modules\admin\controllers\traits\HotspotAssetTrait;
+use davidhirtz\yii2\hotspot\modules\admin\controllers\traits\HotspotTrait;
+use davidhirtz\yii2\hotspot\modules\admin\controllers\traits\EntryTrait;
+use davidhirtz\yii2\hotspot\modules\admin\controllers\traits\SectionTrait;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
-use davidhirtz\yii2\annotation\models\Asset;
+use davidhirtz\yii2\hotspot\models\Asset;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\modules\admin\controllers\traits\FileTrait;
 use davidhirtz\yii2\media\modules\admin\data\FileActiveDataProvider;
@@ -23,12 +23,12 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
- * Class AnnotationAssetController
- * @package davidhirtz\yii2\annotation\modules\admin\controllers
+ * Class HotspotAssetController
+ * @package davidhirtz\yii2\hotspot\modules\admin\controllers
  */
-class AnnotationAssetController extends Controller
+class HotspotAssetController extends Controller
 {
-    use AnnotationTrait;
+    use HotspotTrait;
     use ModuleTrait;
     use FileTrait;
 
@@ -44,7 +44,7 @@ class AnnotationAssetController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create', 'delete', 'update'],
-                        'roles' => ['annotationUpdate'],
+                        'roles' => ['hotspotUpdate'],
                     ],
                 ],
             ],
@@ -58,14 +58,14 @@ class AnnotationAssetController extends Controller
     }
 
     /**
-     * @param int $annotation
+     * @param int $hotspot
      * @param int|null $file
      * @param int|null $folder
      * @return string|Response
      */
-    public function actionCreate($annotation, $file = null, $folder = null)
+    public function actionCreate($hotspot, $file = null, $folder = null)
     {
-        $annotation = $this->findAnnotation($annotation, 'annotationUpdate');
+        $hotspot = $this->findHotspot($hotspot, 'hotspotUpdate');
 
         $request = Yii::$app->getRequest();
         $user = Yii::$app->getUser();
@@ -74,7 +74,7 @@ class AnnotationAssetController extends Controller
             return '';
         }
 
-        $asset = new AnnotationAsset();
+        $asset = new HotspotAsset();
         $asset->pop = $entry;
         $asset->section_id = $section;
         $asset->populateFileRelation($file);
@@ -92,7 +92,7 @@ class AnnotationAssetController extends Controller
             return '';
         }
 
-        $this->success(Yii::t('annotation', 'The asset was added.'));
+        $this->success(Yii::t('hotspot', 'The asset was added.'));
         return $this->redirectToParent($asset);
 //
 //
@@ -108,8 +108,8 @@ class AnnotationAssetController extends Controller
 //            return '';
 //        }
 //
-//        $this->success($isNew ? Yii::t('annotation', 'The asset was created.') : Yii::t('annotation', 'The asset was added.'));
-        return $this->redirect(['/admin/annotation/update', 'id' => $asset->annotation_id]);
+//        $this->success($isNew ? Yii::t('hotspot', 'The asset was created.') : Yii::t('hotspot', 'The asset was added.'));
+        return $this->redirect(['/admin/hotspot/update', 'id' => $asset->hotspot_id]);
     }
 
     /**
@@ -122,11 +122,11 @@ class AnnotationAssetController extends Controller
 
         if ($asset->load(Yii::$app->getRequest()->post())) {
             if ($asset->update()) {
-                $this->success(Yii::t('annotation', 'The asset was updated.'));
+                $this->success(Yii::t('hotspot', 'The asset was updated.'));
             }
 
             if (!$asset->hasErrors()) {
-                return $this->redirect(['/admin/annotation/update', 'id' => $asset->annotation_id]);
+                return $this->redirect(['/admin/hotspot/update', 'id' => $asset->hotspot_id]);
             }
         }
 
@@ -149,8 +149,8 @@ class AnnotationAssetController extends Controller
                 return '';
             }
 
-            $this->success(Yii::t('annotation', 'The asset was deleted.'));
-            return $this->redirect(['/admin/annotation/update', 'id' => $asset->annotation_id]);
+            $this->success(Yii::t('hotspot', 'The asset was deleted.'));
+            return $this->redirect(['/admin/hotspot/update', 'id' => $asset->hotspot_id]);
         }
 
         $errors = $asset->getFirstErrors();
@@ -160,15 +160,15 @@ class AnnotationAssetController extends Controller
     /**
      * @param int $id
      * @param string|null $permissionName
-     * @return AnnotationAsset
+     * @return HotspotAsset
      */
     protected function findAsset($id, $permissionName = null)
     {
-        if (!$asset = AnnotationAsset::findOne((int)$id)) {
+        if (!$asset = HotspotAsset::findOne((int)$id)) {
             throw new NotFoundHttpException();
         }
 
-        if (!Yii::$app->getUser()->can('annotationUpdate', ['annotation' => $asset->annotation])) {
+        if (!Yii::$app->getUser()->can('hotspotUpdate', ['hotspot' => $asset->hotspot])) {
             throw new ForbiddenHttpException();
         }
 

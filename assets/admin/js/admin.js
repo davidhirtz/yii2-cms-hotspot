@@ -1,15 +1,15 @@
 /**
- * Registers image annotation tool.
- * This only works if the AnnotationAssetBundle is registered first.
+ * Registers image hotspot tool.
+ * This only works if the HotspotAssetBundle is registered first.
  */
-Skeleton.registerAnnotations = function (url) {
+Skeleton.registerHotspots = function (url) {
     var $image = $('#image'),
         $canvas = $image.parent().css('position', 'relative'),
         buttons = [],
         zIndex = 0;
 
     function initButton(url, x, y) {
-        var $btn = $('<a href="' + url + '" class="btn btn-primary btn-annotation"  title="test"><i class="fas fa-wrench"></i></a>')
+        var $btn = $('<a href="' + url + '" class="btn btn-primary btn-hotspot"  title="test"><i class="fas fa-wrench"></i></a>')
                 .appendTo($canvas)
                 .tooltip(),
             btnXOffset = $btn.outerWidth() / 2,

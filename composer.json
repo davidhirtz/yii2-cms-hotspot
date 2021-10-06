@@ -1,7 +1,7 @@
 {
-  "name": "davidhirtz/yii2-annotation",
+  "name": "davidhirtz/yii2-cms-hotspot",
   "type": "yii2-extension",
-  "description": "Yii2 Image Annotation Module",
+  "description": "Yii2 Image Hotspot Module",
   "homepage": "https://www.davidhirtz.com/",
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -10,16 +10,16 @@
   },
   "autoload": {
     "psr-4": {
-      "davidhirtz\\yii2\\annotation\\": ""
+      "davidhirtz\\yii2\\hotspot\\": ""
     }
   },
   "extra": {
-    "bootstrap": "davidhirtz\\yii2\\annotation\\composer\\Bootstrap"
+    "bootstrap": "davidhirtz\\yii2\\hotspot\\composer\\Bootstrap"
   },
   "repositories": [
     {
       "type": "git",
-      "url": "git@github.com:davidhirtz/yii2-cms.git"
+      "url": "git@github.com:davidhirtz/yii2-cms-hotspot.git"
     }
   ]
 }

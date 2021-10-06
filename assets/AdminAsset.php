@@ -1,19 +1,19 @@
 <?php
 
-namespace davidhirtz\yii2\annotation\assets;
+namespace davidhirtz\yii2\hotspot\assets;
 
 use yii\web\AssetBundle;
 
 /**
  * Class AdminAsset
- * @package davidhirtz\yii2\annotation\assets
+ * @package davidhirtz\yii2\hotspot\assets
  */
 class AdminAsset extends AssetBundle
 {
     /**
      * @var string
      */
-    public $sourcePath = '@annotation/assets/admin';
+    public $sourcePath = '@hotspot/assets/admin';
 
     /**
      * @var array

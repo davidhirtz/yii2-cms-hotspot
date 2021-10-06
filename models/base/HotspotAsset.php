@@ -1,11 +1,11 @@
 <?php
 
-namespace davidhirtz\yii2\annotation\models\base;
+namespace davidhirtz\yii2\hotspot\models\base;
 
-use davidhirtz\yii2\annotation\models\queries\AnnotationQuery;
-use davidhirtz\yii2\annotation\modules\admin\Module;
-use davidhirtz\yii2\annotation\modules\admin\widgets\forms\AnnotationAssetActiveForm;
-use davidhirtz\yii2\annotation\modules\admin\widgets\grid\AnnotationAssetParentGridView;
+use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
+use davidhirtz\yii2\hotspot\modules\admin\Module;
+use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
+use davidhirtz\yii2\hotspot\modules\admin\widgets\grid\HotspotAssetParentGridView;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\media\models\AssetInterface;
@@ -22,12 +22,12 @@ use Yii;
 use yii\base\Widget;
 
 /**
- * Class AnnotationAsset
- * @package davidhirtz\yii2\annotation\models\base
- * @see \davidhirtz\yii2\annotation\models\Asset
+ * Class HotspotAsset
+ * @package davidhirtz\yii2\hotspot\models\base
+ * @see \davidhirtz\yii2\hotspot\models\Asset
  *
  * @property int $id
- * @property int $annotation_id
+ * @property int $hotspot_id
  * @property int $file_id
  * @property int $position
  * @property string $name
@@ -38,13 +38,13 @@ use yii\base\Widget;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  *
- * @property \davidhirtz\yii2\annotation\models\Annotation $annotation
+ * @property \davidhirtz\yii2\hotspot\models\Hotspot $hotspot
  * @property File $file
  * @property User $updated
  *
- * @method static \davidhirtz\yii2\annotation\models\AnnotationAsset findOne($condition)
+ * @method static \davidhirtz\yii2\hotspot\models\HotspotAsset findOne($condition)
  */
-class AnnotationAsset extends ActiveRecord implements AssetInterface
+class HotspotAsset extends ActiveRecord implements AssetInterface
 {
     use I18nAttributesTrait;
     use AssetTrait;
@@ -64,18 +64,18 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
                 'skipOnEmpty' => false,
             ],
             [
-                ['file_id', 'annotation_id'],
+                ['file_id', 'hotspot_id'],
                 'required',
             ],
             [
-                ['annotation_id'],
+                ['hotspot_id'],
                 'filter',
                 'filter' => 'intval',
             ],
             [
-                ['annotation_id'],
+                ['hotspot_id'],
                 'davidhirtz\yii2\skeleton\validators\RelationValidator',
-                'relation' => 'annotation',
+                'relation' => 'hotspot',
             ],
             [
                 ['file_id'],
@@ -96,8 +96,8 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
-            $this->annotation->asset_count = $this->findSiblings()->count();
-            $this->annotation->update();
+            $this->hotspot->asset_count = $this->findSiblings()->count();
+            $this->hotspot->update();
 
             $this->updateOrDeleteFileByAssetCount();
         }
@@ -110,9 +110,9 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
      */
     public function afterDelete()
     {
-        if (!$this->annotation->isDeleted()) {
-            $this->annotation->asset_count = $this->findSiblings()->count();
-            $this->annotation->update();
+        if (!$this->hotspot->isDeleted()) {
+            $this->hotspot->asset_count = $this->findSiblings()->count();
+            $this->hotspot->update();
         }
 
         $this->updateOrDeleteFileByAssetCount();
@@ -120,12 +120,12 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
     }
 
     /**
-     * @return AnnotationQuery
+     * @return HotspotQuery
      */
-    public function getAnnotation()
+    public function getHotspot()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->hasOne(Annotation::class, ['id' => 'annotation_id']);
+        return $this->hasOne(Hotspot::class, ['id' => 'hotspot_id']);
     }
 
     /**
@@ -142,7 +142,7 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
      */
     public function findSiblings()
     {
-        return static::find()->where(['annotation_id' => $this->annotation_id]);
+        return static::find()->where(['hotspot_id' => $this->hotspot_id]);
     }
 
     /**
@@ -154,12 +154,12 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
     }
 
     /**
-     * @param Annotation $annotation
+     * @param Hotspot $hotspot
      */
-    public function populateAnnotationRelation($annotation)
+    public function populateHotspotRelation($hotspot)
     {
-        $this->populateRelation('annotation', $annotation);
-        $this->annotation_id = $annotation->id;
+        $this->populateRelation('hotspot', $hotspot);
+        $this->hotspot_id = $hotspot->id;
     }
 
     /**
@@ -167,7 +167,7 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
      */
     public function getTrailParents()
     {
-        return [$this->annotation];
+        return [$this->hotspot];
     }
 
     /**
@@ -175,16 +175,16 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
      */
     public function getTrailModelType(): string
     {
-        return Yii::t('annotation', 'Asset');
+        return Yii::t('hotspot', 'Asset');
     }
 
     /**
-     * @return AnnotationAssetActiveForm|Widget
+     * @return HotspotAssetActiveForm|Widget
      */
     public function getActiveForm()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return static::getTypes()[$this->type]['activeForm'] ?? AnnotationAssetActiveForm::class;
+        return static::getTypes()[$this->type]['activeForm'] ?? HotspotAssetActiveForm::class;
     }
 
     /**
@@ -192,7 +192,7 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
      */
     public function getParentGridView(): string
     {
-        return AnnotationAssetParentGridView::class;
+        return HotspotAssetParentGridView::class;
     }
 
     /**
@@ -201,7 +201,7 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
     public function getParentName(): string
     {
         /** @var Module $module */
-        $module = Yii::$app->getModule('admin')->getModule('annotation');
+        $module = Yii::$app->getModule('admin')->getModule('hotspot');
         return $module->name;
     }
 
@@ -210,7 +210,7 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
      */
     public function getFileCountAttribute(): string
     {
-        return 'annotation_asset_count';
+        return 'hotspot_asset_count';
     }
 
     /**
@@ -219,10 +219,10 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'section_id' => Yii::t('annotation', 'Section'),
+            'section_id' => Yii::t('hotspot', 'Section'),
             'file_id' => Yii::t('media', 'File'),
-            'alt_text' => Yii::t('annotation', 'Alt text'),
-            'link' => Yii::t('annotation', 'Link'),
+            'alt_text' => Yii::t('hotspot', 'Alt text'),
+            'link' => Yii::t('hotspot', 'Link'),
         ]);
     }
 
@@ -231,6 +231,6 @@ class AnnotationAsset extends ActiveRecord implements AssetInterface
      */
     public static function tableName(): string
     {
-        return static::getModule()->getTableName('annotation_asset');
+        return static::getModule()->getTableName('hotspot_asset');
     }
 }

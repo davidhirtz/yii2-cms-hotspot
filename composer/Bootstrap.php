@@ -1,9 +1,9 @@
 <?php
 
-namespace davidhirtz\yii2\annotation\composer;
+namespace davidhirtz\yii2\hotspot\composer;
 
-use davidhirtz\yii2\annotation\assets\AdminAsset;
-use davidhirtz\yii2\annotation\models\Annotation;
+use davidhirtz\yii2\hotspot\assets\AdminAsset;
+use davidhirtz\yii2\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
@@ -13,7 +13,7 @@ use yii\helpers\Url;
 
 /**
  * Class Bootstrap
- * @package davidhirtz\yii2\annotation\bootstrap
+ * @package davidhirtz\yii2\hotspot\bootstrap
  */
 class Bootstrap implements BootstrapInterface
 {
@@ -22,13 +22,13 @@ class Bootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        Yii::setAlias('@annotation', dirname(__DIR__));
+        Yii::setAlias('@hotspot', dirname(__DIR__));
 
         $app->extendComponent('i18n', [
             'translations' => [
-                'annotation' => [
+                'hotspot' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@annotation/messages',
+                    'basePath' => '@hotspot/messages',
                 ],
             ],
         ]);
@@ -36,15 +36,15 @@ class Bootstrap implements BootstrapInterface
         $app->extendModules([
             'admin' => [
                 'modules' => [
-                    'annotation' => [
-                        'class' => 'davidhirtz\yii2\annotation\modules\admin\Module',
+                    'hotspot' => [
+                        'class' => 'davidhirtz\yii2\hotspot\modules\admin\Module',
                     ],
                 ],
             ],
             'media' => [
                 'class' => 'davidhirtz\yii2\media\Module',
                 'assets' => [
-                    'davidhirtz\yii2\annotation\models\AnnotationAsset',
+                    'davidhirtz\yii2\hotspot\models\HotspotAsset',
                 ],
             ],
         ]);
@@ -55,25 +55,25 @@ class Bootstrap implements BootstrapInterface
                 $form = $event->sender;
 
                 if ($form->model->file->hasPreview()) {
-                    if (!$form->model->isRelationPopulated('annotations')) {
-                        if ($form->model->getAttribute('annotation_count')) {
-                            $annotations = Annotation::find()
+                    if (!$form->model->isRelationPopulated('hotspots')) {
+                        if ($form->model->getAttribute('hotspot_count')) {
+                            $hotspots = Hotspot::find()
                                 ->where(['asset_id' => $form->model->id])
                                 ->orderBy(['position' => SORT_ASC])
                                 ->all();
                         }
 
-                        $form->model->populateRelation('annotations', $annotations ?? []);
+                        $form->model->populateRelation('hotspots', $hotspots ?? []);
                     }
 
                     $buttons = [];
 
                     AdminAsset::register($view = $form->getView());
-                    $view->registerJs('Skeleton.registerAnnotations("' . Url::toRoute(['/admin/annotation/create', 'id' => $form->model->id]) . '")');
+                    $view->registerJs('Skeleton.registerHotspots("' . Url::toRoute(['/admin/hotspot/create', 'id' => $form->model->id]) . '")');
                 }
             }
         ]);
 
-        $app->setMigrationNamespace('davidhirtz\yii2\annotation\migrations');
+        $app->setMigrationNamespace('davidhirtz\yii2\hotspot\migrations');
     }
 }

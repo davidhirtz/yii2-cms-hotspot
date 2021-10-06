@@ -1,9 +1,9 @@
 <?php
 
-namespace davidhirtz\yii2\annotation\modules\admin\widgets\grid\base;
+namespace davidhirtz\yii2\hotspot\modules\admin\widgets\grid\base;
 
-use davidhirtz\yii2\annotation\models\Annotation;
-use davidhirtz\yii2\annotation\models\AnnotationAsset;
+use davidhirtz\yii2\hotspot\models\Hotspot;
+use davidhirtz\yii2\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grid\GridView;
@@ -13,10 +13,10 @@ use yii\data\ArrayDataProvider;
 use Yii;
 
 /**
- * Class AnnotationAssetParentGridView
- * @package davidhirtz\yii2\annotation\modules\admin\widgets\grid\base
+ * Class HotspotAssetParentGridView
+ * @package davidhirtz\yii2\hotspot\modules\admin\widgets\grid\base
  */
-class AnnotationAssetParentGridView extends GridView
+class HotspotAssetParentGridView extends GridView
 {
     /**
      * @var File
@@ -40,9 +40,9 @@ class AnnotationAssetParentGridView extends GridView
     {
         if (!$this->dataProvider) {
             $this->dataProvider = new ArrayDataProvider([
-                'allModels' => AnnotationAsset::find()
+                'allModels' => HotspotAsset::find()
                     ->where(['file_id' => $this->file->id])
-                    ->with(['annotation'])
+                    ->with(['hotspot'])
                     ->orderBy(['updated_at' => SORT_DESC])
                     ->all()
             ]);
@@ -59,7 +59,7 @@ class AnnotationAssetParentGridView extends GridView
             ];
         }
 
-        /** @var AnnotationAsset $asset */
+        /** @var HotspotAsset $asset */
         foreach ($this->dataProvider->getModels() as $asset) {
             $asset->populateRelation('file', $this->file);
         }
@@ -74,10 +74,10 @@ class AnnotationAssetParentGridView extends GridView
     {
         return [
             'contentOptions' => ['class' => 'text-center'],
-            'content' => function (AnnotationAsset $asset) {
-                return Icon::tag($asset->annotation->getStatusIcon(), [
+            'content' => function (HotspotAsset $asset) {
+                return Icon::tag($asset->hotspot->getStatusIcon(), [
                     'data-toggle' => 'tooltip',
-                    'title' => $asset->annotation->getStatusName(),
+                    'title' => $asset->hotspot->getStatusName(),
                 ]);
             }
         ];
@@ -91,9 +91,9 @@ class AnnotationAssetParentGridView extends GridView
         return [
             'attribute' => 'type',
             'contentOptions' => ['class' => 'text-nowrap'],
-            'visible' => count(Annotation::getTypes()) > 1,
-            'content' => function (AnnotationAsset $asset) {
-                return ($route = $this->getRoute($asset)) ? Html::a($asset->annotation->getTypeName(), $route) : $asset->annotation->getTypeName();
+            'visible' => count(Hotspot::getTypes()) > 1,
+            'content' => function (HotspotAsset $asset) {
+                return ($route = $this->getRoute($asset)) ? Html::a($asset->hotspot->getTypeName(), $route) : $asset->hotspot->getTypeName();
             }
         ];
     }
@@ -104,8 +104,8 @@ class AnnotationAssetParentGridView extends GridView
     public function nameColumn()
     {
         return [
-            'content' => function (AnnotationAsset $asset) {
-                return Html::tag('strong', Html::a(Yii::t('annotation', 'Annotation'), $this->getRoute($asset)));
+            'content' => function (HotspotAsset $asset) {
+                return Html::tag('strong', Html::a(Yii::t('hotspot', 'Hotspot'), $this->getRoute($asset)));
             }
         ];
     }
@@ -118,8 +118,8 @@ class AnnotationAssetParentGridView extends GridView
         return [
             'headerOptions' => ['class' => 'd-none d-md-table-cell text-center'],
             'contentOptions' => ['class' => 'd-none d-md-table-cell text-center'],
-            'content' => function (AnnotationAsset $asset) {
-                return Html::a(Yii::$app->getFormatter()->asInteger($asset->annotation->asset_count), $this->getRoute($asset), ['class' => 'badge']);
+            'content' => function (HotspotAsset $asset) {
+                return Html::a(Yii::$app->getFormatter()->asInteger($asset->hotspot->asset_count), $this->getRoute($asset), ['class' => 'badge']);
             }
         ];
     }
@@ -132,7 +132,7 @@ class AnnotationAssetParentGridView extends GridView
         return [
             'headerOptions' => ['class' => 'd-none d-lg-table-cell'],
             'contentOptions' => ['class' => 'd-none d-lg-table-cell text-nowrap'],
-            'content' => function (AnnotationAsset $asset) {
+            'content' => function (HotspotAsset $asset) {
                 return Timeago::tag($asset->updated_at);
             }
         ];
@@ -145,22 +145,22 @@ class AnnotationAssetParentGridView extends GridView
     {
         return [
             'contentOptions' => ['class' => 'text-right text-nowrap'],
-            'content' => function (AnnotationAsset $asset) {
+            'content' => function (HotspotAsset $asset) {
                 $user = Yii::$app->getUser();
                 $buttons = [];
 
-                if ($user->can('annotationUpdate', ['asset' => $asset])) {
-                    $buttons[] = Html::a(Icon::tag('wrench'), ['admin/annotation/update', 'id' => $asset->id], [
+                if ($user->can('hotspotUpdate', ['asset' => $asset])) {
+                    $buttons[] = Html::a(Icon::tag('wrench'), ['admin/hotspot/update', 'id' => $asset->id], [
                         'class' => 'btn btn-primary',
                         'data-toggle' => 'tooltip',
-                        'title' => Yii::t('annotation', 'Edit Asset'),
+                        'title' => Yii::t('hotspot', 'Edit Asset'),
                     ]);
                 }
 
-                if ($user->can('annotationUpdate', ['asset' => $asset])) {
-                    $buttons[] = Html::a(Icon::tag('trash'), ['admin/annotation-asset/delete', 'id' => $asset->id], [
+                if ($user->can('hotspotUpdate', ['asset' => $asset])) {
+                    $buttons[] = Html::a(Icon::tag('trash'), ['admin/hotspot-asset/delete', 'id' => $asset->id], [
                         'class' => 'btn btn-danger btn-delete-asset d-none d-md-inline-block',
-                        'data-confirm' => Yii::t('annotation', 'Are you sure you want to remove this asset?'),
+                        'data-confirm' => Yii::t('hotspot', 'Are you sure you want to remove this asset?'),
                         'data-ajax' => 'remove',
                         'data-target' => '#' . $this->getRowId($asset),
                     ]);
@@ -172,24 +172,24 @@ class AnnotationAssetParentGridView extends GridView
     }
 
     /**
-     * @param AnnotationAsset $model
+     * @param HotspotAsset $model
      * @param array $params
      * @return array|false
      */
     protected function getRoute($model, $params = [])
     {
-        if ( Yii::$app->getUser()->can('annotationUpdate', ['annotation' => $model->annotation])) {
-            return array_merge(['/admin/annotation/update', 'id' => $model->annotation_id], $params);
+        if ( Yii::$app->getUser()->can('hotspotUpdate', ['hotspot' => $model->hotspot])) {
+            return array_merge(['/admin/hotspot/update', 'id' => $model->hotspot_id], $params);
         }
 
         return false;
     }
 
     /**
-     * @return AnnotationAsset
+     * @return HotspotAsset
      */
     public function getModel()
     {
-        return AnnotationAsset::instance();
+        return HotspotAsset::instance();
     }
 }
