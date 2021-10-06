@@ -4,7 +4,7 @@ namespace davidhirtz\yii2\annotation\models\base;
 
 use davidhirtz\yii2\annotation\models\queries\AnnotationQuery;
 use davidhirtz\yii2\annotation\modules\admin\widgets\forms\AnnotationActiveForm;
-use davidhirtz\yii2\annotation\modules\ModuleTrait;
+use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\models\queries\AssetQuery;
 use davidhirtz\yii2\datetime\DateTime;
@@ -29,6 +29,9 @@ use Yii;
  * @property string $name
  * @property string $content
  * @property string $link
+ * @property float $x
+ * @property float $y
+ * @property int $position
  * @property int $asset_count
  * @property int $updated_by_user_id
  * @property DateTime $updated_at
@@ -196,7 +199,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
     /**
      * @return ActiveQuery
      */
-    public function getAnnotationAssets()
+    public function getAssets()
     {
         return $this->hasMany(\davidhirtz\yii2\annotation\models\AnnotationAsset::class, ['annotation_id' => 'id'])
             ->orderBy(['position' => SORT_ASC])
@@ -321,7 +324,7 @@ class Annotation extends ActiveRecord implements AssetParentInterface
      */
     public function hasAssetsEnabled(): bool
     {
-        return static::getModule()->enableAnnotationAssets;
+        return true;
     }
 
     /**

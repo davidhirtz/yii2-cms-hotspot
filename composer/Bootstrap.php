@@ -3,6 +3,7 @@
 namespace davidhirtz\yii2\annotation\composer;
 
 use davidhirtz\yii2\annotation\assets\AdminAsset;
+use davidhirtz\yii2\annotation\models\Annotation;
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
@@ -54,8 +55,21 @@ class Bootstrap implements BootstrapInterface
                 $form = $event->sender;
 
                 if ($form->model->file->hasPreview()) {
+                    if (!$form->model->isRelationPopulated('annotations')) {
+                        if ($form->model->getAttribute('annotation_count')) {
+                            $annotations = Annotation::find()
+                                ->where(['asset_id' => $form->model->id])
+                                ->orderBy(['position' => SORT_ASC])
+                                ->all();
+                        }
+
+                        $form->model->populateRelation('annotations', $annotations ?? []);
+                    }
+
+                    $buttons = [];
+
                     AdminAsset::register($view = $form->getView());
-                    $view->registerJs('Skeleton.registerAnnotations("'. Url::toRoute(['/admin/annotation/create', 'id' => $form->model->id]) .'")');
+                    $view->registerJs('Skeleton.registerAnnotations("' . Url::toRoute(['/admin/annotation/create', 'id' => $form->model->id]) . '")');
                 }
             }
         ]);

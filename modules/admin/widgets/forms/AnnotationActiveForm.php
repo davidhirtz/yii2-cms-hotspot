@@ -3,7 +3,7 @@
 namespace davidhirtz\yii2\annotation\modules\admin\widgets\forms;
 
 use davidhirtz\yii2\annotation\models\Annotation;
-use davidhirtz\yii2\annotation\modules\ModuleTrait;
+use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ContentFieldTrait;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveForm;

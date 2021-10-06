@@ -8,7 +8,7 @@ use davidhirtz\yii2\annotation\modules\admin\controllers\traits\AnnotationAssetT
 use davidhirtz\yii2\annotation\modules\admin\controllers\traits\AnnotationTrait;
 use davidhirtz\yii2\annotation\modules\admin\controllers\traits\EntryTrait;
 use davidhirtz\yii2\annotation\modules\admin\controllers\traits\SectionTrait;
-use davidhirtz\yii2\annotation\modules\ModuleTrait;
+use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\annotation\models\Asset;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\modules\admin\controllers\traits\FileTrait;

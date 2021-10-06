@@ -27,5 +27,6 @@ class AdminAsset extends AssetBundle
      */
     public $depends = [
         'davidhirtz\yii2\skeleton\assets\AdminAsset',
+        'davidhirtz\yii2\skeleton\assets\JuiAsset',
     ];
 }

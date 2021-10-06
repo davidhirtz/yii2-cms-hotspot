@@ -6,7 +6,7 @@ use davidhirtz\yii2\annotation\models\queries\AnnotationQuery;
 use davidhirtz\yii2\annotation\modules\admin\Module;
 use davidhirtz\yii2\annotation\modules\admin\widgets\forms\AnnotationAssetActiveForm;
 use davidhirtz\yii2\annotation\modules\admin\widgets\grid\AnnotationAssetParentGridView;
-use davidhirtz\yii2\annotation\modules\ModuleTrait;
+use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\media\models\File;
