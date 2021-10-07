@@ -2,13 +2,18 @@
 
 namespace davidhirtz\yii2\hotspot\composer;
 
+use davidhirtz\yii2\cms\models\Asset;
+use davidhirtz\yii2\cms\models\base\ModelCloneEvent;
 use davidhirtz\yii2\hotspot\assets\AdminAsset;
 use davidhirtz\yii2\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
 use Yii;
+use yii\base\Event;
+use yii\base\ModelEvent;
 use yii\base\WidgetEvent;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 /**
@@ -49,6 +54,7 @@ class Bootstrap implements BootstrapInterface
             ],
         ]);
 
+        // Registers javascript after `AssetActiveForm` is rendered
         Yii::$container->set(AssetActiveForm::class, [
             'on afterRun' => function (WidgetEvent $event) {
                 /** @var AssetActiveForm $form */
@@ -66,13 +72,50 @@ class Bootstrap implements BootstrapInterface
                         $form->model->populateRelation('hotspots', $hotspots ?? []);
                     }
 
-                    $buttons = [];
+                    $hotspots = $form->model->getRelatedRecords()['hotspots'] ?? [];
+
+                    $options = array_filter([
+                        'formName' => Hotspot::instance()->formName(),
+                        'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $form->model->id]),
+                        'message' => !$hotspots ? Yii::t('hotspot', 'Double click on the image to create a hotspot.') : null,
+                        'hotspots' => $hotspots,
+                    ]);
 
                     AdminAsset::register($view = $form->getView());
-                    $view->registerJs('Skeleton.registerHotspots("' . Url::toRoute(['/admin/hotspot/create', 'id' => $form->model->id]) . '")');
+                    $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
                 }
             }
         ]);
+
+        // Makes sure hotspots (and their assets) are deleted on asset delete
+        ModelEvent::on(Asset::class, Asset::EVENT_BEFORE_DELETE, function (ModelEvent $event) {
+            /** @var Asset $asset */
+            $asset = $event->sender;
+
+            if ($asset->getAttribute('hotspot_count')) {
+                $hotspots = Hotspot::findAll(['asset_id' => $asset->id]);
+
+                foreach ($hotspots as $hotspot) {
+                    $hotspot->delete();
+                }
+            }
+        });
+
+        // Makes sure hotspots (and their assets) are cloned on asset, section or entry clone
+        ModelEvent::on(Asset::class, Asset::EVENT_AFTER_CLONE, function (ModelCloneEvent $event) {
+            /** @var Asset $clone */
+            /** @var Asset $asset */
+            $asset = $event->sender;
+            $clone = $event->clone;
+
+            if ($asset->getAttribute('hotspot_count')) {
+                $hotspots = Hotspot::findAll(['asset_id' => $asset->id]);
+
+                foreach ($hotspots as $hotspot) {
+                    $hotspot->clone(['asset_id' => $clone->id]);
+                }
+            }
+        });
 
         $app->setMigrationNamespace('davidhirtz\yii2\hotspot\migrations');
     }

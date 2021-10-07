@@ -2,21 +2,16 @@
 
 namespace davidhirtz\yii2\hotspot\models\base;
 
+use davidhirtz\yii2\cms\models\base\ActiveRecord;
 use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
-use davidhirtz\yii2\hotspot\modules\admin\Module;
 use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
 use davidhirtz\yii2\hotspot\modules\admin\widgets\grid\HotspotAssetParentGridView;
-use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\models\queries\FileQuery;
 use davidhirtz\yii2\media\models\traits\AssetTrait;
 use davidhirtz\yii2\skeleton\db\ActiveQuery;
-use davidhirtz\yii2\skeleton\db\ActiveRecord;
-use davidhirtz\yii2\skeleton\db\I18nAttributesTrait;
-use davidhirtz\yii2\skeleton\db\StatusAttributeTrait;
-use davidhirtz\yii2\skeleton\db\TypeAttributeTrait;
 use davidhirtz\yii2\skeleton\models\User;
 use Yii;
 use yii\base\Widget;
@@ -46,11 +41,21 @@ use yii\base\Widget;
  */
 class HotspotAsset extends ActiveRecord implements AssetInterface
 {
-    use I18nAttributesTrait;
     use AssetTrait;
-    use ModuleTrait;
-    use StatusAttributeTrait;
-    use TypeAttributeTrait;
+
+    /**
+     * @inheritDoc
+     */
+    public function behaviors(): array
+    {
+        return array_merge(parent::behaviors(), [
+            'DateTimeBehavior' => 'davidhirtz\yii2\datetime\DateTimeBehavior',
+            'TrailBehavior' => [
+                'class' => 'davidhirtz\yii2\skeleton\behaviors\TrailBehavior',
+                'modelClass' => static::class . (static::getModule()->enableI18nTables ? ('::' . Yii::$app->language) : ''),
+            ],
+        ]);
+    }
 
     /**
      * @inheritDoc
@@ -58,11 +63,6 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [
-                ['status', 'type'],
-                'davidhirtz\yii2\skeleton\validators\DynamicRangeValidator',
-                'skipOnEmpty' => false,
-            ],
             [
                 ['file_id', 'hotspot_id'],
                 'required',
@@ -88,6 +88,39 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
                 'max' => 250,
             ],
         ]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeValidate()
+    {
+        if ($this->status === null) {
+            $this->status = static::STATUS_DEFAULT;
+        }
+
+        if ($this->type === null) {
+            $this->type = static::TYPE_DEFAULT;
+        }
+
+        return parent::beforeValidate();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function beforeSave($insert)
+    {
+        $this->attachBehaviors([
+            'BlameableBehavior' => 'davidhirtz\yii2\skeleton\behaviors\BlameableBehavior',
+            'TimestampBehavior' => 'davidhirtz\yii2\skeleton\behaviors\TimestampBehavior',
+        ]);
+
+        if ($this->position === null) {
+            $this->position = $this->getMaxPosition() + 1;
+        }
+
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -131,7 +164,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     /**
      * @return FileQuery
      */
-    public function getFile(): FileQuery
+    public function getFile()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->hasOne(File::class, ['id' => 'file_id']);
@@ -154,6 +187,19 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     }
 
     /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function clone($attributes = [])
+    {
+        $clone = new \davidhirtz\yii2\hotspot\models\HotspotAsset();
+        $clone->setAttributes(array_merge($this->getAttributes(), $attributes));
+        $clone->insert();
+
+        return $clone;
+    }
+
+    /**
      * @param Hotspot $hotspot
      */
     public function populateHotspotRelation($hotspot)
@@ -163,11 +209,36 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     }
 
     /**
+     * @return int
+     */
+    public function getMaxPosition(): int
+    {
+        return (int)$this->findSiblings()->max('[[position]]');
+    }
+
+    /**
+     * @return false
+     */
+    public function getRoute()
+    {
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdminRoute()
+    {
+        return ['/admin/hotspot-asset/update', 'id' => $this->id];
+    }
+
+    /**
      * @return array
      */
     public function getTrailParents()
     {
-        return [$this->hotspot];
+        return $this->hotspot->asset->isSectionAsset() ? [$this->hotspot, $this->hotspot->asset, $this->hotspot->asset->section, $this->hotspot->asset->entry] :
+            [$this->hotspot, $this->hotspot->asset, $this->hotspot->asset->entry];
     }
 
     /**
@@ -175,7 +246,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
      */
     public function getTrailModelType(): string
     {
-        return Yii::t('hotspot', 'Asset');
+        return Yii::t('hotspot', 'Hotspot Asset');
     }
 
     /**
@@ -200,9 +271,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
      */
     public function getParentName(): string
     {
-        /** @var Module $module */
-        $module = Yii::$app->getModule('admin')->getModule('hotspot');
-        return $module->name;
+        return Yii::t('hotspot', 'Hotspots');
     }
 
     /**
@@ -224,6 +293,14 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
             'alt_text' => Yii::t('hotspot', 'Alt text'),
             'link' => Yii::t('hotspot', 'Link'),
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function formName(): string
+    {
+        return 'HotspotAsset';
     }
 
     /**

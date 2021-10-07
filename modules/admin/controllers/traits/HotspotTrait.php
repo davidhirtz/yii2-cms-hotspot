@@ -15,16 +15,15 @@ trait HotspotTrait
 {
     /**
      * @param int $id
-     * @param string|null $permissionName
      * @return Hotspot
      */
-    protected function findHotspot($id, $permissionName = null)
+    protected function findHotspot($id)
     {
         if (!$hotspot = Hotspot::findOne((int)$id)) {
             throw new NotFoundHttpException();
         }
 
-        if ($permissionName && !Yii::$app->getUser()->can($permissionName, ['hotspot' => $hotspot])) {
+        if (!Yii::$app->getUser()->can($hotspot->asset->isEntryAsset() ? 'entryAssetUpdate' : 'sectionAssetUpdate', ['asset' => $hotspot->asset])) {
             throw new ForbiddenHttpException();
         }
 

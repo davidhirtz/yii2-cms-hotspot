@@ -2,7 +2,6 @@
 
 namespace davidhirtz\yii2\hotspot\modules\admin;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -12,11 +11,6 @@ use yii\helpers\ArrayHelper;
  */
 class Module extends \yii\base\Module
 {
-    /**
-     * @var string the module display name, defaults to "Hotspots"
-     */
-    public $name;
-
     /**
      * @var array
      */
@@ -36,10 +30,6 @@ class Module extends \yii\base\Module
      */
     public function init()
     {
-        if (!$this->name) {
-            $this->name = Yii::t('hotspot', 'Hotspots');
-        }
-
         $this->module->controllerMap = ArrayHelper::merge(array_merge($this->module->controllerMap, $this->defaultControllerMap), $this->controllerMap);
         parent::init();
     }

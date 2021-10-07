@@ -15,6 +15,7 @@ use davidhirtz\yii2\skeleton\db\I18nAttributesTrait;
 use davidhirtz\yii2\skeleton\db\StatusAttributeTrait;
 use davidhirtz\yii2\skeleton\db\TypeAttributeTrait;
 use davidhirtz\yii2\skeleton\models\queries\UserQuery;
+use davidhirtz\yii2\skeleton\models\Trail;
 use davidhirtz\yii2\skeleton\models\User;
 use Yii;
 
@@ -37,8 +38,9 @@ use Yii;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  * @property Asset $asset
- * @property \davidhirtz\yii2\hotspot\models\HotspotAsset[] $hotspotAssets
+ * @property \davidhirtz\yii2\hotspot\models\HotspotAsset[] $assets
  * @method static \davidhirtz\yii2\hotspot\models\Hotspot findOne($condition)
+ * @method static \davidhirtz\yii2\hotspot\models\Hotspot[] findAll($condition)
  */
 class Hotspot extends ActiveRecord implements AssetParentInterface
 {
@@ -86,7 +88,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
                 'required',
             ],
             [
-                ['asset_id'],
+                ['asset_id', 'position'],
                 'filter',
                 'filter' => 'intval',
             ],
@@ -95,6 +97,16 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
                 'davidhirtz\yii2\skeleton\validators\RelationValidator',
                 'relation' => 'asset',
                 'required' => true,
+            ],
+            [
+                ['x', 'y'],
+                'required',
+            ],
+            [
+                ['x', 'y'],
+                'number',
+                'max' => 100,
+                'min' => 0,
             ],
             [
                 ['name', 'content', 'link'],
@@ -111,6 +123,22 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
                 (array)($this->contentType == 'html' && $this->htmlValidator ? $this->htmlValidator : 'safe')
             ),
         ]));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'displayName',
+            'x',
+            'y',
+            'url' => function (self $hotspot) {
+                return Yii::$app->getUrlManager()->createUrl($hotspot->getAdminRoute());
+            },
+        ];
     }
 
     /**
@@ -139,7 +167,28 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
             $this->addInvalidAttributeError('asset_id');
         }
 
+        // Prevent unnecessary attribute updates
+        $this->x = number_format($this->x, 2);
+        $this->y = number_format($this->y, 2);
+
         parent::afterValidate();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function beforeSave($insert)
+    {
+        $this->attachBehaviors([
+            'BlameableBehavior' => 'davidhirtz\yii2\skeleton\behaviors\BlameableBehavior',
+            'TimestampBehavior' => 'davidhirtz\yii2\skeleton\behaviors\TimestampBehavior',
+        ]);
+
+        if ($this->position === null) {
+            $this->position = $this->getMaxPosition() + 1;
+        }
+
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -166,7 +215,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
         }
 
         if ($this->asset_count) {
-            foreach ($this->hotspotAssets as $asset) {
+            foreach ($this->assets as $asset) {
                 $asset->delete();
             }
         }
@@ -233,6 +282,28 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     }
 
     /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function clone($attributes = [])
+    {
+        $clone = new \davidhirtz\yii2\hotspot\models\Hotspot();
+        $clone->setAttributes(array_merge($this->getAttributes(), $attributes));
+
+        if ($clone->insert()) {
+            if ($this->asset_count) {
+                $assets = $this->getAssets()->all();
+
+                foreach ($assets as $asset) {
+                    $asset->clone(['hotspot_id' => $clone->id]);
+                }
+            }
+        }
+
+        return $clone;
+    }
+
+    /**
      * @param Asset $asset
      */
     public function populateAssetRelation($asset)
@@ -247,6 +318,38 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     protected function recalculateAssetHotspotCount()
     {
         $this->asset->setAttribute('hotspot_count', (int)static::findSiblings()->count());
+    }
+
+    /**
+     * @param array $assetIds
+     */
+    public function updateAssetOrder($assetIds)
+    {
+        $assets = $this->getAssets()
+            ->select(['id', 'position'])
+            ->andWhere(['id' => $assetIds])
+            ->all();
+
+        if (HotspotAsset::updatePosition($assets, array_flip($assetIds))) {
+            $trail = Trail::createOrderTrail($this, Yii::t('hotspot', 'Hotspot asset order changed'));
+
+            foreach ($this->getTrailParents() as $model) {
+                Trail::createOrderTrail($model, Yii::t('hotspot', 'Hotspot asset order changed'), [
+                    'trail_id' => $trail->id,
+                ]);
+            }
+
+            $this->updated_at = new DateTime();
+            $this->update();
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxPosition(): int
+    {
+        return (int)$this->findSiblings()->max('[[position]]');
     }
 
     /**
@@ -268,7 +371,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
      */
     public function getTrailParents()
     {
-        return [$this->asset];
+        return $this->asset->isSectionAsset() ? [$this->asset, $this->asset->section, $this->asset->entry] : [$this->asset, $this->asset->entry];
     }
 
     /**
@@ -295,6 +398,14 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     }
 
     /**
+     * @return array|false
+     */
+    public function getTrailModelAdminRoute()
+    {
+        return $this->getAdminRoute();
+    }
+
+    /**
      * @return HotspotActiveForm
      */
     public function getActiveForm()
@@ -309,6 +420,14 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     public function getAdminRoute()
     {
         return $this->id ? ['/admin/hotspot/update', 'id' => $this->id] : false;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getDisplayName()
+    {
+        return $this->getI18nAttribute('name') ?: Yii::t('cms', '[ No title ]');
     }
 
     /**
@@ -334,8 +453,12 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     {
         return array_merge(parent::attributeLabels(), [
             'asset_id' => Yii::t('hotspot', 'Asset'),
+            'name' => Yii::t('hotspot', 'Title'),
+            'content' => Yii::t('hotspot', 'Content'),
             'link' => Yii::t('hotspot', 'Link'),
-            'hotspot_count' => Yii::t('hotspot', 'Hotspots'),
+            'x' => Yii::t('hotspot', 'Horizontal position'),
+            'y' => Yii::t('hotspot', 'Vertical position'),
+            'asset_count' => Yii::t('hotspot', 'Assets'),
         ]);
     }
 
