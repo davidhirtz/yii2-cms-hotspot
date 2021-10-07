@@ -292,6 +292,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
 
         if ($clone->insert()) {
             if ($this->asset_count) {
+                /** @var HotspotAsset[] $assets */
                 $assets = $this->getAssets()->all();
 
                 foreach ($assets as $asset) {

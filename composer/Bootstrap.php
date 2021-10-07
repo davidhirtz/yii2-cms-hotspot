@@ -7,6 +7,7 @@ use davidhirtz\yii2\cms\models\base\ModelCloneEvent;
 use davidhirtz\yii2\hotspot\assets\AdminAsset;
 use davidhirtz\yii2\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
+use davidhirtz\yii2\skeleton\modules\admin\Module;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
 use Yii;
@@ -39,15 +40,7 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         $app->extendModules([
-            'admin' => [
-                'modules' => [
-                    'hotspot' => [
-                        'class' => 'davidhirtz\yii2\hotspot\modules\admin\Module',
-                    ],
-                ],
-            ],
             'media' => [
-                'class' => 'davidhirtz\yii2\media\Module',
                 'assets' => [
                     'davidhirtz\yii2\hotspot\models\HotspotAsset',
                 ],
@@ -84,6 +77,27 @@ class Bootstrap implements BootstrapInterface
                     AdminAsset::register($view = $form->getView());
                     $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
                 }
+            }
+        ]);
+
+        // Set default routes.
+        Yii::$container->set(Module::class, [
+            'on afterInit' => function (Event $event) {
+                /** @var Module $module */
+                $module = $event->sender;
+
+                $controllerMap = [
+                    'hotspot' => [
+                        'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotController',
+                        'viewPath' => '@hotspot/modules/admin/views/hotspot',
+                    ],
+                    'hotspot-asset' => [
+                        'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotAssetController',
+                        'viewPath' => '@hotspot/modules/admin/views/hotspot-asset',
+                    ],
+                ];
+
+                $module->controllerMap = array_merge($controllerMap, $module->controllerMap);
             }
         ]);
 
