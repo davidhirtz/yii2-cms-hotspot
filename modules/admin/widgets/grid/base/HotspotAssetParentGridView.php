@@ -152,12 +152,12 @@ class HotspotAssetParentGridView extends GridView
                 $buttons[] = Html::a(Icon::tag('wrench'), $asset->getAdminRoute(), [
                     'class' => 'btn btn-primary',
                     'data-toggle' => 'tooltip',
-                    'title' => Yii::t('hotspot', 'Edit Asset'),
+                    'title' => Yii::t('hotspot', 'Edit Hotspot Asset'),
                 ]);
 
                 $buttons[] = Html::a(Icon::tag('trash'), ['admin/hotspot-asset/delete', 'id' => $asset->id], [
                     'class' => 'btn btn-danger btn-delete-asset d-none d-md-inline-block',
-                    'data-confirm' => Yii::t('hotspot', 'Are you sure you want to remove this asset?'),
+                    'data-confirm' => Yii::t('cms', 'Are you sure you want to remove this asset?'),
                     'data-ajax' => 'remove',
                     'data-target' => '#' . $this->getRowId($asset),
                 ]);

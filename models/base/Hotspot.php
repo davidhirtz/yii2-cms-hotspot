@@ -453,13 +453,13 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'asset_id' => Yii::t('hotspot', 'Asset'),
-            'name' => Yii::t('hotspot', 'Title'),
-            'content' => Yii::t('hotspot', 'Content'),
-            'link' => Yii::t('hotspot', 'Link'),
+            'asset_id' => Yii::t('cms', 'Asset'),
+            'name' => Yii::t('cms', 'Title'),
+            'content' => Yii::t('cms', 'Content'),
+            'link' => Yii::t('cms', 'Link'),
             'x' => Yii::t('hotspot', 'Horizontal position'),
             'y' => Yii::t('hotspot', 'Vertical position'),
-            'asset_count' => Yii::t('hotspot', 'Assets'),
+            'asset_count' => Yii::t('media', 'Assets'),
         ]);
     }
 

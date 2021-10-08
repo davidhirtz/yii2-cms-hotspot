@@ -288,10 +288,10 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'section_id' => Yii::t('hotspot', 'Section'),
+            'section_id' => Yii::t('cms', 'Section'),
             'file_id' => Yii::t('media', 'File'),
-            'alt_text' => Yii::t('hotspot', 'Alt text'),
-            'link' => Yii::t('hotspot', 'Link'),
+            'alt_text' => Yii::t('cms', 'Alt text'),
+            'link' => Yii::t('cms', 'Link'),
         ]);
     }
 

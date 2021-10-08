@@ -25,7 +25,7 @@ $this->setTitle(Yii::t('hotspot', 'Edit Hotspot Asset'));
 $this->setBreadcrumbs([
     Yii::t('cms', 'Asset') => ['/admin/asset/update', 'id' => $asset->hotspot->asset_id],
     Yii::t('hotspot', 'Hotspot') => ['/admin/hotspot/update', 'id' => $asset->hotspot->id],
-    Yii::t('cms', 'Assets') =>  ['/admin/hotspot/update', 'id' => $asset->hotspot->id, '#' => 'assets'],
+    Yii::t('media', 'Assets') =>  ['/admin/hotspot/update', 'id' => $asset->hotspot->id, '#' => 'assets'],
 ]);
 ?>
 
