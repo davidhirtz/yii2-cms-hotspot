@@ -4,13 +4,11 @@ namespace davidhirtz\yii2\hotspot\modules\admin\widgets\grid\traits;
 
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\modules\admin\widgets\grid\AssetGridView;
-use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use Yii;
 
 /**
  * Trait ThumbnailRowTrait
- *
  * This can be used in {@link AssetGridView} to display the current hotspot count.
  */
 trait ThumbnailRowTrait
@@ -23,7 +21,7 @@ trait ThumbnailRowTrait
         return [
             'headerOptions' => ['style' => 'width:150px'],
             'content' => function ($asset) {
-                /** @var AssetInterface $asset */
+                /** @var Asset $asset */
                 if (!$asset->file->hasPreview()) {
                     return '';
                 }
