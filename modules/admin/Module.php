@@ -12,24 +12,19 @@ use yii\helpers\ArrayHelper;
 class Module extends \yii\base\Module
 {
     /**
-     * @var bool
+     * @var bool whether entry assets should have hotspots enabled, defaults to `false`.
      */
     public $enableEntryAssetHotspots = false;
 
     /**
-     * @var bool
+     * @var bool whether entry assets should have hotspots enabled, defaults to `true`.
      */
     public $enableSectionAssetHotspots = true;
 
     /**
-     * @var bool whether hotspots should have assets
+     * @var bool whether hotspots should have assets enabled, defaults to `true`.
      */
     public $enableHotspotAssets = true;
-
-    /**
-     * @var int the default hotspot type
-     */
-    public $defaultHotspotType;
 
     /**
      * @var array

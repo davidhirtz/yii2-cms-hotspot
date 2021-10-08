@@ -3,6 +3,7 @@
 namespace davidhirtz\yii2\hotspot\models\base;
 
 use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
+use davidhirtz\yii2\hotspot\modules\admin\Module;
 use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
@@ -444,7 +445,9 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
      */
     public function hasAssetsEnabled(): bool
     {
-        return true;
+        /** @var Module $module */
+        $module = Yii::$app->getModule('admin')->getModule('hotspot');
+        return $module->enableHotspotAssets;
     }
 
     /**
