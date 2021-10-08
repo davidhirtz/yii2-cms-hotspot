@@ -462,7 +462,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
             'link' => Yii::t('cms', 'Link'),
             'x' => Yii::t('hotspot', 'Horizontal position'),
             'y' => Yii::t('hotspot', 'Vertical position'),
-            'asset_count' => Yii::t('media', 'Assets'),
+            'asset_count' => Yii::t('hotspot', 'Hotspot Asset'),
         ]);
     }
 

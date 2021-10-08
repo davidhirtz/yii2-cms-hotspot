@@ -9,7 +9,7 @@
  */
 Skeleton.registerHotspots = function (config) {
     var $image = $('#image'),
-        $canvas = $image.parent().css('position', 'relative'),
+        $canvas = $image.parent().addClass('hotspot-canvas'),
         hotspots = config.hotspots || [],
         zIndex = 0,
         i;
@@ -41,7 +41,7 @@ Skeleton.registerHotspots = function (config) {
      * @param {String} data.url
      */
     function setHotspot(data) {
-        var $btn = $('<a href="' + data.url + '" class="btn btn-primary btn-hotspot" title="' + data.displayName + '"><i class="fas fa-wrench"></i></a>')
+        var $btn = $('<a href="' + data.url + '" class="hotspot-btn" title="' + data.displayName + '"><i class="hotspot-icon fas fa-plus"></i></a>')
                 .appendTo($canvas)
                 .tooltip(),
             btnOffsetX = $btn.outerWidth() / 2,
@@ -49,8 +49,6 @@ Skeleton.registerHotspots = function (config) {
 
         $btn
             .css({
-                position: 'absolute',
-                margin: 0,
                 left: 'calc(' + data.x + '% - ' + btnOffsetX + 'px)',
                 top: 'calc(' + data.y + '% - ' + btnOffsetY + 'px)',
                 zIndex: zIndex++
@@ -58,11 +56,9 @@ Skeleton.registerHotspots = function (config) {
             .draggable({
                 containment: $canvas,
                 start: function () {
-                    $btn.css('z-index', zIndex + 1).addClass('btn-secondary').tooltip('hide').addClass('dragging');
+                    $btn.css('z-index', zIndex + 1).tooltip('disable').tooltip('hide').addClass('dragging');
                 },
                 stop: function () {
-                    $btn.removeClass('btn-secondary');
-
                     $.post(data.url, getFormFields({
                         x: ($btn.position().left + btnOffsetX) / $canvas.width() * 100,
                         y: ($btn.position().top + btnOffsetY) / $canvas.height() * 100,
@@ -70,7 +66,7 @@ Skeleton.registerHotspots = function (config) {
                     }));
 
                     setTimeout(function () {
-                        $btn.removeClass('dragging');
+                        $btn.tooltip('enable').removeClass('dragging');
                     }, 1);
                 }
             })
