@@ -60,8 +60,8 @@ Skeleton.registerHotspots = function (config) {
                 },
                 stop: function () {
                     $.post(data.url, getFormFields({
-                        x: ($btn.position().left + btnOffsetX) / $canvas.width() * 100,
-                        y: ($btn.position().top + btnOffsetY) / $canvas.height() * 100,
+                        x: ($btn.position().left + btnOffsetX) / $canvas.find('img').width() * 100,
+                        y: ($btn.position().top + btnOffsetY) / $canvas.find('img').height() * 100,
                         position: zIndex + 1
                     }));
 
