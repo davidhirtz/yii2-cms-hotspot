@@ -90,9 +90,10 @@ class SiteController extends \davidhirtz\yii2\cms\controllers\SiteController
                 }
             }
 
-            foreach ($assetIdsWithHotspots as $assetId) {
-                $assets[$assetId]->populateRelation('hotspots', array_filter($hotspots, function (Hotspot $hotspot) use ($assetId) {
-                    return $hotspot->asset_id == $assetId;
+            // Populate hotspot relations on all assets.
+            foreach ($assets as $asset) {
+                $asset->populateRelation('hotspots', array_filter($hotspots, function (Hotspot $hotspot) use ($asset) {
+                    return $hotspot->asset_id == $asset->id;
                 }));
             }
         }
@@ -109,12 +110,10 @@ class SiteController extends \davidhirtz\yii2\cms\controllers\SiteController
             foreach ($assets as $asset) {
                 $asset->populateFileRelation($files[$asset->file_id] ?? null);
 
-                if ($asset->getAttribute('hotspot_count')) {
-                    /** @var Hotspot $hotspot */
-                    foreach ($asset->getRelatedRecords()['hotspots'] ?? [] as $hotspot) {
-                        foreach ($hotspot->assets as $hotspotAsset) {
-                            $hotspotAsset->populateFileRelation($files[$hotspotAsset->file_id] ?? null);
-                        }
+                /** @var Hotspot $hotspot */
+                foreach ($asset->getRelatedRecords()['hotspots'] ?? [] as $hotspot) {
+                    foreach ($hotspot->assets as $hotspotAsset) {
+                        $hotspotAsset->populateFileRelation($files[$hotspotAsset->file_id] ?? null);
                     }
                 }
             }
