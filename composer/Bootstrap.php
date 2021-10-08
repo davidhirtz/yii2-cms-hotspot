@@ -55,7 +55,7 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         // Registers javascript after `AssetActiveForm` is rendered
-        Yii::$container->set(AssetActiveForm::class, [
+        Yii::$container->set(Asset::instance()->getActiveForm(), [
             'on afterRun' => function (WidgetEvent $event) {
                 /** @var AssetActiveForm $form */
                 $form = $event->sender;
