@@ -2,15 +2,14 @@
 
 namespace davidhirtz\yii2\hotspot\models\base;
 
+use davidhirtz\yii2\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\hotspot\modules\admin\Module;
 use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\cms\models\queries\AssetQuery;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\media\models\AssetParentInterface;
-use davidhirtz\yii2\skeleton\db\ActiveQuery;
 use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use davidhirtz\yii2\skeleton\db\I18nAttributesTrait;
 use davidhirtz\yii2\skeleton\db\StatusAttributeTrait;
@@ -238,7 +237,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     }
 
     /**
-     * @return AssetQuery
+     * @return HotspotAssetQuery
      */
     public function getAsset()
     {
@@ -247,10 +246,11 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     }
 
     /**
-     * @return ActiveQuery
+     * @return HotspotAssetQuery
      */
     public function getAssets()
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->hasMany(\davidhirtz\yii2\hotspot\models\HotspotAsset::class, ['hotspot_id' => 'id'])
             ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')

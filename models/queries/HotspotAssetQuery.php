@@ -2,16 +2,21 @@
 
 namespace davidhirtz\yii2\hotspot\models\queries;
 
+use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\media\models\queries\FileQuery;
 use davidhirtz\yii2\skeleton\db\ActiveQuery;
 
 /**
- * Class HotspotQuery
+ * Class HotspotAssetQuery
  * @package davidhirtz\yii2\hotspot\models\queries
+ *
+ * @method HotspotAsset[] all($db = null)
+ * @method HotspotAsset one($db = null)
  */
-class HotspotQuery extends ActiveQuery
+class HotspotAssetQuery extends ActiveQuery
 {
     /**
-     * @return $this
+     * @return HotspotAssetQuery
      */
     public function selectSiteAttributes()
     {
@@ -20,17 +25,16 @@ class HotspotQuery extends ActiveQuery
     }
 
     /**
-     * @return $this
+     * @return HotspotAssetQuery
      */
-    public function withAssets()
+    public function withFiles()
     {
         return $this->with([
-            'assets' => function (HotspotAssetQuery $query) {
+            'file' => function (FileQuery $query) {
                 $query->selectSiteAttributes()
                     ->replaceI18nAttributes()
-                    ->whereStatus()
-                    ->withFiles();
-            },
+                    ->withFolder();
+            }
         ]);
     }
 }

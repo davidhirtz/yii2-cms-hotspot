@@ -3,6 +3,7 @@
 namespace davidhirtz\yii2\hotspot\models\base;
 
 use davidhirtz\yii2\cms\models\base\ActiveRecord;
+use davidhirtz\yii2\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
 use davidhirtz\yii2\hotspot\modules\admin\widgets\grid\HotspotAssetParentGridView;
@@ -11,7 +12,6 @@ use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\models\queries\FileQuery;
 use davidhirtz\yii2\media\models\traits\AssetTrait;
-use davidhirtz\yii2\skeleton\db\ActiveQuery;
 use davidhirtz\yii2\skeleton\models\User;
 use Yii;
 use yii\base\Widget;
@@ -171,7 +171,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     }
 
     /**
-     * @return ActiveQuery
+     * @return HotspotAssetQuery
      */
     public function findSiblings()
     {
@@ -179,11 +179,12 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     }
 
     /**
-     * @return ActiveQuery
+     * @return HotspotAssetQuery
      */
     public static function find()
     {
-        return Yii::createObject(ActiveQuery::class, [get_called_class()]);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return Yii::createObject(HotspotAssetQuery::class, [get_called_class()]);
     }
 
     /**
