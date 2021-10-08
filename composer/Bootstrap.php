@@ -7,11 +7,11 @@ use davidhirtz\yii2\cms\models\base\ModelCloneEvent;
 use davidhirtz\yii2\hotspot\assets\AdminAsset;
 use davidhirtz\yii2\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
-use davidhirtz\yii2\skeleton\modules\admin\Module;
+use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\hotspot\modules\admin\Module;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
 use Yii;
-use yii\base\Event;
 use yii\base\ModelEvent;
 use yii\base\WidgetEvent;
 use yii\helpers\Json;
@@ -40,9 +40,16 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         $app->extendModules([
+            'admin' => [
+                'modules' => [
+                    'hotspot' => [
+                        'class' => Module::class,
+                    ],
+                ],
+            ],
             'media' => [
                 'assets' => [
-                    'davidhirtz\yii2\hotspot\models\HotspotAsset',
+                    HotspotAsset::class,
                 ],
             ],
         ]);
@@ -52,52 +59,35 @@ class Bootstrap implements BootstrapInterface
             'on afterRun' => function (WidgetEvent $event) {
                 /** @var AssetActiveForm $form */
                 $form = $event->sender;
+                /** @var Module $module */
+                $module = Yii::$app->getModule('admin')->getModule('hotspot');
 
-                if ($form->model->file->hasPreview()) {
-                    if (!$form->model->isRelationPopulated('hotspots')) {
-                        if ($form->model->getAttribute('hotspot_count')) {
-                            $hotspots = Hotspot::find()
-                                ->where(['asset_id' => $form->model->id])
-                                ->orderBy(['position' => SORT_ASC])
-                                ->all();
+                if ($form->model->isSectionAsset() ? $module->enableSectionAssetHotspots : $module->enableEntryAssetHotspots) {
+                    if ($form->model->file->hasPreview()) {
+                        if (!$form->model->isRelationPopulated('hotspots')) {
+                            if ($form->model->getAttribute('hotspot_count')) {
+                                $hotspots = Hotspot::find()
+                                    ->where(['asset_id' => $form->model->id])
+                                    ->orderBy(['position' => SORT_ASC])
+                                    ->all();
+                            }
+
+                            $form->model->populateRelation('hotspots', $hotspots ?? []);
                         }
 
-                        $form->model->populateRelation('hotspots', $hotspots ?? []);
+                        $hotspots = $form->model->getRelatedRecords()['hotspots'] ?? [];
+
+                        $options = array_filter([
+                            'formName' => Hotspot::instance()->formName(),
+                            'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $form->model->id]),
+                            'message' => !$hotspots ? Yii::t('hotspot', 'Double click on the image to create a hotspot.') : null,
+                            'hotspots' => $hotspots,
+                        ]);
+
+                        AdminAsset::register($view = $form->getView());
+                        $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
                     }
-
-                    $hotspots = $form->model->getRelatedRecords()['hotspots'] ?? [];
-
-                    $options = array_filter([
-                        'formName' => Hotspot::instance()->formName(),
-                        'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $form->model->id]),
-                        'message' => !$hotspots ? Yii::t('hotspot', 'Double click on the image to create a hotspot.') : null,
-                        'hotspots' => $hotspots,
-                    ]);
-
-                    AdminAsset::register($view = $form->getView());
-                    $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
                 }
-            }
-        ]);
-
-        // Set default routes.
-        Yii::$container->set(Module::class, [
-            'on afterInit' => function (Event $event) {
-                /** @var Module $module */
-                $module = $event->sender;
-
-                $controllerMap = [
-                    'hotspot' => [
-                        'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotController',
-                        'viewPath' => '@hotspot/modules/admin/views/hotspot',
-                    ],
-                    'hotspot-asset' => [
-                        'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotAssetController',
-                        'viewPath' => '@hotspot/modules/admin/views/hotspot-asset',
-                    ],
-                ];
-
-                $module->controllerMap = array_merge($controllerMap, $module->controllerMap);
             }
         ]);
 
