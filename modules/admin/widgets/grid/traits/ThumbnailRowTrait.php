@@ -4,6 +4,7 @@ namespace davidhirtz\yii2\hotspot\modules\admin\widgets\grid\traits;
 
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\modules\admin\widgets\grid\AssetGridView;
+use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use Yii;
 
@@ -21,7 +22,8 @@ trait ThumbnailRowTrait
     {
         return [
             'headerOptions' => ['style' => 'width:150px'],
-            'content' => function (Asset $asset) {
+            'content' => function ($asset) {
+                /** @var AssetInterface $asset */
                 if (!$asset->file->hasPreview()) {
                     return '';
                 }
@@ -31,7 +33,7 @@ trait ThumbnailRowTrait
                     'class' => 'thumb',
                 ]);
 
-                if ($hotspotCount = $asset->hotspot_count) {
+                if ($hotspotCount = $asset->getAttribute('hotspot_count')) {
                     $badge = Html::tag('div', $hotspotCount, [
                         'class' => 'btn btn-primary btn-sm',
                         'style' => 'position: absolute; top: 5px; left: 5px;',
