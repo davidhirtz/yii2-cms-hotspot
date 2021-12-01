@@ -56,6 +56,7 @@ class SiteController extends \davidhirtz\yii2\cms\controllers\SiteController
             ->selectSiteAttributes()
             ->replaceI18nAttributes()
             ->andWhere(['entry_id' => $entry->id])
+            ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')
             ->whereStatus();
 
