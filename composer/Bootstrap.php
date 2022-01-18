@@ -116,7 +116,7 @@ class Bootstrap implements BootstrapInterface
                 $hotspots = Hotspot::findAll(['asset_id' => $asset->id]);
 
                 foreach ($hotspots as $hotspot) {
-                    $hotspot->clone(['asset_id' => $clone->id]);
+                    $hotspot->clone(['asset' => $clone]);
                 }
             }
         });

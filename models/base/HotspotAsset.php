@@ -12,6 +12,7 @@ use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\models\queries\FileQuery;
 use davidhirtz\yii2\media\models\traits\AssetTrait;
+use davidhirtz\yii2\skeleton\helpers\ArrayHelper;
 use davidhirtz\yii2\skeleton\models\User;
 use Yii;
 use yii\base\Widget;
@@ -193,8 +194,15 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
      */
     public function clone($attributes = [])
     {
-        $clone = new \davidhirtz\yii2\hotspot\models\HotspotAsset();
-        $clone->setAttributes(array_merge($this->getAttributes(), $attributes));
+        $hotspot = ArrayHelper::remove($attributes, 'hotspot');
+
+        $clone = new static();
+        $clone->setAttributes(array_merge($this->getAttributes($this->safeAttributes()), $attributes));
+
+        if ($hotspot) {
+            $clone->populateHotspotRelation($hotspot);
+        }
+
         $clone->insert();
 
         return $clone;

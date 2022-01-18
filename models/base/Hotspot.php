@@ -14,6 +14,7 @@ use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use davidhirtz\yii2\skeleton\db\I18nAttributesTrait;
 use davidhirtz\yii2\skeleton\db\StatusAttributeTrait;
 use davidhirtz\yii2\skeleton\db\TypeAttributeTrait;
+use davidhirtz\yii2\skeleton\helpers\ArrayHelper;
 use davidhirtz\yii2\skeleton\models\queries\UserQuery;
 use davidhirtz\yii2\skeleton\models\Trail;
 use davidhirtz\yii2\skeleton\models\User;
@@ -288,8 +289,14 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
      */
     public function clone($attributes = [])
     {
-        $clone = new \davidhirtz\yii2\hotspot\models\Hotspot();
-        $clone->setAttributes(array_merge($this->getAttributes(), $attributes));
+        $asset = ArrayHelper::remove($attributes, 'asset');
+
+        $clone = new static();
+        $clone->setAttributes(array_merge($this->getAttributes($this->safeAttributes()), $attributes));
+
+        if ($asset) {
+            $clone->populateAssetRelation($asset);
+        }
 
         if ($clone->insert()) {
             if ($this->asset_count) {
@@ -297,7 +304,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
                 $assets = $this->getAssets()->all();
 
                 foreach ($assets as $asset) {
-                    $asset->clone(['hotspot_id' => $clone->id]);
+                    $asset->clone(['hotspot' => $clone]);
                 }
             }
         }
