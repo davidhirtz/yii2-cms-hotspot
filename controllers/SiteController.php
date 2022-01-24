@@ -30,7 +30,7 @@ class SiteController extends \davidhirtz\yii2\cms\controllers\SiteController
             ->limit(1)
             ->one();
 
-        if (!$entry) {
+        if (!$entry || !$entry->getRoute()) {
             throw new NotFoundHttpException();
         }
 
