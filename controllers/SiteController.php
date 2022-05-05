@@ -1,10 +1,10 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\controllers;
+namespace davidhirtz\yii2\cms\hotspot\controllers;
 
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\models\Entry;
-use davidhirtz\yii2\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\Module;
 use yii\web\NotFoundHttpException;
@@ -12,7 +12,7 @@ use yii\web\Response;
 
 /**
  * Class SiteController
- * @package davidhirtz\yii2\hotspot\controllers
+ * @package davidhirtz\yii2\cms\hotspot\controllers
  *
  * @property Module $module
  */

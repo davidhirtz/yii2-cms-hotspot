@@ -1,9 +1,9 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin\widgets\grid\base;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\base;
 
-use davidhirtz\yii2\hotspot\models\Hotspot;
-use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grid\GridView;
@@ -14,7 +14,7 @@ use Yii;
 
 /**
  * Class HotspotAssetParentGridView
- * @package davidhirtz\yii2\hotspot\modules\admin\widgets\grid\base
+ * @package davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\base
  */
 class HotspotAssetParentGridView extends GridView
 {

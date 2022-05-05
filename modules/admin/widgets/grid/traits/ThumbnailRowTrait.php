@@ -1,6 +1,6 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin\widgets\grid\traits;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\traits;
 
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\modules\admin\widgets\grid\AssetGridView;

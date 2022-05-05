@@ -1,7 +1,7 @@
 <?php
 /**
  * Asset file grid.
- * @see \davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotAssetController::actionIndex()
+ * @see \davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController::actionIndex()
  *
  * @var View $this
  * @var ActiveDataProvider $provider
@@ -9,7 +9,7 @@
  */
 
 use davidhirtz\yii2\cms\modules\admin\widgets\nav\Submenu;
-use davidhirtz\yii2\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\media\modules\admin\widgets\grid\FileGridView;
 use davidhirtz\yii2\skeleton\web\View;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;

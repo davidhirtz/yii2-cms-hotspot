@@ -1,14 +1,14 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\composer;
+namespace davidhirtz\yii2\cms\hotspot\composer;
 
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\models\base\ModelCloneEvent;
-use davidhirtz\yii2\hotspot\assets\AdminAsset;
-use davidhirtz\yii2\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\assets\AdminAsset;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
-use davidhirtz\yii2\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\hotspot\modules\admin\Module;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
 use Yii;
@@ -19,7 +19,7 @@ use yii\helpers\Url;
 
 /**
  * Class Bootstrap
- * @package davidhirtz\yii2\hotspot\bootstrap
+ * @package davidhirtz\yii2\cms\hotspot\bootstrap
  */
 class Bootstrap implements BootstrapInterface
 {
@@ -121,6 +121,6 @@ class Bootstrap implements BootstrapInterface
             }
         });
 
-        $app->setMigrationNamespace('davidhirtz\yii2\hotspot\migrations');
+        $app->setMigrationNamespace('davidhirtz\yii2\cms\hotspot\migrations');
     }
 }

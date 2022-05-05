@@ -1,12 +1,12 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\assets;
+namespace davidhirtz\yii2\cms\hotspot\assets;
 
 use yii\web\AssetBundle;
 
 /**
  * Class AdminAsset
- * @package davidhirtz\yii2\hotspot\assets
+ * @package davidhirtz\yii2\cms\hotspot\assets
  */
 class AdminAsset extends AssetBundle
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\models\base;
+namespace davidhirtz\yii2\cms\hotspot\models\base;
 
 use davidhirtz\yii2\cms\models\base\ActiveRecord;
-use davidhirtz\yii2\hotspot\models\queries\HotspotAssetQuery;
-use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
-use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
-use davidhirtz\yii2\hotspot\modules\admin\widgets\grid\HotspotAssetParentGridView;
+use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
+use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\HotspotAssetParentGridView;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\media\models\File;
@@ -19,8 +19,8 @@ use yii\base\Widget;
 
 /**
  * Class HotspotAsset
- * @package davidhirtz\yii2\hotspot\models\base
- * @see \davidhirtz\yii2\hotspot\models\Asset
+ * @package davidhirtz\yii2\cms\hotspot\models\base
+ * @see \davidhirtz\yii2\cms\hotspot\models\Asset
  *
  * @property int $id
  * @property int $hotspot_id
@@ -34,11 +34,11 @@ use yii\base\Widget;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  *
- * @property \davidhirtz\yii2\hotspot\models\Hotspot $hotspot
+ * @property \davidhirtz\yii2\cms\hotspot\models\Hotspot $hotspot
  * @property File $file
  * @property User $updated
  *
- * @method static \davidhirtz\yii2\hotspot\models\HotspotAsset findOne($condition)
+ * @method static \davidhirtz\yii2\cms\hotspot\models\HotspotAsset findOne($condition)
  */
 class HotspotAsset extends ActiveRecord implements AssetInterface
 {

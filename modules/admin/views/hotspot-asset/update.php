@@ -1,14 +1,14 @@
 <?php
 /**
  * Update asset
- * @see \davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotAssetController::actionUpdate()
+ * @see \davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController::actionUpdate()
  *
  * @var View $this
  * @var HotspotAsset $asset
  */
 
 use davidhirtz\yii2\cms\modules\admin\widgets\nav\Submenu;
-use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\web\View;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;

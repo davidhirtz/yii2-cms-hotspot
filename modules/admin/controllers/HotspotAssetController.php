@@ -1,10 +1,10 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin\controllers;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers;
 
 use davidhirtz\yii2\cms\modules\ModuleTrait;
-use davidhirtz\yii2\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\hotspot\modules\admin\controllers\traits\HotspotTrait;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\modules\admin\controllers\traits\FileTrait;
 use davidhirtz\yii2\media\modules\admin\data\FileActiveDataProvider;
@@ -18,7 +18,7 @@ use yii\web\Response;
 
 /**
  * Class HotspotAssetController
- * @package davidhirtz\yii2\hotspot\modules\admin\controllers
+ * @package davidhirtz\yii2\cms\hotspot\modules\admin\controllers
  */
 class HotspotAssetController extends Controller
 {

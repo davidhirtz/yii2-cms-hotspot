@@ -10,11 +10,11 @@
   },
   "autoload": {
     "psr-4": {
-      "davidhirtz\\yii2\\hotspot\\": ""
+      "davidhirtz\\yii2\\cms\\hotspot\\": ""
     }
   },
   "extra": {
-    "bootstrap": "davidhirtz\\yii2\\hotspot\\composer\\Bootstrap"
+    "bootstrap": "davidhirtz\\yii2\\cms\\hotspot\\composer\\Bootstrap"
   },
   "repositories": [
     {

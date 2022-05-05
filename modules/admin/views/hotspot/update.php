@@ -1,15 +1,15 @@
 <?php
 /**
  * Update hotspot.
- * @see \davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotController::actionUpdate()
+ * @see \davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotController::actionUpdate()
  *
  * @var View $this
  * @var Hotspot $hotspot
  */
 
-use davidhirtz\yii2\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\admin\widgets\nav\Submenu;
-use davidhirtz\yii2\hotspot\modules\admin\widgets\grid\HotspotAssetGridView;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\HotspotAssetGridView;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\web\View;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;

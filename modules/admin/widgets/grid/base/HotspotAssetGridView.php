@@ -1,15 +1,15 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin\widgets\grid\base;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\base;
 
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\modules\admin\widgets\grid\base\AssetGridView;
-use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use Yii;
 
 /**
  * Class HotspotAssetGridView
- * @package davidhirtz\yii2\hotspot\modules\admin\widgets\grid\base
+ * @package davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\base
  */
 class HotspotAssetGridView extends AssetGridView
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin\widgets\forms;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms;
 
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\ActiveForm;
-use davidhirtz\yii2\hotspot\models\base\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\models\base\HotspotAsset;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 

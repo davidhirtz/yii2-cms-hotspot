@@ -1,15 +1,15 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin\controllers\traits;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits;
 
-use davidhirtz\yii2\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
  * Trait HotspotTrait
- * @package davidhirtz\yii2\hotspot\modules\admin\controllers\traits
+ * @package davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits
  */
 trait HotspotTrait
 {

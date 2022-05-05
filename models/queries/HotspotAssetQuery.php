@@ -1,14 +1,14 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\models\queries;
+namespace davidhirtz\yii2\cms\hotspot\models\queries;
 
-use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\media\models\queries\FileQuery;
 use davidhirtz\yii2\skeleton\db\ActiveQuery;
 
 /**
  * Class HotspotAssetQuery
- * @package davidhirtz\yii2\hotspot\models\queries
+ * @package davidhirtz\yii2\cms\hotspot\models\queries
  *
  * @method HotspotAsset[] all($db = null)
  * @method HotspotAsset one($db = null)

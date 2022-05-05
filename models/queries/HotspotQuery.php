@@ -1,12 +1,12 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\models\queries;
+namespace davidhirtz\yii2\cms\hotspot\models\queries;
 
 use davidhirtz\yii2\skeleton\db\ActiveQuery;
 
 /**
  * Class HotspotQuery
- * @package davidhirtz\yii2\hotspot\models\queries
+ * @package davidhirtz\yii2\cms\hotspot\models\queries
  */
 class HotspotQuery extends ActiveQuery
 {

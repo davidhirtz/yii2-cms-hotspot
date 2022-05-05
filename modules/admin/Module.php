@@ -1,12 +1,12 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin;
 
 use yii\helpers\ArrayHelper;
 
 /**
  * Class Module
- * @package davidhirtz\yii2\hotspot\modules\admin
+ * @package davidhirtz\yii2\cms\hotspot\modules\admin
  * @property \davidhirtz\yii2\skeleton\modules\admin\Module $module
  */
 class Module extends \yii\base\Module
@@ -31,11 +31,11 @@ class Module extends \yii\base\Module
      */
     protected $defaultControllerMap = [
         'hotspot' => [
-            'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotController',
+            'class' => 'davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotController',
             'viewPath' => '@hotspot/modules/admin/views/hotspot',
         ],
         'hotspot-asset' => [
-            'class' => 'davidhirtz\yii2\hotspot\modules\admin\controllers\HotspotAssetController',
+            'class' => 'davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController',
             'viewPath' => '@hotspot/modules/admin/views/hotspot-asset',
         ],
     ];

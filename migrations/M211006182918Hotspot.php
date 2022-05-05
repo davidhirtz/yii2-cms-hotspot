@@ -1,9 +1,9 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\migrations;
+namespace davidhirtz\yii2\cms\hotspot\migrations;
 
-use davidhirtz\yii2\hotspot\models\Hotspot;
-use davidhirtz\yii2\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\media\models\File;
@@ -14,7 +14,7 @@ use yii\db\Migration;
 
 /**
 * Class M211006182918Hotspot
-* @package davidhirtz\yii2\hotspot\migrations
+* @package davidhirtz\yii2\cms\hotspot\migrations
 * @noinspection PhpUnused
 */
 class M211006182918Hotspot extends Migration

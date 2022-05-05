@@ -1,8 +1,8 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\modules\admin\widgets\forms;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms;
 
-use davidhirtz\yii2\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ContentFieldTrait;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
@@ -12,7 +12,7 @@ use davidhirtz\yii2\skeleton\widgets\forms\DynamicRangeDropdown;
 
 /**
  * Class HotspotActiveForm
- * @package davidhirtz\yii2\hotspot\modules\admin\widgets\forms
+ * @package davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms
  *
  * @property Hotspot $model
  */

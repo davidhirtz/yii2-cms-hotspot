@@ -1,5 +1,5 @@
 <?php
-namespace davidhirtz\yii2\hotspot\modules\admin\widgets\grid;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid;
 
 /**
  * Class HotspotAssetParentGridView

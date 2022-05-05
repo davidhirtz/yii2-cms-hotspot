@@ -1,11 +1,11 @@
 <?php
 
-namespace davidhirtz\yii2\hotspot\models\base;
+namespace davidhirtz\yii2\cms\hotspot\models\base;
 
-use davidhirtz\yii2\hotspot\models\queries\HotspotAssetQuery;
-use davidhirtz\yii2\hotspot\models\queries\HotspotQuery;
-use davidhirtz\yii2\hotspot\modules\admin\Module;
-use davidhirtz\yii2\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
+use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
+use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
+use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\datetime\DateTime;
@@ -22,7 +22,7 @@ use Yii;
 
 /**
  * Class Hotspot
- * @package davidhirtz\yii2\hotspot\models\base
+ * @package davidhirtz\yii2\cms\hotspot\models\base
  *
  * @property int $id
  * @property int $status
@@ -39,9 +39,9 @@ use Yii;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  * @property Asset $asset
- * @property \davidhirtz\yii2\hotspot\models\HotspotAsset[] $assets
- * @method static \davidhirtz\yii2\hotspot\models\Hotspot findOne($condition)
- * @method static \davidhirtz\yii2\hotspot\models\Hotspot[] findAll($condition)
+ * @property \davidhirtz\yii2\cms\hotspot\models\HotspotAsset[] $assets
+ * @method static \davidhirtz\yii2\cms\hotspot\models\Hotspot findOne($condition)
+ * @method static \davidhirtz\yii2\cms\hotspot\models\Hotspot[] findAll($condition)
  */
 class Hotspot extends ActiveRecord implements AssetParentInterface
 {
@@ -252,7 +252,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     public function getAssets()
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->hasMany(\davidhirtz\yii2\hotspot\models\HotspotAsset::class, ['hotspot_id' => 'id'])
+        return $this->hasMany(\davidhirtz\yii2\cms\hotspot\models\HotspotAsset::class, ['hotspot_id' => 'id'])
             ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')
             ->inverseOf('hotspot');
