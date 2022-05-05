@@ -54,6 +54,9 @@ class Bootstrap implements BootstrapInterface
             ],
         ]);
 
+        // Overrides asset thumbnail column.
+        Yii::$classMap['davidhirtz\yii2\cms\modules\admin\widgets\grid\columns\AssetThumbnailColumn'] = '@hotspot/modules/admin/widgets/grid/columns/AssetThumbnailColumn.php';
+
         // Registers javascript after `AssetActiveForm` is rendered
         Yii::$container->set(Asset::instance()->getActiveForm(), [
             'on afterRun' => function (WidgetEvent $event) {
