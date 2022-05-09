@@ -6,6 +6,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "davidhirtz/yii2-media": "*",
     "davidhirtz/yii2-cms": "*"
   },
   "autoload": {

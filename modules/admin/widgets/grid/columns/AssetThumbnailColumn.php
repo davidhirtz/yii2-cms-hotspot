@@ -2,6 +2,7 @@
 
 namespace davidhirtz\yii2\cms\modules\admin\widgets\grid\columns;
 
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\modules\admin\widgets\grid\AssetGridView;
 use davidhirtz\yii2\skeleton\helpers\Html;
@@ -25,7 +26,7 @@ class AssetThumbnailColumn extends Column
     ];
 
     /**
-     * @param Asset $model
+     * @param Asset|HotspotAsset $model
      * @param string $key
      * @param $index
      * @return string
@@ -53,7 +54,7 @@ class AssetThumbnailColumn extends Column
             ]);
         }
 
-        $isLink = Yii::$app->getUser()->can($model->isEntryAsset() ? 'entryAssetUpdate' : 'sectionAssetUpdate', [
+        $isLink = $model instanceof Asset && Yii::$app->getUser()->can($model->isEntryAsset() ? 'entryAssetUpdate' : 'sectionAssetUpdate', [
             'asset' => $model,
         ]);
 
