@@ -6,7 +6,6 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "davidhirtz/yii2-media": "*",
     "davidhirtz/yii2-cms": "*"
   },
   "autoload": {
@@ -16,11 +15,5 @@
   },
   "extra": {
     "bootstrap": "davidhirtz\\yii2\\cms\\hotspot\\composer\\Bootstrap"
-  },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "git@github.com:davidhirtz/yii2-cms-hotspot.git"
-    }
-  ]
+  }
 }
