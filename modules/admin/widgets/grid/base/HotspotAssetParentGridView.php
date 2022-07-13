@@ -9,12 +9,12 @@ use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grid\GridView;
 use davidhirtz\yii2\skeleton\widgets\fontawesome\Icon;
 use davidhirtz\yii2\timeago\Timeago;
-use yii\data\ArrayDataProvider;
+use yii\data\ActiveDataProvider;
 use Yii;
 
 /**
- * Class HotspotAssetParentGridView
- * @package davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\base
+ * The HotspotAssetParentGridView widget is used to display {@see HotspotAsset} models in a grid related to {@link File}.
+ * @see \davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\HotspotAssetParentGridView
  */
 class HotspotAssetParentGridView extends GridView
 {
@@ -31,7 +31,7 @@ class HotspotAssetParentGridView extends GridView
     /**
      * @var string
      */
-    public $layout = '{items}';
+    public $layout = '{items}{pager}';
 
     /**
      * @inheritDoc
@@ -39,12 +39,11 @@ class HotspotAssetParentGridView extends GridView
     public function init()
     {
         if (!$this->dataProvider) {
-            $this->dataProvider = new ArrayDataProvider([
-                'allModels' => HotspotAsset::find()
+            $this->dataProvider = new ActiveDataProvider([
+                'query' => HotspotAsset::find()
                     ->where(['file_id' => $this->file->id])
                     ->with(['hotspot'])
-                    ->orderBy(['updated_at' => SORT_DESC])
-                    ->all()
+                    ->orderBy(['updated_at' => SORT_DESC]),
             ]);
         }
 
@@ -146,7 +145,6 @@ class HotspotAssetParentGridView extends GridView
         return [
             'contentOptions' => ['class' => 'text-right text-nowrap'],
             'content' => function (HotspotAsset $asset) {
-                $user = Yii::$app->getUser();
                 $buttons = [];
 
                 $buttons[] = Html::a(Icon::tag('wrench'), $asset->getAdminRoute(), [
