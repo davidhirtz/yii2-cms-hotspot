@@ -59,41 +59,43 @@ class Bootstrap implements BootstrapInterface
         Yii::$classMap[$class] = Yii::$classMap[$class] ?? '@hotspot/modules/admin/widgets/grid/columns/AssetThumbnailColumn.php';
 
         // Registers javascript after `AssetActiveForm` is rendered
-        Yii::$container->set(Asset::instance()->getActiveForm(), [
-            'on afterRun' => function (WidgetEvent $event) {
-                /** @var AssetActiveForm $form */
-                $form = $event->sender;
-                /** @var Module $module */
-                $module = Yii::$app->getModule('admin')->getModule('hotspot');
+        if (!Yii::$app->getRequest()->getIsConsoleRequest()) {
+            Yii::$container->set(Asset::instance()->getActiveForm(), [
+                'on afterRun' => function (WidgetEvent $event) {
+                    /** @var AssetActiveForm $form */
+                    $form = $event->sender;
+                    /** @var Module $module */
+                    $module = Yii::$app->getModule('admin')->getModule('hotspot');
 
-                if ($form->model->isSectionAsset() ? $module->enableSectionAssetHotspots : $module->enableEntryAssetHotspots) {
-                    if ($form->model->file->hasPreview()) {
-                        if (!$form->model->isRelationPopulated('hotspots')) {
-                            if ($form->model->getAttribute('hotspot_count')) {
-                                $hotspots = Hotspot::find()
-                                    ->where(['asset_id' => $form->model->id])
-                                    ->orderBy(['position' => SORT_ASC])
-                                    ->all();
+                    if ($form->model->isSectionAsset() ? $module->enableSectionAssetHotspots : $module->enableEntryAssetHotspots) {
+                        if ($form->model->file->hasPreview()) {
+                            if (!$form->model->isRelationPopulated('hotspots')) {
+                                if ($form->model->getAttribute('hotspot_count')) {
+                                    $hotspots = Hotspot::find()
+                                        ->where(['asset_id' => $form->model->id])
+                                        ->orderBy(['position' => SORT_ASC])
+                                        ->all();
+                                }
+
+                                $form->model->populateRelation('hotspots', $hotspots ?? []);
                             }
 
-                            $form->model->populateRelation('hotspots', $hotspots ?? []);
+                            $hotspots = $form->model->getRelatedRecords()['hotspots'] ?? [];
+
+                            $options = array_filter([
+                                'formName' => Hotspot::instance()->formName(),
+                                'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $form->model->id]),
+                                'message' => !$hotspots ? Yii::t('hotspot', 'Double click on the image to create a hotspot.') : null,
+                                'hotspots' => $hotspots,
+                            ]);
+
+                            AdminAsset::register($view = $form->getView());
+                            $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
                         }
-
-                        $hotspots = $form->model->getRelatedRecords()['hotspots'] ?? [];
-
-                        $options = array_filter([
-                            'formName' => Hotspot::instance()->formName(),
-                            'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $form->model->id]),
-                            'message' => !$hotspots ? Yii::t('hotspot', 'Double click on the image to create a hotspot.') : null,
-                            'hotspots' => $hotspots,
-                        ]);
-
-                        AdminAsset::register($view = $form->getView());
-                        $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
                     }
                 }
-            }
-        ]);
+            ]);
+        }
 
         // Makes sure hotspots (and their assets) are deleted on asset delete
         ModelEvent::on(Asset::class, Asset::EVENT_BEFORE_DELETE, function (ModelEvent $event) {
