@@ -111,8 +111,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
             ],
             [
                 ['name', 'content', 'link'],
-                'filter',
-                'filter' => 'trim',
+                'trim',
             ],
             [
                 ['name', 'link'],
