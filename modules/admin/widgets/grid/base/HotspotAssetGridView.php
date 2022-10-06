@@ -6,13 +6,16 @@ use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\modules\admin\widgets\grid\base\AssetGridView;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
- * Class HotspotAssetGridView
- * @package davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\base
+ * The HotspotAssetGridView widget displays {@link HotspotAsset} models in a grid view.
  */
 class HotspotAssetGridView extends AssetGridView
 {
+    /**
+     * @return void
+     */
     public function init()
     {
         parent::init();
@@ -76,5 +79,16 @@ class HotspotAssetGridView extends AssetGridView
     protected function getDeleteRoute($model, $params = [])
     {
         return array_merge(['/admin/hotspot-asset/delete', 'id' => $model->id], $params);
+    }
+
+
+    /**
+     * @return ActiveQuery
+     */
+    protected function getParentAssetQuery()
+    {
+        return $this->parent->getAssets()
+            ->with(['file', 'file.folder'])
+            ->limit($this->maxAssetCount);
     }
 }
