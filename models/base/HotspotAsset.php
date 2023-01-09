@@ -8,19 +8,21 @@ use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\HotspotAssetParentGridView;
 use davidhirtz\yii2\datetime\DateTime;
+use davidhirtz\yii2\datetime\DateTimeBehavior;
 use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\models\queries\FileQuery;
 use davidhirtz\yii2\media\models\traits\AssetTrait;
+use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
 use davidhirtz\yii2\skeleton\helpers\ArrayHelper;
 use davidhirtz\yii2\skeleton\models\User;
+use davidhirtz\yii2\skeleton\validators\RelationValidator;
 use Yii;
 use yii\base\Widget;
 
 /**
- * Class HotspotAsset
- * @package davidhirtz\yii2\cms\hotspot\models\base
- * @see \davidhirtz\yii2\cms\hotspot\models\Asset
+ * The base implementation of the hotspot module HotspotAsset class.
+ * @see \davidhirtz\yii2\cms\hotspot\models\HotspotAsset
  *
  * @property int $id
  * @property int $hotspot_id
@@ -50,9 +52,9 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
-            'DateTimeBehavior' => 'davidhirtz\yii2\datetime\DateTimeBehavior',
+            'DateTimeBehavior' => DateTimeBehavior::class,
             'TrailBehavior' => [
-                'class' => 'davidhirtz\yii2\skeleton\behaviors\TrailBehavior',
+                'class' => TrailBehavior::class,
                 'modelClass' => static::class . (static::getModule()->enableI18nTables ? ('::' . Yii::$app->language) : ''),
             ],
         ]);
@@ -75,12 +77,12 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
             ],
             [
                 ['hotspot_id'],
-                'davidhirtz\yii2\skeleton\validators\RelationValidator',
+                RelationValidator::class,
                 'relation' => 'hotspot',
             ],
             [
                 ['file_id'],
-                'davidhirtz\yii2\skeleton\validators\RelationValidator',
+                RelationValidator::class,
                 'relation' => 'file',
             ],
             [
@@ -96,12 +98,11 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
      */
     public function beforeValidate()
     {
-        if ($this->status === null) {
-            $this->status = static::STATUS_DEFAULT;
-        }
+        $this->status ??= static::STATUS_DEFAULT;
+        $this->type ??= static::TYPE_DEFAULT;
 
-        if ($this->type === null) {
-            $this->type = static::TYPE_DEFAULT;
+        if ($this->autoplayLinkAttributeName) {
+            $this->validateAutoplayLink();
         }
 
         return parent::beforeValidate();
@@ -276,7 +277,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
     public function getParentName(): string
     {
