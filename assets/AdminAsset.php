@@ -2,37 +2,34 @@
 
 namespace davidhirtz\yii2\cms\hotspot\assets;
 
+use davidhirtz\yii2\skeleton\assets\JuiAsset;
 use yii\web\AssetBundle;
 
 /**
- * Class AdminAsset
- * @package davidhirtz\yii2\cms\hotspot\assets
+ * The hotspot admin asset bundle.
  */
 class AdminAsset extends AssetBundle
 {
     /**
-     * @var string
-     */
-    public $sourcePath = '@hotspot/assets/admin';
-
-    /**
      * @var array
      */
-    public $css = [
-        YII_DEBUG ? 'css/admin.css' : 'css/admin.min.css',
-    ];
-    /**
-     * @var array
-     */
-    public $js = [
-        YII_DEBUG ? 'js/admin.js' : 'js/admin.min.js',
-    ];
+    public $css = ['css/admin.min.css'];
 
     /**
      * @var array
      */
     public $depends = [
-        'davidhirtz\yii2\skeleton\assets\AdminAsset',
-        'davidhirtz\yii2\skeleton\assets\JuiAsset',
+        \davidhirtz\yii2\skeleton\assets\AdminAsset::class,
+        JuiAsset::class,
     ];
+
+    /**
+     * @var array
+     */
+    public $js = ['js/admin.min.js'];
+
+    /**
+     * @var string
+     */
+    public $sourcePath = '@hotspot/assets/admin';
 }
