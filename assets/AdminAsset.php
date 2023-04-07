@@ -13,7 +13,7 @@ class AdminAsset extends AssetBundle
     /**
      * @var array
      */
-    public $css = ['css/admin.min.css'];
+    public $css = ['css/hotspot.min.css'];
 
     /**
      * @var array
@@ -26,7 +26,7 @@ class AdminAsset extends AssetBundle
     /**
      * @var array
      */
-    public $js = ['js/admin.min.js'];
+    public $js = ['js/hotspot.min.js'];
 
     /**
      * @var string

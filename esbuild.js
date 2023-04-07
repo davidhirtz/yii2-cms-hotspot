@@ -27,12 +27,12 @@ const watchPlugin = {
 let context = await esbuild.context({
     entryPoints: [
         {
-            in: 'assets/admin/scss/admin.scss',
-            out: 'assets/admin/css/admin.min'
+            in: 'assets/admin/scss/hotspot.scss',
+            out: 'assets/admin/css/hotspot.min'
         },
         {
-            in: 'assets/admin/js/admin.js',
-            out: 'assets/admin/js/admin.min'
+            in: 'assets/admin/js/hotspot.js',
+            out: 'assets/admin/js/hotspot.min'
         }
     ],
     minify: true,
