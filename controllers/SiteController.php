@@ -22,7 +22,7 @@ class SiteController extends \davidhirtz\yii2\cms\controllers\SiteController
      * @param string $entry
      * @return string|Response
      */
-    public function actionView($entry)
+    public function actionView(string $entry): Response|string
     {
         $entry = $this->getQuery()
             ->whereSlug($entry)

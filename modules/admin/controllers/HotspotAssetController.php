@@ -26,10 +26,7 @@ class HotspotAssetController extends Controller
     use ModuleTrait;
     use FileTrait;
 
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
             'access' => [
@@ -64,7 +61,7 @@ class HotspotAssetController extends Controller
      * @param string|null $q
      * @return string
      */
-    public function actionIndex($hotspot, $folder = null, $type = null, $q = null)
+    public function actionIndex(int $hotspot, ?int $folder = null, ?int $type = null, ?string $q = null)
     {
         $hotspot = $this->findHotspot($hotspot);
 
@@ -96,7 +93,7 @@ class HotspotAssetController extends Controller
             return '';
         }
 
-        $asset = new HotspotAsset();
+        $asset = HotspotAsset::create();
         $asset->populateHotspotRelation($hotspot);
         $asset->populateFileRelation($file);
 
@@ -113,11 +110,7 @@ class HotspotAssetController extends Controller
         return $this->redirect(['hotspot/update', 'id' => $hotspot->id]);
     }
 
-    /**
-     * @param int $id the hotspot asset id
-     * @return string|Response
-     */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id): Response|string
     {
         $asset = $this->findAsset($id);
 
@@ -136,11 +129,7 @@ class HotspotAssetController extends Controller
         ]);
     }
 
-    /**
-     * @param int $id the hotspot asset id
-     * @return string|Response
-     */
-    public function actionDelete($id)
+    public function actionDelete(int $id): Response|string
     {
         $asset = $this->findAsset($id);
 
@@ -157,10 +146,7 @@ class HotspotAssetController extends Controller
         throw new BadRequestHttpException(reset($errors));
     }
 
-    /**
-     * @param int $id the hotspot id
-     */
-    public function actionOrder($id)
+    public function actionOrder(int $id): void
     {
         $hotspot = $this->findHotspot($id);
         $assetIds = array_map('intval', array_filter(Yii::$app->getRequest()->post('asset', [])));
@@ -170,11 +156,7 @@ class HotspotAssetController extends Controller
         }
     }
 
-    /**
-     * @param int $id
-     * @return HotspotAsset
-     */
-    private function findAsset($id)
+    private function findAsset(int $id): HotspotAsset
     {
         if (!$asset = HotspotAsset::findOne((int)$id)) {
             throw new NotFoundHttpException();

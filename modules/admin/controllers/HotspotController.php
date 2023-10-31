@@ -57,7 +57,7 @@ class HotspotController extends Controller
     {
         $asset = $this->findAsset($id, 'assetUpdate');
 
-        $hotspot = new Hotspot();
+        $hotspot = Hotspot::create();
         $hotspot->populateAssetRelation($asset);
 
         $request = Yii::$app->getRequest();
