@@ -3,6 +3,7 @@
 namespace davidhirtz\yii2\cms\hotspot\models\base;
 
 use davidhirtz\yii2\cms\models\base\ActiveRecord;
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
@@ -13,12 +14,12 @@ use davidhirtz\yii2\media\models\AssetInterface;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\models\queries\FileQuery;
 use davidhirtz\yii2\media\models\traits\AssetTrait;
+use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
+use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
 use davidhirtz\yii2\skeleton\helpers\ArrayHelper;
-use davidhirtz\yii2\skeleton\models\User;
 use davidhirtz\yii2\skeleton\validators\RelationValidator;
 use Yii;
-use yii\base\Widget;
 
 /**
  * The base implementation of the hotspot module HotspotAsset class.
@@ -36,9 +37,8 @@ use yii\base\Widget;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  *
- * @property \davidhirtz\yii2\cms\hotspot\models\Hotspot $hotspot
+ * @property Hotspot $hotspot {@see static::getHotspot()}
  * @property File $file
- * @property User $updated
  *
  * @method static \davidhirtz\yii2\cms\hotspot\models\HotspotAsset findOne($condition)
  */
@@ -78,12 +78,10 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
             [
                 ['hotspot_id'],
                 RelationValidator::class,
-                'relation' => 'hotspot',
             ],
             [
                 ['file_id'],
                 RelationValidator::class,
-                'relation' => 'file',
             ],
             [
                 $this->getI18nAttributesNames(['name', 'alt_text', 'link']),
@@ -93,10 +91,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         ]);
     }
 
-    /**
-     * @return bool
-     */
-    public function beforeValidate()
+    public function beforeValidate(): bool
     {
         $this->status ??= static::STATUS_DEFAULT;
         $this->type ??= static::TYPE_DEFAULT;
@@ -108,27 +103,19 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return parent::beforeValidate();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
         $this->attachBehaviors([
-            'BlameableBehavior' => 'davidhirtz\yii2\skeleton\behaviors\BlameableBehavior',
-            'TimestampBehavior' => 'davidhirtz\yii2\skeleton\behaviors\TimestampBehavior',
+            'BlameableBehavior' => BlameableBehavior::class,
+            'TimestampBehavior' => TimestampBehavior::class,
         ]);
 
-        if ($this->position === null) {
-            $this->position = $this->getMaxPosition() + 1;
-        }
+        $this->position ??= $this->getMaxPosition() + 1;
 
         return parent::beforeSave($insert);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function afterSave($insert, $changedAttributes)
+    public function afterSave($insert, $changedAttributes): void
     {
         if ($insert) {
             $this->hotspot->asset_count = $this->findSiblings()->count();
@@ -140,10 +127,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         parent::afterSave($insert, $changedAttributes);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function afterDelete()
+    public function afterDelete(): void
     {
         if (!$this->hotspot->isDeleted()) {
             $this->hotspot->asset_count = $this->findSiblings()->count();
@@ -154,46 +138,29 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         parent::afterDelete();
     }
 
-    /**
-     * @return HotspotQuery
-     */
-    public function getHotspot()
+    public function getHotspot(): HotspotQuery
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->hasOne(Hotspot::class, ['id' => 'hotspot_id']);
     }
 
-    /**
-     * @return FileQuery
-     */
-    public function getFile()
+    public function getFile(): FileQuery
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->hasOne(File::class, ['id' => 'file_id']);
     }
 
-    /**
-     * @return HotspotAssetQuery
-     */
-    public function findSiblings()
+    public function findSiblings(): HotspotAssetQuery
     {
         return static::find()->where(['hotspot_id' => $this->hotspot_id]);
     }
 
-    /**
-     * @return HotspotAssetQuery
-     */
-    public static function find()
+    public static function find(): HotspotAssetQuery
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Yii::createObject(HotspotAssetQuery::class, [get_called_class()]);
     }
 
-    /**
-     * @param array $attributes
-     * @return $this
-     */
-    public function clone($attributes = [])
+    public function clone(array $attributes = []): static
     {
         $hotspot = ArrayHelper::remove($attributes, 'hotspot');
 
@@ -209,93 +176,65 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return $clone;
     }
 
-    /**
-     * @param Hotspot $hotspot
-     */
-    public function populateHotspotRelation($hotspot)
+    public function populateHotspotRelation(?Hotspot $hotspot): void
     {
         $this->populateRelation('hotspot', $hotspot);
-        $this->hotspot_id = $hotspot->id;
+        $this->hotspot_id = $hotspot?->id;
     }
 
-    /**
-     * @return int
-     */
     public function getMaxPosition(): int
     {
         return (int)$this->findSiblings()->max('[[position]]');
     }
 
-    /**
-     * @return false
-     */
-    public function getRoute()
+    public function getRoute(): false|array
     {
         return false;
     }
 
-    /**
-     * @return array
-     */
-    public function getAdminRoute()
+    public function getAdminRoute(): false|array
     {
         return ['/admin/hotspot-asset/update', 'id' => $this->id];
     }
 
-    /**
-     * @return array
-     */
-    public function getTrailParents()
+    public function getTrailParents(): array
     {
         return $this->hotspot->asset->isSectionAsset() ? [$this->hotspot, $this->hotspot->asset, $this->hotspot->asset->section, $this->hotspot->asset->entry] :
             [$this->hotspot, $this->hotspot->asset, $this->hotspot->asset->entry];
     }
 
-    /**
-     * @return string
-     */
     public function getTrailModelType(): string
     {
         return Yii::t('hotspot', 'Hotspot Asset');
     }
 
     /**
-     * @return HotspotAssetActiveForm|Widget
+     * @return class-string
      */
-    public function getActiveForm()
+    public function getActiveForm(): string
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return static::getTypes()[$this->type]['activeForm'] ?? HotspotAssetActiveForm::class;
     }
 
     /**
-     * @return string
+     * @return class-string
      */
     public function getParentGridView(): string
     {
         return HotspotAssetParentGridView::class;
     }
 
-    /**
-     * @return string
-     */
     public function getParentName(): string
     {
         return Yii::t('hotspot', 'Hotspots');
     }
 
-    /**
-     * @return string
-     */
     public function getFileCountAttribute(): string
     {
         return 'hotspot_asset_count';
     }
 
-    /**
-     * @return array
-     */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
             'section_id' => Yii::t('cms', 'Section'),
@@ -305,17 +244,11 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         ]);
     }
 
-    /**
-     * @return string
-     */
     public function formName(): string
     {
         return 'HotspotAsset';
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function tableName(): string
     {
         return static::getModule()->getTableName('hotspot_asset');
