@@ -2,7 +2,7 @@
 
 namespace davidhirtz\yii2\cms\hotspot\models\base;
 
-use davidhirtz\yii2\cms\models\base\ActiveRecord;
+use davidhirtz\yii2\cms\models\ActiveRecord;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;

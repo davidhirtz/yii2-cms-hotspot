@@ -8,7 +8,7 @@
  */
 
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\modules\admin\widgets\nav\Submenu;
+use davidhirtz\yii2\cms\modules\admin\widgets\navs\Submenu;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\HotspotAssetGridView;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\web\View;

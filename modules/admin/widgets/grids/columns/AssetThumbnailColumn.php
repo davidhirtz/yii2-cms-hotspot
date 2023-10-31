@@ -1,37 +1,14 @@
 <?php
 
-namespace davidhirtz\yii2\cms\modules\admin\widgets\grid\columns;
+namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\columns;
 
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\cms\modules\admin\widgets\grid\AssetGridView;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use Yii;
-use yii\grid\Column;
 
-/**
- * Class AssetThumbnailColumn
- * @package davidhirtz\yii2\cms\modules\admin\widgets\grid\columns
- * @noinspection PhpMultipleClassDeclarationsInspection
- *
- * @property AssetGridView $grid
- */
-class AssetThumbnailColumn extends Column
+class AssetThumbnailColumn extends \davidhirtz\yii2\cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn
 {
-    /**
-     * @var string[]
-     */
-    public $headerOptions = [
-        'style' => 'width:150px',
-    ];
-
-    /**
-     * @param Asset|HotspotAsset $model
-     * @param string $key
-     * @param $index
-     * @return string
-     */
-    protected function renderDataCellContent($model, $key, $index)
+    protected function renderDataCellContent($model, $key, $index): string
     {
         if (!$model->file->hasPreview()) {
             return '';

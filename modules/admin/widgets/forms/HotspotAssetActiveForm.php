@@ -19,7 +19,7 @@ class HotspotAssetActiveForm extends ActiveForm
     /**
      * @var bool
      */
-    public $hasStickyButtons = true;
+    public bool $hasStickyButtons = true;
 
     /**
      * @inheritDoc

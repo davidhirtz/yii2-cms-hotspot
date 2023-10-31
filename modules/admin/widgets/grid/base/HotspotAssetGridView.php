@@ -3,7 +3,7 @@
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grid\base;
 
 use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\cms\modules\admin\widgets\grid\base\AssetGridView;
+use davidhirtz\yii2\cms\modules\admin\widgets\grids\AssetGridView;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\media\models\AssetInterface;
 use Yii;

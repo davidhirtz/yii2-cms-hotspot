@@ -3,12 +3,13 @@
 namespace davidhirtz\yii2\cms\hotspot\composer;
 
 use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\cms\models\base\ModelCloneEvent;
+use davidhirtz\yii2\cms\models\ModelCloneEvent;
 use davidhirtz\yii2\cms\hotspot\assets\AdminAsset;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\modules\admin\widgets\forms\AssetActiveForm;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
+use davidhirtz\yii2\cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
 use Yii;
@@ -26,7 +27,7 @@ class Bootstrap implements BootstrapInterface
     /**
      * @param Application $app
      */
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         Yii::setAlias('@hotspot', dirname(__DIR__));
 
@@ -55,8 +56,8 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         // Overrides asset thumbnail column.
-        $class = 'davidhirtz\yii2\cms\modules\admin\widgets\grid\columns\AssetThumbnailColumn';
-        Yii::$classMap[$class] = Yii::$classMap[$class] ?? '@hotspot/modules/admin/widgets/grid/columns/AssetThumbnailColumn.php';
+        $definition = \davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\columns\AssetThumbnailColumn::class;
+        Yii::$container->set(AssetThumbnailColumn::class, $definition);
 
         // Registers javascript after `AssetActiveForm` is rendered
         if (!Yii::$app->getRequest()->getIsConsoleRequest()) {
@@ -97,7 +98,7 @@ class Bootstrap implements BootstrapInterface
             ]);
         }
 
-        // Makes sure hotspots (and their assets) are deleted on asset delete
+        // Makes sure hotspots (and their assets) are deleted on asset deletion
         ModelEvent::on(Asset::class, Asset::EVENT_BEFORE_DELETE, function (ModelEvent $event) {
             /** @var Asset $asset */
             $asset = $event->sender;

@@ -7,7 +7,7 @@
  * @var HotspotAsset $asset
  */
 
-use davidhirtz\yii2\cms\modules\admin\widgets\nav\Submenu;
+use davidhirtz\yii2\cms\modules\admin\widgets\navs\Submenu;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\web\View;
