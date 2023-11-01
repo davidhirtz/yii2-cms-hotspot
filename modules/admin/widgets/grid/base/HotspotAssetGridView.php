@@ -18,7 +18,7 @@ class HotspotAssetGridView extends AssetGridView
     /**
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->orderRoute = ['/admin/hotspot-asset/order', 'id' => $this->parent->id];

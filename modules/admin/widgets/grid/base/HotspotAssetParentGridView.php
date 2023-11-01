@@ -36,7 +36,7 @@ class HotspotAssetParentGridView extends GridView
     /**
      * @inheritDoc
      */
-    public function init()
+    public function init(): void
     {
         if (!$this->dataProvider) {
             $this->dataProvider = new ActiveDataProvider([
