@@ -6,11 +6,11 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "davidhirtz/yii2-cms": "^1.2"
+    "davidhirtz/yii2-cms": "^2.0"
   },
   "autoload": {
     "psr-4": {
-      "davidhirtz\\yii2\\cms\\hotspot\\": ""
+      "davidhirtz\\yii2\\cms\\hotspot\\": "src"
     }
   },
   "extra": {
