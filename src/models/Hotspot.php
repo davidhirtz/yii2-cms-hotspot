@@ -309,7 +309,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     public function getTrailModelName(): string
     {
         if ($this->id) {
-            return $this->getI18nAttribute('name') ?: Yii::t('skeleton', '{model} #{id}', [
+            return Yii::t('skeleton', '{model} #{id}', [
                 'model' => $this->getTrailModelType(),
                 'id' => $this->id,
             ]);

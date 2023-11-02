@@ -10,7 +10,7 @@ use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\columns\CounterColumn;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\GridView;
 use davidhirtz\yii2\skeleton\widgets\fontawesome\Icon;
-use davidhirtz\yii2\timeago\Timeago;
+use davidhirtz\yii2\timeago\TimeagoColumn;
 use yii\data\ActiveDataProvider;
 use Yii;
 
@@ -100,7 +100,7 @@ class HotspotAssetParentGridView extends GridView
     {
         return [
             'attribute' => 'updated_at',
-            'class' => Timeago::class,
+            'class' => TimeagoColumn::class,
         ];
     }
 

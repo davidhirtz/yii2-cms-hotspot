@@ -15,9 +15,9 @@ use davidhirtz\yii2\skeleton\widgets\forms\DynamicRangeDropdown;
  */
 class HotspotActiveForm extends ActiveForm
 {
+    use ContentFieldTrait;
     use ModuleTrait;
     use ModelTimestampTrait;
-    use ContentFieldTrait;
 
     public bool $hasStickyButtons = true;
 
@@ -51,5 +51,10 @@ class HotspotActiveForm extends ActiveForm
     protected function getCoordinateField(string $attribute, array $options = []): ActiveField|string
     {
         return $this->field($this->model, $attribute, $options)->appendInput('%');
+    }
+
+    public function renderFooter(): void
+    {
+        echo $this->listRow($this->getTimestampItems());
     }
 }
