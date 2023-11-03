@@ -7,3 +7,5 @@
   to `davidhirtz\yii2\cms\hotspot\admin\widgets\grids` and `davidhirtz\yii2\cms\hotspot\admin\widgets\nav`
   to `davidhirtz\yii2\cms\hotspot\admin\widgets\navs`
 - Added `AssetPreview` as an improved replacement for the default asset preview
+- Removed `ActiveForm::getActiveForm()`, to override the active forms, use Yii's dependency injection
+    container

@@ -5,7 +5,6 @@ namespace davidhirtz\yii2\cms\hotspot\models;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
 use davidhirtz\yii2\cms\models\queries\AssetQuery;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
@@ -326,14 +325,6 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
     public function getTrailModelAdminRoute(): array|false
     {
         return $this->getAdminRoute();
-    }
-
-    /**
-     * @return class-string
-     */
-    public function getActiveForm(): string
-    {
-        return static::getTypes()[$this->type]['activeForm'] ?? HotspotActiveForm::class;
     }
 
     public function getAdminRoute(): array|false

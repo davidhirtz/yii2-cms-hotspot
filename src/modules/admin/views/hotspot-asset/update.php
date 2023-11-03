@@ -1,12 +1,13 @@
 <?php
 /**
- * Update asset
- * @see \davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController::actionUpdate()
+ * @see HotspotAssetController::actionUpdate()
  *
  * @var View $this
  * @var HotspotAsset $asset
  */
 
+use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
 use davidhirtz\yii2\cms\modules\admin\widgets\navs\Submenu;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\skeleton\helpers\Html;
@@ -33,7 +34,7 @@ $this->setBreadcrumbs([
 
 <?= Panel::widget([
     'title' => $this->title,
-    'content' => $asset->getActiveForm()::widget([
+    'content' => HotspotAssetActiveForm::widget([
         'model' => $asset,
     ]),
 ]); ?>

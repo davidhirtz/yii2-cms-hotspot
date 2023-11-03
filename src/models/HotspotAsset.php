@@ -5,7 +5,6 @@ namespace davidhirtz\yii2\cms\hotspot\models;
 use davidhirtz\yii2\cms\models\ActiveRecord;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetParentGridView;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
@@ -187,14 +186,6 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     public function getTrailModelType(): string
     {
         return Yii::t('hotspot', 'Hotspot Asset');
-    }
-
-    /**
-     * @return class-string
-     */
-    public function getActiveForm(): string
-    {
-        return static::getTypes()[$this->type]['activeForm'] ?? HotspotAssetActiveForm::class;
     }
 
     /**

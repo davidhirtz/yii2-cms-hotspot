@@ -8,6 +8,7 @@
  */
 
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
 use davidhirtz\yii2\cms\modules\admin\widgets\navs\Submenu;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetGridView;
 use davidhirtz\yii2\skeleton\helpers\Html;
@@ -30,7 +31,7 @@ $this->setBreadcrumb(Yii::t('cms', 'Asset'), ['/admin/asset/update', 'id' => $ho
 
 <?= Panel::widget([
     'title' => $this->title,
-    'content' => $hotspot->getActiveForm()::widget([
+    'content' => HotspotActiveForm::widget([
         'model' => $hotspot,
     ]),
 
@@ -39,13 +40,12 @@ $this->setBreadcrumb(Yii::t('cms', 'Asset'), ['/admin/asset/update', 'id' => $ho
 <?php if ($hotspot->hasAssetsEnabled()) {
     echo Panel::widget([
         'id' => 'assets',
-        'title' => $hotspot->getAttributeLabel('asset_count'),
+        'title' => Yii::t('cms', 'Assets'),
         'content' => HotspotAssetGridView::widget([
             'parent' => $hotspot,
         ]),
     ]);
-}
-?>
+} ?>
 
 <?= Panel::widget([
     'id' => 'delete',
@@ -54,5 +54,4 @@ $this->setBreadcrumb(Yii::t('cms', 'Asset'), ['/admin/asset/update', 'id' => $ho
     'content' => DeleteActiveForm::widget([
         'model' => $hotspot,
     ]),
-]);
-?>
+]); ?>
