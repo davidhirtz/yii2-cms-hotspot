@@ -23,17 +23,15 @@ class HotspotActiveForm extends ActiveForm
 
     public function init(): void
     {
-        if (!$this->fields) {
-            $this->fields = [
-                ['status', DynamicRangeDropdown::class],
-                ['type', DynamicRangeDropdown::class],
-                'name',
-                'content',
-                'link',
-                $this->xField(),
-                $this->yField(),
-            ];
-        }
+        $this->fields ??= [
+            ['status', DynamicRangeDropdown::class],
+            ['type', DynamicRangeDropdown::class],
+            'name',
+            'content',
+            'link',
+            $this->xField(...),
+            $this->yField(...),
+        ];
 
         parent::init();
     }
