@@ -15,7 +15,7 @@ use yii\data\ActiveDataProvider;
 use Yii;
 
 /**
- * Displays {@see HotspotAsset} models in a grid related to {@link Asset}.
+ * Displays {@see HotspotAsset} models in a grid related to {@see Asset}.
  */
 class HotspotAssetParentGridView extends GridView
 {

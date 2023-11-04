@@ -10,7 +10,7 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecordInterface;
 
 /**
- * The HotspotAssetGridView widget displays {@link HotspotAsset} models in a grid view.
+ * The HotspotAssetGridView widget displays {@see HotspotAsset} models in a grid view.
  */
 class HotspotAssetGridView extends AssetGridView
 {
