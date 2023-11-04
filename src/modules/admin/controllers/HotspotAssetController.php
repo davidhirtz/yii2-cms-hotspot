@@ -6,6 +6,7 @@ use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
 use davidhirtz\yii2\media\models\File;
+use davidhirtz\yii2\media\models\Folder;
 use davidhirtz\yii2\media\modules\admin\controllers\traits\FileTrait;
 use davidhirtz\yii2\media\modules\admin\data\FileActiveDataProvider;
 use davidhirtz\yii2\skeleton\web\Controller;
@@ -55,7 +56,7 @@ class HotspotAssetController extends Controller
         $hotspot = $this->findHotspot($hotspot);
 
         $provider = Yii::$container->get(FileActiveDataProvider::class, [], [
-            'folderId' => $folder,
+            'folder' => Folder::findOne($folder),
             'type' => $type,
             'search' => $q,
         ]);

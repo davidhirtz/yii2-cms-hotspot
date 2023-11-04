@@ -4,7 +4,7 @@ namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids;
 
 use davidhirtz\yii2\cms\modules\admin\widgets\grids\AssetGridView;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\media\models\AssetInterface;
+use davidhirtz\yii2\media\models\interfaces\AssetInterface;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecordInterface;

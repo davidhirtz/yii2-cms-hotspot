@@ -8,7 +8,7 @@ use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetParentGridView;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use davidhirtz\yii2\media\models\AssetInterface;
+use davidhirtz\yii2\media\models\interfaces\AssetInterface;
 use davidhirtz\yii2\media\models\traits\AssetTrait;
 use davidhirtz\yii2\media\models\traits\FileRelationTrait;
 use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
@@ -33,7 +33,7 @@ use Yii;
  *
  * @property-read Hotspot $hotspot {@see static::getHotspot()}
  */
-class HotspotAsset extends ActiveRecord implements AssetInterface
+class HotspotAsset extends ActiveRecord implements \davidhirtz\yii2\media\models\interfaces\AssetInterface
 {
     use AssetTrait;
     use FileRelationTrait;

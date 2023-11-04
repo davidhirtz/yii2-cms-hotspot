@@ -10,10 +10,11 @@ use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use davidhirtz\yii2\media\models\AssetParentInterface;
+use davidhirtz\yii2\media\models\interfaces\AssetParentInterface;
 use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
+use davidhirtz\yii2\skeleton\db\ActiveQuery;
 use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use davidhirtz\yii2\skeleton\db\I18nAttributesTrait;
 use davidhirtz\yii2\skeleton\db\StatusAttributeTrait;
@@ -45,7 +46,7 @@ use Yii;
  * @property-read Asset $asset {@see static::getAsset()}
  * @property-read HotspotAsset[] $assets {@see static::getAssets()}
  */
-class Hotspot extends ActiveRecord implements AssetParentInterface
+class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\interfaces\AssetParentInterface
 {
     use I18nAttributesTrait;
     use ModuleTrait;
@@ -207,7 +208,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
         return $this->hasOne(Asset::class, ['id' => 'asset_id']);
     }
 
-    public function getAssets(): HotspotAssetQuery
+    public function getAssets(): ActiveQuery
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->hasMany(HotspotAsset::class, ['hotspot_id' => 'id'])

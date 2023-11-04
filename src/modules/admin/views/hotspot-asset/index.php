@@ -1,13 +1,13 @@
 <?php
 /**
- * Asset file grid.
- * @see \davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController::actionIndex()
+ * @see HotspotAssetController::actionIndex()
  *
  * @var View $this
  * @var ActiveDataProvider $provider
  * @var Hotspot $hotspot
  */
 
+use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController;
 use davidhirtz\yii2\cms\modules\admin\widgets\navs\Submenu;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\media\modules\admin\widgets\grids\FileGridView;
