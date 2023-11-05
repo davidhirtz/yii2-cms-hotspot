@@ -15,10 +15,14 @@ class HotspotAssetActiveForm extends ActiveForm
 
     public function init(): void
     {
-        $this->fields ??= array_diff($this->getDefaultFieldNames(), [
-            'file_id',
-            'hotspot_id',
-        ]);
+        $this->fields ??= [
+            'status',
+            'type',
+            'name',
+            'content',
+            'alt_text',
+            'link',
+        ];
 
         parent::init();
     }

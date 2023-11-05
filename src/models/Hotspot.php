@@ -257,6 +257,11 @@ class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\inte
         $this->asset_id = $asset?->id;
     }
 
+    public function populateAssetRelations(?array $assets = null): void
+    {
+        $this->populateRelation('assets', $assets);
+    }
+
     protected function recalculateAssetHotspotCount(): void
     {
         $this->asset->setAttribute('hotspot_count', (int)static::findSiblings()->count());

@@ -3,11 +3,13 @@
 namespace davidhirtz\yii2\cms\hotspot\composer;
 
 use davidhirtz\yii2\cms\models\Asset;
+use davidhirtz\yii2\cms\models\builders\EntrySiteRelationsBuilder;
 use davidhirtz\yii2\cms\models\ModelCloneEvent;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn;
+use davidhirtz\yii2\cms\widgets\Canvas;
 use davidhirtz\yii2\media\modules\admin\widgets\forms\fields\AssetPreview;
 use davidhirtz\yii2\skeleton\web\Application;
 use yii\base\BootstrapInterface;
@@ -49,8 +51,10 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         Yii::$container->setDefinitions([
-            AssetThumbnailColumn::class => \davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\columns\AssetThumbnailColumn::class,
             AssetPreview::class => \davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\fields\AssetPreview::class,
+            AssetThumbnailColumn::class => \davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\columns\AssetThumbnailColumn::class,
+            Canvas::class => \davidhirtz\yii2\cms\hotspot\widgets\Canvas::class,
+            EntrySiteRelationsBuilder::class => \davidhirtz\yii2\cms\hotspot\models\builders\EntrySiteRelationsBuilder::class,
         ]);
 
         // Makes sure hotspots (and their assets) are deleted on asset deletion

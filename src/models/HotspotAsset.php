@@ -33,7 +33,7 @@ use Yii;
  *
  * @property-read Hotspot $hotspot {@see static::getHotspot()}
  */
-class HotspotAsset extends ActiveRecord implements \davidhirtz\yii2\media\models\interfaces\AssetInterface
+class HotspotAsset extends ActiveRecord implements AssetInterface
 {
     use AssetTrait;
     use FileRelationTrait;
@@ -44,7 +44,7 @@ class HotspotAsset extends ActiveRecord implements \davidhirtz\yii2\media\models
             'DateTimeBehavior' => DateTimeBehavior::class,
             'TrailBehavior' => [
                 'class' => TrailBehavior::class,
-                'modelClass' => static::class . (static::getModule()->enableI18nTables ? ('::' . Yii::$app->language) : ''),
+                'modelClass' => static::getModule()->getI18nClassName(static::class),
             ],
         ]);
     }
@@ -81,10 +81,6 @@ class HotspotAsset extends ActiveRecord implements \davidhirtz\yii2\media\models
     {
         $this->status ??= static::STATUS_DEFAULT;
         $this->type ??= static::TYPE_DEFAULT;
-
-        if ($this->autoplayLinkAttributeName) {
-            $this->validateAutoplayLink();
-        }
 
         return parent::beforeValidate();
     }
