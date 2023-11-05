@@ -4,6 +4,7 @@
   loading hotspots and assets
 - Removed `Hotspot::updateAssetOrder()`, use `\davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssetAction`
   instead
+- Moved `Bootstrap` class to base package namespace for consistency
 
 ## 2.0.1 (Nov 4, 2023)
 

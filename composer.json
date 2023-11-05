@@ -14,6 +14,6 @@
     }
   },
   "extra": {
-    "bootstrap": "davidhirtz\\yii2\\cms\\hotspot\\composer\\Bootstrap"
+    "bootstrap": "davidhirtz\\yii2\\cms\\hotspot\\Bootstrap"
   }
 }
