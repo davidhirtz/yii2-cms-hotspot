@@ -77,26 +77,6 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         ]);
     }
 
-    public function beforeValidate(): bool
-    {
-        $this->status ??= static::STATUS_DEFAULT;
-        $this->type ??= static::TYPE_DEFAULT;
-
-        return parent::beforeValidate();
-    }
-
-    public function beforeSave($insert): bool
-    {
-        $this->attachBehaviors([
-            'BlameableBehavior' => BlameableBehavior::class,
-            'TimestampBehavior' => TimestampBehavior::class,
-        ]);
-
-        $this->position ??= $this->getMaxPosition() + 1;
-
-        return parent::beforeSave($insert);
-    }
-
     public function afterSave($insert, $changedAttributes): void
     {
         if ($insert) {
