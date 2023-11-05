@@ -2,6 +2,8 @@
 
 - Removed `SiteController`, instead the implementation of `EntrySiteRelationsBuilder` is extended, which takes care of
   loading hotspots and assets
+- Removed `Hotspot::updateAssetOrder()`, use `\davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssetAction`
+  instead
 
 ## 2.0.1 (Nov 4, 2023)
 

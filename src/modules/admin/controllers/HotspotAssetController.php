@@ -2,6 +2,7 @@
 
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers;
 
+use davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssetAction;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
@@ -134,7 +135,10 @@ class HotspotAssetController extends Controller
         $assetIds = array_map('intval', array_filter(Yii::$app->getRequest()->post('asset', [])));
 
         if ($assetIds) {
-            $hotspot->updateAssetOrder($assetIds);
+            Yii::createObject(ReorderHotspotAssetAction::class, [
+                'hotspot' => $hotspot,
+                'assetIds' => $assetIds,
+            ]);
         }
     }
 

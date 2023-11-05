@@ -6,7 +6,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "davidhirtz/yii2-cms": "^2.0.1"
+    "davidhirtz/yii2-cms": "^2.0.2"
   },
   "autoload": {
     "psr-4": {

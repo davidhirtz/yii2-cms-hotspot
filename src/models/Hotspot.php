@@ -267,27 +267,6 @@ class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\inte
         $this->asset->setAttribute('hotspot_count', (int)static::findSiblings()->count());
     }
 
-    public function updateAssetOrder(array $assetIds): void
-    {
-        $assets = $this->getAssets()
-            ->select(['id', 'position'])
-            ->andWhere(['id' => $assetIds])
-            ->all();
-
-        if (HotspotAsset::updatePosition($assets, array_flip($assetIds))) {
-            $trail = Trail::createOrderTrail($this, Yii::t('hotspot', 'Hotspot asset order changed'));
-
-            foreach ($this->getTrailParents() as $model) {
-                Trail::createOrderTrail($model, Yii::t('hotspot', 'Hotspot asset order changed'), [
-                    'trail_id' => $trail->id,
-                ]);
-            }
-
-            $this->updated_at = new DateTime();
-            $this->update();
-        }
-    }
-
     public function getMaxPosition(): int
     {
         return (int)$this->findSiblings()->max('[[position]]');
