@@ -5,7 +5,7 @@ namespace davidhirtz\yii2\cms\hotspot\models;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\models\queries\AssetQuery;
-use davidhirtz\yii2\cms\models\traits\AssetParentTrait;
+use davidhirtz\yii2\media\models\traits\AssetParentTrait;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\datetime\DateTime;

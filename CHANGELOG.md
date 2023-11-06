@@ -1,3 +1,7 @@
+## 2.0.3 (Nov 6, 2023)
+
+- Updated `AssetParentTrait` namespace
+
 ## 2.0.2 (Nov 6, 2023)
 
 - Moved `Bootstrap` class to base package namespace for consistency
