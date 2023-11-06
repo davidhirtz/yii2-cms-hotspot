@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Message translations.
  *
@@ -30,6 +31,7 @@ return [
     'The hotspot asset was deleted.' => 'Das Hotspot Asset wurde gelöscht.',
     'The hotspot asset was updated.' => 'Das Hotspot Asset wurde aktualisiert.',
     'The hotspot was deleted.' => 'Der Hotspot wurde gelöscht.',
+    'The hotspot was duplicated.' => 'Der Hotspot wurde dupliziert.',
     'The hotspot was updated.' => 'Der Hotspot wurde aktualisiert.',
     'Vertical position' => 'Vertikale Position',
 ];

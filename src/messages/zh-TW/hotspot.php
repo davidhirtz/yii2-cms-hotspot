@@ -30,6 +30,7 @@ return [
     'The hotspot asset was deleted.' => '',
     'The hotspot asset was updated.' => '',
     'The hotspot was deleted.' => '',
+    'The hotspot was duplicated.' => '',
     'The hotspot was updated.' => '',
     'Vertical position' => '',
 ];
