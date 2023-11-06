@@ -3,12 +3,12 @@
 namespace davidhirtz\yii2\cms\hotspot\models\actions;
 
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\models\actions\ReorderActiveRecordsAction;
+use davidhirtz\yii2\cms\models\actions\ReorderActiveRecords;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\skeleton\models\Trail;
 use Yii;
 
-class ReorderHotspotAssetAction extends ReorderActiveRecordsAction
+class ReorderHotspotAssets extends ReorderActiveRecords
 {
     public function __construct(protected Hotspot $hotspot, array $assetIds = [])
     {

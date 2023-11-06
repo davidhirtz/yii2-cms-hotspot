@@ -2,10 +2,13 @@
 
 namespace davidhirtz\yii2\cms\hotspot;
 
+use davidhirtz\yii2\cms\hotspot\models\events\AssetAfterDuplicateEventHandler;
+use davidhirtz\yii2\cms\hotspot\models\events\AssetBeforeDeleteEventHandler;
+use davidhirtz\yii2\cms\hotspot\models\events\AssetBeforeDuplicateEventHandler;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\models\builders\EntrySiteRelationsBuilder;
-use davidhirtz\yii2\cms\models\ModelCloneEvent;
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
+use davidhirtz\yii2\skeleton\models\actions\DuplicateActiveRecord;
+use davidhirtz\yii2\skeleton\models\events\DuplicateActiveRecordEvent;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn;
@@ -57,35 +60,14 @@ class Bootstrap implements BootstrapInterface
             EntrySiteRelationsBuilder::class => models\builders\EntrySiteRelationsBuilder::class,
         ]);
 
-        // Makes sure hotspots (and their assets) are deleted on asset deletion
-        ModelEvent::on(Asset::class, Asset::EVENT_BEFORE_DELETE, function (ModelEvent $event) {
-            /** @var Asset $asset */
-            $asset = $event->sender;
+        ModelEvent::on(Asset::class, Asset::EVENT_BEFORE_DELETE,
+            fn(ModelEvent $event) => Yii::createObject(AssetBeforeDeleteEventHandler::class, [$event]));
 
-            if ($asset->getAttribute('hotspot_count')) {
-                $hotspots = Hotspot::findAll(['asset_id' => $asset->id]);
+        ModelEvent::on(Asset::class, DuplicateActiveRecord::EVENT_BEFORE_DUPLICATE,
+            fn(DuplicateActiveRecordEvent $event) => Yii::createObject(AssetBeforeDuplicateEventHandler::class, [$event]));
 
-                foreach ($hotspots as $hotspot) {
-                    $hotspot->delete();
-                }
-            }
-        });
-
-        // Makes sure hotspots (and their assets) are cloned on asset, section or entry clone
-        ModelEvent::on(Asset::class, Asset::EVENT_AFTER_CLONE, function (ModelCloneEvent $event) {
-            /** @var Asset $clone */
-            /** @var Asset $asset */
-            $asset = $event->sender;
-            $clone = $event->clone;
-
-            if ($asset->getAttribute('hotspot_count')) {
-                $hotspots = Hotspot::findAll(['asset_id' => $asset->id]);
-
-                foreach ($hotspots as $hotspot) {
-                    $hotspot->clone(['asset' => $clone]);
-                }
-            }
-        });
+        ModelEvent::on(Asset::class, DuplicateActiveRecord::EVENT_AFTER_DUPLICATE,
+            fn(DuplicateActiveRecordEvent $event) => Yii::createObject(AssetAfterDuplicateEventHandler::class, [$event]));
 
         $app->setMigrationNamespace('davidhirtz\yii2\cms\hotspot\migrations');
     }

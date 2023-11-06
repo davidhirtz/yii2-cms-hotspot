@@ -2,7 +2,7 @@
 
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers;
 
-use davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssetAction;
+use davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssets;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
@@ -131,15 +131,9 @@ class HotspotAssetController extends Controller
 
     public function actionOrder(int $id): void
     {
-        $hotspot = $this->findHotspot($id);
-        $assetIds = array_map('intval', array_filter(Yii::$app->getRequest()->post('asset', [])));
-
-        if ($assetIds) {
-            Yii::createObject(ReorderHotspotAssetAction::class, [
-                'hotspot' => $hotspot,
-                'assetIds' => $assetIds,
-            ]);
-        }
+        ReorderHotspotAssets::runWithBodyParam('asset', [
+            'hotspot' => $this->findHotspot($id),
+        ]);
     }
 
     private function findAsset(int $id): HotspotAsset

@@ -8,7 +8,7 @@
  */
 
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController;
-use davidhirtz\yii2\cms\modules\admin\widgets\navs\Submenu;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\media\modules\admin\widgets\grids\FileGridView;
 use davidhirtz\yii2\skeleton\web\View;
@@ -18,15 +18,12 @@ use yii\data\ActiveDataProvider;
 $this->setTitle(Yii::t('media', 'Assets'));
 ?>
 
-<?= Submenu::widget([
-    'model' => $hotspot->asset,
+<?= HotspotSubmenu::widget([
+    'hotspot' => $hotspot,
 ]); ?>
 
 <?php
-$this->setBreadcrumbs([
-    Yii::t('cms', 'Asset') => ['/admin/asset/update', 'id' => $hotspot->asset_id],
-    Yii::t('hotspot', 'Hotspot') => ['/admin/hotspot/update', 'id' => $hotspot->id],
-]);
+$this->setBreadcrumb(Yii::t('cms', 'Link Assets'));
 ?>
 
 <?= Panel::widget([

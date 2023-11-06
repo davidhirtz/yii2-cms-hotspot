@@ -2,10 +2,10 @@
 
 namespace davidhirtz\yii2\cms\hotspot\models;
 
-use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\models\queries\AssetQuery;
+use davidhirtz\yii2\cms\models\traits\AssetParentTrait;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\datetime\DateTime;
@@ -19,8 +19,6 @@ use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use davidhirtz\yii2\skeleton\models\traits\I18nAttributesTrait;
 use davidhirtz\yii2\skeleton\models\traits\StatusAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\TypeAttributeTrait;
-use davidhirtz\yii2\skeleton\helpers\ArrayHelper;
-use davidhirtz\yii2\skeleton\models\Trail;
 use davidhirtz\yii2\skeleton\models\traits\UpdatedByUserTrait;
 use davidhirtz\yii2\skeleton\validators\DynamicRangeValidator;
 use davidhirtz\yii2\skeleton\validators\HtmlValidator;
@@ -45,9 +43,12 @@ use Yii;
  *
  * @property-read Asset $asset {@see static::getAsset()}
  * @property-read HotspotAsset[] $assets {@see static::getAssets()}
+ *
+ * @mixin TrailBehavior
  */
-class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\interfaces\AssetParentInterface
+class Hotspot extends ActiveRecord implements AssetParentInterface
 {
+    use AssetParentTrait;
     use I18nAttributesTrait;
     use ModuleTrait;
     use StatusAttributeTrait;
@@ -65,6 +66,8 @@ class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\inte
      * @var string|false the content type, "html" enables html validators and WYSIWYG editor
      */
     public string|false $contentType = 'html';
+
+    public ?bool $shouldUpdateAssetAfterInsert = null;
 
     public function behaviors(): array
     {
@@ -163,15 +166,15 @@ class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\inte
         ]);
 
         $this->position ??= $this->getMaxPosition() + 1;
+        $this->shouldUpdateAssetAfterInsert ??= !$this->getIsBatch();
 
         return parent::beforeSave($insert);
     }
 
     public function afterSave($insert, $changedAttributes): void
     {
-        if ($insert) {
-            $this->recalculateAssetHotspotCount();
-            $this->asset->update();
+        if ($insert && $this->shouldUpdateAssetAfterInsert) {
+            $this->updateAssetHotspotCount();
         }
 
         parent::afterSave($insert, $changedAttributes);
@@ -195,8 +198,7 @@ class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\inte
     public function afterDelete(): void
     {
         if (!$this->asset->isDeleted()) {
-            $this->recalculateAssetHotspotCount();
-            $this->asset->update();
+            $this->updateAssetHotspotCount();
         }
 
         parent::afterDelete();
@@ -227,30 +229,6 @@ class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\inte
         return static::find()->where(['asset_id' => $this->asset_id]);
     }
 
-    public function clone(array $attributes = []): static
-    {
-        $asset = ArrayHelper::remove($attributes, 'asset');
-
-        $clone = new static();
-        $clone->setAttributes(array_merge($this->getAttributes($this->safeAttributes()), $attributes));
-
-        if ($asset) {
-            $clone->populateAssetRelation($asset);
-        }
-
-        if ($clone->insert()) {
-            if ($this->asset_count) {
-                $assets = $this->getAssets()->all();
-
-                foreach ($assets as $asset) {
-                    $asset->clone(['hotspot' => $clone]);
-                }
-            }
-        }
-
-        return $clone;
-    }
-
     public function populateAssetRelation(?Asset $asset): void
     {
         $this->populateRelation('asset', $asset);
@@ -262,9 +240,16 @@ class Hotspot extends ActiveRecord implements \davidhirtz\yii2\media\models\inte
         $this->populateRelation('assets', $assets);
     }
 
-    protected function recalculateAssetHotspotCount(): void
+    public function recalculateAssetCount(): static
+    {
+        $this->asset_count = $this->getAssets()->count();
+        return $this;
+    }
+
+    public function updateAssetHotspotCount(): void
     {
         $this->asset->setAttribute('hotspot_count', (int)static::findSiblings()->count());
+        $this->asset->update();
     }
 
     public function getMaxPosition(): int

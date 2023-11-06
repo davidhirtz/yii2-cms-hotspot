@@ -1,10 +1,14 @@
-## 2.0.2 (Nov 4, 2023)
+## 2.0.2 (Nov 6, 2023)
 
+- Moved `Bootstrap` class to base package namespace for consistency
 - Removed `SiteController`, instead the implementation of `EntrySiteRelationsBuilder` is extended, which takes care of
   loading hotspots and assets
-- Removed `Hotspot::updateAssetOrder()`, use `\davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssetAction`
+- Removed `Hotspot::updateAssetOrder()`, use `\davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAsset`
   instead
-- Moved `Bootstrap` class to base package namespace for consistency
+- Removed `Hotspot::clone()` and `HotspotAsset::clone()`,
+  use `davidhirtz\yii2\cms\hotspot\models\actions\DuplicateHotspot` instead
+- Removed `HotspotAsset::updatePosition()`, use `davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssets`
+  instead
 
 ## 2.0.1 (Nov 4, 2023)
 

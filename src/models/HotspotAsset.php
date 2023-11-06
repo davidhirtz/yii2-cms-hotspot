@@ -11,10 +11,7 @@ use davidhirtz\yii2\datetime\DateTimeBehavior;
 use davidhirtz\yii2\media\models\interfaces\AssetInterface;
 use davidhirtz\yii2\media\models\traits\AssetTrait;
 use davidhirtz\yii2\media\models\traits\FileRelationTrait;
-use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
-use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
-use davidhirtz\yii2\skeleton\helpers\ArrayHelper;
 use davidhirtz\yii2\skeleton\validators\RelationValidator;
 use Yii;
 
@@ -32,11 +29,16 @@ use Yii;
  * @property DateTime $created_at
  *
  * @property-read Hotspot $hotspot {@see static::getHotspot()}
+ * @property-read Hotspot $parent {@see static::getParent()}
+ *
+ * @mixin TrailBehavior
  */
 class HotspotAsset extends ActiveRecord implements AssetInterface
 {
     use AssetTrait;
     use FileRelationTrait;
+
+    public ?bool $shouldUpdateHotspotAfterInsert = null;
 
     public function behaviors(): array
     {
@@ -77,11 +79,18 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         ]);
     }
 
+    public function beforeSave($insert): bool
+    {
+        $this->shouldUpdateHotspotAfterInsert ??= !$this->getIsBatch();
+        return parent::beforeSave($insert);
+    }
+
     public function afterSave($insert, $changedAttributes): void
     {
         if ($insert) {
-            $this->hotspot->asset_count = $this->findSiblings()->count();
-            $this->hotspot->update();
+            if ($this->shouldUpdateHotspotAfterInsert) {
+                $this->updateHotspotAssetCount();
+            }
 
             $this->updateOrDeleteFileByAssetCount();
         }
@@ -116,20 +125,9 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return Yii::createObject(HotspotAssetQuery::class, [get_called_class()]);
     }
 
-    public function clone(array $attributes = []): static
+    protected function updateHotspotAssetCount(): int
     {
-        $hotspot = ArrayHelper::remove($attributes, 'hotspot');
-
-        $clone = new static();
-        $clone->setAttributes(array_merge($this->getAttributes($this->safeAttributes()), $attributes));
-
-        if ($hotspot) {
-            $clone->populateHotspotRelation($hotspot);
-        }
-
-        $clone->insert();
-
-        return $clone;
+        return $this->hotspot->recalculateAssetCount()->update();
     }
 
     public function populateHotspotRelation(?Hotspot $hotspot): void
@@ -141,6 +139,11 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     public function getMaxPosition(): int
     {
         return (int)$this->findSiblings()->max('[[position]]');
+    }
+
+    public function getParent(): Hotspot
+    {
+        return $this->hotspot;
     }
 
     public function getRoute(): false|array

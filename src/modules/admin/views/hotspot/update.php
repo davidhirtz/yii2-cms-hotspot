@@ -1,15 +1,16 @@
 <?php
 /**
- * Update hotspot.
- * @see \davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotController::actionUpdate()
+ * @see HotspotController::actionUpdate()
  *
  * @var View $this
  * @var Hotspot $hotspot
  */
 
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotController;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
-use davidhirtz\yii2\cms\modules\admin\widgets\navs\Submenu;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\panels\HotspotHelpPanel;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetGridView;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\web\View;
@@ -19,13 +20,9 @@ use davidhirtz\yii2\skeleton\widgets\forms\DeleteActiveForm;
 $this->setTitle(Yii::t('hotspot', 'Edit Hotspot'));
 ?>
 
-<?= Submenu::widget([
-    'model' => $hotspot->asset,
+<?= HotspotSubmenu::widget([
+    'hotspot' => $hotspot,
 ]); ?>
-
-<?php
-$this->setBreadcrumb(Yii::t('cms', 'Asset'), ['/admin/asset/update', 'id' => $hotspot->asset_id]);
-?>
 
 <?= Html::errorSummary($hotspot); ?>
 
@@ -46,6 +43,10 @@ $this->setBreadcrumb(Yii::t('cms', 'Asset'), ['/admin/asset/update', 'id' => $ho
         ]),
     ]);
 } ?>
+
+<?= HotspotHelpPanel::widget([
+    'model' => $hotspot,
+]); ?>
 
 <?= Panel::widget([
     'id' => 'delete',

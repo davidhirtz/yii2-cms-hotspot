@@ -2,6 +2,7 @@
 
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers;
 
+use davidhirtz\yii2\cms\hotspot\models\actions\DuplicateHotspot;
 use davidhirtz\yii2\cms\modules\admin\controllers\traits\AssetTrait;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
@@ -27,7 +28,7 @@ class HotspotController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['create', 'delete', 'update'],
+                        'actions' => ['create', 'delete', 'duplicate', 'update'],
                         'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
                     ],
                 ],
@@ -37,6 +38,7 @@ class HotspotController extends Controller
                 'actions' => [
                     'create' => ['post'],
                     'delete' => ['post'],
+                    'duplicate' => ['post'],
                 ],
             ],
         ]);
@@ -75,8 +77,12 @@ class HotspotController extends Controller
             }
         }
 
-        // Check for AJAX and POST request as the site refresh after a new upload should still hit the render.
-        return $request->getIsAjax() && $request->post() ? $this->asJson($hotspot) : $this->render('update', [
+        // Prevent site reload on new AJAX upload.
+        if ($request->getIsAjax() && $request->post()) {
+            return $this->asJson($hotspot);
+        }
+
+        return $this->render('update', [
             'hotspot' => $hotspot,
         ]);
     }
@@ -93,10 +99,21 @@ class HotspotController extends Controller
             $this->success(Yii::t('hotspot', 'The hotspot was deleted.'));
         }
 
-        if ($errors = $hotspot->getFirstErrors()) {
-            $this->error($errors);
-        }
+        $this->error($hotspot);
 
         return $this->redirect(['/admin/asset/update', 'id' => $hotspot->asset_id]);
+    }
+
+    public function actionDuplicate(int $id): Response|string
+    {
+        $hotspot = $this->findHotspot($id);
+        $duplicate = DuplicateHotspot::create(['hotspot' => $hotspot]);
+
+        if ($this->error($duplicate)) {
+            return $this->redirect(['update', 'id' => $hotspot->id]);
+        }
+
+        $this->success(Yii::t('hotspot', 'The hotspot was duplicated.'));
+        return $this->redirect(['update', 'id' => $duplicate->id]);
     }
 }
