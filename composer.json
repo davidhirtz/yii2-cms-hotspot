@@ -1,10 +1,14 @@
 {
   "name": "davidhirtz/yii2-cms-hotspot",
-  "type": "yii2-extension",
-  "description": "Yii2 Image Hotspot Module",
-  "homepage": "https://www.davidhirtz.com/",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "description": "Image hotspot module for content management system based on Yii 2.0 framework",
+  "license": "proprietary",
+  "homepage": "https://www.github.com/davidhirtz/yii2-cms-hotspot",
+  "authors": [
+    {
+      "name": "David Hirtz",
+      "homepage": "https://www.davidhirtz.com/"
+    }
+  ],
   "require": {
     "davidhirtz/yii2-cms": "^2.0.3"
   },
