@@ -1,3 +1,7 @@
+## 2.0.5 - under development
+
+- Changed the duplicate actions to keep the status of related records on duplicate
+
 ## 2.0.4 (Nov 6, 2023)
 
 - Changed the default view path of `Canvas`

@@ -60,6 +60,7 @@ class DuplicateHotspot extends DuplicateActiveRecord
             $duplicate->populateHotspotRelation($this->duplicate);
             $duplicate->populateFileRelation($asset->file);
             $duplicate->shouldUpdateHotspotAfterInsert = false;
+            $duplicate->status = $asset->status;
             $duplicate->position = ++$position;
             $duplicate->insert();
         }
