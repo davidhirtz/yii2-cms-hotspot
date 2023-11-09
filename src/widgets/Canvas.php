@@ -8,7 +8,7 @@ class Canvas extends \davidhirtz\yii2\cms\widgets\Canvas
      * @uses static::renderHotspots()
      */
     public string $template = '{media}{embed}{caption}{hotspots}';
-    public string $hotspotViewFile = '_hotspots';
+    public string $hotspotViewFile = 'widgets/_hotspots';
 
     protected function renderHotspots(): string
     {
@@ -17,8 +17,6 @@ class Canvas extends \davidhirtz\yii2\cms\widgets\Canvas
             return '';
         }
 
-        return $this->getView()->render($this->hotspotViewFile, [
-            'hotspots' => $hotspots,
-        ]);
+        return $this->getView()->render($this->hotspotViewFile, ['hotspots' => $hotspots], $this);
     }
 }

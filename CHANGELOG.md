@@ -1,3 +1,7 @@
+## 2.0.4 (Nov 6, 2023)
+
+- Changed the default view path of `Canvas`
+
 ## 2.0.3 (Nov 6, 2023)
 
 - Updated `AssetParentTrait` namespace

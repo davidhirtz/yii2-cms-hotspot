@@ -72,7 +72,7 @@ class HotspotAssetParentGridView extends GridView
         return [
             'attribute' => 'type',
             'contentOptions' => ['class' => 'text-nowrap'],
-            'visible' => count(Hotspot::getTypes()) > 1,
+            'visible' => count($this->getModel()::getTypes()) > 1,
             'content' => function (HotspotAsset $asset) {
                 return ($route = $this->getRoute($asset)) ? Html::a($asset->hotspot->getTypeName(), $route) : $asset->hotspot->getTypeName();
             }
