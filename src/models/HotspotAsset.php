@@ -93,6 +93,9 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
             }
 
             $this->updateOrDeleteFileByAssetCount();
+        } elseif ($changedAttributes) {
+            $this->hotspot->updated_at = $this->updated_at;
+            $this->hotspot->update();
         }
 
         parent::afterSave($insert, $changedAttributes);
@@ -101,8 +104,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     public function afterDelete(): void
     {
         if (!$this->hotspot->isDeleted()) {
-            $this->hotspot->asset_count = $this->findSiblings()->count();
-            $this->hotspot->update();
+            $this->updateHotspotAssetCount();
         }
 
         $this->updateOrDeleteFileByAssetCount();

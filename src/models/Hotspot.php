@@ -173,8 +173,13 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
 
     public function afterSave($insert, $changedAttributes): void
     {
-        if ($insert && $this->shouldUpdateAssetAfterInsert) {
-            $this->updateAssetHotspotCount();
+        if ($insert) {
+            if ($this->shouldUpdateAssetAfterInsert) {
+                $this->updateAssetHotspotCount();
+            }
+        } elseif ($changedAttributes) {
+            $this->asset->updated_at = $this->updated_at;
+            $this->asset->update();
         }
 
         parent::afterSave($insert, $changedAttributes);
