@@ -1,6 +1,7 @@
-## 2.0.5 - under development
+## 2.0.5 (Nov 28, 2023)
 
 - Changed the duplicate actions to keep the status of related records on duplicate
+- Changed `Hotspot::afterSave()` to always update the parent asset on changed attributes
 
 ## 2.0.4 (Nov 6, 2023)
 
