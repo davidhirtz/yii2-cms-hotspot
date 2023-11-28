@@ -32,6 +32,10 @@ class AssetAfterDuplicateEventHandler
                     'hotspot' => $hotspot,
                     'asset' => $this->event->duplicate,
                     'shouldUpdateAssetAfterInsert' => false,
+                    'attributes' => [
+                        'status' => $hotspot->status,
+                        'position' => $hotspot->position,
+                    ],
                 ]);
             }
         }
