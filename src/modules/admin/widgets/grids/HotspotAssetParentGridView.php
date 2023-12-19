@@ -58,12 +58,10 @@ class HotspotAssetParentGridView extends GridView
     {
         return [
             'contentOptions' => ['class' => 'text-center'],
-            'content' => function (HotspotAsset $asset) {
-                return Icon::tag($asset->hotspot->getStatusIcon(), [
-                    'data-toggle' => 'tooltip',
-                    'title' => $asset->hotspot->getStatusName(),
-                ]);
-            }
+            'content' => fn(HotspotAsset $asset) => Icon::tag($asset->hotspot->getStatusIcon(), [
+                'data-toggle' => 'tooltip',
+                'title' => $asset->hotspot->getStatusName(),
+            ])
         ];
     }
 
@@ -73,18 +71,14 @@ class HotspotAssetParentGridView extends GridView
             'attribute' => 'type',
             'contentOptions' => ['class' => 'text-nowrap'],
             'visible' => count($this->getModel()::getTypes()) > 1,
-            'content' => function (HotspotAsset $asset) {
-                return ($route = $this->getRoute($asset)) ? Html::a($asset->hotspot->getTypeName(), $route) : $asset->hotspot->getTypeName();
-            }
+            'content' => fn(HotspotAsset $asset) => ($route = $this->getRoute($asset)) ? Html::a($asset->hotspot->getTypeName(), $route) : $asset->hotspot->getTypeName()
         ];
     }
 
     public function nameColumn(): array
     {
         return [
-            'content' => function (HotspotAsset $asset) {
-                return Html::tag('strong', Html::a($asset->hotspot->getDisplayName(), $this->getRoute($asset)));
-            }
+            'content' => fn(HotspotAsset $asset) => Html::tag('strong', Html::a($asset->hotspot->getDisplayName(), $this->getRoute($asset)))
         ];
     }
 
@@ -108,7 +102,7 @@ class HotspotAssetParentGridView extends GridView
     {
         return [
             'contentOptions' => ['class' => 'text-right text-nowrap'],
-            'content' => function (HotspotAsset $asset) {
+            'content' => function (HotspotAsset $asset): string {
                 $buttons = [];
 
                 $buttons[] = Html::a(Icon::tag('wrench'), $asset->getAdminRoute(), [

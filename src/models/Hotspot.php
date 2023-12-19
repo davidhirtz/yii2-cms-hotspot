@@ -226,7 +226,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
 
     public static function find(): HotspotQuery
     {
-        return Yii::createObject(HotspotQuery::class, [get_called_class()]);
+        return Yii::createObject(HotspotQuery::class, [static::class]);
     }
 
     public function findSiblings(): HotspotQuery

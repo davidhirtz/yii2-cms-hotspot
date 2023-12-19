@@ -124,7 +124,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 
     public static function find(): HotspotAssetQuery
     {
-        return Yii::createObject(HotspotAssetQuery::class, [get_called_class()]);
+        return Yii::createObject(HotspotAssetQuery::class, [static::class]);
     }
 
     protected function updateHotspotAssetCount(): int
