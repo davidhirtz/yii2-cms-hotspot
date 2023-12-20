@@ -2,6 +2,7 @@
 
 namespace davidhirtz\yii2\cms\hotspot\models;
 
+use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\models\queries\AssetQuery;
@@ -16,6 +17,9 @@ use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
 use davidhirtz\yii2\skeleton\db\ActiveQuery;
 use davidhirtz\yii2\skeleton\db\ActiveRecord;
+use davidhirtz\yii2\skeleton\models\interfaces\DraftStatusAttributeInterface;
+use davidhirtz\yii2\skeleton\models\interfaces\TypeAttributeInterface;
+use davidhirtz\yii2\skeleton\models\traits\DraftStatusAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\I18nAttributesTrait;
 use davidhirtz\yii2\skeleton\models\traits\StatusAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\TypeAttributeTrait;
@@ -33,8 +37,8 @@ use Yii;
  * @property string $name
  * @property string $content
  * @property string $link
- * @property float $x
- * @property float $y
+ * @property string|float $x
+ * @property string|float $y
  * @property int $position
  * @property int $asset_count
  * @property int $updated_by_user_id
@@ -46,12 +50,12 @@ use Yii;
  *
  * @mixin TrailBehavior
  */
-class Hotspot extends ActiveRecord implements AssetParentInterface
+class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusAttributeInterface, TypeAttributeInterface
 {
     use AssetParentTrait;
     use I18nAttributesTrait;
     use ModuleTrait;
-    use StatusAttributeTrait;
+    use DraftStatusAttributeTrait;
     use TypeAttributeTrait;
     use UpdatedByUserTrait;
 
@@ -132,7 +136,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
             'displayName',
             'x',
             'y',
-            'url' => fn(self $hotspot) => Yii::$app->getUrlManager()->createUrl($hotspot->getAdminRoute()),
+            'url' => fn (self $hotspot) => Yii::$app->getUrlManager()->createUrl($hotspot->getAdminRoute()),
         ];
     }
 
@@ -151,7 +155,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
             $this->addInvalidAttributeError('asset_id');
         }
 
-        // Prevent unnecessary attribute updates
+        // Sanitize values to prevent unnecessary attribute updates
         $this->x = number_format($this->x, 2);
         $this->y = number_format($this->y, 2);
 
@@ -211,17 +215,20 @@ class Hotspot extends ActiveRecord implements AssetParentInterface
 
     public function getAsset(): AssetQuery
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->hasOne(Asset::class, ['id' => 'asset_id']);
+        /** @var AssetQuery $relation */
+        $relation = $this->hasOne(Asset::class, ['id' => 'asset_id']);
+        return $relation;
     }
 
-    public function getAssets(): ActiveQuery
+    public function getAssets(): HotspotAssetQuery
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->hasMany(HotspotAsset::class, ['hotspot_id' => 'id'])
+        /** @var HotspotAssetQuery $relation */
+        $relation = $this->hasMany(HotspotAsset::class, ['hotspot_id' => 'id'])
             ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')
             ->inverseOf('hotspot');
+
+        return $relation;
     }
 
     public static function find(): HotspotQuery

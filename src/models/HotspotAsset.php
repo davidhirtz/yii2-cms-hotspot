@@ -113,8 +113,9 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 
     public function getHotspot(): HotspotQuery
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->hasOne(Hotspot::class, ['id' => 'hotspot_id']);
+        /** @var HotspotQuery $relation */
+        $relation = $this->hasOne(Hotspot::class, ['id' => 'hotspot_id']);
+        return $relation;
     }
 
     public function findSiblings(): HotspotAssetQuery
