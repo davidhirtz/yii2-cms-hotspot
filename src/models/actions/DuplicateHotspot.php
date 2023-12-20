@@ -2,14 +2,14 @@
 
 namespace davidhirtz\yii2\cms\hotspot\models\actions;
 
-use app\models\Asset;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\models\actions\DuplicateActiveRecord;
+use davidhirtz\yii2\cms\models\Asset;
 use Yii;
 
 /**
- * @template-implements \davidhirtz\yii2\skeleton\models\actions\DuplicateActiveRecord<Hotspot>
+ * @extends  DuplicateActiveRecord<Hotspot>
  */
 class DuplicateHotspot extends DuplicateActiveRecord
 {
@@ -48,7 +48,6 @@ class DuplicateHotspot extends DuplicateActiveRecord
     {
         Yii::debug('Duplicating hotspot assets ...');
 
-        /** @var HotspotAsset[] $assets */
         $assets = $this->model->getAssets()
             ->with('file')
             ->all();

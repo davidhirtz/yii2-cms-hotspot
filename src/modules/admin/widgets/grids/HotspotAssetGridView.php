@@ -41,11 +41,9 @@ class HotspotAssetGridView extends AssetGridView
         return $buttons;
     }
 
-    /**
-     * @param HotspotAsset $model
-     */
     protected function getRoute(ActiveRecordInterface $model, array $params = []): array|false
     {
+        /** @var HotspotAsset $model */
         return array_merge($model->getAdminRoute(), $params);
     }
 

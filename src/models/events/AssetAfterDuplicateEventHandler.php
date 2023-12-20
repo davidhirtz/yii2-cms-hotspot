@@ -9,7 +9,7 @@ use davidhirtz\yii2\skeleton\models\events\DuplicateActiveRecordEvent;
 use Yii;
 
 /**
- * @property DuplicateActiveRecordEvent{duplicate: Asset, sender: Asset} $event
+ * @property DuplicateActiveRecordEvent $event
  */
 class AssetAfterDuplicateEventHandler
 {
@@ -20,6 +20,7 @@ class AssetAfterDuplicateEventHandler
 
     public function handleEvent(): void
     {
+        /** @var Asset $asset */
         $asset = $this->event->sender;
 
         if ($asset->getAttribute('hotspot_count')) {

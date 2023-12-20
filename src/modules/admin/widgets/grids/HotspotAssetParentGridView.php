@@ -14,9 +14,6 @@ use davidhirtz\yii2\timeago\TimeagoColumn;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-/**
- * Displays {@see HotspotAsset} models in a grid related to {@see Asset}.
- */
 class HotspotAssetParentGridView extends GridView
 {
     public ?File $file = null;
