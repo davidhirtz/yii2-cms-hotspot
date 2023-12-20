@@ -1,6 +1,6 @@
 <?php
 
-namespace davidhirtz\yii2\cms\hotspot\unit;
+namespace davidhirtz\yii2\cms\hotspot\tests\unit;
 
 use Codeception\Test\Unit;
 use davidhirtz\yii2\cms\models\Entry;

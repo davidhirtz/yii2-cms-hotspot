@@ -4,13 +4,13 @@
  * @noinspection PhpUnused
  */
 
-namespace davidhirtz\yii2\cms\hotspot\functional;
+namespace davidhirtz\yii2\cms\hotspot\tests\functional;
 
 use davidhirtz\yii2\cms\Module;
 use davidhirtz\yii2\cms\modules\admin\data\EntryActiveDataProvider;
 use davidhirtz\yii2\cms\modules\admin\widgets\grids\EntryGridView;
-use davidhirtz\yii2\cms\hotspot\support\FunctionalTester;
-use davidhirtz\yii2\cms\hotspot\fixtures\UserFixture;
+use davidhirtz\yii2\cms\hotspot\tests\support\FunctionalTester;
+use davidhirtz\yii2\cms\hotspot\tests\fixtures\UserFixture;
 use davidhirtz\yii2\skeleton\db\Identity;
 use davidhirtz\yii2\skeleton\models\User;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\LoginActiveForm;
