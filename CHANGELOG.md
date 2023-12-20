@@ -1,3 +1,8 @@
+## 2.1.0 (Dec 20, 2023)
+
+- Added Codeception test suite
+- Added GitHub Actions CI workflow
+
 ## 2.0.5 (Nov 28, 2023)
 
 - Changed the duplicate actions to keep the status of related records on duplicate
