@@ -5,23 +5,21 @@ namespace davidhirtz\yii2\cms\hotspot\models;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
-use davidhirtz\yii2\cms\models\queries\AssetQuery;
-use davidhirtz\yii2\media\models\traits\AssetParentTrait;
-use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\models\Asset;
+use davidhirtz\yii2\cms\models\queries\AssetQuery;
+use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use davidhirtz\yii2\media\models\interfaces\AssetParentInterface;
+use davidhirtz\yii2\media\models\traits\AssetParentTrait;
 use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
-use davidhirtz\yii2\skeleton\db\ActiveQuery;
 use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use davidhirtz\yii2\skeleton\models\interfaces\DraftStatusAttributeInterface;
 use davidhirtz\yii2\skeleton\models\interfaces\TypeAttributeInterface;
 use davidhirtz\yii2\skeleton\models\traits\DraftStatusAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\I18nAttributesTrait;
-use davidhirtz\yii2\skeleton\models\traits\StatusAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\TypeAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\UpdatedByUserTrait;
 use davidhirtz\yii2\skeleton\validators\DynamicRangeValidator;
@@ -60,9 +58,9 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
     use UpdatedByUserTrait;
 
     /**
-     * @var array|string|false used when $contentType is set to "html". use an array with the first value containing a
-     * validator class, following keys can be used to configure the validator, string containing the class
-     * name or false for disabling the validation.
+     * @var array|string|false used when `$contentType` is set to "html". use an array with the first value containing
+     * a validator class, following keys can be used to configure the validator, string containing the class name or
+     * false for disabling the validation.
      */
     public array|string|false $htmlValidator = HtmlValidator::class;
 
@@ -319,7 +317,9 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return $this->getI18nAttribute('name') ?: Yii::t('cms', '[ No title ]');
     }
 
-    /** @noinspection PhpUnused */
+    /**
+     * @noinspection PhpUnused
+     */
     public function getHtmlId(): string
     {
         return $this->getI18nAttribute('slug') ?: ('hotspot-' . $this->id);

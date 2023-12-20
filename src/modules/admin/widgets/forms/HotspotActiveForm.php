@@ -24,6 +24,13 @@ class HotspotActiveForm extends ActiveForm
 
     public bool $hasStickyButtons = true;
 
+    /**
+     * @uses static::statusField()
+     * @uses static::typeField()
+     * @uses static::contentField()
+     * @uses static::xField()
+     * @uses static::yField()
+     */
     public function init(): void
     {
         $this->fields ??= [
@@ -39,13 +46,11 @@ class HotspotActiveForm extends ActiveForm
         parent::init();
     }
 
-    /** @noinspection PhpUnused {@see static::$fields} */
     public function xField(array $options = []): ActiveField|string
     {
         return $this->getCoordinateField('x', $options);
     }
 
-    /** @noinspection PhpUnused {@see static::$fields} */
     public function yField(array $options = []): ActiveField|string
     {
         return $this->getCoordinateField('y', $options);

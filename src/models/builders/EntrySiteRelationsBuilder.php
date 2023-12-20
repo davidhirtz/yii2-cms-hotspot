@@ -9,10 +9,14 @@ use Yii;
 
 class EntrySiteRelationsBuilder extends \davidhirtz\yii2\cms\models\builders\EntrySiteRelationsBuilder
 {
-    /** @var Hotspot[] */
+    /**
+     * @var Hotspot[]
+     */
     public array $hotspots = [];
 
-    /** @var HotspotAsset[] */
+    /**
+     * @var HotspotAsset[]
+     */
     public array $hotspotAssets = [];
 
     protected array $hotspotIdsWithHotspotAssets = [];
@@ -86,12 +90,12 @@ class EntrySiteRelationsBuilder extends \davidhirtz\yii2\cms\models\builders\Ent
         }
 
         foreach ($this->hotspots as $hotspot) {
-            $assets = array_filter($this->hotspotAssets, fn(HotspotAsset $hotspotAsset) => $hotspotAsset->hotspot_id == $hotspot->id);
+            $assets = array_filter($this->hotspotAssets, fn (HotspotAsset $hotspotAsset) => $hotspotAsset->hotspot_id == $hotspot->id);
             $hotspot->populateAssetRelations($assets);
         }
 
         foreach ($this->assets as $asset) {
-            $hotspots = array_filter($this->hotspots, fn(Hotspot $hotspot) => $hotspot->asset_id == $asset->id);
+            $hotspots = array_filter($this->hotspots, fn (Hotspot $hotspot) => $hotspot->asset_id == $asset->id);
             $asset->populateRelation('hotspots', $hotspots);
         }
 

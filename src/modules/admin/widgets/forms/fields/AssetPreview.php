@@ -6,8 +6,6 @@ use davidhirtz\yii2\cms\hotspot\assets\AdminAsset;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\media\models\interfaces\AssetInterface;
-use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use Yii;
 use yii\helpers\Json;
 use yii\helpers\Url;

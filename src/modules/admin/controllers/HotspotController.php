@@ -3,9 +3,9 @@
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers;
 
 use davidhirtz\yii2\cms\hotspot\models\actions\DuplicateHotspot;
-use davidhirtz\yii2\cms\modules\admin\controllers\traits\AssetTrait;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
+use davidhirtz\yii2\cms\modules\admin\controllers\traits\AssetTrait;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\skeleton\web\Controller;
 use Yii;

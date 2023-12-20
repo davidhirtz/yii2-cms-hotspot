@@ -7,9 +7,9 @@
  * @var Hotspot $hotspot
  */
 
+use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\media\modules\admin\widgets\grids\FileGridView;
 use davidhirtz\yii2\skeleton\web\View;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;

@@ -41,5 +41,4 @@ class ReorderHotspotAssets extends ReorderActiveRecords
 
         parent::afterReorder();
     }
-
 }

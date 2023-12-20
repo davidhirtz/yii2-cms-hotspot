@@ -3,9 +3,9 @@
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers;
 
 use davidhirtz\yii2\cms\hotspot\models\actions\ReorderHotspotAssets;
-use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
+use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\models\Folder;
 use davidhirtz\yii2\media\modules\admin\controllers\traits\FileTrait;

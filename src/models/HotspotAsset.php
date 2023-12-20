@@ -2,10 +2,10 @@
 
 namespace davidhirtz\yii2\cms\hotspot\models;
 
-use davidhirtz\yii2\cms\models\ActiveRecord;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetParentGridView;
+use davidhirtz\yii2\cms\models\ActiveRecord;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use davidhirtz\yii2\media\models\interfaces\AssetInterface;

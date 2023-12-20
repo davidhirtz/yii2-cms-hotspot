@@ -2,17 +2,15 @@
 
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\columns\CounterColumn;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\GridView;
 use davidhirtz\yii2\skeleton\widgets\fontawesome\Icon;
 use davidhirtz\yii2\timeago\TimeagoColumn;
-use yii\data\ActiveDataProvider;
 use Yii;
+use yii\data\ActiveDataProvider;
 
 class HotspotAssetParentGridView extends GridView
 {
@@ -55,7 +53,7 @@ class HotspotAssetParentGridView extends GridView
     {
         return [
             'contentOptions' => ['class' => 'text-center'],
-            'content' => fn(HotspotAsset $asset) => Icon::tag($asset->hotspot->getStatusIcon(), [
+            'content' => fn (HotspotAsset $asset) => Icon::tag($asset->hotspot->getStatusIcon(), [
                 'data-toggle' => 'tooltip',
                 'title' => $asset->hotspot->getStatusName(),
             ])
@@ -68,14 +66,14 @@ class HotspotAssetParentGridView extends GridView
             'attribute' => 'type',
             'contentOptions' => ['class' => 'text-nowrap'],
             'visible' => count($this->getModel()::getTypes()) > 1,
-            'content' => fn(HotspotAsset $asset) => ($route = $this->getRoute($asset)) ? Html::a($asset->hotspot->getTypeName(), $route) : $asset->hotspot->getTypeName()
+            'content' => fn (HotspotAsset $asset) => ($route = $this->getRoute($asset)) ? Html::a($asset->hotspot->getTypeName(), $route) : $asset->hotspot->getTypeName()
         ];
     }
 
     public function nameColumn(): array
     {
         return [
-            'content' => fn(HotspotAsset $asset) => Html::tag('strong', Html::a($asset->hotspot->getDisplayName(), $this->getRoute($asset)))
+            'content' => fn (HotspotAsset $asset) => Html::tag('strong', Html::a($asset->hotspot->getDisplayName(), $this->getRoute($asset)))
         ];
     }
 

@@ -6,10 +6,10 @@
  * @var HotspotAsset $asset
  */
 
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\skeleton\helpers\Html;
 use davidhirtz\yii2\skeleton\web\View;
 use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;
