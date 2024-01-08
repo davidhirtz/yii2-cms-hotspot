@@ -6,27 +6,19 @@
 
 namespace davidhirtz\yii2\cms\hotspot\tests\functional;
 
-use davidhirtz\yii2\cms\hotspot\tests\fixtures\UserFixture;
 use davidhirtz\yii2\cms\hotspot\tests\support\FunctionalTester;
 use davidhirtz\yii2\cms\Module;
 use davidhirtz\yii2\cms\modules\admin\data\EntryActiveDataProvider;
 use davidhirtz\yii2\cms\modules\admin\widgets\grids\EntryGridView;
+use davidhirtz\yii2\skeleton\codeception\fixtures\UserFixtureTrait;
 use davidhirtz\yii2\skeleton\db\Identity;
 use davidhirtz\yii2\skeleton\models\User;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\LoginActiveForm;
 use Yii;
 
-class AuthCest extends BaseCest
+class AuthCest
 {
-    public function _fixtures(): array
-    {
-        return [
-            'user' => [
-                'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . 'user.php',
-            ],
-        ];
-    }
+    use UserFixtureTrait;
 
     public function checkIndexAsGuest(FunctionalTester $I): void
     {

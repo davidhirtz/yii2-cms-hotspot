@@ -1,3 +1,8 @@
+## 2.1.1 (Jan 8, 2024)
+
+- Added `HotspotAssetThumbnailColumn` to better differentiate between hotspot assets and regular assets in the grid view
+- Fixed sorting hotspot asset bug
+
 ## 2.1.0 (Dec 20, 2023)
 
 - Added Codeception test suite

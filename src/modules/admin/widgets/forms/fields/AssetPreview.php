@@ -10,6 +10,9 @@ use Yii;
 use yii\helpers\Json;
 use yii\helpers\Url;
 
+/**
+ * @property Asset $asset
+ */
 class AssetPreview extends \davidhirtz\yii2\media\modules\admin\widgets\forms\fields\AssetPreview
 {
     public function init(): void

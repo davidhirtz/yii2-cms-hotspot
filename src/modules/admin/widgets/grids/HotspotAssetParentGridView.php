@@ -12,6 +12,9 @@ use davidhirtz\yii2\timeago\TimeagoColumn;
 use Yii;
 use yii\data\ActiveDataProvider;
 
+/**
+ * @extends GridView<HotspotAsset>
+ */
 class HotspotAssetParentGridView extends GridView
 {
     public ?File $file = null;

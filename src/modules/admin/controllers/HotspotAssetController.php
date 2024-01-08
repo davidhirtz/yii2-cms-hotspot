@@ -131,14 +131,14 @@ class HotspotAssetController extends Controller
 
     public function actionOrder(int $id): void
     {
-        ReorderHotspotAssets::runWithBodyParam('asset', [
+        ReorderHotspotAssets::runWithBodyParam('hotspot-asset', [
             'hotspot' => $this->findHotspot($id),
         ]);
     }
 
     private function findAsset(int $id): HotspotAsset
     {
-        if (!$asset = HotspotAsset::findOne((int)$id)) {
+        if (!$asset = HotspotAsset::findOne($id)) {
             throw new NotFoundHttpException();
         }
 
