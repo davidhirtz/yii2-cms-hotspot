@@ -7,6 +7,7 @@ use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\models\Asset;
 use davidhirtz\yii2\cms\models\queries\AssetQuery;
+use davidhirtz\yii2\cms\models\traits\VisibleAttributeTrait;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
@@ -55,6 +56,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
     use DraftStatusAttributeTrait;
     use TypeAttributeTrait;
     use UpdatedByUserTrait;
+    use VisibleAttributeTrait;
 
     /**
      * @var array|string|false used when `$contentType` is set to "html". use an array with the first value containing

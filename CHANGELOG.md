@@ -1,3 +1,7 @@
+## 2.1.2 (Jan 9, 2024)
+
+- Fixed Rector (Issue #5)
+
 ## 2.1.1 (Jan 8, 2024)
 
 - Added `HotspotAssetThumbnailColumn` to better differentiate between hotspot assets and regular assets in the grid view
