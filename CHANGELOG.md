@@ -1,3 +1,7 @@
+## 2.1.3 (Jan 9, 2024)
+
+- Added `Hotspot::getVisibleAssets()`
+
 ## 2.1.2 (Jan 9, 2024)
 
 - Fixed Rector (Issue #5)

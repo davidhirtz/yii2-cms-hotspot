@@ -318,12 +318,14 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return $this->getI18nAttribute('name') ?: Yii::t('cms', '[ No title ]');
     }
 
-    /**
-     * @noinspection PhpUnused
-     */
     public function getHtmlId(): string
     {
         return $this->getI18nAttribute('slug') ?: ('hotspot-' . $this->id);
+    }
+
+    public function getVisibleAssets(): array
+    {
+        return $this->hasAssetsEnabled() && $this->isAttributeVisible('#assets') ? $this->assets : [];
     }
 
     public function hasAssetsEnabled(): bool
@@ -332,7 +334,6 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         $module = Yii::$app->getModule('admin')->getModule('hotspot');
         return $module->enableHotspotAssets;
     }
-
 
     public function attributeLabels(): array
     {
