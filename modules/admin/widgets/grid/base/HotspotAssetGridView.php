@@ -24,7 +24,7 @@ class HotspotAssetGridView extends AssetGridView
         $this->orderRoute = ['/admin/hotspot-asset/order', 'id' => $this->parent->id];
     }
 
-    protected function getRowButtons(AssetInterface $asset): array
+    protected function getRowButtons($asset): array
     {
         $user = Yii::$app->getUser();
         $buttons = [];
@@ -46,7 +46,7 @@ class HotspotAssetGridView extends AssetGridView
     /**
      * @param HotspotAsset $model
      */
-    protected function getRoute(ActiveRecordInterface $model, array $params = []): array|false
+    protected function getRoute($model, $params = []): array|false
     {
         return array_merge($model->getAdminRoute(), $params);
     }
@@ -61,7 +61,7 @@ class HotspotAssetGridView extends AssetGridView
         return ['/admin/hotspot-asset/create', 'hotspot' => $this->parent->id];
     }
 
-    protected function getDeleteRoute(ActiveRecordInterface $model, array $params = []): array|false
+    protected function getDeleteRoute($model, $params = []): array|false
     {
         return array_merge(['/admin/hotspot-asset/delete', 'id' => $model->id], $params);
     }
