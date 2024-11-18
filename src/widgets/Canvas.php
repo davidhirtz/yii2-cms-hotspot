@@ -12,11 +12,14 @@ class Canvas extends \davidhirtz\yii2\cms\widgets\Canvas
 
     protected function renderHotspots(): string
     {
-        if (!$this->asset->isAttributeVisible('#hotspots')
-            || (!$hotspots = $this->asset->getRelatedRecords()['hotspots'])) {
+        if (!$this->asset->isAttributeVisible('#hotspots')) {
             return '';
         }
 
-        return $this->getView()->render($this->hotspotViewFile, ['hotspots' => $hotspots], $this);
+        $hotspots = $this->asset->getRelatedRecords()['hotspots'] ?? [];
+
+        return $hotspots
+            ? $this->getView()->render($this->hotspotViewFile, ['hotspots' => $hotspots], $this)
+            : '';
     }
 }
