@@ -1,12 +1,12 @@
 <?php
 
-use davidhirtz\yii2\media\Bootstrap;
-
-if (is_file(__DIR__ . '/db.php')) {
-    require(__DIR__ . '/db.php');
-}
+use davidhirtz\yii2\cms\hotspot\Bootstrap;
 
 return [
+    'aliases' => [
+        // This is a fix for the broken aliasing of `BaseMigrateController::getNamespacePath()`
+        '@davidhirtz/yii2/cms/hotspot' => __DIR__ . '/../../src/',
+    ],
     'bootstrap' => [
         Bootstrap::class,
     ],

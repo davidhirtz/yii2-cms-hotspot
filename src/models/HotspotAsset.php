@@ -6,6 +6,7 @@ use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
 use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetParentGridView;
 use davidhirtz\yii2\cms\models\ActiveRecord;
+use davidhirtz\yii2\cms\models\traits\VisibleAttributeTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use davidhirtz\yii2\media\models\interfaces\AssetInterface;
@@ -37,23 +38,26 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 {
     use AssetTrait;
     use FileRelationTrait;
+    use VisibleAttributeTrait;
 
     public ?bool $shouldUpdateHotspotAfterInsert = null;
 
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return [
+            ...parent::behaviors(),
             'DateTimeBehavior' => DateTimeBehavior::class,
             'TrailBehavior' => [
                 'class' => TrailBehavior::class,
                 'modelClass' => static::getModule()->getI18nClassName(static::class),
             ],
-        ]);
+        ];
     }
 
     public function rules(): array
     {
-        return array_merge(parent::rules(), [
+        return [
+            ...parent::rules(),
             [
                 ['file_id', 'hotspot_id'],
                 'required',
@@ -76,7 +80,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
                 'string',
                 'max' => 250,
             ],
-        ]);
+        ];
     }
 
     public function beforeSave($insert): bool
@@ -190,12 +194,13 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 
     public function attributeLabels(): array
     {
-        return array_merge(parent::attributeLabels(), [
+        return [
+            ...parent::attributeLabels(),
             'section_id' => Yii::t('cms', 'Section'),
             'file_id' => Yii::t('media', 'File'),
             'alt_text' => Yii::t('cms', 'Alt text'),
             'link' => Yii::t('cms', 'Link'),
-        ]);
+        ];
     }
 
     public function formName(): string

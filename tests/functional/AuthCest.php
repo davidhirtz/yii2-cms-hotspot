@@ -12,7 +12,6 @@ use davidhirtz\yii2\cms\modules\admin\data\EntryActiveDataProvider;
 use davidhirtz\yii2\cms\modules\admin\widgets\grids\EntryGridView;
 use davidhirtz\yii2\skeleton\codeception\fixtures\UserFixtureTrait;
 use davidhirtz\yii2\skeleton\codeception\functional\BaseCest;
-use davidhirtz\yii2\skeleton\db\Identity;
 use davidhirtz\yii2\skeleton\models\User;
 use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\LoginActiveForm;
 use Yii;
@@ -43,20 +42,23 @@ class AuthCest extends BaseCest
         $auth = Yii::$app->getAuthManager()->getRole(Module::AUTH_ROLE_AUTHOR);
         Yii::$app->getAuthManager()->assign($auth, $user->id);
 
+        $I->amOnPage('/admin/entry/index');
+
         $widget = Yii::$container->get(EntryGridView::class, [], [
             'dataProvider' => Yii::createObject(EntryActiveDataProvider::class),
         ]);
 
-        $I->amOnPage('/admin/entry/index');
         $I->seeElement("#$widget->id");
     }
 
     protected function getLoggedInUser(): User
     {
-        $user = Identity::find()->one();
-        $user->loginType = 'test';
+        $user = User::find()->one();
 
-        Yii::$app->getUser()->login($user);
+        $webuser = Yii::$app->getUser();
+        $webuser->loginType = 'test';
+        $webuser->login($user);
+
         return $user;
     }
 }
