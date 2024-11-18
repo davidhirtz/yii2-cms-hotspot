@@ -1,6 +1,7 @@
 ## 2.1.4 (under development)
 
 - Fixed error in `Canvas::renderHotspots()` if no hotspots are available
+- Fixed override of definitions in `Bootstrap`
 
 ## 2.1.3 (Nov 18, 2024)
 

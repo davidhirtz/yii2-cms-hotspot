@@ -53,12 +53,18 @@ class Bootstrap implements BootstrapInterface
             ],
         ]);
 
-        Yii::$container->setDefinitions([
+        $definitions = [
             AssetPreview::class => modules\admin\widgets\forms\fields\AssetPreview::class,
             AssetThumbnailColumn::class => modules\admin\widgets\grids\columns\AssetThumbnailColumn::class,
             Canvas::class => widgets\Canvas::class,
             EntrySiteRelationsBuilder::class => models\builders\EntrySiteRelationsBuilder::class,
-        ]);
+        ];
+
+        foreach ($definitions as $class => $definition) {
+            if (!Yii::$container->has($class)) {
+                Yii::$container->set($class, $definition);
+            }
+        }
 
         ModelEvent::on(
             Asset::class,
