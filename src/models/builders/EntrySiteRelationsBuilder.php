@@ -91,6 +91,11 @@ class EntrySiteRelationsBuilder extends \davidhirtz\yii2\cms\models\builders\Ent
 
         foreach ($this->hotspots as $hotspot) {
             $assets = array_filter($this->hotspotAssets, fn (HotspotAsset $hotspotAsset) => $hotspotAsset->hotspot_id == $hotspot->id);
+
+            foreach ($assets as $asset) {
+                $asset->populateRelation('hotspot', $hotspot);
+            }
+
             $hotspot->populateAssetRelations($assets);
         }
 

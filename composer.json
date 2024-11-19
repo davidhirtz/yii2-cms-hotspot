@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "davidhirtz/yii2-cms": "^2.1.8"
+    "davidhirtz/yii2-cms": "^2.2.3"
   },
   "require-dev": {
     "codeception/codeception": "^5.0",

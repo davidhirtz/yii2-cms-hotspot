@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71aab423718ae058243fa8051ceb31cb",
+    "content-hash": "9f63b62d1bd058038e29717ee538922c",
     "packages": [
         {
             "name": "bower-asset/jquery",
@@ -111,20 +111,20 @@
         },
         {
             "name": "davidhirtz/yii2-cms",
-            "version": "2.2.2",
+            "version": "2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davidhirtz/yii2-cms.git",
-                "reference": "851b281832578735f3fb794811db9a2adc1413d6"
+                "reference": "f01961312cc40de4b9e11e53a8f4c95d52381e63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davidhirtz/yii2-cms/zipball/851b281832578735f3fb794811db9a2adc1413d6",
-                "reference": "851b281832578735f3fb794811db9a2adc1413d6",
+                "url": "https://api.github.com/repos/davidhirtz/yii2-cms/zipball/f01961312cc40de4b9e11e53a8f4c95d52381e63",
+                "reference": "f01961312cc40de4b9e11e53a8f4c95d52381e63",
                 "shasum": ""
             },
             "require": {
-                "davidhirtz/yii2-media": "^2.1.20"
+                "davidhirtz/yii2-media": "^2.1.25"
             },
             "require-dev": {
                 "codeception/codeception": "^5.0",
@@ -136,7 +136,7 @@
                 "codeception/verify": "^3.0",
                 "phpro/grumphp-shim": "^2.4",
                 "phpunit/phpunit": "^9",
-                "rector/rector": "^0.19",
+                "rector/rector": "^1.2",
                 "symplify/easy-coding-standard": "^12.0",
                 "yiisoft/yii2-debug": "^2.1"
             },
@@ -163,9 +163,9 @@
             "homepage": "https://www.github.com/davidhirtz/yii2-cms",
             "support": {
                 "issues": "https://github.com/davidhirtz/yii2-cms/issues",
-                "source": "https://github.com/davidhirtz/yii2-cms/tree/2.2.2"
+                "source": "https://github.com/davidhirtz/yii2-cms/tree/2.2.3"
             },
-            "time": "2024-10-21T15:24:10+00:00"
+            "time": "2024-11-19T15:56:48+00:00"
         },
         {
             "name": "davidhirtz/yii2-datetime-behavior",
@@ -214,16 +214,16 @@
         },
         {
             "name": "davidhirtz/yii2-media",
-            "version": "2.1.24",
+            "version": "2.1.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davidhirtz/yii2-media.git",
-                "reference": "7d4ea87bd535231ba37a9e9c35f06f42f1013005"
+                "reference": "8d25623e5e3907fe08a588a4e9fa6ff178e3841a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davidhirtz/yii2-media/zipball/7d4ea87bd535231ba37a9e9c35f06f42f1013005",
-                "reference": "7d4ea87bd535231ba37a9e9c35f06f42f1013005",
+                "url": "https://api.github.com/repos/davidhirtz/yii2-media/zipball/8d25623e5e3907fe08a588a4e9fa6ff178e3841a",
+                "reference": "8d25623e5e3907fe08a588a4e9fa6ff178e3841a",
                 "shasum": ""
             },
             "require": {
@@ -267,9 +267,9 @@
             "homepage": "https://www.github.com/davidhirtz/yii2-media",
             "support": {
                 "issues": "https://github.com/davidhirtz/yii2-media/issues",
-                "source": "https://github.com/davidhirtz/yii2-media/tree/2.1.24"
+                "source": "https://github.com/davidhirtz/yii2-media/tree/2.1.25"
             },
-            "time": "2024-10-01T16:43:16+00:00"
+            "time": "2024-11-19T15:49:18+00:00"
         },
         {
             "name": "davidhirtz/yii2-skeleton",
