@@ -1,10 +1,10 @@
-## 2.1.4 (Nov 19, 2024)
+## 2.1.5 (Nov 19, 2024)
 
 - Fixed `EntrySiteRelationsBuilder` to populate hotspot relation for hotspot assets
 - Fixed error in `Canvas::renderHotspots()` if no hotspots are available
 - Fixed override of definitions in `Bootstrap`
 
-## 2.1.3 (Nov 18, 2024)
+## 2.1.4 (Nov 18, 2024)
 
 - Updated dependencies and tests
 
