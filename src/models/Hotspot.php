@@ -67,7 +67,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
     public array|string|false $htmlValidator = HtmlValidator::class;
 
     /**
-     * @var string|false the content type, "html" enables html validators and WYSIWYG editor
+     * @var string|false the content type, "html" enables HTML validators and WYSIWYG editor
      */
     public string|false $contentType = 'html';
 
@@ -75,15 +75,17 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
 
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return [
+            ...parent::behaviors(),
             'DateTimeBehavior' => DateTimeBehavior::class,
             'TrailBehavior' => TrailBehavior::class,
-        ]);
+        ];
     }
 
     public function rules(): array
     {
-        return array_merge(parent::rules(), $this->getI18nRules([
+        return [
+            ...parent::rules(),
             [
                 ['status', 'type'],
                 DynamicRangeValidator::class,
@@ -113,20 +115,22 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
                 'max' => 100,
                 'min' => 0,
             ],
-            [
-                ['name', 'content', 'link'],
-                'trim',
-            ],
-            [
-                ['name', 'link'],
-                'string',
-                'max' => 250,
-            ],
-            array_merge(
-                [$this->getI18nAttributesNames(['content'])],
-                (array)($this->contentType == 'html' && $this->htmlValidator ? $this->htmlValidator : 'safe')
-            ),
-        ]));
+            ...$this->getI18nRules([
+                [
+                    ['name', 'content', 'link'],
+                    'trim',
+                ],
+                [
+                    ['name', 'link'],
+                    'string',
+                    'max' => 250,
+                ],
+                [
+                    $this->getI18nAttributesNames(['content']),
+                    ...(array)($this->contentType == 'html' && $this->htmlValidator ? $this->htmlValidator : 'safe'),
+                ],
+            ]),
+        ];
     }
 
     public function fields(): array
@@ -155,10 +159,6 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
             $this->addInvalidAttributeError('asset_id');
         }
 
-        // Sanitize values to prevent unnecessary attribute updates
-        $this->x = number_format($this->x, 2);
-        $this->y = number_format($this->y, 2);
-
         parent::afterValidate();
     }
 
@@ -169,7 +169,12 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
             'TimestampBehavior' => TimestampBehavior::class,
         ]);
 
+        // Sanitize values to prevent unnecessary attribute updates
+        $this->x = number_format($this->x, 2);
+        $this->y = number_format($this->y, 2);
+
         $this->position ??= $this->getMaxPosition() + 1;
+
         $this->shouldUpdateAssetAfterInsert ??= !$this->getIsBatch();
 
         return parent::beforeSave($insert);

@@ -9,20 +9,17 @@ use yii\base\ModelEvent;
 
 class AssetBeforeDeleteEventHandler
 {
-    public function __construct(protected ModelEvent $event)
+    public function __construct(protected readonly ModelEvent $event, protected readonly Asset $asset)
     {
         $this->handleEvent();
     }
 
     protected function handleEvent(): void
     {
-        /** @var Asset $asset */
-        $asset = $this->event->sender;
-
-        if ($asset->getAttribute('hotspot_count')) {
+        if ($this->asset->getAttribute('hotspot_count')) {
             Yii::debug('Deleting hotspots before deleting asset ...', __METHOD__);
 
-            $hotspots = Hotspot::findAll(['asset_id' => $asset->id]);
+            $hotspots = Hotspot::findAll(['asset_id' => $this->asset->id]);
 
             foreach ($hotspots as $hotspot) {
                 $hotspot->delete();

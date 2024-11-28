@@ -4,12 +4,11 @@ namespace davidhirtz\yii2\cms\hotspot\migrations;
 
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
+use davidhirtz\yii2\cms\migrations\traits\I18nTablesTrait;
 use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\skeleton\db\traits\MigrationTrait;
 use davidhirtz\yii2\skeleton\models\User;
-use Yii;
 use yii\db\Migration;
 
 /**
@@ -19,16 +18,12 @@ use yii\db\Migration;
 class M211006182918Hotspot extends Migration
 {
     use MigrationTrait;
-    use ModuleTrait;
+    use I18nTablesTrait;
 
     public function safeUp(): void
     {
-        $schema = $this->getDb()->getSchema();
-
-        foreach ($this->getLanguages() as $language) {
-            if ($language) {
-                Yii::$app->language = $language;
-            }
+        $this->i18nTablesCallback(function () {
+            $schema = $this->getDb()->getSchema();
 
             $this->createTable(Hotspot::tableName(), [
                 'id' => $this->primaryKey()->unsigned(),
@@ -52,10 +47,29 @@ class M211006182918Hotspot extends Migration
             $this->createIndex('asset_id', Hotspot::tableName(), ['asset_id', 'position']);
 
             $tableName = $schema->getRawTableName(Hotspot::tableName());
-            $this->addForeignKey($tableName . '_asset_id_ibfk', Hotspot::tableName(), 'asset_id', Asset::tableName(), 'id', 'CASCADE');
-            $this->addForeignKey($tableName . '_updated_by_ibfk', Hotspot::tableName(), 'updated_by_user_id', User::tableName(), 'id', 'SET NULL');
 
-            $this->addColumn(Asset::tableName(), Asset::instance()->getI18nAttributeName('hotspot_count', $language), $this->smallInteger()->notNull()->defaultValue(0)->after('link'));
+            $this->addForeignKey(
+                "{$tableName}_asset_id_ibfk",
+                Hotspot::tableName(),
+                'asset_id',
+                Asset::tableName(),
+                'id',
+                'CASCADE'
+            );
+
+            $this->addForeignKey(
+                "{$tableName}_updated_by_ibfk",
+                Hotspot::tableName(),
+                'updated_by_user_id',
+                User::tableName(),
+                'id',
+                'SET NULL'
+            );
+
+            $this->addColumn(Asset::tableName(), 'hotspot_count', $this->smallInteger()
+                ->notNull()
+                ->defaultValue(0)
+                ->after('link'));
 
             $this->createTable(HotspotAsset::tableName(), [
                 'id' => $this->primaryKey()->unsigned(),
@@ -78,31 +92,58 @@ class M211006182918Hotspot extends Migration
             $this->createIndex('hotspot_id', HotspotAsset::tableName(), ['hotspot_id', 'position']);
 
             $tableName = $schema->getRawTableName(HotspotAsset::tableName());
-            $this->addForeignKey($tableName . '_hotspot_id_ibfk', HotspotAsset::tableName(), 'hotspot_id', Hotspot::tableName(), 'id', 'CASCADE');
-            $this->addForeignKey($tableName . '_file_id_ibfk', HotspotAsset::tableName(), 'file_id', File::tableName(), 'id', 'CASCADE');
-            $this->addForeignKey($tableName . '_updated_by_ibfk', HotspotAsset::tableName(), 'updated_by_user_id', User::tableName(), 'id', 'SET NULL');
 
-            $this->addColumn(File::tableName(), File::instance()->getI18nAttributeName('hotspot_asset_count', $language), $this->smallInteger()->notNull()->defaultValue(0)->after('cms_asset_count'));
+            $this->addForeignKey(
+                "{$tableName}_hotspot_id_ibfk",
+                HotspotAsset::tableName(),
+                'hotspot_id',
+                Hotspot::tableName(),
+                'id',
+                'CASCADE'
+            );
+
+            $this->addForeignKey(
+                "{$tableName}_file_id_ibfk",
+                HotspotAsset::tableName(),
+                'file_id',
+                File::tableName(),
+                'id',
+                'CASCADE'
+            );
+
+            $this->addForeignKey(
+                "{$tableName}_updated_by_ibfk",
+                HotspotAsset::tableName(),
+                'updated_by_user_id',
+                User::tableName(),
+                'id',
+                'SET NULL'
+            );
+        });
+
+        $after = 'transformation_count';
+
+        foreach (HotspotAsset::instance()->getFileCountAttributeNames() as $attributeName) {
+            $this->addColumn(File::tableName(), $attributeName, $this->smallInteger()
+                ->notNull()
+                ->defaultValue(0)
+                ->after($after));
+
+            $after = $attributeName;
         }
     }
 
     public function safeDown(): void
     {
-        $i18n = Yii::$app->getI18n();
+        foreach (HotspotAsset::instance()->getFileCountAttributeNames() as $attributeName) {
+            $this->dropColumn(File::tableName(), $attributeName);
+        }
 
-        foreach ($this->getLanguages() as $language) {
-            Yii::$app->language = $language;
-
-            $this->dropColumn(File::tableName(), $i18n->getAttributeName('hotspot_asset_count', $language));
-            $this->dropColumn(Asset::tableName(), Asset::instance()->getI18nAttributeName('hotspot_count', $language));
+        $this->i18nTablesCallback(function () {
+            $this->dropColumn(Asset::tableName(), 'hotspot_count');
 
             $this->dropTable(HotspotAsset::tableName());
             $this->dropTable(Hotspot::tableName());
-        }
-    }
-
-    private function getLanguages(): array
-    {
-        return static::getModule()->enableI18nTables ? Yii::$app->getI18n()->getLanguages() : [Yii::$app->language];
+        });
     }
 }

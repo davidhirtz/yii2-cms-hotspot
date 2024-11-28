@@ -1,3 +1,12 @@
+## 2.2.0 (in development)
+
+- Added `HotspotAssetFilePanel` for `yii2-media` version 2.2 to display I18N assets in file view
+- Added `FileBeforeDeleteEventHandler`
+- Removed `HotspotAsset::getParentName()`
+- Renamed `HotspotAsset::getParentGridView()` to `HotspotAsset::getFilePanelClass()`
+- Replaced `HotspotAsset::updateOrDeleteFileByAssetCount()` with `HotspotAsset::updateFileRelatedCount()`
+- Replaced `HotspotAsset::getFileCountAttribute()` with `HotspotAsset::getFileCountAttributeNames()`
+
 ## 2.1.6 (Nov 19, 2024)
 
 - Added `TypeAttributeInterface` to `Hotspot` to reflect the changes in `yii2-media` Version 2.1.26

@@ -17,21 +17,29 @@ use yii\data\ActiveDataProvider;
  */
 class HotspotAssetParentGridView extends GridView
 {
-    public ?File $file = null;
+    public File $file;
+    public string $language;
 
     public $showHeader = false;
     public $layout = '{items}{pager}';
 
     public function init(): void
     {
-        if (!$this->dataProvider) {
-            $this->dataProvider = new ActiveDataProvider([
+        Yii::$app->getI18n()->callback($this->language, function () {
+            $this->dataProvider ??= new ActiveDataProvider([
                 'query' => HotspotAsset::find()
                     ->where(['file_id' => $this->file->id])
                     ->with(['hotspot'])
                     ->orderBy(['updated_at' => SORT_DESC]),
             ]);
-        }
+
+            $this->dataProvider->pagination->pageParam = "hotspot-asset-page-$this->language";
+
+            /** @var HotspotAsset $asset */
+            foreach ($this->dataProvider->getModels() as $asset) {
+                $asset->populateFileRelation($this->file);
+            }
+        });
 
         if (!$this->columns) {
             $this->columns = [
@@ -42,11 +50,6 @@ class HotspotAssetParentGridView extends GridView
                 $this->updatedAtColumn(),
                 $this->buttonsColumn(),
             ];
-        }
-
-        /** @var HotspotAsset $asset */
-        foreach ($this->dataProvider->getModels() as $asset) {
-            $asset->populateFileRelation($this->file);
         }
 
         parent::init();
@@ -103,13 +106,13 @@ class HotspotAssetParentGridView extends GridView
             'content' => function (HotspotAsset $asset): string {
                 $buttons = [];
 
-                $buttons[] = Html::a(Icon::tag('wrench'), $asset->getAdminRoute(), [
+                $buttons[] = Html::a(Icon::tag('wrench'), $this->getI18nRoute($asset->getAdminRoute()), [
                     'class' => 'btn btn-primary',
                     'data-toggle' => 'tooltip',
                     'title' => Yii::t('hotspot', 'Edit Hotspot Asset'),
                 ]);
 
-                $buttons[] = Html::a(Icon::tag('trash'), ['admin/hotspot-asset/delete', 'id' => $asset->id], [
+                $buttons[] = Html::a(Icon::tag('trash'), $this->getI18nRoute(['/admin/hotspot-asset/delete', 'id' => $asset->id]), [
                     'class' => 'btn btn-danger btn-delete-asset d-none d-md-inline-block',
                     'data-confirm' => Yii::t('cms', 'Are you sure you want to remove this asset?'),
                     'data-ajax' => 'remove',
@@ -126,7 +129,19 @@ class HotspotAssetParentGridView extends GridView
      */
     protected function getRoute($model, $params = []): false|array
     {
-        return ['hotspot/update', 'id' => $model->hotspot_id, ...$params];
+        return $this->getI18nRoute([
+            '/admin/hotspot/update',
+            'id' => $model->hotspot_id,
+            ...$params,
+        ]);
+    }
+
+    protected function getI18nRoute(array $route): array
+    {
+        return [
+            ...$route,
+            'language' => $this->language !== Yii::$app->language ? $this->language : null,
+        ];
     }
 
     public function getModel(): HotspotAsset

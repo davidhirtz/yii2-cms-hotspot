@@ -4,7 +4,7 @@ namespace davidhirtz\yii2\cms\hotspot\models;
 
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
 use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetParentGridView;
+use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\panels\HotspotAssetFilePanel;
 use davidhirtz\yii2\cms\models\ActiveRecord;
 use davidhirtz\yii2\cms\models\traits\VisibleAttributeTrait;
 use davidhirtz\yii2\datetime\DateTime;
@@ -96,7 +96,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
                 $this->updateHotspotAssetCount();
             }
 
-            $this->updateOrDeleteFileByAssetCount();
+            $this->updateFileRelatedCount();
         } elseif ($changedAttributes) {
             $this->hotspot->updated_at = $this->updated_at;
             $this->hotspot->update();
@@ -111,7 +111,10 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
             $this->updateHotspotAssetCount();
         }
 
-        $this->updateOrDeleteFileByAssetCount();
+        if (!$this->file->isDeleted()) {
+            $this->updateFileRelatedCount();
+        }
+
         parent::afterDelete();
     }
 
@@ -143,6 +146,16 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         $this->hotspot_id = $hotspot?->id;
     }
 
+    public function updateFileRelatedCount(): bool|int
+    {
+        $attributeName = static::getModule()->enableI18nTables
+            ? Yii::$app->getI18n()->getAttributeName('hotspot_asset_count')
+            : 'hotspot_asset_count';
+
+        $this->file->$attributeName = self::find()->where(['file_id' => $this->file_id])->count();
+        return $this->file->update();
+    }
+
     public function getMaxPosition(): int
     {
         return (int)$this->findSiblings()->max('[[position]]');
@@ -163,6 +176,19 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return ['/admin/hotspot-asset/update', 'id' => $this->id];
     }
 
+    public function getFilePanelClass(): string
+    {
+        return HotspotAssetFilePanel::class;
+    }
+
+    public function getFileCountAttributeNames(): array
+    {
+        $languages = static::getModule()->getLanguages();
+        $attributes = array_map(fn ($lang) => Yii::$app->getI18n()->getAttributeName('hotspot_asset_count', $lang), $languages);
+
+        return array_combine($languages, $attributes);
+    }
+
     public function getTrailParents(): array
     {
         return $this->hotspot->asset->isSectionAsset() ? [$this->hotspot, $this->hotspot->asset, $this->hotspot->asset->section, $this->hotspot->asset->entry] :
@@ -172,24 +198,6 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     public function getTrailModelType(): string
     {
         return Yii::t('hotspot', 'Hotspot Asset');
-    }
-
-    /**
-     * @return class-string
-     */
-    public function getParentGridView(): string
-    {
-        return HotspotAssetParentGridView::class;
-    }
-
-    public function getParentName(): string
-    {
-        return Yii::t('hotspot', 'Hotspots');
-    }
-
-    public function getFileCountAttribute(): string
-    {
-        return 'hotspot_asset_count';
     }
 
     public function attributeLabels(): array

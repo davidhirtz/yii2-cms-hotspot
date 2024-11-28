@@ -10,15 +10,16 @@ use davidhirtz\yii2\skeleton\models\events\DuplicateActiveRecordEvent;
  */
 class AssetBeforeDuplicateEventHandler
 {
-    public function __construct(protected DuplicateActiveRecordEvent $event)
-    {
+    public function __construct(
+        protected readonly DuplicateActiveRecordEvent $event,
+        protected readonly Asset $asset,
+        protected readonly Asset $duplicate,
+    ) {
         $this->handleEvent();
     }
 
     public function handleEvent(): void
     {
-        /** @var Asset $duplicate */
-        $duplicate = $this->event->duplicate;
-        $duplicate->setAttribute('hotspot_count', $this->event->sender->getAttribute('hotspot_count'));
+        $this->duplicate->setAttribute('hotspot_count', $this->asset->getAttribute('hotspot_count'));
     }
 }

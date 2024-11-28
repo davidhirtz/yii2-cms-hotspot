@@ -52,13 +52,12 @@ class HotspotAssetController extends Controller
         ]);
     }
 
-    public function actionIndex(int $hotspot, ?int $folder = null, ?int $type = null, ?string $q = null): Response|string
+    public function actionIndex(int $hotspot, ?int $folder = null, ?string $q = null): Response|string
     {
         $hotspot = $this->findHotspot($hotspot);
 
         $provider = Yii::$container->get(FileActiveDataProvider::class, [], [
             'folder' => Folder::findOne($folder),
-            'type' => $type,
             'search' => $q,
         ]);
 
