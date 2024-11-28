@@ -18,6 +18,7 @@ use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
 use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
 use davidhirtz\yii2\skeleton\db\ActiveRecord;
 use davidhirtz\yii2\skeleton\models\interfaces\DraftStatusAttributeInterface;
+use davidhirtz\yii2\skeleton\models\interfaces\TypeAttributeInterface;
 use davidhirtz\yii2\skeleton\models\traits\DraftStatusAttributeTrait;
 use davidhirtz\yii2\skeleton\models\traits\I18nAttributesTrait;
 use davidhirtz\yii2\skeleton\models\traits\TypeAttributeTrait;
@@ -48,7 +49,7 @@ use Yii;
  *
  * @mixin TrailBehavior
  */
-class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusAttributeInterface
+class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusAttributeInterface, TypeAttributeInterface
 {
     use AssetParentTrait;
     use I18nAttributesTrait;

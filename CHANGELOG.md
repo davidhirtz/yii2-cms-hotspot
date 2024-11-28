@@ -1,3 +1,7 @@
+## 2.1.6 (Nov 19, 2024)
+
+- Added `TypeAttributeInterface` to `Hotspot` to reflect the changes in `yii2-media` Version 2.1.26
+
 ## 2.1.5 (Nov 19, 2024)
 
 - Fixed `EntrySiteRelationsBuilder` to populate hotspot relation for hotspot assets
