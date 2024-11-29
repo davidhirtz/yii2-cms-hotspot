@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids;
 
 use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
@@ -106,13 +108,13 @@ class HotspotAssetParentGridView extends GridView
             'content' => function (HotspotAsset $asset): string {
                 $buttons = [];
 
-                $buttons[] = Html::a(Icon::tag('wrench'), $this->getI18nRoute($asset->getAdminRoute()), [
+                $buttons[] = Html::a((string)Icon::tag('wrench'), $this->getI18nRoute($asset->getAdminRoute()), [
                     'class' => 'btn btn-primary',
                     'data-toggle' => 'tooltip',
                     'title' => Yii::t('hotspot', 'Edit Hotspot Asset'),
                 ]);
 
-                $buttons[] = Html::a(Icon::tag('trash'), $this->getI18nRoute(['/admin/hotspot-asset/delete', 'id' => $asset->id]), [
+                $buttons[] = Html::a((string)Icon::tag('trash'), $this->getI18nRoute(['/admin/hotspot-asset/delete', 'id' => $asset->id]), [
                     'class' => 'btn btn-danger btn-delete-asset d-none d-md-inline-block',
                     'data-confirm' => Yii::t('cms', 'Are you sure you want to remove this asset?'),
                     'data-ajax' => 'remove',

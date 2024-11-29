@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace davidhirtz\yii2\cms\hotspot\migrations;
 
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
@@ -23,8 +25,6 @@ class M211006182918Hotspot extends Migration
     public function safeUp(): void
     {
         $this->i18nTablesCallback(function () {
-            $schema = $this->getDb()->getSchema();
-
             $this->createTable(Hotspot::tableName(), [
                 'id' => $this->primaryKey()->unsigned(),
                 'status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(Hotspot::STATUS_ENABLED),
@@ -46,10 +46,8 @@ class M211006182918Hotspot extends Migration
 
             $this->createIndex('asset_id', Hotspot::tableName(), ['asset_id', 'position']);
 
-            $tableName = $schema->getRawTableName(Hotspot::tableName());
-
             $this->addForeignKey(
-                "{$tableName}_asset_id_ibfk",
+                $this->getForeignKeyName(Hotspot::tableName(), 'asset_id_ibfk'),
                 Hotspot::tableName(),
                 'asset_id',
                 Asset::tableName(),
@@ -58,7 +56,7 @@ class M211006182918Hotspot extends Migration
             );
 
             $this->addForeignKey(
-                "{$tableName}_updated_by_ibfk",
+                $this->getForeignKeyName(Hotspot::tableName(), 'updated_by_ibfk'),
                 Hotspot::tableName(),
                 'updated_by_user_id',
                 User::tableName(),
@@ -66,7 +64,7 @@ class M211006182918Hotspot extends Migration
                 'SET NULL'
             );
 
-            $this->addColumn(Asset::tableName(), 'hotspot_count', $this->smallInteger()
+            $this->addColumn(Asset::tableName(), 'hotspot_count', (string)$this->smallInteger()
                 ->notNull()
                 ->defaultValue(0)
                 ->after('link'));
@@ -91,10 +89,8 @@ class M211006182918Hotspot extends Migration
 
             $this->createIndex('hotspot_id', HotspotAsset::tableName(), ['hotspot_id', 'position']);
 
-            $tableName = $schema->getRawTableName(HotspotAsset::tableName());
-
             $this->addForeignKey(
-                "{$tableName}_hotspot_id_ibfk",
+                $this->getForeignKeyName(HotspotAsset::tableName(), 'hotspot_id_ibfk'),
                 HotspotAsset::tableName(),
                 'hotspot_id',
                 Hotspot::tableName(),
@@ -103,7 +99,7 @@ class M211006182918Hotspot extends Migration
             );
 
             $this->addForeignKey(
-                "{$tableName}_file_id_ibfk",
+                $this->getForeignKeyName(HotspotAsset::tableName(), 'file_id_ibfk'),
                 HotspotAsset::tableName(),
                 'file_id',
                 File::tableName(),
@@ -112,7 +108,7 @@ class M211006182918Hotspot extends Migration
             );
 
             $this->addForeignKey(
-                "{$tableName}_updated_by_ibfk",
+                $this->getForeignKeyName(HotspotAsset::tableName(), 'updated_by_ibfk'),
                 HotspotAsset::tableName(),
                 'updated_by_user_id',
                 User::tableName(),
@@ -124,7 +120,7 @@ class M211006182918Hotspot extends Migration
         $after = 'transformation_count';
 
         foreach (HotspotAsset::instance()->getFileCountAttributeNames() as $attributeName) {
-            $this->addColumn(File::tableName(), $attributeName, $this->smallInteger()
+            $this->addColumn(File::tableName(), $attributeName, (string)$this->smallInteger()
                 ->notNull()
                 ->defaultValue(0)
                 ->after($after));

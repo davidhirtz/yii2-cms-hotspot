@@ -1,4 +1,4 @@
-## 2.2.0 (in development)
+## 2.2.0 (Nov 29, 2024)
 
 - Added `HotspotAssetFilePanel` for `yii2-media` version 2.2 to display I18N assets in file view
 - Added `FileBeforeDeleteEventHandler`
