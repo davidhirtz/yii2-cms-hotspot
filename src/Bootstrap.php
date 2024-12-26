@@ -33,14 +33,10 @@ class Bootstrap implements BootstrapInterface
     {
         Yii::setAlias('@hotspot', __DIR__);
 
-        $app->extendComponent('i18n', [
-            'translations' => [
-                'hotspot' => [
-                    'class' => PhpMessageSource::class,
-                    'basePath' => '@hotspot/messages',
-                ],
-            ],
-        ]);
+        $app->getI18n()->translations['hotspot'] ??= [
+            'class' => PhpMessageSource::class,
+            'basePath' => '@hotspot/messages',
+        ];
 
         $app->extendModules([
             'admin' => [

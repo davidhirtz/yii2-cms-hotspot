@@ -1,3 +1,7 @@
+## 2.2.1 (in development)
+
+- Changed `Bootstrap` I18N configuration
+
 ## 2.2.0 (Nov 29, 2024)
 
 - Added `HotspotAssetFilePanel` for `yii2-media` version 2.2 to display I18N assets in file view
