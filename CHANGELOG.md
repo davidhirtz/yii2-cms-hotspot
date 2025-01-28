@@ -1,4 +1,4 @@
-## 2.2.1 (in development)
+## 2.2.1 (Jan 28, 2025)
 
 - Changed `Bootstrap` I18N configuration
 

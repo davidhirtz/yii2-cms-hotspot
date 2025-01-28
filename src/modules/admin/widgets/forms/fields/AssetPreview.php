@@ -6,6 +6,7 @@ namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\fields;
 
 use davidhirtz\yii2\cms\hotspot\assets\AdminAsset;
 use davidhirtz\yii2\cms\hotspot\models\Hotspot;
+use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
 use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
 use davidhirtz\yii2\cms\models\Asset;
 use Yii;
@@ -13,7 +14,7 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 
 /**
- * @property Asset $asset
+ * @property Asset|HotspotAsset $asset
  */
 class AssetPreview extends \davidhirtz\yii2\media\modules\admin\widgets\forms\fields\AssetPreview
 {

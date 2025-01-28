@@ -11,19 +11,19 @@
     }
   ],
   "require": {
-    "davidhirtz/yii2-cms": "^2.2.3"
+    "davidhirtz/yii2-cms": "^2.3"
   },
   "require-dev": {
     "codeception/codeception": "^5.0",
-    "codeception/module-asserts": "*",
+    "codeception/module-asserts": "^3.0",
     "codeception/module-filesystem": "^3.0",
-    "codeception/module-phpbrowser": "*",
+    "codeception/module-phpbrowser": "^3.0",
     "codeception/module-yii2": "*",
     "codeception/specify": "^2.0",
     "codeception/verify": "^3.0",
     "phpro/grumphp-shim": "^2.4",
     "phpunit/phpunit": "^9.6",
-    "rector/rector": "^1.2",
+    "rector/rector": "^2.0",
     "symplify/easy-coding-standard": "^12.0",
     "yiisoft/yii2-debug": "^2.1"
   },
