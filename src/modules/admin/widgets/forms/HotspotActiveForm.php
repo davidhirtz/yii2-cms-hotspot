@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\widgets\forms;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
 use Hirtz\Cms\modules\ModuleTrait;
-use Hirtz\Skeleton\modules\admin\widgets\forms\traits\ContentFieldTrait;
-use Hirtz\Skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
-use Hirtz\Skeleton\modules\admin\widgets\forms\traits\StatusFieldTrait;
-use Hirtz\Skeleton\modules\admin\widgets\forms\traits\TypeFieldTrait;
-use Hirtz\Skeleton\widgets\bootstrap\ActiveField;
-use Hirtz\Skeleton\widgets\bootstrap\ActiveForm;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ContentFieldTrait;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ModelTimestampTrait;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\StatusFieldTrait;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\TypeFieldTrait;
+use Hirtz\Skeleton\Widgets\Bootstrap\ActiveField;
+use Hirtz\Skeleton\Widgets\Bootstrap\ActiveForm;
 
 /**
  * @property Hotspot $model

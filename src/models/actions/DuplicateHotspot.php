@@ -6,8 +6,8 @@ namespace Hirtz\Cms\hotspot\models\actions;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
 use Hirtz\Cms\hotspot\models\HotspotAsset;
-use Hirtz\Cms\models\actions\DuplicateActiveRecord;
-use Hirtz\Cms\models\Asset;
+use Hirtz\Cms\Models\actions\DuplicateActiveRecord;
+use Hirtz\Cms\Models\Asset;
 use Yii;
 
 /**

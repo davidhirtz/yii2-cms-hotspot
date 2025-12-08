@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\widgets\grids\columns;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\Columns;
 
-use Hirtz\Cms\models\Asset;
-use Hirtz\Skeleton\helpers\Html;
+use Hirtz\Cms\Models\Asset;
+use Hirtz\Skeleton\Helpers\Html;
 
-class AssetThumbnailColumn extends \Hirtz\Cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn
+class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Forms\Columns\AssetThumbnailColumn
 {
     protected function renderThumbnail(Asset $model, int $key, int $index): string
     {

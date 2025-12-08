@@ -6,10 +6,10 @@ namespace Hirtz\Cms\hotspot\models\builders;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
 use Hirtz\Cms\hotspot\models\HotspotAsset;
-use Hirtz\Cms\hotspot\modules\admin\Module;
+use Hirtz\Cms\hotspot\Modules\Admin\Module;
 use Yii;
 
-class EntrySiteRelationsBuilder extends \Hirtz\Cms\models\builders\EntrySiteRelationsBuilder
+class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder
 {
     /**
      * @var Hotspot[]

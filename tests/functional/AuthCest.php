@@ -10,12 +10,12 @@ namespace Hirtz\Cms\hotspot\tests\functional;
 
 use Hirtz\Cms\hotspot\tests\support\FunctionalTester;
 use Hirtz\Cms\Module;
-use Hirtz\Cms\modules\admin\data\EntryActiveDataProvider;
-use Hirtz\Cms\modules\admin\widgets\grids\EntryGridView;
-use Hirtz\Skeleton\codeception\fixtures\UserFixtureTrait;
-use Hirtz\Skeleton\codeception\functional\BaseCest;
-use Hirtz\Skeleton\models\User;
-use Hirtz\Skeleton\modules\admin\widgets\forms\LoginActiveForm;
+use Hirtz\Cms\Modules\Admin\Data\EntryActiveDataProvider;
+use Hirtz\Cms\Modules\Admin\Widgets\Forms\EntryGridView;
+use Hirtz\Skeleton\Codeception\fixtures\UserFixtureTrait;
+use Hirtz\Skeleton\Codeception\functional\BaseCest;
+use Hirtz\Skeleton\Models\User;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\LoginActiveForm;
 use Yii;
 
 class AuthCest extends BaseCest

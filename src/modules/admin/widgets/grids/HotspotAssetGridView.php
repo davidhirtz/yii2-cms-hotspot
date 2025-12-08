@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\widgets\grids;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
 use Hirtz\Cms\hotspot\models\HotspotAsset;
-use Hirtz\Cms\hotspot\modules\admin\widgets\grids\columns\HotspotAssetThumbnailColumn;
-use Hirtz\Cms\models\Entry;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\Columns\HotspotAssetThumbnailColumn;
+use Hirtz\Cms\Models\Entry;
 use Hirtz\Cms\modules\ModuleTrait;
-use Hirtz\Media\modules\admin\widgets\grids\traits\AssetColumnsTrait;
-use Hirtz\Media\modules\admin\widgets\grids\traits\UploadTrait;
-use Hirtz\Skeleton\helpers\Html;
-use Hirtz\Skeleton\modules\admin\widgets\grids\GridView;
-use Hirtz\Skeleton\modules\admin\widgets\grids\traits\StatusGridViewTrait;
-use Hirtz\Skeleton\modules\admin\widgets\grids\traits\TypeGridViewTrait;
+use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\AssetColumnsTrait;
+use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\UploadTrait;
+use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\GridView;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Traits\StatusGridViewTrait;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Traits\TypeGridViewTrait;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecordInterface;

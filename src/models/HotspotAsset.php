@@ -6,16 +6,16 @@ namespace Hirtz\Cms\hotspot\models;
 
 use Hirtz\Cms\hotspot\models\queries\HotspotAssetQuery;
 use Hirtz\Cms\hotspot\models\queries\HotspotQuery;
-use Hirtz\Cms\hotspot\modules\admin\widgets\panels\HotspotAssetFilePanel;
-use Hirtz\Cms\models\ActiveRecord;
-use Hirtz\Cms\models\traits\VisibleAttributeTrait;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Panels\HotspotAssetFilePanel;
+use Hirtz\Cms\Models\ActiveRecord;
+use Hirtz\Cms\Models\traits\VisibleAttributeTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Media\models\interfaces\AssetInterface;
 use Hirtz\Media\models\traits\AssetTrait;
 use Hirtz\Media\models\traits\FileRelationTrait;
-use Hirtz\Skeleton\behaviors\TrailBehavior;
-use Hirtz\Skeleton\validators\RelationValidator;
+use Hirtz\Skeleton\Behaviors\TrailBehavior;
+use Hirtz\Skeleton\Validators\RelationValidator;
 use Yii;
 
 /**

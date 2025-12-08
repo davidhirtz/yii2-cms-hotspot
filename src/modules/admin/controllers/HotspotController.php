@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\controllers;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Controllers;
 
 use Hirtz\Cms\hotspot\models\actions\DuplicateHotspot;
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
-use Hirtz\Cms\modules\admin\controllers\traits\AssetTrait;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
+use Hirtz\Cms\Modules\Admin\Traits\AssetTrait;
 use Hirtz\Cms\modules\ModuleTrait;
-use Hirtz\Skeleton\web\Controller;
+use Hirtz\Skeleton\Web\Controller;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;

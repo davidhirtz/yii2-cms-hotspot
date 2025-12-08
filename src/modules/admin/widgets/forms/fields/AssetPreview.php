@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\widgets\forms\fields;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\Fields;
 
 use Hirtz\Cms\hotspot\assets\AdminAsset;
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\hotspot\modules\admin\Module;
-use Hirtz\Cms\models\Asset;
+use Hirtz\Cms\hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Models\Asset;
 use Yii;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -15,7 +15,7 @@ use yii\helpers\Url;
 /**
  * @property Asset $asset
  */
-class AssetPreview extends \Hirtz\Media\modules\admin\widgets\forms\fields\AssetPreview
+class AssetPreview extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview
 {
     public function init(): void
     {

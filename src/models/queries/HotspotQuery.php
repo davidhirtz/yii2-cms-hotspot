@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Cms\hotspot\models\queries;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Skeleton\db\I18nActiveQuery;
+use Hirtz\Skeleton\Db\I18nActiveQuery;
 
 /**
  * @extends I18nActiveQuery<Hotspot>

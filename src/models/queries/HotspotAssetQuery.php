@@ -6,7 +6,7 @@ namespace Hirtz\Cms\hotspot\models\queries;
 
 use Hirtz\Cms\hotspot\models\HotspotAsset;
 use Hirtz\Media\models\queries\FileQuery;
-use Hirtz\Skeleton\db\I18nActiveQuery;
+use Hirtz\Skeleton\Db\I18nActiveQuery;
 
 /**
  * @extends I18nActiveQuery<HotspotAsset>

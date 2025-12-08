@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\controllers;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Controllers;
 
 use Hirtz\Cms\hotspot\models\actions\ReorderHotspotAssets;
 use Hirtz\Cms\hotspot\models\HotspotAsset;
-use Hirtz\Cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\modules\ModuleTrait;
 use Hirtz\Media\models\File;
 use Hirtz\Media\models\Folder;
-use Hirtz\Media\modules\admin\controllers\traits\FileControllerTrait;
-use Hirtz\Media\modules\admin\data\FileActiveDataProvider;
-use Hirtz\Skeleton\web\Controller;
+use Hirtz\Media\Modules\Admin\Controllers\Traits\FileControllerTrait;
+use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
+use Hirtz\Skeleton\Web\Controller;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\hotspot\modules\admin;
 
-use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotAssetController;
-use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotController;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotAssetController;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotController;
 use yii\helpers\ArrayHelper;
 
 class Module extends \yii\base\Module

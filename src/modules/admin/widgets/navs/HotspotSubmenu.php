@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\widgets\navs;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\modules\admin\widgets\navs\Submenu;
+use Hirtz\Cms\Modules\Admin\Widgets\Forms\Submenu;
 use Yii;
 
 class HotspotSubmenu extends Submenu

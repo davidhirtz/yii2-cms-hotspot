@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Hirtz\Cms\hotspot\models\actions;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\models\actions\ReorderActiveRecords;
+use Hirtz\Cms\Models\actions\ReorderActiveRecords;
 use davidhirtz\yii2\datetime\DateTime;
-use Hirtz\Skeleton\models\Trail;
+use Hirtz\Skeleton\Models\Trail;
 use Yii;
 
 class ReorderHotspotAssets extends ReorderActiveRecords

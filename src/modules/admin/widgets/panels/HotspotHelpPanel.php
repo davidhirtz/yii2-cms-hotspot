@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\widgets\panels;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Panels;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotController;
-use Hirtz\Media\modules\admin\widgets\panels\traits\DuplicateButtonTrait;
-use Hirtz\Skeleton\modules\admin\widgets\panels\HelpPanel;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotController;
+use Hirtz\Media\Modules\Admin\Widgets\Forms\Traits\DuplicateButtonTrait;
+use Hirtz\Skeleton\Modules\Admin\Widgets\Panels\HelpPanel;
 
 class HotspotHelpPanel extends HelpPanel
 {

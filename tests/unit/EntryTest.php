@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Cms\hotspot\tests\unit;
 
 use Codeception\Test\Unit;
-use Hirtz\Cms\models\Entry;
+use Hirtz\Cms\Models\Entry;
 
 class EntryTest extends Unit
 {

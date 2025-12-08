@@ -9,16 +9,16 @@ use Hirtz\Cms\hotspot\models\events\AssetBeforeDeleteEventHandler;
 use Hirtz\Cms\hotspot\models\events\AssetBeforeDuplicateEventHandler;
 use Hirtz\Cms\hotspot\models\events\FileBeforeDeleteEventHandler;
 use Hirtz\Cms\hotspot\models\HotspotAsset;
-use Hirtz\Cms\hotspot\modules\admin\Module;
-use Hirtz\Cms\models\Asset;
-use Hirtz\Cms\models\builders\EntrySiteRelationsBuilder;
-use Hirtz\Cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn;
+use Hirtz\Cms\hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Models\Asset;
+use Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder;
+use Hirtz\Cms\Modules\Admin\Widgets\Forms\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\widgets\Canvas;
 use Hirtz\Media\models\File;
-use Hirtz\Media\modules\admin\widgets\forms\fields\AssetPreview;
-use Hirtz\Skeleton\models\actions\DuplicateActiveRecord;
-use Hirtz\Skeleton\models\events\DuplicateActiveRecordEvent;
-use Hirtz\Skeleton\web\Application;
+use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview;
+use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
+use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
+use Hirtz\Skeleton\Web\Application;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\ModelEvent;
@@ -35,7 +35,7 @@ class Bootstrap implements BootstrapInterface
 
         $app->getI18n()->translations['hotspot'] ??= [
             'class' => PhpMessageSource::class,
-            'basePath' => '@hotspot/messages',
+            'basePath' => '@hotspot/../messages',
         ];
 
         $app->extendModules([
@@ -52,8 +52,8 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         $definitions = [
-            AssetPreview::class => modules\admin\widgets\forms\fields\AssetPreview::class,
-            AssetThumbnailColumn::class => modules\admin\widgets\grids\columns\AssetThumbnailColumn::class,
+            AssetPreview::class => Modules\Admin\Widgets\Forms\Fields\AssetPreview::class,
+            AssetThumbnailColumn::class => Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn::class,
             Canvas::class => widgets\Canvas::class,
             EntrySiteRelationsBuilder::class => models\builders\EntrySiteRelationsBuilder::class,
         ];
@@ -102,6 +102,6 @@ class Bootstrap implements BootstrapInterface
             ])
         );
 
-        $app->setMigrationNamespace('Hirtz\Cms\hotspot\migrations');
+        $app->setMigrationNamespace('Hirtz\Cms\hotspot\Migrations');
     }
 }

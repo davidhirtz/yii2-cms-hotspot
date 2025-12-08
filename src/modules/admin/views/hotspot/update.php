@@ -9,15 +9,15 @@ declare(strict_types=1);
  */
 
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotController;
-use Hirtz\Cms\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
-use Hirtz\Cms\hotspot\modules\admin\widgets\grids\HotspotAssetGridView;
-use Hirtz\Cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use Hirtz\Cms\hotspot\modules\admin\widgets\panels\HotspotHelpPanel;
-use Hirtz\Skeleton\helpers\Html;
-use Hirtz\Skeleton\web\View;
-use Hirtz\Skeleton\widgets\bootstrap\Panel;
-use Hirtz\Skeleton\widgets\forms\DeleteActiveForm;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotController;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\HotspotActiveForm;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\HotspotAssetGridView;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Panels\HotspotHelpPanel;
+use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Skeleton\Web\View;
+use Hirtz\Skeleton\Widgets\Bootstrap\Panel;
+use Hirtz\Skeleton\Widgets\Forms\DeleteActiveForm;
 
 $this->setTitle(Yii::t('hotspot', 'Edit Hotspot'));
 ?>

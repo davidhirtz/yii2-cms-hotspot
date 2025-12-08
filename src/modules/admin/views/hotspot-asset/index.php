@@ -10,11 +10,11 @@ declare(strict_types=1);
  */
 
 use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotAssetController;
-use Hirtz\Cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use Hirtz\Media\modules\admin\widgets\grids\FileGridView;
-use Hirtz\Skeleton\web\View;
-use Hirtz\Skeleton\widgets\bootstrap\Panel;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotAssetController;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
+use Hirtz\Media\Modules\Admin\Widgets\Grids\FileGridView;
+use Hirtz\Skeleton\Web\View;
+use Hirtz\Skeleton\Widgets\Bootstrap\Panel;
 use yii\data\ActiveDataProvider;
 
 $this->setTitle(Yii::t('media', 'Assets'));

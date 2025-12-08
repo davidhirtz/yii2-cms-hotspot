@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\widgets\forms;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms;
 
 use Hirtz\Cms\hotspot\models\HotspotAsset;
-use Hirtz\Cms\modules\admin\widgets\forms\ActiveForm;
-use Hirtz\Media\modules\admin\widgets\forms\traits\AssetFieldsTrait;
+use Hirtz\Cms\Modules\Admin\Widgets\Forms\ActiveForm;
+use Hirtz\Media\Modules\Admin\Widgets\Forms\Traits\AssetFieldsTrait;
 
 /**
  * @property HotspotAsset $model

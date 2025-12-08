@@ -9,13 +9,13 @@ declare(strict_types=1);
  */
 
 use Hirtz\Cms\hotspot\models\HotspotAsset;
-use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotAssetController;
-use Hirtz\Cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
-use Hirtz\Cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use Hirtz\Skeleton\helpers\Html;
-use Hirtz\Skeleton\web\View;
-use Hirtz\Skeleton\widgets\bootstrap\Panel;
-use Hirtz\Skeleton\widgets\forms\DeleteActiveForm;
+use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotAssetController;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\HotspotAssetActiveForm;
+use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
+use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Skeleton\Web\View;
+use Hirtz\Skeleton\Widgets\Bootstrap\Panel;
+use Hirtz\Skeleton\Widgets\Forms\DeleteActiveForm;
 
 $this->setTitle(Yii::t('hotspot', 'Edit Hotspot Asset'));
 ?>

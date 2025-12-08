@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin\controllers\traits;
+namespace Hirtz\Cms\hotspot\Modules\Admin\Controllers\Traits;
 
 use Hirtz\Cms\hotspot\models\Hotspot;
 use Yii;
