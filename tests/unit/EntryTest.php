@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\tests\unit;
+namespace Hirtz\Cms\hotspot\tests\unit;
 
 use Codeception\Test\Unit;
-use davidhirtz\yii2\cms\models\Entry;
+use Hirtz\Cms\models\Entry;
 
 class EntryTest extends Unit
 {

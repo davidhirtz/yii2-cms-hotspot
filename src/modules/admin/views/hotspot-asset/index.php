@@ -9,12 +9,12 @@ declare(strict_types=1);
  * @var Hotspot $hotspot
  */
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use davidhirtz\yii2\media\modules\admin\widgets\grids\FileGridView;
-use davidhirtz\yii2\skeleton\web\View;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotAssetController;
+use Hirtz\Cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
+use Hirtz\Media\modules\admin\widgets\grids\FileGridView;
+use Hirtz\Skeleton\web\View;
+use Hirtz\Skeleton\widgets\bootstrap\Panel;
 use yii\data\ActiveDataProvider;
 
 $this->setTitle(Yii::t('media', 'Assets'));

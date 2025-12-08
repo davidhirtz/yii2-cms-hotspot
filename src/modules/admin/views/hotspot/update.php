@@ -8,16 +8,16 @@ declare(strict_types=1);
  * @var Hotspot $hotspot
  */
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotController;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetGridView;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\panels\HotspotHelpPanel;
-use davidhirtz\yii2\skeleton\helpers\Html;
-use davidhirtz\yii2\skeleton\web\View;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;
-use davidhirtz\yii2\skeleton\widgets\forms\DeleteActiveForm;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotController;
+use Hirtz\Cms\hotspot\modules\admin\widgets\forms\HotspotActiveForm;
+use Hirtz\Cms\hotspot\modules\admin\widgets\grids\HotspotAssetGridView;
+use Hirtz\Cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
+use Hirtz\Cms\hotspot\modules\admin\widgets\panels\HotspotHelpPanel;
+use Hirtz\Skeleton\helpers\Html;
+use Hirtz\Skeleton\web\View;
+use Hirtz\Skeleton\widgets\bootstrap\Panel;
+use Hirtz\Skeleton\widgets\forms\DeleteActiveForm;
 
 $this->setTitle(Yii::t('hotspot', 'Edit Hotspot'));
 ?>

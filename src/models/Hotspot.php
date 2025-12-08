@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\models;
+namespace Hirtz\Cms\hotspot\models;
 
-use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
-use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
-use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
-use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\cms\models\queries\AssetQuery;
-use davidhirtz\yii2\cms\models\traits\VisibleAttributeTrait;
-use davidhirtz\yii2\cms\modules\ModuleTrait;
+use Hirtz\Cms\hotspot\models\queries\HotspotAssetQuery;
+use Hirtz\Cms\hotspot\models\queries\HotspotQuery;
+use Hirtz\Cms\hotspot\modules\admin\Module;
+use Hirtz\Cms\models\Asset;
+use Hirtz\Cms\models\queries\AssetQuery;
+use Hirtz\Cms\models\traits\VisibleAttributeTrait;
+use Hirtz\Cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use davidhirtz\yii2\media\models\interfaces\AssetParentInterface;
-use davidhirtz\yii2\media\models\traits\AssetParentTrait;
-use davidhirtz\yii2\skeleton\behaviors\BlameableBehavior;
-use davidhirtz\yii2\skeleton\behaviors\TimestampBehavior;
-use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
-use davidhirtz\yii2\skeleton\db\ActiveRecord;
-use davidhirtz\yii2\skeleton\models\interfaces\DraftStatusAttributeInterface;
-use davidhirtz\yii2\skeleton\models\interfaces\TypeAttributeInterface;
-use davidhirtz\yii2\skeleton\models\traits\DraftStatusAttributeTrait;
-use davidhirtz\yii2\skeleton\models\traits\I18nAttributesTrait;
-use davidhirtz\yii2\skeleton\models\traits\TypeAttributeTrait;
-use davidhirtz\yii2\skeleton\models\traits\UpdatedByUserTrait;
-use davidhirtz\yii2\skeleton\validators\DynamicRangeValidator;
-use davidhirtz\yii2\skeleton\validators\HtmlValidator;
-use davidhirtz\yii2\skeleton\validators\RelationValidator;
+use Hirtz\Media\models\interfaces\AssetParentInterface;
+use Hirtz\Media\models\traits\AssetParentTrait;
+use Hirtz\Skeleton\behaviors\BlameableBehavior;
+use Hirtz\Skeleton\behaviors\TimestampBehavior;
+use Hirtz\Skeleton\behaviors\TrailBehavior;
+use Hirtz\Skeleton\db\ActiveRecord;
+use Hirtz\Skeleton\models\interfaces\DraftStatusAttributeInterface;
+use Hirtz\Skeleton\models\interfaces\TypeAttributeInterface;
+use Hirtz\Skeleton\models\traits\DraftStatusAttributeTrait;
+use Hirtz\Skeleton\models\traits\I18nAttributesTrait;
+use Hirtz\Skeleton\models\traits\TypeAttributeTrait;
+use Hirtz\Skeleton\models\traits\UpdatedByUserTrait;
+use Hirtz\Skeleton\validators\DynamicRangeValidator;
+use Hirtz\Skeleton\validators\HtmlValidator;
+use Hirtz\Skeleton\validators\RelationValidator;
 use Yii;
 
 /**

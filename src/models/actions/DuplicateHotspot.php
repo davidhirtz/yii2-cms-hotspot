@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\models\actions;
+namespace Hirtz\Cms\hotspot\models\actions;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\models\actions\DuplicateActiveRecord;
-use davidhirtz\yii2\cms\models\Asset;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\models\actions\DuplicateActiveRecord;
+use Hirtz\Cms\models\Asset;
 use Yii;
 
 /**

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\columns;
+namespace Hirtz\Cms\hotspot\modules\admin\widgets\grids\columns;
 
-use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\skeleton\helpers\Html;
+use Hirtz\Cms\models\Asset;
+use Hirtz\Skeleton\helpers\Html;
 
-class AssetThumbnailColumn extends \davidhirtz\yii2\cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn
+class AssetThumbnailColumn extends \Hirtz\Cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn
 {
     protected function renderThumbnail(Asset $model, int $key, int $index): string
     {

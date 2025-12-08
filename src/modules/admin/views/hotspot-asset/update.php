@@ -8,14 +8,14 @@ declare(strict_types=1);
  * @var HotspotAsset $asset
  */
 
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\HotspotAssetController;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
-use davidhirtz\yii2\skeleton\helpers\Html;
-use davidhirtz\yii2\skeleton\web\View;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;
-use davidhirtz\yii2\skeleton\widgets\forms\DeleteActiveForm;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\modules\admin\controllers\HotspotAssetController;
+use Hirtz\Cms\hotspot\modules\admin\widgets\forms\HotspotAssetActiveForm;
+use Hirtz\Cms\hotspot\modules\admin\widgets\navs\HotspotSubmenu;
+use Hirtz\Skeleton\helpers\Html;
+use Hirtz\Skeleton\web\View;
+use Hirtz\Skeleton\widgets\bootstrap\Panel;
+use Hirtz\Skeleton\widgets\forms\DeleteActiveForm;
 
 $this->setTitle(Yii::t('hotspot', 'Edit Hotspot Asset'));
 ?>

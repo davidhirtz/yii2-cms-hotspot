@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\models;
+namespace Hirtz\Cms\hotspot\models;
 
-use davidhirtz\yii2\cms\hotspot\models\queries\HotspotAssetQuery;
-use davidhirtz\yii2\cms\hotspot\models\queries\HotspotQuery;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\panels\HotspotAssetFilePanel;
-use davidhirtz\yii2\cms\models\ActiveRecord;
-use davidhirtz\yii2\cms\models\traits\VisibleAttributeTrait;
+use Hirtz\Cms\hotspot\models\queries\HotspotAssetQuery;
+use Hirtz\Cms\hotspot\models\queries\HotspotQuery;
+use Hirtz\Cms\hotspot\modules\admin\widgets\panels\HotspotAssetFilePanel;
+use Hirtz\Cms\models\ActiveRecord;
+use Hirtz\Cms\models\traits\VisibleAttributeTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use davidhirtz\yii2\media\models\interfaces\AssetInterface;
-use davidhirtz\yii2\media\models\traits\AssetTrait;
-use davidhirtz\yii2\media\models\traits\FileRelationTrait;
-use davidhirtz\yii2\skeleton\behaviors\TrailBehavior;
-use davidhirtz\yii2\skeleton\validators\RelationValidator;
+use Hirtz\Media\models\interfaces\AssetInterface;
+use Hirtz\Media\models\traits\AssetTrait;
+use Hirtz\Media\models\traits\FileRelationTrait;
+use Hirtz\Skeleton\behaviors\TrailBehavior;
+use Hirtz\Skeleton\validators\RelationValidator;
 use Yii;
 
 /**

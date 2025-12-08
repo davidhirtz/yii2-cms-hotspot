@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\columns;
+namespace Hirtz\Cms\hotspot\modules\admin\widgets\grids\columns;
 
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\media\modules\admin\widgets\grids\columns\Thumbnail;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\columns\LinkDataColumn;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Media\modules\admin\widgets\grids\columns\Thumbnail;
+use Hirtz\Skeleton\modules\admin\widgets\grids\columns\LinkDataColumn;
 
 class HotspotAssetThumbnailColumn extends LinkDataColumn
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\models\events;
+namespace Hirtz\Cms\hotspot\models\events;
 
-use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\skeleton\models\events\DuplicateActiveRecordEvent;
+use Hirtz\Cms\models\Asset;
+use Hirtz\Skeleton\models\events\DuplicateActiveRecordEvent;
 
 /**
  * @property DuplicateActiveRecordEvent $event

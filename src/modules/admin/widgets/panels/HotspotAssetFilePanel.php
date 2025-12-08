@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\panels;
+namespace Hirtz\Cms\hotspot\modules\admin\widgets\panels;
 
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\HotspotAssetParentGridView;
-use davidhirtz\yii2\media\models\File;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\Panel;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\modules\admin\widgets\grids\HotspotAssetParentGridView;
+use Hirtz\Media\models\File;
+use Hirtz\Skeleton\widgets\bootstrap\Panel;
 use Yii;
 use yii\base\Widget;
 

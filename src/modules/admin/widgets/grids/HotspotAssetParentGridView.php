@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids;
+namespace Hirtz\Cms\hotspot\modules\admin\widgets\grids;
 
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\media\models\File;
-use davidhirtz\yii2\skeleton\helpers\Html;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\columns\CounterColumn;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\GridView;
-use davidhirtz\yii2\skeleton\widgets\fontawesome\Icon;
-use davidhirtz\yii2\timeago\TimeagoColumn;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Media\models\File;
+use Hirtz\Skeleton\helpers\Html;
+use Hirtz\Skeleton\modules\admin\widgets\grids\columns\CounterColumn;
+use Hirtz\Skeleton\modules\admin\widgets\grids\GridView;
+use Hirtz\Skeleton\widgets\fontawesome\Icon;
+use Hirtz\Timeago\TimeagoColumn;
 use Yii;
 use yii\data\ActiveDataProvider;
 

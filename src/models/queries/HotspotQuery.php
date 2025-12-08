@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\models\queries;
+namespace Hirtz\Cms\hotspot\models\queries;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\skeleton\db\I18nActiveQuery;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Skeleton\db\I18nActiveQuery;
 
 /**
  * @extends I18nActiveQuery<Hotspot>

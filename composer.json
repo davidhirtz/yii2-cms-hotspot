@@ -31,12 +31,12 @@
   },
   "autoload": {
     "psr-4": {
-      "davidhirtz\\yii2\\cms\\hotspot\\": "src"
+      "Hirtz\\Cms\\hotspot\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "davidhirtz\\yii2\\cms\\hotspot\\tests\\": "tests"
+      "Hirtz\\Cms\\hotspot\\tests\\": "tests"
     }
   },
   "config": {
@@ -49,7 +49,7 @@
     }
   },
   "extra": {
-    "bootstrap": "davidhirtz\\yii2\\cms\\hotspot\\Bootstrap"
+    "bootstrap": "Hirtz\\Cms\\hotspot\\Bootstrap"
   },
   "repositories": [
     {

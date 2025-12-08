@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\models\builders;
+namespace Hirtz\Cms\hotspot\models\builders;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\modules\admin\Module;
 use Yii;
 
-class EntrySiteRelationsBuilder extends \davidhirtz\yii2\cms\models\builders\EntrySiteRelationsBuilder
+class EntrySiteRelationsBuilder extends \Hirtz\Cms\models\builders\EntrySiteRelationsBuilder
 {
     /**
      * @var Hotspot[]

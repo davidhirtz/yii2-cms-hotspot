@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot;
+namespace Hirtz\Cms\hotspot;
 
-use davidhirtz\yii2\cms\hotspot\models\events\AssetAfterDuplicateEventHandler;
-use davidhirtz\yii2\cms\hotspot\models\events\AssetBeforeDeleteEventHandler;
-use davidhirtz\yii2\cms\hotspot\models\events\AssetBeforeDuplicateEventHandler;
-use davidhirtz\yii2\cms\hotspot\models\events\FileBeforeDeleteEventHandler;
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\hotspot\modules\admin\Module;
-use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\cms\models\builders\EntrySiteRelationsBuilder;
-use davidhirtz\yii2\cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn;
-use davidhirtz\yii2\cms\widgets\Canvas;
-use davidhirtz\yii2\media\models\File;
-use davidhirtz\yii2\media\modules\admin\widgets\forms\fields\AssetPreview;
-use davidhirtz\yii2\skeleton\models\actions\DuplicateActiveRecord;
-use davidhirtz\yii2\skeleton\models\events\DuplicateActiveRecordEvent;
-use davidhirtz\yii2\skeleton\web\Application;
+use Hirtz\Cms\hotspot\models\events\AssetAfterDuplicateEventHandler;
+use Hirtz\Cms\hotspot\models\events\AssetBeforeDeleteEventHandler;
+use Hirtz\Cms\hotspot\models\events\AssetBeforeDuplicateEventHandler;
+use Hirtz\Cms\hotspot\models\events\FileBeforeDeleteEventHandler;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\modules\admin\Module;
+use Hirtz\Cms\models\Asset;
+use Hirtz\Cms\models\builders\EntrySiteRelationsBuilder;
+use Hirtz\Cms\modules\admin\widgets\grids\columns\AssetThumbnailColumn;
+use Hirtz\Cms\widgets\Canvas;
+use Hirtz\Media\models\File;
+use Hirtz\Media\modules\admin\widgets\forms\fields\AssetPreview;
+use Hirtz\Skeleton\models\actions\DuplicateActiveRecord;
+use Hirtz\Skeleton\models\events\DuplicateActiveRecordEvent;
+use Hirtz\Skeleton\web\Application;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\ModelEvent;
@@ -102,6 +102,6 @@ class Bootstrap implements BootstrapInterface
             ])
         );
 
-        $app->setMigrationNamespace('davidhirtz\yii2\cms\hotspot\migrations');
+        $app->setMigrationNamespace('Hirtz\Cms\hotspot\migrations');
     }
 }

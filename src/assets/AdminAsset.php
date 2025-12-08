@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\assets;
+namespace Hirtz\Cms\hotspot\assets;
 
-use davidhirtz\yii2\skeleton\assets\JuiAsset;
+use Hirtz\Skeleton\assets\JuiAsset;
 use yii\web\AssetBundle;
 
 class AdminAsset extends AssetBundle
@@ -12,7 +12,7 @@ class AdminAsset extends AssetBundle
     public $css = ['css/hotspot.min.css'];
 
     public $depends = [
-        \davidhirtz\yii2\skeleton\assets\AdminAsset::class,
+        \Hirtz\Skeleton\assets\AdminAsset::class,
         JuiAsset::class,
     ];
 

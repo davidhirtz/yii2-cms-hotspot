@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\forms;
+namespace Hirtz\Cms\hotspot\modules\admin\widgets\forms;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\modules\ModuleTrait;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ContentFieldTrait;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\StatusFieldTrait;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\forms\traits\TypeFieldTrait;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveField;
-use davidhirtz\yii2\skeleton\widgets\bootstrap\ActiveForm;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\modules\ModuleTrait;
+use Hirtz\Skeleton\modules\admin\widgets\forms\traits\ContentFieldTrait;
+use Hirtz\Skeleton\modules\admin\widgets\forms\traits\ModelTimestampTrait;
+use Hirtz\Skeleton\modules\admin\widgets\forms\traits\StatusFieldTrait;
+use Hirtz\Skeleton\modules\admin\widgets\forms\traits\TypeFieldTrait;
+use Hirtz\Skeleton\widgets\bootstrap\ActiveField;
+use Hirtz\Skeleton\widgets\bootstrap\ActiveForm;
 
 /**
  * @property Hotspot $model

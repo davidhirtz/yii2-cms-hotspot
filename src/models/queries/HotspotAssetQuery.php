@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\models\queries;
+namespace Hirtz\Cms\hotspot\models\queries;
 
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\media\models\queries\FileQuery;
-use davidhirtz\yii2\skeleton\db\I18nActiveQuery;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Media\models\queries\FileQuery;
+use Hirtz\Skeleton\db\I18nActiveQuery;
 
 /**
  * @extends I18nActiveQuery<HotspotAsset>

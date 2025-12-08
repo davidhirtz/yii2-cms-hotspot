@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits;
+namespace Hirtz\Cms\hotspot\modules\admin\controllers\traits;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\models\Hotspot;
 use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\widgets;
+namespace Hirtz\Cms\hotspot\widgets;
 
-class Canvas extends \davidhirtz\yii2\cms\widgets\Canvas
+class Canvas extends \Hirtz\Cms\widgets\Canvas
 {
     /**
      * @uses static::renderHotspots()

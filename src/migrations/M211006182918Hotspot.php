@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\migrations;
+namespace Hirtz\Cms\hotspot\migrations;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\migrations\traits\I18nTablesTrait;
-use davidhirtz\yii2\cms\models\Asset;
-use davidhirtz\yii2\media\models\File;
-use davidhirtz\yii2\skeleton\db\traits\MigrationTrait;
-use davidhirtz\yii2\skeleton\models\User;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\migrations\traits\I18nTablesTrait;
+use Hirtz\Cms\models\Asset;
+use Hirtz\Media\models\File;
+use Hirtz\Skeleton\db\traits\MigrationTrait;
+use Hirtz\Skeleton\models\User;
 use yii\db\Migration;
 
 /**

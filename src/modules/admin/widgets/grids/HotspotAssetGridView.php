@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids;
+namespace Hirtz\Cms\hotspot\modules\admin\widgets\grids;
 
-use davidhirtz\yii2\cms\hotspot\models\Hotspot;
-use davidhirtz\yii2\cms\hotspot\models\HotspotAsset;
-use davidhirtz\yii2\cms\hotspot\modules\admin\widgets\grids\columns\HotspotAssetThumbnailColumn;
-use davidhirtz\yii2\cms\models\Entry;
-use davidhirtz\yii2\cms\modules\ModuleTrait;
-use davidhirtz\yii2\media\modules\admin\widgets\grids\traits\AssetColumnsTrait;
-use davidhirtz\yii2\media\modules\admin\widgets\grids\traits\UploadTrait;
-use davidhirtz\yii2\skeleton\helpers\Html;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\GridView;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\traits\StatusGridViewTrait;
-use davidhirtz\yii2\skeleton\modules\admin\widgets\grids\traits\TypeGridViewTrait;
+use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\modules\admin\widgets\grids\columns\HotspotAssetThumbnailColumn;
+use Hirtz\Cms\models\Entry;
+use Hirtz\Cms\modules\ModuleTrait;
+use Hirtz\Media\modules\admin\widgets\grids\traits\AssetColumnsTrait;
+use Hirtz\Media\modules\admin\widgets\grids\traits\UploadTrait;
+use Hirtz\Skeleton\helpers\Html;
+use Hirtz\Skeleton\modules\admin\widgets\grids\GridView;
+use Hirtz\Skeleton\modules\admin\widgets\grids\traits\StatusGridViewTrait;
+use Hirtz\Skeleton\modules\admin\widgets\grids\traits\TypeGridViewTrait;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecordInterface;
