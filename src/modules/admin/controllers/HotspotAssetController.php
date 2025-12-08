@@ -10,7 +10,7 @@ use davidhirtz\yii2\cms\hotspot\modules\admin\controllers\traits\HotspotTrait;
 use davidhirtz\yii2\cms\modules\ModuleTrait;
 use davidhirtz\yii2\media\models\File;
 use davidhirtz\yii2\media\models\Folder;
-use davidhirtz\yii2\media\modules\admin\controllers\traits\FileTrait;
+use davidhirtz\yii2\media\modules\admin\controllers\traits\FileControllerTrait;
 use davidhirtz\yii2\media\modules\admin\data\FileActiveDataProvider;
 use davidhirtz\yii2\skeleton\web\Controller;
 use Yii;
@@ -24,7 +24,7 @@ class HotspotAssetController extends Controller
 {
     use HotspotTrait;
     use ModuleTrait;
-    use FileTrait;
+    use FileControllerTrait;
 
     public function behaviors(): array
     {
