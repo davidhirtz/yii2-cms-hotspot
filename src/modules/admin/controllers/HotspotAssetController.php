@@ -26,32 +26,30 @@ class HotspotAssetController extends Controller
     use ModuleTrait;
     use FileControllerTrait;
 
+    #[\Override]
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'delete', 'order', 'update'],
-                        'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => ['entryAssetCreate', 'sectionAssetCreate'],
-                    ],
+        return [...parent::behaviors(), 'access' => [
+            'class' => AccessControl::class,
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['index', 'delete', 'order', 'update'],
+                    'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
+                ],
+                [
+                    'allow' => true,
+                    'actions' => ['create'],
+                    'roles' => ['entryAssetCreate', 'sectionAssetCreate'],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['post'],
-                    'order' => ['post'],
-                ],
+        ], 'verbs' => [
+            'class' => VerbFilter::class,
+            'actions' => [
+                'delete' => ['post'],
+                'order' => ['post'],
             ],
-        ]);
+        ]];
     }
 
     public function actionIndex(int $hotspot, ?int $folder = null, ?string $q = null): Response|string

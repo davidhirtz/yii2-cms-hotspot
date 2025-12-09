@@ -44,6 +44,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 
     public ?bool $shouldUpdateHotspotAfterInsert = null;
 
+    #[\Override]
     public function behaviors(): array
     {
         return [
@@ -56,6 +57,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         ];
     }
 
+    #[\Override]
     public function rules(): array
     {
         return [
@@ -85,12 +87,14 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         ];
     }
 
+    #[\Override]
     public function beforeSave($insert): bool
     {
         $this->shouldUpdateHotspotAfterInsert ??= !$this->getIsBatch();
         return parent::beforeSave($insert);
     }
 
+    #[\Override]
     public function afterSave($insert, $changedAttributes): void
     {
         if ($insert) {
@@ -107,6 +111,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         parent::afterSave($insert, $changedAttributes);
     }
 
+    #[\Override]
     public function afterDelete(): void
     {
         if (!$this->hotspot->isDeleted()) {
@@ -132,6 +137,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return static::find()->where(['hotspot_id' => $this->hotspot_id]);
     }
 
+    #[\Override]
     public static function find(): HotspotAssetQuery
     {
         return Yii::createObject(HotspotAssetQuery::class, [static::class]);
@@ -158,6 +164,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return $this->file->update();
     }
 
+    #[\Override]
     public function getMaxPosition(): int
     {
         return (int)$this->findSiblings()->max('[[position]]');
@@ -202,6 +209,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return Yii::t('hotspot', 'Hotspot Asset');
     }
 
+    #[\Override]
     public function attributeLabels(): array
     {
         return [
@@ -213,11 +221,13 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         ];
     }
 
+    #[\Override]
     public function formName(): string
     {
         return 'HotspotAsset';
     }
 
+    #[\Override]
     public static function tableName(): string
     {
         return static::getModule()->getTableName('hotspot_asset');

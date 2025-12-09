@@ -24,6 +24,7 @@ class DuplicateHotspot extends DuplicateActiveRecord
         parent::__construct($hotspot, $attributes);
     }
 
+    #[\Override]
     protected function beforeDuplicate(): bool
     {
         $this->duplicate->populateAssetRelation(!$this->asset || $this->asset->getIsNewRecord()
@@ -37,6 +38,7 @@ class DuplicateHotspot extends DuplicateActiveRecord
         return parent::beforeDuplicate();
     }
 
+    #[\Override]
     protected function afterDuplicate(): void
     {
         parent::afterDuplicate();

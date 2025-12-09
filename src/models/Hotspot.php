@@ -75,6 +75,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
 
     public ?bool $shouldUpdateAssetAfterInsert = null;
 
+    #[\Override]
     public function behaviors(): array
     {
         return [
@@ -84,6 +85,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         ];
     }
 
+    #[\Override]
     public function rules(): array
     {
         return [
@@ -135,6 +137,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         ];
     }
 
+    #[\Override]
     public function fields(): array
     {
         return [
@@ -146,6 +149,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         ];
     }
 
+    #[\Override]
     public function beforeValidate(): bool
     {
         $this->status ??= static::STATUS_DEFAULT;
@@ -154,6 +158,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return parent::beforeValidate();
     }
 
+    #[\Override]
     public function afterValidate(): void
     {
         // Disable hotspot move / clone for now ...
@@ -164,6 +169,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         parent::afterValidate();
     }
 
+    #[\Override]
     public function beforeSave($insert): bool
     {
         $this->attachBehaviors([
@@ -182,6 +188,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return parent::beforeSave($insert);
     }
 
+    #[\Override]
     public function afterSave($insert, $changedAttributes): void
     {
         if ($insert) {
@@ -196,6 +203,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         parent::afterSave($insert, $changedAttributes);
     }
 
+    #[\Override]
     public function beforeDelete(): bool
     {
         if (!parent::beforeDelete()) {
@@ -211,6 +219,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return true;
     }
 
+    #[\Override]
     public function afterDelete(): void
     {
         if (!$this->asset->isDeleted()) {
@@ -238,6 +247,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return $relation;
     }
 
+    #[\Override]
     public static function find(): HotspotQuery
     {
         return Yii::createObject(HotspotQuery::class, [static::class]);
@@ -343,24 +353,19 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return $module->enableHotspotAssets;
     }
 
+    #[\Override]
     public function attributeLabels(): array
     {
-        return array_merge(parent::attributeLabels(), [
-            'asset_id' => Yii::t('cms', 'Asset'),
-            'name' => Yii::t('cms', 'Title'),
-            'content' => Yii::t('cms', 'Content'),
-            'link' => Yii::t('cms', 'Link'),
-            'x' => Yii::t('hotspot', 'Horizontal position'),
-            'y' => Yii::t('hotspot', 'Vertical position'),
-            'asset_count' => Yii::t('hotspot', 'Hotspot Asset'),
-        ]);
+        return [...parent::attributeLabels(), 'asset_id' => Yii::t('cms', 'Asset'), 'name' => Yii::t('cms', 'Title'), 'content' => Yii::t('cms', 'Content'), 'link' => Yii::t('cms', 'Link'), 'x' => Yii::t('hotspot', 'Horizontal position'), 'y' => Yii::t('hotspot', 'Vertical position'), 'asset_count' => Yii::t('hotspot', 'Hotspot Asset')];
     }
 
+    #[\Override]
     public function formName(): string
     {
         return 'Hotspot';
     }
 
+    #[\Override]
     public static function tableName(): string
     {
         return static::getModule()->getTableName('hotspot');

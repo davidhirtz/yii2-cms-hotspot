@@ -25,6 +25,7 @@ class ReorderHotspotAssets extends ReorderActiveRecords
         parent::__construct($assets, $order);
     }
 
+    #[\Override]
     protected function afterReorder(): void
     {
         $trail = Trail::createOrderTrail($this->hotspot, Yii::t('hotspot', 'Hotspot asset order changed'));

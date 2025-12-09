@@ -9,7 +9,7 @@ use Hirtz\Cms\Models\Entry;
 
 class EntryTest extends Unit
 {
-    public function testCreateEntry()
+    public function testCreateEntry(): void
     {
         $entry = Entry::create();
         $entry->name = 'Test Entry';

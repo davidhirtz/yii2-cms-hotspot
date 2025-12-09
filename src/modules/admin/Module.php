@@ -36,9 +36,10 @@ class Module extends \yii\base\Module
         ],
     ];
 
+    #[\Override]
     public function init(): void
     {
-        $this->module->controllerMap = ArrayHelper::merge(array_merge($this->module->controllerMap, $this->defaultControllerMap), $this->controllerMap);
+        $this->module->controllerMap = ArrayHelper::merge([...$this->module->controllerMap, ...$this->defaultControllerMap], $this->controllerMap);
         parent::init();
     }
 }

@@ -23,6 +23,7 @@ class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRela
 
     protected array $hotspotIdsWithHotspotAssets = [];
 
+    #[\Override]
     protected function loadAssets(): void
     {
         parent::loadAssets();
@@ -85,6 +86,7 @@ class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRela
         }
     }
 
+    #[\Override]
     protected function populateAssetRelations(): void
     {
         foreach ($this->hotspotAssets as $hotspotAsset) {

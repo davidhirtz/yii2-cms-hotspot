@@ -25,7 +25,5 @@ class HotspotAssetActiveForm extends ActiveForm
             'alt_text',
             'link',
         ];
-
-        parent::init();
     }
 }

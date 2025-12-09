@@ -165,7 +165,7 @@ class HotspotAssetGridView extends GridView
      */
     protected function getRoute(ActiveRecordInterface $model, array $params = []): array|false
     {
-        return array_merge($model->getAdminRoute(), $params);
+        return [...$model->getAdminRoute(), ...$params];
     }
 
     protected function getFileUploadRoute(): array

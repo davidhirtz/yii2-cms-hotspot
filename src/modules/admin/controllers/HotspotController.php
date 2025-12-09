@@ -22,28 +22,26 @@ class HotspotController extends Controller
     use HotspotTrait;
     use ModuleTrait;
 
+    #[\Override]
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['create', 'delete', 'duplicate', 'update'],
-                        'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
-                    ],
+        return [...parent::behaviors(), 'access' => [
+            'class' => AccessControl::class,
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['create', 'delete', 'duplicate', 'update'],
+                    'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'create' => ['post'],
-                    'delete' => ['post'],
-                    'duplicate' => ['post'],
-                ],
+        ], 'verbs' => [
+            'class' => VerbFilter::class,
+            'actions' => [
+                'create' => ['post'],
+                'delete' => ['post'],
+                'duplicate' => ['post'],
             ],
-        ]);
+        ]];
     }
 
     public function actionCreate(int $id): Response|string
