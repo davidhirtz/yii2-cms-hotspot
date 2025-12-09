@@ -7,7 +7,7 @@ namespace Hirtz\Cms\hotspot\Modules\Admin\Controllers;
 use Hirtz\Cms\hotspot\models\actions\DuplicateHotspot;
 use Hirtz\Cms\hotspot\models\Hotspot;
 use Hirtz\Cms\hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
-use Hirtz\Cms\Modules\Admin\Traits\AssetTrait;
+use Hirtz\Cms\Modules\Admin\Controllers\Traits\AssetControllerTrait;
 use Hirtz\Cms\modules\ModuleTrait;
 use Hirtz\Skeleton\Web\Controller;
 use Yii;
@@ -18,7 +18,7 @@ use yii\web\Response;
 
 class HotspotController extends Controller
 {
-    use AssetTrait;
+    use AssetControllerTrait;
     use HotspotTrait;
     use ModuleTrait;
 
