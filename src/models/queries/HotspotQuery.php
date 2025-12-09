@@ -23,7 +23,7 @@ class HotspotQuery extends I18nActiveQuery
     public function withAssets(): static
     {
         return $this->with([
-            'assets' => function (HotspotAssetQuery $query) {
+            'assets' => function (HotspotAssetQuery $query): void {
                 $query->selectSiteAttributes()
                     ->replaceI18nAttributes()
                     ->whereStatus()

@@ -27,7 +27,7 @@ class HotspotAssetParentGridView extends GridView
 
     public function init(): void
     {
-        Yii::$app->getI18n()->callback($this->language, function () {
+        Yii::$app->getI18n()->callback($this->language, function (): void {
             $this->dataProvider ??= new ActiveDataProvider([
                 'query' => HotspotAsset::find()
                     ->where(['file_id' => $this->file->id])

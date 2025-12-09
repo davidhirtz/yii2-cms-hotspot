@@ -24,7 +24,7 @@ class M211006182918Hotspot extends Migration
 
     public function safeUp(): void
     {
-        $this->i18nTablesCallback(function () {
+        $this->i18nTablesCallback(function (): void {
             $this->createTable(Hotspot::tableName(), [
                 'id' => $this->primaryKey()->unsigned(),
                 'status' => $this->tinyInteger()->unsigned()->notNull()->defaultValue(Hotspot::STATUS_ENABLED),
@@ -135,7 +135,7 @@ class M211006182918Hotspot extends Migration
             $this->dropColumn(File::tableName(), $attributeName);
         }
 
-        $this->i18nTablesCallback(function () {
+        $this->i18nTablesCallback(function (): void {
             $this->dropColumn(Asset::tableName(), 'hotspot_count');
 
             $this->dropTable(HotspotAsset::tableName());
