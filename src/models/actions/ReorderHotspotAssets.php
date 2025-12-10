@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\models\actions;
+namespace Hirtz\Cms\hotspot\Models\Actions;
 
-use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\Models\actions\ReorderActiveRecords;
+use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\Models\Actions\ReorderActiveRecords;
 use davidhirtz\yii2\datetime\DateTime;
 use Hirtz\Skeleton\Models\Trail;
 use Yii;

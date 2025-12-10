@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\hotspot\Modules\Admin\Controllers;
 
-use Hirtz\Cms\hotspot\models\actions\ReorderHotspotAssets;
-use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\Models\Actions\ReorderHotspotAssets;
+use Hirtz\Cms\hotspot\Models\HotspotAsset;
 use Hirtz\Cms\hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\modules\ModuleTrait;
-use Hirtz\Media\models\File;
-use Hirtz\Media\models\Folder;
+use Hirtz\Media\Models\File;
+use Hirtz\Media\Models\Folder;
 use Hirtz\Media\Modules\Admin\Controllers\Traits\FileControllerTrait;
 use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
 use Hirtz\Skeleton\Web\Controller;

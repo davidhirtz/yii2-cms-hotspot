@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @var Hotspot $hotspot
  */
 
-use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\Models\Hotspot;
 use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\FileGridView;

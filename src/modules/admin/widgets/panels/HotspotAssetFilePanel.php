@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Panels;
 
-use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\Models\HotspotAsset;
 use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\HotspotAssetParentGridView;
-use Hirtz\Media\models\File;
+use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Widgets\Bootstrap\Panel;
 use Yii;
 use yii\base\Widget;

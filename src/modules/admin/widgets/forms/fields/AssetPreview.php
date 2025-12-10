@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\Fields;
 
 use Hirtz\Cms\hotspot\assets\AdminAsset;
-use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\Models\Hotspot;
 use Hirtz\Cms\hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Yii;

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\models;
+namespace Hirtz\Cms\hotspot\Models;
 
-use Hirtz\Cms\hotspot\models\queries\HotspotAssetQuery;
-use Hirtz\Cms\hotspot\models\queries\HotspotQuery;
+use Hirtz\Cms\hotspot\Models\Queries\HotspotAssetQuery;
+use Hirtz\Cms\hotspot\Models\Queries\HotspotQuery;
 use Hirtz\Cms\hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
-use Hirtz\Cms\Models\queries\AssetQuery;
-use Hirtz\Cms\Models\traits\VisibleAttributeTrait;
+use Hirtz\Cms\Models\Queries\AssetQuery;
+use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;
 use Hirtz\Cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use Hirtz\Media\models\interfaces\AssetParentInterface;
-use Hirtz\Media\models\traits\AssetParentTrait;
+use Hirtz\Media\Models\interfaces\AssetParentInterface;
+use Hirtz\Media\Models\Traits\AssetParentTrait;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;

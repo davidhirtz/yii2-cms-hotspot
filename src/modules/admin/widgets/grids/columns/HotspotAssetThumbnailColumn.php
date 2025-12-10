@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\Columns;
 
-use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\Models\HotspotAsset;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\Thumbnail;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Columns\LinkDataColumn;
 

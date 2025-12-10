@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids;
 
-use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\hotspot\Models\HotspotAsset;
 use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\Columns\HotspotAssetThumbnailColumn;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Cms\modules\ModuleTrait;

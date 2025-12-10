@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @var Hotspot $hotspot
  */
 
-use Hirtz\Cms\hotspot\models\Hotspot;
+use Hirtz\Cms\hotspot\Models\Hotspot;
 use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotController;
 use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\HotspotActiveForm;
 use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\HotspotAssetGridView;

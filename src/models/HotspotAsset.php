@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\models;
+namespace Hirtz\Cms\hotspot\Models;
 
-use Hirtz\Cms\hotspot\models\queries\HotspotAssetQuery;
-use Hirtz\Cms\hotspot\models\queries\HotspotQuery;
+use Hirtz\Cms\hotspot\Models\Queries\HotspotAssetQuery;
+use Hirtz\Cms\hotspot\Models\Queries\HotspotQuery;
 use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Panels\HotspotAssetFilePanel;
 use Hirtz\Cms\Models\ActiveRecord;
-use Hirtz\Cms\Models\traits\VisibleAttributeTrait;
+use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use Hirtz\Media\models\interfaces\AssetInterface;
-use Hirtz\Media\models\traits\AssetTrait;
-use Hirtz\Media\models\traits\FileRelationTrait;
+use Hirtz\Media\Models\interfaces\AssetInterface;
+use Hirtz\Media\Models\Traits\AssetTrait;
+use Hirtz\Media\Models\Traits\FileRelationTrait;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Validators\RelationValidator;
 use Yii;

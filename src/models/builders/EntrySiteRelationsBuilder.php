@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\models\builders;
+namespace Hirtz\Cms\hotspot\Models\builders;
 
-use Hirtz\Cms\hotspot\models\Hotspot;
-use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\hotspot\Models\HotspotAsset;
 use Hirtz\Cms\hotspot\Modules\Admin\Module;
 use Yii;
 

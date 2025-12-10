@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms;
 
-use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Modules\Admin\Widgets\Forms\ActiveForm;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Traits\AssetFieldsTrait;
 

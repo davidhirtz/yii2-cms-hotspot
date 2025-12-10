@@ -61,16 +61,16 @@
 - Moved `Bootstrap` class to base package namespace for consistency
 - Removed `SiteController`, instead the implementation of `EntrySiteRelationsBuilder` is extended, which takes care of
   loading hotspots and assets
-- Removed `Hotspot::updateAssetOrder()`, use `\Hirtz\Cms\hotspot\models\actions\ReorderHotspotAsset`
+- Removed `Hotspot::updateAssetOrder()`, use `\Hirtz\Cms\hotspot\Models\Actions\ReorderHotspotAsset`
   instead
 - Removed `Hotspot::clone()` and `HotspotAsset::clone()`,
-  use `Hirtz\Cms\hotspot\models\actions\DuplicateHotspot` instead
-- Removed `HotspotAsset::updatePosition()`, use `Hirtz\Cms\hotspot\models\actions\ReorderHotspotAssets`
+  use `Hirtz\Cms\hotspot\Models\Actions\DuplicateHotspot` instead
+- Removed `HotspotAsset::updatePosition()`, use `Hirtz\Cms\hotspot\Models\Actions\ReorderHotspotAssets`
   instead
 
 ## 2.0.1 (Nov 4, 2023)
 
-- Changed namespaces for model interfaces to `Hirtz\Media\models\interfaces`
+- Changed namespaces for model interfaces to `Hirtz\Media\Models\interfaces`
 
 ## 2.0.0 (Nov 3, 2023)
 

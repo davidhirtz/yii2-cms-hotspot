@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\hotspot;
 
-use Hirtz\Cms\hotspot\models\events\AssetAfterDuplicateEventHandler;
-use Hirtz\Cms\hotspot\models\events\AssetBeforeDeleteEventHandler;
-use Hirtz\Cms\hotspot\models\events\AssetBeforeDuplicateEventHandler;
-use Hirtz\Cms\hotspot\models\events\FileBeforeDeleteEventHandler;
-use Hirtz\Cms\hotspot\models\HotspotAsset;
+use Hirtz\Cms\hotspot\Models\events\AssetAfterDuplicateEventHandler;
+use Hirtz\Cms\hotspot\Models\events\AssetBeforeDeleteEventHandler;
+use Hirtz\Cms\hotspot\Models\events\AssetBeforeDuplicateEventHandler;
+use Hirtz\Cms\hotspot\Models\events\FileBeforeDeleteEventHandler;
+use Hirtz\Cms\hotspot\Models\HotspotAsset;
 use Hirtz\Cms\hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\Modules\Admin\Widgets\Forms\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\widgets\Canvas;
-use Hirtz\Media\models\File;
+use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
