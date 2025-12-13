@@ -6,9 +6,9 @@ declare(strict_types=1);
  * @noinspection PhpUnused
  */
 
-namespace Hirtz\Cms\hotspot\tests\functional;
+namespace Hirtz\Cms\Hotspot\tests\functional;
 
-use Hirtz\Cms\hotspot\tests\support\FunctionalTester;
+use Hirtz\Cms\Hotspot\tests\support\FunctionalTester;
 use Hirtz\Cms\Module;
 use Hirtz\Cms\Modules\Admin\Data\EntryActiveDataProvider;
 use Hirtz\Cms\Modules\Admin\Widgets\Forms\EntryGridView;

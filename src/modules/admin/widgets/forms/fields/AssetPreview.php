@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\Fields;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\Fields;
 
-use Hirtz\Cms\hotspot\assets\AdminAsset;
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Hotspot\Assets\AdminAsset;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Yii;
 use yii\helpers\Json;

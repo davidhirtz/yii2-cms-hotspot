@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\modules\admin;
+namespace Hirtz\Cms\Hotspot\Modules\Admin;
 
-use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotAssetController;
-use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotController;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
 use yii\helpers\ArrayHelper;
 
 class Module extends \yii\base\Module

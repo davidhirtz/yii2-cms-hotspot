@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\assets;
+namespace Hirtz\Cms\Hotspot\Assets;
 
 use Hirtz\Skeleton\Assets\JuiAsset;
 use yii\web\AssetBundle;

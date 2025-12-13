@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\tests\fixtures;
+namespace Hirtz\Cms\Hotspot\tests\fixtures;
 
 use Hirtz\Skeleton\Models\User;
 use yii\test\ActiveFixture;

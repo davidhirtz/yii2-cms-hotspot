@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Models\builders;
+namespace Hirtz\Cms\Hotspot\Models\builders;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
-use Hirtz\Cms\hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Yii;
 
 class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder

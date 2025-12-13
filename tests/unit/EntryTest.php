@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\tests\unit;
+namespace Hirtz\Cms\Hotspot\tests\unit;
 
 use Codeception\Test\Unit;
 use Hirtz\Cms\Models\Entry;

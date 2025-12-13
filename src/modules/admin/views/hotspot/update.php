@@ -8,12 +8,12 @@ declare(strict_types=1);
  * @var Hotspot $hotspot
  */
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotController;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\HotspotActiveForm;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\HotspotAssetGridView;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Panels\HotspotHelpPanel;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\HotspotActiveForm;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\HotspotAssetGridView;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels\HotspotHelpPanel;
 use Hirtz\Skeleton\Helpers\Html;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Bootstrap\Panel;

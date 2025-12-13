@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Controllers;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
-use Hirtz\Cms\hotspot\Models\Actions\ReorderHotspotAssets;
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
-use Hirtz\Cms\hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
+use Hirtz\Cms\Hotspot\Models\Actions\ReorderHotspotAssets;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\modules\ModuleTrait;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Models\Folder;

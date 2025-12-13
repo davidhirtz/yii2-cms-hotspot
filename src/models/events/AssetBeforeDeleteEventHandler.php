@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Models\events;
+namespace Hirtz\Cms\Hotspot\Models\events;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Models\Asset;
 use Yii;
 use yii\base\ModelEvent;

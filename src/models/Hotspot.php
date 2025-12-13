@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Models;
+namespace Hirtz\Cms\Hotspot\Models;
 
-use Hirtz\Cms\hotspot\Models\Queries\HotspotAssetQuery;
-use Hirtz\Cms\hotspot\Models\Queries\HotspotQuery;
-use Hirtz\Cms\hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Hotspot\Models\Queries\HotspotAssetQuery;
+use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
+use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\Queries\AssetQuery;
 use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;

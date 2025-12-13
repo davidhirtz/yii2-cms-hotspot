@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Models\Queries;
+namespace Hirtz\Cms\Hotspot\Models\Queries;
 
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Media\Models\Queries\FileQuery;
 use Hirtz\Skeleton\Db\I18nActiveQuery;
 

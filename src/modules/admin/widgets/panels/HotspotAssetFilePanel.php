@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Panels;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels;
 
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\HotspotAssetParentGridView;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\HotspotAssetParentGridView;
 use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Widgets\Bootstrap\Panel;
 use Yii;

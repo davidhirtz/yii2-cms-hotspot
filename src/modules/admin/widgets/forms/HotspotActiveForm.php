@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\modules\ModuleTrait;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ContentFieldTrait;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ModelTimestampTrait;

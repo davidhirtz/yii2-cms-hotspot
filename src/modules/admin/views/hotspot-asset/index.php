@@ -9,9 +9,9 @@ declare(strict_types=1);
  * @var Hotspot $hotspot
  */
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotAssetController;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\FileGridView;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Bootstrap\Panel;

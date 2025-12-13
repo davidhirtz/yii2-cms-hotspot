@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Models\Queries;
+namespace Hirtz\Cms\Hotspot\Models\Queries;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Skeleton\Db\I18nActiveQuery;
 
 /**

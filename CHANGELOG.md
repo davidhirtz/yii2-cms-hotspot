@@ -61,11 +61,11 @@
 - Moved `Bootstrap` class to base package namespace for consistency
 - Removed `SiteController`, instead the implementation of `EntrySiteRelationsBuilder` is extended, which takes care of
   loading hotspots and assets
-- Removed `Hotspot::updateAssetOrder()`, use `\Hirtz\Cms\hotspot\Models\Actions\ReorderHotspotAsset`
+- Removed `Hotspot::updateAssetOrder()`, use `\Hirtz\Cms\Hotspot\Models\Actions\ReorderHotspotAsset`
   instead
 - Removed `Hotspot::clone()` and `HotspotAsset::clone()`,
-  use `Hirtz\Cms\hotspot\Models\Actions\DuplicateHotspot` instead
-- Removed `HotspotAsset::updatePosition()`, use `Hirtz\Cms\hotspot\Models\Actions\ReorderHotspotAssets`
+  use `Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot` instead
+- Removed `HotspotAsset::updatePosition()`, use `Hirtz\Cms\Hotspot\Models\Actions\ReorderHotspotAssets`
   instead
 
 ## 2.0.1 (Nov 4, 2023)
@@ -77,9 +77,9 @@
 - Moved source code to `src` folder
 - Moved models and widgets out of `base` folder, to override them use Yii's dependency injection
   container
-- Changed namespaces from `Hirtz\Cms\hotspot\admin\widgets\grid`
-  to `Hirtz\Cms\hotspot\admin\widgets\grids` and `Hirtz\Cms\hotspot\admin\widgets\nav`
-  to `Hirtz\Cms\hotspot\admin\widgets\navs`
+- Changed namespaces from `Hirtz\Cms\Hotspot\admin\widgets\grid`
+  to `Hirtz\Cms\Hotspot\admin\widgets\grids` and `Hirtz\Cms\Hotspot\admin\widgets\nav`
+  to `Hirtz\Cms\Hotspot\admin\widgets\navs`
 - Added `AssetPreview` as an improved replacement for the default asset preview
 - Removed `ActiveForm::getActiveForm()`, to override the active forms, use Yii's dependency injection
   container

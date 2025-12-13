@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids;
 
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Helpers\Html;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Columns\CounterColumn;

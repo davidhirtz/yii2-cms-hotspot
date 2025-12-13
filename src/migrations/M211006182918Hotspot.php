@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Migrations;
+namespace Hirtz\Cms\Hotspot\Migrations;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Migrations\Traits\I18nTablesTrait;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Media\Models\File;

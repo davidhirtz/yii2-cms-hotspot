@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\tests\support;
+namespace Hirtz\Cms\Hotspot\tests\support;
 
 /**
  * Inherited Methods

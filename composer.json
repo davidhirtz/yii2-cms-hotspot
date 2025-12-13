@@ -13,43 +13,29 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "php": "^8.3",
     "davidhirtz/yii2-cms": "v3.x-dev"
   },
   "require-dev": {
-    "codeception/codeception": "^5.0",
-    "codeception/module-asserts": "^3.0",
-    "codeception/module-filesystem": "^3.0",
-    "codeception/module-phpbrowser": "^3.0",
-    "codeception/module-yii2": "^1.1",
-    "codeception/specify": "^2.0",
-    "codeception/verify": "^3.0",
-    "phpro/grumphp-shim": "^2.4",
-    "phpunit/phpunit": "^9",
-    "rector/rector": "^2.0",
-    "symplify/easy-coding-standard": "^12.0",
-    "yiisoft/yii2-debug": "^2.1"
   },
   "autoload": {
     "psr-4": {
-      "Hirtz\\Cms\\hotspot\\": "src"
+      "Hirtz\\Cms\\Hotspot\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Hirtz\\Cms\\hotspot\\tests\\": "tests"
+      "Hirtz\\Cms\\Hotspot\\Tests\\": "tests"
     }
   },
   "config": {
     "allow-plugins": {
       "yiisoft/yii2-composer": true,
       "phpro/grumphp-shim": true
-    },
-    "platform": {
-      "php": "8.1"
     }
   },
   "extra": {
-    "bootstrap": "Hirtz\\Cms\\hotspot\\Bootstrap"
+    "bootstrap": "Hirtz\\Cms\\Hotspot\\Bootstrap"
   },
   "repositories": [
     {

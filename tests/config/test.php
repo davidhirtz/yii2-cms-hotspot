@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Hirtz\Cms\hotspot\Bootstrap;
+use Hirtz\Cms\Hotspot\Bootstrap;
 
 return [
     'aliases' => [

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\Columns\HotspotAssetThumbnailColumn;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns\HotspotAssetThumbnailColumn;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Cms\modules\ModuleTrait;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\AssetColumnsTrait;

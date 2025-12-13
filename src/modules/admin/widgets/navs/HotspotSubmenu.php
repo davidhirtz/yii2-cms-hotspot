@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Modules\Admin\Widgets\Forms\Submenu;
 use Yii;
 

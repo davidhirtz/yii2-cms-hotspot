@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Models\events;
+namespace Hirtz\Cms\Hotspot\Models\events;
 
-use Hirtz\Cms\hotspot\Models\Actions\DuplicateHotspot;
-use Hirtz\Cms\hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
 use Yii;

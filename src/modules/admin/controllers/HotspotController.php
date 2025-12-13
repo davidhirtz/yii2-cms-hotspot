@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Controllers;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
-use Hirtz\Cms\hotspot\Models\Actions\DuplicateHotspot;
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
+use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\Modules\Admin\Controllers\Traits\AssetControllerTrait;
 use Hirtz\Cms\modules\ModuleTrait;
 use Hirtz\Skeleton\Web\Controller;

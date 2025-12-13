@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\widgets;
+namespace Hirtz\Cms\Hotspot\widgets;
 
 class Canvas extends \Hirtz\Cms\widgets\Canvas
 {

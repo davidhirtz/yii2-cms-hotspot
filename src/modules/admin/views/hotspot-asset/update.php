@@ -8,10 +8,10 @@ declare(strict_types=1);
  * @var HotspotAsset $asset
  */
 
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
-use Hirtz\Cms\hotspot\Modules\Admin\Controllers\HotspotAssetController;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Forms\HotspotAssetActiveForm;
-use Hirtz\Cms\hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\HotspotAssetActiveForm;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
 use Hirtz\Skeleton\Helpers\Html;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Bootstrap\Panel;

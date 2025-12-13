@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Modules\Admin\Widgets\Grids\Columns;
+namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns;
 
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Skeleton\Helpers\Html;

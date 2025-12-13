@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot\Models\Actions;
+namespace Hirtz\Cms\Hotspot\Models\Actions;
 
-use Hirtz\Cms\hotspot\Models\Hotspot;
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Cms\Models\Asset;
 use Yii;

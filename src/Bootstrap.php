@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\hotspot;
+namespace Hirtz\Cms\Hotspot;
 
-use Hirtz\Cms\hotspot\Models\events\AssetAfterDuplicateEventHandler;
-use Hirtz\Cms\hotspot\Models\events\AssetBeforeDeleteEventHandler;
-use Hirtz\Cms\hotspot\Models\events\AssetBeforeDuplicateEventHandler;
-use Hirtz\Cms\hotspot\Models\events\FileBeforeDeleteEventHandler;
-use Hirtz\Cms\hotspot\Models\HotspotAsset;
-use Hirtz\Cms\hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Hotspot\Models\events\AssetAfterDuplicateEventHandler;
+use Hirtz\Cms\Hotspot\Models\events\AssetBeforeDeleteEventHandler;
+use Hirtz\Cms\Hotspot\Models\events\AssetBeforeDuplicateEventHandler;
+use Hirtz\Cms\Hotspot\Models\events\FileBeforeDeleteEventHandler;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\Modules\Admin\Widgets\Forms\Columns\AssetThumbnailColumn;
@@ -102,6 +102,6 @@ class Bootstrap implements BootstrapInterface
             ])
         );
 
-        $app->setMigrationNamespace('Hirtz\Cms\hotspot\Migrations');
+        $app->setMigrationNamespace('Hirtz\Cms\Hotspot\Migrations');
     }
 }
