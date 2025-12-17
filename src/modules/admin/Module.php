@@ -28,11 +28,11 @@ class Module extends \yii\base\Module
     protected array $defaultControllerMap = [
         'hotspot' => [
             'class' => HotspotController::class,
-            'viewPath' => '@hotspot/modules/admin/views/hotspot',
+            'viewPath' => '@hotspot/../resources/views/admin/hotspot',
         ],
         'hotspot-asset' => [
             'class' => HotspotAssetController::class,
-            'viewPath' => '@hotspot/modules/admin/views/hotspot-asset',
+            'viewPath' => '@hotspot/../resources/views/admin/hotspot-asset',
         ],
     ];
 
