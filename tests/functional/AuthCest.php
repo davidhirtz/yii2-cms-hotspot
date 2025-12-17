@@ -11,7 +11,7 @@ namespace Hirtz\Cms\Hotspot\tests\functional;
 use Hirtz\Cms\Hotspot\tests\support\FunctionalTester;
 use Hirtz\Cms\Module;
 use Hirtz\Cms\Modules\Admin\Data\EntryActiveDataProvider;
-use Hirtz\Cms\Modules\Admin\Widgets\Forms\EntryGridView;
+use Hirtz\Cms\Modules\Admin\Widgets\Grids\EntryGridView;
 use Hirtz\Skeleton\Codeception\fixtures\UserFixtureTrait;
 use Hirtz\Skeleton\Codeception\functional\BaseCest;
 use Hirtz\Skeleton\Models\User;

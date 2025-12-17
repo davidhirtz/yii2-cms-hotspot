@@ -12,7 +12,7 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder;
-use Hirtz\Cms\Modules\Admin\Widgets\Forms\Columns\AssetThumbnailColumn;
+use Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\widgets\Canvas;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview;

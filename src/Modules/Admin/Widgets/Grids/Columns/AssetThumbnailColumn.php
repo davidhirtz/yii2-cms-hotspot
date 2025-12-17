@@ -7,7 +7,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Skeleton\Helpers\Html;
 
-class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Forms\Columns\AssetThumbnailColumn
+class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
 {
     protected function renderThumbnail(Asset $model, int $key, int $index): string
     {
