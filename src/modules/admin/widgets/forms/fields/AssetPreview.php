@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\Fields;
 
-use Hirtz\Cms\Hotspot\Assets\AdminAsset;
+use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
@@ -51,7 +51,7 @@ class AssetPreview extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\Asset
             'hotspots' => $hotspots,
         ]);
 
-        AdminAsset::register($view = Yii::$app->getView());
+        HotspotAdminAssetBundle::register($view = Yii::$app->getView());
         $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
     }
 

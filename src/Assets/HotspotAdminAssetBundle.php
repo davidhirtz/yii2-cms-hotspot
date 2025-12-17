@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Assets;
 
-use Hirtz\Skeleton\Assets\JuiAsset;
+use Hirtz\Skeleton\Assets\AdminAssetBundle;
 use yii\web\AssetBundle;
 
-class AdminAsset extends AssetBundle
+class HotspotAdminAssetBundle extends AssetBundle
 {
     public $css = ['css/hotspot.min.css'];
 
     public $depends = [
-        \Hirtz\Skeleton\Assets\AdminAsset::class,
-        JuiAsset::class,
+        AdminAssetBundle::class,
     ];
 
     public $js = ['js/hotspot.min.js'];
-    public $sourcePath = '@hotspot/assets/admin';
+    public $sourcePath = '@hotspot/../resources/assets/admin';
 }
