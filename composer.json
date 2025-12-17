@@ -14,7 +14,7 @@
   "prefer-stable": true,
   "require": {
     "php": "^8.3",
-    "davidhirtz/yii2-cms": "v3.x-dev"
+    "davidhirtz/yii2-cms": "next-dev"
   },
   "require-dev": {
   },
