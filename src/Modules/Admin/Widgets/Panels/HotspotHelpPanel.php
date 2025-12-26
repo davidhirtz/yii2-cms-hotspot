@@ -6,7 +6,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
-use Hirtz\Media\Modules\Admin\Widgets\Forms\Traits\DuplicateButtonTrait;
+use Hirtz\Media\Modules\Admin\Widgets\Panels\Traits\DuplicateButtonTrait;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Panels\HelpPanel;
 
 class HotspotHelpPanel extends HelpPanel
