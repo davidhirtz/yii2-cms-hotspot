@@ -13,7 +13,7 @@ use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;
 use Hirtz\Cms\modules\ModuleTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use Hirtz\Media\Models\interfaces\AssetParentInterface;
+use Hirtz\Media\Models\Interfaces\AssetParentInterface;
 use Hirtz\Media\Models\Traits\AssetParentTrait;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;

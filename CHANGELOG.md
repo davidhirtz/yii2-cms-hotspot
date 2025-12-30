@@ -70,7 +70,7 @@
 
 ## 2.0.1 (Nov 4, 2023)
 
-- Changed namespaces for model interfaces to `Hirtz\Media\Models\interfaces`
+- Changed namespaces for model interfaces to `Hirtz\Media\Models\Interfaces`
 
 ## 2.0.0 (Nov 3, 2023)
 

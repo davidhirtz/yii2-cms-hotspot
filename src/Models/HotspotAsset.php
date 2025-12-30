@@ -11,7 +11,7 @@ use Hirtz\Cms\Models\ActiveRecord;
 use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use Hirtz\Media\Models\interfaces\AssetInterface;
+use Hirtz\Media\Models\Interfaces\AssetInterface;
 use Hirtz\Media\Models\Traits\AssetTrait;
 use Hirtz\Media\Models\Traits\FileRelationTrait;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
