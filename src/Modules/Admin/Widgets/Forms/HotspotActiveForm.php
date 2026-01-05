@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\modules\ModuleTrait;
+use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ContentFieldTrait;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ModelTimestampTrait;
 use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\StatusFieldTrait;

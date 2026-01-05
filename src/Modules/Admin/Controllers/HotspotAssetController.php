@@ -7,7 +7,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 use Hirtz\Cms\Hotspot\Models\Actions\ReorderHotspotAssets;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
-use Hirtz\Cms\modules\ModuleTrait;
+use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Models\Folder;
 use Hirtz\Media\Modules\Admin\Controllers\Traits\FileControllerTrait;
