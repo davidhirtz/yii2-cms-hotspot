@@ -6,103 +6,94 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns\HotspotAssetThumbnailColumn;
 use Hirtz\Cms\Models\Entry;
+use Hirtz\Cms\Models\Section;
 use Hirtz\Cms\Modules\ModuleTrait;
-use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\AssetColumnsTrait;
-use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\UploadTrait;
+use Hirtz\Media\Models\File;
+use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\AssetGridViewTrait;
+use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\FileGridViewTrait;
 use Hirtz\Skeleton\Helpers\Html;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\GridView;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Traits\StatusGridViewTrait;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Grids\Traits\TypeGridViewTrait;
+use Hirtz\Skeleton\Html\Button;
+use Hirtz\Skeleton\Html\Div;
+use Hirtz\Skeleton\Widgets\Grids\Columns\ButtonColumn;
+use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\DraggableSortGridButton;
+use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
+use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
+use Hirtz\Skeleton\Widgets\Grids\GridView;
+use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridToolbarItem;
+use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
+use Hirtz\Skeleton\Widgets\Grids\Traits\TypeGridViewTrait;
+use Stringable;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecordInterface;
 
 /**
- * @extends GridView<HotspotAsset>
- * @property Hotspot $parent
+ * @template T of HotspotAsset
+ * @extends GridView<T>
  */
 class HotspotAssetGridView extends GridView
 {
-    use AssetColumnsTrait;
+    use AssetGridViewTrait;
+    use FileGridViewTrait;
     use ModuleTrait;
     use StatusGridViewTrait;
     use TypeGridViewTrait;
-    use UploadTrait;
 
-    public $layout = '{header}{items}{footer}';
+    public string $layout = '{header}{items}{footer}';
 
-    public function init(): void
+    protected Hotspot $parent;
+
+    protected function configure(): void
     {
-        $this->dataProvider ??= new ActiveDataProvider([
+        $this->provider ??= new ActiveDataProvider([
             'query' => $this->getParentAssetQuery(),
             'pagination' => false,
             'sort' => false,
         ]);
 
-        if (!$this->columns) {
-            $this->columns = [
-                $this->statusColumn(),
-                $this->thumbnailColumn(),
-                $this->typeColumn(),
-                $this->nameColumn(),
-                $this->dimensionsColumn(),
-                $this->buttonsColumn(),
-            ];
-        }
+        $this->columns ??= [
+            $this->getStatusColumn(),
+            $this->getThumbnailColumn(),
+            $this->getTypeColumn(),
+            $this->getNameColumn(),
+            $this->getDimensionsColumn(),
+            $this->getButtonColumn(),
+        ];
 
-        if (Yii::$app->getUser()->can('fileCreate')) {
-            $this->registerAssetClientScripts();
-        }
+        $this->footer ??= [
+            GridToolbarItem::make()
+                ->class('form-row')
+                ->content(Div::make()
+                    ->class('form-content btn-group')
+                    ->content(...$this->getFooterButtons())),
+        ];
 
         $this->orderRoute = ['/admin/hotspot-asset/order', 'id' => $this->parent->id];
 
-        parent::init();
+        parent::configure();
     }
 
-    protected function initFooter(): void
-    {
-        $this->footer ??= [
-            [
-                [
-                    'content' => Html::buttons($this->getFooterButtons()),
-                    'options' => ['class' => 'offset-md-3 col-md-9'],
-                ],
-            ],
-        ];
-    }
-
-    public function renderItems(): string
-    {
-        return Html::tag('div', parent::renderItems(), ['id' => 'files']);
-    }
-
-    public function buttonsColumn(): array
+    protected function getNameColumn(): array
     {
         return [
-            'contentOptions' => ['class' => 'text-right text-nowrap'],
-            'content' => fn (HotspotAsset $asset): string => Html::buttons($this->getRowButtons($asset))
-        ];
-    }
-
-    public function nameColumn(): array
-    {
-        return [
-            'attribute' => $this->getModel()->getI18nAttributeName('name'),
+            'attribute' => HotspotAsset::instance()->getI18nAttributeName('name'),
             'content' => function (HotspotAsset $asset) {
                 $name = $asset->getI18nAttribute('name');
                 $route = $this->getRoute($asset);
 
-                $tag = $name
-                    ? Html::tag('strong', Html::encode($asset->getI18nAttribute('name')))
-                    : Html::tag('span', Html::encode($asset->file->name), ['class' => 'text-muted']);
+                $tag = Div::make()
+                    ->class($name ? 'strong' : 'text-muted')
+                    ->text($name ?: $asset->file->name);
 
                 return $route ? Html::a($tag, $route) : $tag;
             }
         ];
     }
-    public function thumbnailColumn(): array
+
+    protected function getThumbnailColumn(): array
     {
         return [
             'class' => HotspotAssetThumbnailColumn::class,
@@ -110,6 +101,48 @@ class HotspotAssetGridView extends GridView
         ];
     }
 
+    protected function getButtonColumn(): ?Column
+    {
+        return ButtonColumn::make()
+            ->content($this->getButtonColumnContent(...));
+    }
+
+    protected function getButtonColumnContent(HotspotAsset $asset): array
+    {
+        $user = Yii::$app->getUser();
+        $buttons = [];
+
+        if ($this->isSortable() && $this->provider->getCount() > 1) {
+            $buttons[] = DraggableSortGridButton::make();
+        }
+
+        if ($user->can(File::AUTH_FILE_UPDATE, ['file' => $asset->file])) {
+            $buttons[] = $this->getFileUpdateButton($asset);
+        }
+
+        $permission = $this->parent->asset->isEntryAsset()
+            ? Entry::AUTH_ENTRY_ASSET_UPDATE
+            : Section::AUTH_SECTION_ASSET_UPDATE;
+
+        if ($user->can($permission, ['asset' => $asset])) {
+            $buttons[] = ViewGridButton::make()
+                ->model($asset);
+        }
+
+        $permission = $this->parent->asset->isEntryAsset()
+            ? Entry::AUTH_ENTRY_ASSET_DELETE
+            : Section::AUTH_SECTION_ASSET_DELETE;
+
+        if ($user->can($permission, ['asset' => $asset])) {
+            $buttons[] = $this->getDeleteButton($asset);
+        }
+
+        return $buttons;
+    }
+
+    /**
+     * @see HotspotAssetController::actionCreate()
+     */
     protected function getFooterButtons(): array
     {
         $user = Yii::$app->getUser();
@@ -117,47 +150,28 @@ class HotspotAssetGridView extends GridView
         $buttons = [];
 
         $hasPermission = $parent instanceof Entry
-            ? $user->can('entryAssetCreate', ['entry' => $parent])
-            : $user->can('sectionAssetCreate', ['section' => $parent]);
+            ? $user->can(Entry::AUTH_ENTRY_ASSET_CREATE, ['entry' => $parent])
+            : $user->can(Section::AUTH_SECTION_ASSET_CREATE, ['section' => $parent]);
 
         if ($hasPermission) {
-            if ($user->can('fileCreate')) {
-                $buttons[] = $this->getUploadFileButton();
-                $buttons[] = $this->getImportFileButton();
+            if ($user->can(File::AUTH_FILE_CREATE)) {
+                $buttons[] = $this->getFileUploadButton();
+                $buttons[] = $this->getFileImportButton();
             }
 
-            $buttons[] = $this->getAssetsButton();
+            $buttons[] = $this->getAssetLinkButton();
         }
 
         return $buttons;
     }
 
-    protected function getAssetsButton(): string
+    protected function getAssetLinkButton(): ?Stringable
     {
-        $text = Html::iconText('images', Yii::t('cms', 'Link assets'));
-
-        return Html::a($text, ['/admin/hotspot-asset/index', 'hotspot' => $this->parent->id], [
-            'class' => 'btn btn-primary',
-        ]);
-    }
-
-    protected function getRowButtons(HotspotAsset $asset): array
-    {
-        $user = Yii::$app->getUser();
-        $buttons = [];
-
-        if ($this->isSortedByPosition() && $this->dataProvider->getCount() > 1) {
-            $buttons[] = $this->getSortableButton();
-        }
-
-        if ($user->can('fileUpdate', ['file' => $asset->file])) {
-            $buttons[] = $this->getFileUpdateButton($asset);
-        }
-
-        $buttons[] = $this->getUpdateButton($asset);
-        $buttons[] = $this->getDeleteButton($asset);
-
-        return $buttons;
+        return Button::make()
+            ->primary()
+            ->text(Yii::t('cms', 'Link assets'))
+            ->icon('images')
+            ->href(['/admin/hotspot-asset/index', 'hotspot' => $this->parent->id]);
     }
 
     /**
@@ -171,10 +185,5 @@ class HotspotAssetGridView extends GridView
     protected function getFileUploadRoute(): array
     {
         return ['/admin/hotspot-asset/create', 'hotspot' => $this->parent->id];
-    }
-
-    protected function getDeleteRoute(ActiveRecordInterface $model, array $params = []): array
-    {
-        return ['/admin/hotspot-asset/delete', 'id' => $model->getPrimaryKey(), ...$params];
     }
 }

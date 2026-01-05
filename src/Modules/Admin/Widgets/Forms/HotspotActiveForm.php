@@ -5,61 +5,55 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Modules\Admin\Widgets\Forms\Traits\ActiveFormFieldsTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ContentFieldTrait;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\ModelTimestampTrait;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\StatusFieldTrait;
-use Hirtz\Skeleton\Modules\Admin\Widgets\Forms\Traits\TypeFieldTrait;
-use Hirtz\Skeleton\Widgets\Bootstrap\ActiveField;
-use Hirtz\Skeleton\Widgets\Bootstrap\ActiveForm;
+use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
+use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
+use Stringable;
 
 /**
  * @property Hotspot $model
  */
 class HotspotActiveForm extends ActiveForm
 {
-    use ContentFieldTrait;
+    use ActiveFormFieldsTrait;
     use ModuleTrait;
-    use ModelTimestampTrait;
-    use StatusFieldTrait;
-    use TypeFieldTrait;
 
-    public bool $hasStickyButtons = true;
-
-    /**
-     * @uses static::statusField()
-     * @uses static::typeField()
-     * @uses static::contentField()
-     * @uses static::xField()
-     * @uses static::yField()
-     */
-    public function init(): void
+    public function configure(): void
     {
-        $this->fields ??= [
-            'status',
-            'type',
-            'name',
-            'content',
-            'link',
-            'x',
-            'y',
+        $this->rows ??= [
+            $this->getStatusField(),
+            $this->getTypeField(),
+            $this->getNameField(),
+            $this->getContentField(),
+            $this->getLinkField(),
+            $this->xField(),
+            $this->yField(),
         ];
 
-        parent::init();
+        parent::configure();
     }
 
-    public function xField(array $options = []): ActiveField|string
+    protected function getLinkField(): ?Stringable
     {
-        return $this->getCoordinateField('x', $options);
+        return InputField::make()
+            ->property('link');
     }
 
-    public function yField(array $options = []): ActiveField|string
+    public function xField(): ?Stringable
     {
-        return $this->getCoordinateField('y', $options);
+        return $this->getCoordinateField('x');
     }
 
-    protected function getCoordinateField(string $attribute, array $options = []): ActiveField|string
+    public function yField(): ?Stringable
     {
-        return $this->field($this->model, $attribute, $options)->appendInput('%');
+        return $this->getCoordinateField('y');
+    }
+
+    protected function getCoordinateField(string $property): ?Stringable
+    {
+        return InputField::make()
+            ->property($property)
+            ->append('%');
     }
 }

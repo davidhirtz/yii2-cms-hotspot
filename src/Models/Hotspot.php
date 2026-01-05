@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models;
 
+use davidhirtz\yii2\datetime\DateTime;
+use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotAssetQuery;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
@@ -11,8 +13,6 @@ use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\Queries\AssetQuery;
 use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
-use davidhirtz\yii2\datetime\DateTime;
-use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Media\Models\Interfaces\AssetParentInterface;
 use Hirtz\Media\Models\Traits\AssetParentTrait;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
@@ -20,14 +20,17 @@ use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
+use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Hirtz\Skeleton\Models\Interfaces\TypeAttributeInterface;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\I18nAttributesTrait;
+use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
 use Hirtz\Skeleton\Models\Traits\TypeAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
 use Hirtz\Skeleton\Validators\DynamicRangeValidator;
 use Hirtz\Skeleton\Validators\HtmlValidator;
 use Hirtz\Skeleton\Validators\RelationValidator;
+use Override;
 use Yii;
 
 /**
@@ -51,12 +54,17 @@ use Yii;
  *
  * @mixin TrailBehavior
  */
-class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusAttributeInterface, TypeAttributeInterface
+class Hotspot extends ActiveRecord implements
+    AssetParentInterface,
+    DraftStatusAttributeInterface,
+    TrailModelInterface,
+    TypeAttributeInterface
 {
     use AssetParentTrait;
     use I18nAttributesTrait;
     use ModuleTrait;
     use DraftStatusAttributeTrait;
+    use TrailModelTrait;
     use TypeAttributeTrait;
     use UpdatedByUserTrait;
     use VisibleAttributeTrait;
@@ -75,7 +83,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
 
     public ?bool $shouldUpdateAssetAfterInsert = null;
 
-    #[\Override]
+    #[Override]
     public function behaviors(): array
     {
         return [
@@ -85,7 +93,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         ];
     }
 
-    #[\Override]
+    #[Override]
     public function rules(): array
     {
         return [
@@ -137,7 +145,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         ];
     }
 
-    #[\Override]
+    #[Override]
     public function fields(): array
     {
         return [
@@ -149,7 +157,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         ];
     }
 
-    #[\Override]
+    #[Override]
     public function beforeValidate(): bool
     {
         $this->status ??= static::STATUS_DEFAULT;
@@ -158,7 +166,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return parent::beforeValidate();
     }
 
-    #[\Override]
+    #[Override]
     public function afterValidate(): void
     {
         // Disable hotspot move / clone for now ...
@@ -169,7 +177,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         parent::afterValidate();
     }
 
-    #[\Override]
+    #[Override]
     public function beforeSave($insert): bool
     {
         $this->attachBehaviors([
@@ -188,7 +196,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return parent::beforeSave($insert);
     }
 
-    #[\Override]
+    #[Override]
     public function afterSave($insert, $changedAttributes): void
     {
         if ($insert) {
@@ -203,7 +211,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         parent::afterSave($insert, $changedAttributes);
     }
 
-    #[\Override]
+    #[Override]
     public function beforeDelete(): bool
     {
         if (!parent::beforeDelete()) {
@@ -219,7 +227,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return true;
     }
 
-    #[\Override]
+    #[Override]
     public function afterDelete(): void
     {
         if (!$this->asset->isDeleted()) {
@@ -247,7 +255,7 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return $relation;
     }
 
-    #[\Override]
+    #[Override]
     public static function find(): HotspotQuery
     {
         return Yii::createObject(HotspotQuery::class, [static::class]);
@@ -353,19 +361,19 @@ class Hotspot extends ActiveRecord implements AssetParentInterface, DraftStatusA
         return $module->enableHotspotAssets;
     }
 
-    #[\Override]
+    #[Override]
     public function attributeLabels(): array
     {
         return [...parent::attributeLabels(), 'asset_id' => Yii::t('cms', 'Asset'), 'name' => Yii::t('cms', 'Title'), 'content' => Yii::t('cms', 'Content'), 'link' => Yii::t('cms', 'Link'), 'x' => Yii::t('hotspot', 'Horizontal position'), 'y' => Yii::t('hotspot', 'Vertical position'), 'asset_count' => Yii::t('hotspot', 'Hotspot Asset')];
     }
 
-    #[\Override]
+    #[Override]
     public function formName(): string
     {
         return 'Hotspot';
     }
 
-    #[\Override]
+    #[Override]
     public static function tableName(): string
     {
         return static::getModule()->getTableName('hotspot');

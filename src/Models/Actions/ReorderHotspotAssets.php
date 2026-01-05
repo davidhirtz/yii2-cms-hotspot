@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Models\Actions\ReorderActiveRecords;
 use davidhirtz\yii2\datetime\DateTime;
 use Hirtz\Skeleton\Models\Trail;
+use Override;
 use Yii;
 
 class ReorderHotspotAssets extends ReorderActiveRecords
@@ -25,7 +26,7 @@ class ReorderHotspotAssets extends ReorderActiveRecords
         parent::__construct($assets, $order);
     }
 
-    #[\Override]
+    #[Override]
     protected function afterReorder(): void
     {
         $trail = Trail::createOrderTrail($this->hotspot, Yii::t('hotspot', 'Hotspot asset order changed'));

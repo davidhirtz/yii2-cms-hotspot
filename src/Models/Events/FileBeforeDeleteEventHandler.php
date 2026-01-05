@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\Hotspot\Models\events;
+namespace Hirtz\Cms\Hotspot\Models\Events;
 
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Media\Models\File;
 use Yii;
 use yii\base\ModelEvent;
 
-class FileBeforeDeleteEventHandler
+readonly class FileBeforeDeleteEventHandler
 {
-    public function __construct(protected readonly ModelEvent $event, protected readonly File $file)
+    public function __construct(protected ModelEvent $event, protected File $file)
     {
         $this->handleEvent();
     }

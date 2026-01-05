@@ -2,14 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\Hotspot\widgets;
+namespace Hirtz\Cms\Hotspot\Widgets;
 
-class Canvas extends \Hirtz\Cms\widgets\Canvas
+class Canvas extends \Hirtz\Cms\Widgets\Canvas
 {
-    /**
-     * @uses static::renderHotspots()
-     */
-    public string $template = '{media}{embed}{caption}{hotspots}';
+    public string $layout = '{media}{embed}{caption}{hotspots}';
     public string $hotspotViewFile = 'widgets/_hotspots';
 
     protected function renderHotspots(): string
@@ -21,7 +18,7 @@ class Canvas extends \Hirtz\Cms\widgets\Canvas
         $hotspots = $this->asset->getRelatedRecords()['hotspots'] ?? [];
 
         return $hotspots
-            ? $this->getView()->render($this->hotspotViewFile, ['hotspots' => $hotspots], $this)
+            ? $this->view->render($this->hotspotViewFile, ['hotspots' => $hotspots], $this)
             : '';
     }
 }

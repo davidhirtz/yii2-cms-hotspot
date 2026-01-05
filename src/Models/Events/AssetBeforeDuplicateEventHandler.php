@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\Hotspot\Models\events;
+namespace Hirtz\Cms\Hotspot\Models\Events;
 
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
@@ -20,7 +20,7 @@ class AssetBeforeDuplicateEventHandler
         $this->handleEvent();
     }
 
-    public function handleEvent(): void
+    protected function handleEvent(): void
     {
         $this->duplicate->setAttribute('hotspot_count', $this->asset->getAttribute('hotspot_count'));
     }

@@ -6,6 +6,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin;
 
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
+use Override;
 use yii\helpers\ArrayHelper;
 
 class Module extends \yii\base\Module
@@ -36,10 +37,15 @@ class Module extends \yii\base\Module
         ],
     ];
 
-    #[\Override]
+    #[Override]
     public function init(): void
     {
-        $this->module->controllerMap = ArrayHelper::merge([...$this->module->controllerMap, ...$this->defaultControllerMap], $this->controllerMap);
+        $this->module->controllerMap = ArrayHelper::merge(
+            $this->module->controllerMap,
+            $this->defaultControllerMap,
+            $this->controllerMap,
+        );
+
         parent::init();
     }
 }

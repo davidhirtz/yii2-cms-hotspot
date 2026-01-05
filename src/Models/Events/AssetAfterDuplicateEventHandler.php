@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\Hotspot\Models\events;
+namespace Hirtz\Cms\Hotspot\Models\Events;
 
 use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
@@ -23,7 +23,7 @@ class AssetAfterDuplicateEventHandler
         $this->handleEvent();
     }
 
-    public function handleEvent(): void
+    protected function handleEvent(): void
     {
         if ($this->asset->getAttribute('hotspot_count')) {
             Yii::debug('Duplicating hotspots ...');

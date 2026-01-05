@@ -17,7 +17,7 @@ use yii\db\Migration;
  * @noinspection PhpUnused
  */
 
-class M211006182918Hotspot extends Migration
+final class M211006182918Hotspot extends Migration
 {
     use MigrationTrait;
     use I18nTablesTrait;

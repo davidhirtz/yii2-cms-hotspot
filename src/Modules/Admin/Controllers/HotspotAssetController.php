@@ -13,6 +13,7 @@ use Hirtz\Media\Models\Folder;
 use Hirtz\Media\Modules\Admin\Controllers\Traits\FileControllerTrait;
 use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
 use Hirtz\Skeleton\Web\Controller;
+use Override;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -26,30 +27,33 @@ class HotspotAssetController extends Controller
     use ModuleTrait;
     use FileControllerTrait;
 
-    #[\Override]
+    #[Override]
     public function behaviors(): array
     {
-        return [...parent::behaviors(), 'access' => [
-            'class' => AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'actions' => ['index', 'delete', 'order', 'update'],
-                    'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
-                ],
-                [
-                    'allow' => true,
-                    'actions' => ['create'],
-                    'roles' => ['entryAssetCreate', 'sectionAssetCreate'],
+        return [
+            ...parent::behaviors(),
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'delete', 'order', 'update'],
+                        'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['entryAssetCreate', 'sectionAssetCreate'],
+                    ],
                 ],
             ],
-        ], 'verbs' => [
-            'class' => VerbFilter::class,
-            'actions' => [
-                'delete' => ['post'],
-                'order' => ['post'],
-            ],
-        ]];
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['post'],
+                    'order' => ['post'],
+                ],
+            ]];
     }
 
     public function actionIndex(int $hotspot, ?int $folder = null, ?string $q = null): Response|string

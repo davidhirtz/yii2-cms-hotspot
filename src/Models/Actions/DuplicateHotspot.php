@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Cms\Models\Asset;
+use Override;
 use Yii;
 
 /**
@@ -24,7 +25,7 @@ class DuplicateHotspot extends DuplicateActiveRecord
         parent::__construct($hotspot, $attributes);
     }
 
-    #[\Override]
+    #[Override]
     protected function beforeDuplicate(): bool
     {
         $this->duplicate->populateAssetRelation(!$this->asset || $this->asset->getIsNewRecord()
@@ -38,7 +39,7 @@ class DuplicateHotspot extends DuplicateActiveRecord
         return parent::beforeDuplicate();
     }
 
-    #[\Override]
+    #[Override]
     protected function afterDuplicate(): void
     {
         parent::afterDuplicate();

@@ -4,25 +4,38 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns;
 
-use Hirtz\Cms\Models\Asset;
-use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Media\Models\Interfaces\AssetInterface;
+use Hirtz\Skeleton\Html\Div;
+use Override;
+use Stringable;
+use yii\base\Model;
 
 class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
 {
-    protected function renderThumbnail(Asset $model, int $key, int $index): string
+    #[Override]
+    protected function getValue(array|Model $model, string|int $key, int $index): string|Stringable
     {
-        $content = parent::renderThumbnail($model, $key, $index);
+        $content = parent::getValue($model, $key, $index);
 
-        if ($hotspotCount = $model->getAttribute('hotspot_count')) {
-            $badge = Html::tag('div', $hotspotCount, [
-                'class' => 'btn btn-primary btn-sm',
-                'style' => 'position: absolute; top: 5px; left: 5px;',
-            ]);
+        if ($content) {
+            $hotspotCount = $model instanceof AssetInterface ? $model->getAttribute('hotspot_count') : 0;
 
-            $content = Html::tag('div', $content . $badge, [
-                'class' => 'active',
-                'style' => 'position:relative',
-            ]);
+            if ($hotspotCount) {
+                $badge = Div::make()
+                    ->text($hotspotCount)
+                    ->addClass('btn btn-primary btn-sm')
+                    ->addStyle([
+                        'position' => 'absolute',
+                        'top' => '5px',
+                        'left' => '5px',
+                    ]);
+
+                $content = Div::make()
+                    ->content($content)
+                    ->addContent($badge)
+                    ->addClass('active')
+                    ->addStyle('position:relative;');
+            }
         }
 
         return $content;

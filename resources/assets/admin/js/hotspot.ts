@@ -7,7 +7,7 @@
  * @param {String} config.message
  * @param {Array} config.hotspots
  */
-Skeleton.registerHotspots = function (config) {
+export default ({})
     var $image = $('#image'),
         $canvas = $image.parent().addClass('hotspot-canvas'),
         hotspots = config.hotspots || [],

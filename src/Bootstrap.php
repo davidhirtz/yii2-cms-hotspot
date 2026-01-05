@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot;
 
-use Hirtz\Cms\Hotspot\Models\events\AssetAfterDuplicateEventHandler;
-use Hirtz\Cms\Hotspot\Models\events\AssetBeforeDeleteEventHandler;
-use Hirtz\Cms\Hotspot\Models\events\AssetBeforeDuplicateEventHandler;
-use Hirtz\Cms\Hotspot\Models\events\FileBeforeDeleteEventHandler;
+use Hirtz\Cms\Hotspot\Models\Events\AssetAfterDuplicateEventHandler;
+use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDeleteEventHandler;
+use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDuplicateEventHandler;
+use Hirtz\Cms\Hotspot\Models\Events\FileBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder;
-use Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\widgets\Canvas;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview;
@@ -54,8 +54,8 @@ class Bootstrap implements BootstrapInterface
         $definitions = [
             AssetPreview::class => Modules\Admin\Widgets\Forms\Fields\AssetPreview::class,
             AssetThumbnailColumn::class => Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn::class,
-            Canvas::class => widgets\Canvas::class,
-            EntrySiteRelationsBuilder::class => models\builders\EntrySiteRelationsBuilder::class,
+            Canvas::class => Widgets\Canvas::class,
+            EntrySiteRelationsBuilder::class => Models\Builders\EntrySiteRelationsBuilder::class,
         ];
 
         foreach ($definitions as $class => $definition) {

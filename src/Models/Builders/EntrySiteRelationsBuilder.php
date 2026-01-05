@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\Hotspot\Models\builders;
+namespace Hirtz\Cms\Hotspot\Models\Builders;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
+use Override;
 use Yii;
 
 class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder
@@ -23,7 +24,7 @@ class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRela
 
     protected array $hotspotIdsWithHotspotAssets = [];
 
-    #[\Override]
+    #[Override]
     protected function loadAssets(): void
     {
         parent::loadAssets();
@@ -86,7 +87,7 @@ class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRela
         }
     }
 
-    #[\Override]
+    #[Override]
     protected function populateAssetRelations(): void
     {
         foreach ($this->hotspotAssets as $hotspotAsset) {

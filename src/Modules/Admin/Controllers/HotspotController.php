@@ -10,6 +10,7 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\Modules\Admin\Controllers\Traits\AssetControllerTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Skeleton\Web\Controller;
+use Override;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -22,7 +23,7 @@ class HotspotController extends Controller
     use HotspotTrait;
     use ModuleTrait;
 
-    #[\Override]
+    #[Override]
     public function behaviors(): array
     {
         return [...parent::behaviors(), 'access' => [

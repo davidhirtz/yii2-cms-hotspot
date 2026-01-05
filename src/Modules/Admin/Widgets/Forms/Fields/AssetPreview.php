@@ -9,21 +9,17 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Yii;
-use yii\helpers\Json;
 use yii\helpers\Url;
 
-/**
- * @property Asset $asset
- */
 class AssetPreview extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview
 {
-    public function init(): void
+    protected function configure(): void
     {
         if ($this->asset->file->hasPreview() && $this->hasHotspotsEnabled()) {
-            $this->registerClientScripts();
+            $this->registerClientScript();
         }
 
-        parent::init();
+        parent::configure();
     }
 
     protected function hasHotspotsEnabled(): bool
@@ -40,19 +36,16 @@ class AssetPreview extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\Asset
             : $module->enableEntryAssetHotspots;
     }
 
-    protected function registerClientScripts(): void
+    protected function registerClientScript(): void
     {
         $hotspots = $this->getHotspots();
 
-        $options = array_filter([
+        $this->view->registerJsModule(HotspotAdminAssetBundle::class, [
             'formName' => Hotspot::instance()->formName(),
             'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $this->asset->id]),
             'message' => !$hotspots ? Yii::t('hotspot', 'Double click on the image to create a hotspot.') : null,
             'hotspots' => $hotspots,
         ]);
-
-        HotspotAdminAssetBundle::register($view = Yii::$app->getView());
-        $view->registerJs('Skeleton.registerHotspots(' . Json::htmlEncode($options) . ')');
     }
 
     /**
@@ -61,14 +54,12 @@ class AssetPreview extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\Asset
     protected function getHotspots(): array
     {
         if (!$this->asset->isRelationPopulated('hotspots')) {
-            if ($this->asset->getAttribute('hotspot_count')) {
-                $hotspots = Hotspot::find()
+            $this->asset->populateRelation('hotspots', $this->asset->getAttribute('hotspot_count')
+                ? Hotspot::find()
                     ->where(['asset_id' => $this->asset->id])
                     ->orderBy(['position' => SORT_ASC])
-                    ->all();
-            }
-
-            $this->asset->populateRelation('hotspots', $hotspots ?? []);
+                    ->all()
+                : []);
         }
 
         return $this->asset->getRelatedRecords()['hotspots'] ?? [];

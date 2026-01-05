@@ -19,16 +19,4 @@ class HotspotQuery extends I18nActiveQuery
             'created_at',
         ])));
     }
-
-    public function withAssets(): static
-    {
-        return $this->with([
-            'assets' => function (HotspotAssetQuery $query): void {
-                $query->selectSiteAttributes()
-                    ->replaceI18nAttributes()
-                    ->whereStatus()
-                    ->withFiles();
-            },
-        ]);
-    }
 }

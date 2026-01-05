@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\Hotspot\Models\events;
+namespace Hirtz\Cms\Hotspot\Models\Events;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Models\Asset;
 use Yii;
 use yii\base\ModelEvent;
 
-class AssetBeforeDeleteEventHandler
+readonly class AssetBeforeDeleteEventHandler
 {
-    public function __construct(protected readonly ModelEvent $event, protected readonly Asset $asset)
+    public function __construct(protected ModelEvent $event, protected Asset $asset)
     {
         $this->handleEvent();
     }
