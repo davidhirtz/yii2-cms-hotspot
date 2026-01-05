@@ -9,8 +9,8 @@
 		"watch": "node esbuild.js --watch"
 	},
 	"devDependencies": {
-		"autoprefixer": "^10.4.12",
-		"esbuild": "^0.24",
-		"esbuild-sass-plugin": "^3.3.1"
+		"autoprefixer": "^10.4",
+		"esbuild": "^0.25",
+		"esbuild-sass-plugin": "^3.3"
 	}
 }
