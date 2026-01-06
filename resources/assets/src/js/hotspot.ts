@@ -15,10 +15,11 @@ interface HotspotData {
 
 const csrfToken = Object.values(JSON.parse(document.querySelector('#wrap')!.getAttribute('hx-headers') as string) as Object).pop();
 
-export const post = (url: string, formName: string, x: number, y: number) => {
+export const post = (url: string, formName: string, x: number, y: number, position: number) => {
     const params = new URLSearchParams();
     params.append(`${formName}[x]`, String(x));
     params.append(`${formName}[y]`, String(y));
+    params.append(`${formName}[position]`, String(position));
 
     return fetch(url, {
         method: 'POST',
@@ -38,46 +39,45 @@ export default (config: HotspotConfig) => {
 
     const setHotspot = (data: HotspotData) => {
 
-        const btn = document.createElement('a') as HTMLAnchorElement;
+        const $btn = document.createElement('a') as HTMLAnchorElement;
 
-        btn.href = data.url;
-        btn.className = 'hotspot-btn';
-        btn.title = data.displayName;
-        btn.innerHTML = '<i class="hotspot-icon fas fa-plus"></i>';
+        $btn.href = data.url;
+        $btn.className = 'hotspot-btn';
+        $btn.title = data.displayName;
+        $btn.innerHTML = '<i class="hotspot-icon fas fa-plus"></i>';
+        $btn.setAttribute('data-tooltip', '');
+        $canvas.appendChild($btn);
 
-        btn.setAttribute('data-tooltip', '');
+        const btnOffsetX = $btn.offsetWidth / 2;
+        const btnOffsetY = $btn.offsetHeight / 2;
 
-        $canvas.appendChild(btn);
+        $btn.draggable = true;
+        $btn.style.left = `calc(${data.x}% - ${btnOffsetX}px)`;
+        $btn.style.top = `calc(${data.y}% - ${btnOffsetY}px)`;
+        $btn.style.zIndex = String(zIndex++);
 
-        const btnOffsetX = btn.offsetWidth / 2;
-        const btnOffsetY = btn.offsetHeight / 2;
+        $btn.draggable({
+            containment: $canvas,
+            start: function () {
+                $btn.css('z-index', zIndex + 1).tooltip('disable').tooltip('hide').addClass('dragging');
+            },
+            stop: function () {
+                const x = ($btn.offsetLeft + btnOffsetX) / $canvas.clientWidth * 100;
+                const y = ($btn.offsetTop + btnOffsetY) / $canvas.clientHeight * 100;
+                post(config.url, config.formName, x, y, zIndex + 1)
 
-        btn.style.left = `calc(${data.x}% - ${btnOffsetX}px)`;
-        btn.style.top = `calc(${data.y}% - ${btnOffsetY}px)`;
-        btn.style.zIndex = String(zIndex++);
+                setTimeout(function () {
+                    $btn.tooltip('enable').removeClass('dragging');
+                }, 1);
+            }
+        })
+        .on('click', function (e) {
+            if ($btn.hasClass('dragging')) {
+                e.preventDefault();
+            }
+        });
 
-        // .draggable({
-        //     containment: $canvas,
-        //     start: function () {
-        //         $btn.css('z-index', zIndex + 1).tooltip('disable').tooltip('hide').addClass('dragging');
-        //     },
-        //     stop: function () {
-        //         $.post(data.url, setCoordinateFormFields({
-        //             x: ($btn.position().left + btnOffsetX) / $canvas.width() * 100,
-        //             y: ($btn.position().top + btnOffsetY) / $canvas.height() * 100,
-        //             position: zIndex + 1
-        //         }));
-        //
-        //         setTimeout(function () {
-        //             $btn.tooltip('enable').removeClass('dragging');
-        //         }, 1);
-        //     }
-        // })
-        // .on('click', function (e) {
-        //     if ($btn.hasClass('dragging')) {
-        //         e.preventDefault();
-        //     }
-        // });
+        return $btn;
     }
 
     let zIndex = 0;
@@ -97,8 +97,16 @@ export default (config: HotspotConfig) => {
         const x = Math.round(rawX * 100) / 100;
         const y = Math.round(rawY * 100) / 100;
 
-        post(config.url, config.formName, x, y)
+        post(config.url, config.formName, x, y, zIndex + 1)
             .then((response) => response.json())
-            .then((data: HotspotData) => setHotspot(data));
+            .then((data: HotspotData) => {
+                const $hotspot = setHotspot(data);
+
+                document.dispatchEvent(new CustomEvent('tooltip:init', {
+                    detail: {
+                        hotspots: [$hotspot]
+                    }
+                }));
+            });
     });
 };
