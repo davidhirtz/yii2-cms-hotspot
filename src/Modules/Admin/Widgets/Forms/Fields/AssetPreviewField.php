@@ -8,23 +8,46 @@ use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
+use Hirtz\Skeleton\Widgets\Alert;
+use Override;
+use Stringable;
 use Yii;
 use yii\helpers\Url;
 
-class AssetPreview extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview
+class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField
 {
+    protected array $hotspots;
+
+    #[Override]
     protected function configure(): void
     {
-        if ($this->asset->file->hasPreview() && $this->hasHotspotsEnabled()) {
+        if ($this->hasHotspotsEnabled()) {
+            $this->hotspots = $this->getHotspots();
             $this->registerClientScript();
         }
 
         parent::configure();
     }
 
+    #[Override]
+    protected function renderContent(): string|Stringable
+    {
+        $content = parent::renderContent();
+
+        if ($this->hasHotspotsEnabled()) {
+            $alert = Alert::make()
+                ->info()
+                ->text(Yii::t('hotspot', 'Double click on the image to create a hotspot.'));
+
+            $content = $alert . $content;
+        }
+
+        return $content;
+    }
+
     protected function hasHotspotsEnabled(): bool
     {
-        if (!$this->asset instanceof Asset) {
+        if (!$this->asset instanceof Asset || !$this->asset->file->hasPreview()) {
             return false;
         }
 
@@ -38,13 +61,12 @@ class AssetPreview extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\Asset
 
     protected function registerClientScript(): void
     {
-        $hotspots = $this->getHotspots();
+        $bundle = HotspotAdminAssetBundle::register($this->view);
 
-        $this->view->registerJsModule(HotspotAdminAssetBundle::class, [
+        $this->view->registerJsModule($bundle->getModuleFilename(), [
             'formName' => Hotspot::instance()->formName(),
             'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $this->asset->id]),
-            'message' => !$hotspots ? Yii::t('hotspot', 'Double click on the image to create a hotspot.') : null,
-            'hotspots' => $hotspots,
+            'hotspots' => $this->hotspots,
         ]);
     }
 

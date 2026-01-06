@@ -52,11 +52,9 @@ class HotspotController extends Controller
         $hotspot = Hotspot::create();
         $hotspot->populateAssetRelation($asset);
 
-        $request = Yii::$app->getRequest();
-
-        if ($hotspot->load($request->post())) {
+        if ($hotspot->load($this->request->post())) {
             if ($hotspot->insert()) {
-                return $request->getIsAjax() ? $this->asJson($hotspot) : $this->redirect(['update', 'id' => $hotspot->id]);
+                return $this->asJson($hotspot);
             }
 
             $errors = $asset->getFirstErrors();

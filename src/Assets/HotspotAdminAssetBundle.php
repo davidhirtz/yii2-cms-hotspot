@@ -9,12 +9,13 @@ use yii\web\AssetBundle;
 
 class HotspotAdminAssetBundle extends AssetBundle
 {
-    public $css = ['css/hotspot.min.css'];
+    public $css = ['css/hotspot.css'];
+    public $depends = [AdminAssetBundle::class];
+    public $jsOptions = ['type' => 'module'];
+    public $sourcePath = '@hotspot/../resources/assets/dist';
 
-    public $depends = [
-        AdminAssetBundle::class,
-    ];
-
-    public $js = ['js/hotspot.min.js'];
-    public $sourcePath = '@hotspot/../resources/assets/admin';
+    public function getModuleFilename(): string
+    {
+        return "$this->baseUrl/js/hotspot.js";
+    }
 }

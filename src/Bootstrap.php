@@ -15,7 +15,7 @@ use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\widgets\Canvas;
 use Hirtz\Media\Models\File;
-use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreview;
+use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
 use Hirtz\Skeleton\Web\Application;
@@ -52,7 +52,7 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         $definitions = [
-            AssetPreview::class => Modules\Admin\Widgets\Forms\Fields\AssetPreview::class,
+            AssetPreviewField::class => Modules\Admin\Widgets\Forms\Fields\AssetPreviewField::class,
             AssetThumbnailColumn::class => Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn::class,
             Canvas::class => Widgets\Canvas::class,
             EntrySiteRelationsBuilder::class => Models\Builders\EntrySiteRelationsBuilder::class,
