@@ -67,18 +67,14 @@ class HotspotController extends Controller
     public function actionUpdate(int $id): Response|string
     {
         $hotspot = $this->findHotspot($id);
-        $request = Yii::$app->getRequest();
 
-        if ($hotspot->load($request->post()) && $hotspot->update()) {
-            if (!$request->getIsAjax()) {
-                $this->success(Yii::t('hotspot', 'The hotspot was updated.'));
-                return $this->redirect(['update', 'id' => $hotspot->id]);
+        if ($hotspot->load($this->request->post()) && $hotspot->update()) {
+            if ($this->request->getIsAjax()) {
+                return $this->asJson([]);
             }
-        }
 
-        // Prevent site reload on new AJAX upload.
-        if ($request->getIsAjax() && $request->post()) {
-            return $this->asJson($hotspot);
+            $this->success(Yii::t('hotspot', 'The hotspot was updated.'));
+            return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
         return $this->render('update', [

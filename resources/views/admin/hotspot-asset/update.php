@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -12,52 +13,35 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\HotspotAssetActiveForm;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
-use Hirtz\Skeleton\Helpers\Html;
 use Hirtz\Skeleton\Web\View;
-use Hirtz\Skeleton\Widgets\Bootstrap\Panel;
 use Hirtz\Skeleton\Widgets\Forms\DeleteActiveForm;
+use Hirtz\Skeleton\Widgets\Forms\FormContainer;
 
-$this->setTitle(Yii::t('hotspot', 'Edit Hotspot Asset'));
-?>
+$this->title(Yii::t('hotspot', 'Edit Hotspot Asset'));
 
-<?= HotspotSubmenu::widget([
-    'hotspot' => $asset->hotspot,
-]); ?>
+echo HotspotSubmenu::make()
+    ->hotspot($asset->hotspot);
 
-<?php $this->setBreadcrumb(Yii::t('cms', 'Asset')); ?>
+$this->addBreadcrumb(Yii::t('cms', 'Asset'));
 
-<?= Html::errorSummary($asset); ?>
+echo FormContainer::make()
+    ->title($this->title)
+    ->form(HotspotAssetActiveForm::make()
+        ->model($asset));
 
-<?= Panel::widget([
-    'title' => $this->title,
-    'content' => HotspotAssetActiveForm::widget([
-        'model' => $asset,
-    ]),
-]); ?>
+echo FormContainer::make()
+    ->danger()
+    ->title(Yii::t('cms', 'Remove Asset'))
+    ->form(DeleteActiveForm::make()
+        ->message(Yii::t('cms', 'Notice: Removing an asset will not delete the actual file.'))
+        ->model($asset));
 
-<?= Panel::widget([
-        'type' => 'danger',
-        'title' => Yii::t('cms', 'Remove Asset'),
-        'content' => DeleteActiveForm::widget([
-            'model' => $asset,
-            'buttons' => Html::button(Yii::t('cms', 'Remove'), [
-                'class' => 'btn btn-danger',
-                'data-method' => 'post',
-                'data-message' => Yii::t('cms', 'Are you sure you want to remove this asset?'),
-                'type' => 'submit',
-            ]),
-            'message' => Yii::t('cms', 'Notice: Removing an asset will not delete the actual file.')
-        ]),
-    ]); ?>
-
-<?php if (Yii::$app->getUser()->can('fileDelete', ['file' => $asset->file])) {
-    echo Panel::widget([
-        'type' => 'danger',
-        'title' => Yii::t('media', 'Delete File'),
-        'content' => DeleteActiveForm::widget([
-            'model' => $asset->file,
-            'action' => ['/admin/file/delete', 'id' => $asset->file_id],
-            'message' => Yii::t('cms', 'Warning: Deleting this file cannot be undone. All related assets will also be unrecoverably deleted. Please be certain!')
-        ]),
-    ]);
-} ?>
+if (Yii::$app->getUser()->can('fileDelete', ['file' => $asset->file])) {
+    echo FormContainer::make()
+        ->danger()
+        ->title(Yii::t('media', 'Delete File'))
+        ->form(DeleteActiveForm::make()
+            ->model($asset->file)
+            ->action(['/admin/file/delete', 'id' => $asset->file_id])
+            ->message(Yii::t('cms', 'Warning: Deleting this file cannot be undone. All related assets will also be unrecoverably deleted. Please be certain!')));
+}

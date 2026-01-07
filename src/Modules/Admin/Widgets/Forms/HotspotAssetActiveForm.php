@@ -19,9 +19,9 @@ class HotspotAssetActiveForm extends ActiveForm
     use ActiveFormFieldsTrait;
     use AssetFieldsTrait;
 
-    public function init(): void
+    public function configure(): void
     {
-        $this->fields ??= [
+        $this->rows ??= [
             $this->getStatusField(),
             $this->getTypeField(),
             $this->getNameField(),
@@ -29,6 +29,8 @@ class HotspotAssetActiveForm extends ActiveForm
             $this->getAltTextField(),
             $this->getLinkField(),
         ];
+
+        parent::configure();
     }
 
     protected function getLinkField(): ?Stringable

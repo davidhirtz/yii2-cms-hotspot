@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/css/hotspot.css"],
-  "sourcesContent": [".hotspot-canvas {\n  position: relative;\n  margin-right: auto;\n  overflow: hidden;\n}\n\n.hotspot-btn {\n  position: absolute;\n  width: 40px;\n  height: 40px;\n  background: rgba(255, 255, 255, .6);\n  border: 3px solid #000;\n  border-radius: 50%;\n  outline: none;\n  color: #000;\n\n  &:hover {\n    color: #fff;\n    border-color: #fff;\n    background: rgba(0, 0, 0, .6);\n  }\n}\n\n.hotspot-icon {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}"],
-  "mappings": "AAAA,CAAC,eACC,SAAU,SACV,aAAc,KACd,SAAU,MACZ,CAEA,CAAC,YACC,SAAU,SACV,MAAO,KACP,OAAQ,KACR,WAAY,MACZ,OAAQ,IAAI,MAAM,KAXpB,cAYiB,IACf,QAAS,KACT,MAAO,KAEP,CAAC,OACC,MAAO,KACP,aAAc,KACd,WAAY,KACd,CACF,CAEA,CAAC,aACC,SAAU,SACV,IAAK,IACL,KAAM,IACN,UAAW,UAAU,IAAI,CAAE,KAC7B",
+  "sourcesContent": [".hotspot-btn {\n  position: absolute;\n  width: 40px;\n  height: 40px;\n  background: rgba(255, 255, 255, .6);\n  border: 3px solid #000;\n  border-radius: 50%;\n  outline: none;\n  color: #000;\n\n  &:hover {\n    color: #fff;\n    border-color: #fff;\n    background: rgba(0, 0, 0, .6);\n  }\n}\n\n.hotspot-icon {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}"],
+  "mappings": "AAAA,CAAC,YACC,SAAU,SACV,MAAO,KACP,OAAQ,KACR,WAAY,MACZ,OAAQ,IAAI,MAAM,KALpB,cAMiB,IACf,QAAS,KACT,MAAO,KAEP,CAAC,OACC,MAAO,KACP,aAAc,KACd,WAAY,KACd,CACF,CAEA,CAAC,aACC,SAAU,SACV,IAAK,IACL,KAAM,IACN,UAAW,UAAU,IAAI,CAAE,KAC7B",
   "names": []
 }

@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
+use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Alert;
 use Override;
 use Stringable;
@@ -39,7 +40,10 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
                 ->info()
                 ->text(Yii::t('hotspot', 'Double click on the image to create a hotspot.'));
 
-            $content = $alert . $content;
+            $content = $alert . Div::make()
+                    ->attribute('hx-select', '#wrap')
+                    ->attribute('hx-target', '#wrap')
+                    ->content($content);
         }
 
         return $content;

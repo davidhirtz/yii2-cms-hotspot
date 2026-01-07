@@ -22,19 +22,20 @@ class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Column
 
             if ($hotspotCount) {
                 $badge = Div::make()
-                    ->text($hotspotCount)
-                    ->addClass('btn btn-primary btn-sm')
+                    ->text((string)$hotspotCount)
+                    ->addClass('badge')
                     ->addStyle([
                         'position' => 'absolute',
                         'top' => '5px',
                         'left' => '5px',
                     ]);
 
-                $content = Div::make()
+                return Div::make()
                     ->content($content)
                     ->addContent($badge)
-                    ->addClass('active')
-                    ->addStyle('position:relative;');
+                    ->addStyle([
+                        'position' => 'relative',
+                    ]);
             }
         }
 

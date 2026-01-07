@@ -5,28 +5,39 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Modules\Admin\Widgets\Forms\Submenu;
+use Hirtz\Cms\Modules\Admin\Widgets\Navs\CmsSubmenu;
 use Yii;
 
-class HotspotSubmenu extends Submenu
+class HotspotSubmenu extends CmsSubmenu
 {
-    public ?Hotspot $hotspot = null;
+    protected ?Hotspot $hotspot = null;
 
-    public function init(): void
+    public function hotspot(Hotspot $hotspot): static
+    {
+        $this->hotspot = $hotspot;
+        return $this;
+    }
+
+    protected function configure(): void
     {
         $this->model ??= $this->hotspot->asset;
         $this->additionalActiveRoutes[$this->isEntryHotspot() ? 'entry' : 'sections'][] = 'admin/hotspot';
 
-        parent::init();
+        parent::configure();
     }
 
     protected function setBreadcrumbs(): void
     {
         parent::setBreadcrumbs();
 
-        $this->getView()->setBreadcrumbs([
-            Yii::t('cms', 'Asset') => ['/admin/asset/update', 'id' => $this->hotspot->asset_id],
-            Yii::t('hotspot', 'Hotspot') => ['/admin/hotspot/update', 'id' => $this->hotspot->id],
+        $this->view->addBreadcrumb(Yii::t('cms', 'Asset'), [
+            '/admin/asset/update',
+            'id' => $this->hotspot->asset_id,
+        ]);
+
+        $this->view->addBreadcrumb(Yii::t('hotspot', 'Hotspot'), [
+            '/admin/hotspot/update',
+            'id' => $this->hotspot->id,
         ]);
     }
 

@@ -9,6 +9,7 @@ use Hirtz\Cms\Modules\Admin\Widgets\Forms\Traits\ActiveFormFieldsTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
 use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
+use Override;
 use Stringable;
 
 /**
@@ -19,7 +20,8 @@ class HotspotActiveForm extends ActiveForm
     use ActiveFormFieldsTrait;
     use ModuleTrait;
 
-    public function configure(): void
+    #[Override]
+    protected function configure(): void
     {
         $this->rows ??= [
             $this->getStatusField(),
@@ -27,8 +29,8 @@ class HotspotActiveForm extends ActiveForm
             $this->getNameField(),
             $this->getContentField(),
             $this->getLinkField(),
-            $this->xField(),
-            $this->yField(),
+            $this->getXField(),
+            $this->getYField(),
         ];
 
         parent::configure();
@@ -40,12 +42,12 @@ class HotspotActiveForm extends ActiveForm
             ->property('link');
     }
 
-    public function xField(): ?Stringable
+    protected function getXField(): ?Stringable
     {
         return $this->getCoordinateField('x');
     }
 
-    public function yField(): ?Stringable
+    protected function getYField(): ?Stringable
     {
         return $this->getCoordinateField('y');
     }
@@ -54,6 +56,8 @@ class HotspotActiveForm extends ActiveForm
     {
         return InputField::make()
             ->property($property)
+            ->type('number')
+            ->attribute('step', 0.01)
             ->append('%');
     }
 }

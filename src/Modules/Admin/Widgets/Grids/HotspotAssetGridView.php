@@ -7,24 +7,26 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
-use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns\HotspotAssetThumbnailColumn;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Cms\Models\Section;
+use Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\AssetGridViewTrait;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\FileGridViewTrait;
-use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Button;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Grids\Columns\ButtonColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\DraggableSortGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
+use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridToolbarItem;
 use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
 use Hirtz\Skeleton\Widgets\Grids\Traits\TypeGridViewTrait;
+use Override;
 use Stringable;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -33,6 +35,8 @@ use yii\db\ActiveRecordInterface;
 /**
  * @template T of HotspotAsset
  * @extends GridView<T>
+ *
+ * @property Hotspot $parent
  */
 class HotspotAssetGridView extends GridView
 {
@@ -44,8 +48,7 @@ class HotspotAssetGridView extends GridView
 
     public string $layout = '{header}{items}{footer}';
 
-    protected Hotspot $parent;
-
+    #[Override]
     protected function configure(): void
     {
         $this->provider ??= new ActiveDataProvider([
@@ -76,30 +79,40 @@ class HotspotAssetGridView extends GridView
         parent::configure();
     }
 
-    protected function getNameColumn(): array
+
+    protected function getNameColumn(): ?Column
     {
-        return [
-            'attribute' => HotspotAsset::instance()->getI18nAttributeName('name'),
-            'content' => function (HotspotAsset $asset) {
-                $name = $asset->getI18nAttribute('name');
-                $route = $this->getRoute($asset);
-
-                $tag = Div::make()
-                    ->class($name ? 'strong' : 'text-muted')
-                    ->text($name ?: $asset->file->name);
-
-                return $route ? Html::a($tag, $route) : $tag;
-            }
-        ];
+        return DataColumn::make()
+            ->property(HotspotAsset::instance()->getI18nAttributeName('name'))
+            ->content($this->getNameColumnContent(...));
     }
 
-    protected function getThumbnailColumn(): array
+    protected function getNameColumnContent(HotspotAsset $asset): ?Stringable
     {
-        return [
-            'class' => HotspotAssetThumbnailColumn::class,
-            'route' => fn (HotspotAsset $asset) => $this->getRoute($asset),
-        ];
+        $name = $asset->getI18nAttribute('name');
+        $route = $asset->getAdminRoute();
+
+        $content = $name
+            ? Div::make()
+                ->class('strong')
+                ->text($name)
+            : Div::make()
+                ->class('text-muted')
+                ->text($asset->file->name);
+
+        return $route
+            ? A::make()
+                ->content($content)
+                ->href($route)
+            : $content;
     }
+
+    protected function getThumbnailColumn(): ?Column
+    {
+        return AssetThumbnailColumn::make()
+            ->url(fn (HotspotAsset $asset) => $asset->getAdminRoute());
+    }
+
 
     protected function getButtonColumn(): ?Column
     {

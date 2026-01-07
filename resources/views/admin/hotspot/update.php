@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -13,48 +14,35 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\HotspotActiveForm;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\HotspotAssetGridView;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
-use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels\HotspotHelpPanel;
-use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels\HotspotPanel;
 use Hirtz\Skeleton\Web\View;
-use Hirtz\Skeleton\Widgets\Bootstrap\Panel;
 use Hirtz\Skeleton\Widgets\Forms\DeleteActiveForm;
+use Hirtz\Skeleton\Widgets\Forms\FormContainer;
+use Hirtz\Skeleton\Widgets\Grids\GridContainer;
 
-$this->setTitle(Yii::t('hotspot', 'Edit Hotspot'));
-?>
+$this->title(Yii::t('hotspot', 'Edit Hotspot'));
 
-<?= HotspotSubmenu::widget([
-    'hotspot' => $hotspot,
-]); ?>
+echo HotspotSubmenu::make()
+    ->hotspot($hotspot);
 
-<?= Html::errorSummary($hotspot); ?>
+echo FormContainer::make()
+    ->title($this->title)
+    ->form(HotspotActiveForm::make()
+        ->model($hotspot));
 
-<?= Panel::widget([
-    'title' => $this->title,
-    'content' => HotspotActiveForm::widget([
-        'model' => $hotspot,
-    ]),
+if ($hotspot->hasAssetsEnabled()) {
+    echo GridContainer::make()
+        ->attribute('id', 'assets')
+        ->title(Yii::t('cms', 'Assets'))
+        ->grid(HotspotAssetGridView::make()
+            ->parent($hotspot));
+}
 
-]); ?>
+echo HotspotPanel::make()
+    ->model($hotspot);
 
-<?php if ($hotspot->hasAssetsEnabled()) {
-    echo Panel::widget([
-        'id' => 'assets',
-        'title' => Yii::t('cms', 'Assets'),
-        'content' => HotspotAssetGridView::widget([
-            'parent' => $hotspot,
-        ]),
-    ]);
-} ?>
-
-<?= HotspotHelpPanel::widget([
-    'model' => $hotspot,
-]); ?>
-
-<?= Panel::widget([
-    'id' => 'delete',
-    'type' => 'danger',
-    'title' => Yii::t('hotspot', 'Delete Hotspot'),
-    'content' => DeleteActiveForm::widget([
-        'model' => $hotspot,
-    ]),
-]); ?>
+echo FormContainer::make()
+    ->danger()
+    ->title(Yii::t('hotspot', 'Delete Hotspot'))
+    ->form(DeleteActiveForm::make()
+        ->model($hotspot));
