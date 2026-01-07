@@ -190,6 +190,7 @@ class HotspotAssetGridView extends GridView
     /**
      * @param HotspotAsset $model
      */
+    #[\Override]
     protected function getRoute(ActiveRecordInterface $model, array $params = []): array|false
     {
         return [...$model->getAdminRoute(), ...$params];

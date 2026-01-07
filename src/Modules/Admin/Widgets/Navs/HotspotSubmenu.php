@@ -18,6 +18,7 @@ class HotspotSubmenu extends CmsSubmenu
         return $this;
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->model ??= $this->hotspot->asset;
@@ -26,6 +27,7 @@ class HotspotSubmenu extends CmsSubmenu
         parent::configure();
     }
 
+    #[\Override]
     protected function setBreadcrumbs(): void
     {
         parent::setBreadcrumbs();

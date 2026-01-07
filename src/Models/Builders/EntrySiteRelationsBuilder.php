@@ -10,7 +10,7 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Override;
 use Yii;
 
-class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\builders\EntrySiteRelationsBuilder
+class EntrySiteRelationsBuilder extends \Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder
 {
     /**
      * @var Hotspot[]

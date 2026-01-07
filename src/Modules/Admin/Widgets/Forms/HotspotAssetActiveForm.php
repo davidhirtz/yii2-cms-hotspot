@@ -17,6 +17,7 @@ class HotspotAssetActiveForm extends ActiveForm
     use ActiveFormFieldsTrait;
     use AssetFieldsTrait;
 
+    #[\Override]
     public function configure(): void
     {
         $this->rows ??= [

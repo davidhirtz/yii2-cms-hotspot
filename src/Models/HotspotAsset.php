@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models;
 
-use Hirtz\Cms\Hotspot\Models\Queries\HotspotAssetQuery;
-use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
-use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels\HotspotAssetFilePanel;
-use Hirtz\Cms\Models\ActiveRecord;
-use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
+use Hirtz\Cms\Hotspot\Models\Queries\HotspotAssetQuery;
+use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\FileHotspotAssetGridContainer;
+use Hirtz\Cms\Models\ActiveRecord;
+use Hirtz\Cms\Models\Traits\VisibleAttributeTrait;
 use Hirtz\Media\Models\Interfaces\AssetInterface;
 use Hirtz\Media\Models\Traits\AssetTrait;
 use Hirtz\Media\Models\Traits\FileRelationTrait;
@@ -185,9 +185,9 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return ['/admin/hotspot-asset/update', 'id' => $this->id];
     }
 
-    public function getFilePanelClass(): string
+    public function getFileRelationGridContainerClass(): string
     {
-        return HotspotAssetFilePanel::class;
+        return FileHotspotAssetGridContainer::class;
     }
 
     public function getFileCountAttributeNames(): array
