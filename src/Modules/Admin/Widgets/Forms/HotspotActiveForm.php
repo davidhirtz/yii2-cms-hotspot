@@ -36,12 +36,6 @@ class HotspotActiveForm extends ActiveForm
         parent::configure();
     }
 
-    protected function getLinkField(): ?Stringable
-    {
-        return InputField::make()
-            ->property('link');
-    }
-
     protected function getXField(): ?Stringable
     {
         return $this->getCoordinateField('x');

@@ -8,8 +8,6 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Modules\Admin\Widgets\Forms\Traits\ActiveFormFieldsTrait;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Traits\AssetFieldsTrait;
 use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
-use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
-use Stringable;
 
 /**
  * @property HotspotAsset $model
@@ -31,11 +29,5 @@ class HotspotAssetActiveForm extends ActiveForm
         ];
 
         parent::configure();
-    }
-
-    protected function getLinkField(): ?Stringable
-    {
-        return InputField::make()
-            ->property('link');
     }
 }
