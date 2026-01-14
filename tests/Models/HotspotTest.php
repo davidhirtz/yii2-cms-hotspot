@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Hirtz\Cms\Hotspot\Tests;
+namespace Hirtz\Cms\Hotspot\Tests\Models;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Test\Fixtures\Traits\FixtureTrait;
-use Hirtz\Cms\Test\TestCase;
+use Hirtz\Cms\Hotspot\Test\TestCase;
+use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
 
 class HotspotTest extends TestCase
 {
-    use FixtureTrait;
+    use HotspotFixtureTrait;
 
     public function testCreateAndDeleteHotspot(): void
     {

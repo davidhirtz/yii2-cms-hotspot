@@ -126,13 +126,13 @@ class FileHotspotAssetGrid extends GridView
         return (string)$asset->parent->asset_count;
     }
 
-    protected function getUpdatedAtColumn(): Column
+    protected function getUpdatedAtColumn(): ?Column
     {
         return RelativeTimeColumn::make()
             ->property('updated_at');
     }
 
-    protected function getButtonColumn(): Column
+    protected function getButtonColumn(): ?Column
     {
         return ButtonColumn::make()
             ->content($this->getButtonColumnContent(...));
