@@ -13,7 +13,7 @@ use Hirtz\Skeleton\Widgets\Alert;
 use Override;
 use Stringable;
 use Yii;
-use yii\helpers\Url;
+use Hirtz\Skeleton\Helpers\Url;;
 
 class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField
 {
