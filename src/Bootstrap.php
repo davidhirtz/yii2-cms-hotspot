@@ -14,7 +14,7 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
-use Hirtz\Cms\Widgets\Canvas;
+use Hirtz\Cms\Widgets\Artwork;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
@@ -56,7 +56,7 @@ class Bootstrap implements BootstrapInterface
         $definitions = [
             AssetPreviewField::class => Modules\Admin\Widgets\Forms\Fields\AssetPreviewField::class,
             AssetThumbnailColumn::class => Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn::class,
-            Canvas::class => Widgets\Canvas::class,
+            Artwork::class => Widgets\Artwork::class,
         ];
 
         foreach ($definitions as $class => $definition) {
