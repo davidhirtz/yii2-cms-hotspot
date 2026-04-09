@@ -7,9 +7,11 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
 use Override;
-use yii\helpers\ArrayHelper;
 
-class Module extends \yii\base\Module
+/**
+ * @property \Hirtz\Skeleton\Modules\Admin\Module $module
+ */
+class Module extends \Hirtz\Skeleton\Base\Module
 {
     /**
      * @var bool whether entry assets should have hotspots enabled, defaults to `false`.
@@ -27,25 +29,14 @@ class Module extends \yii\base\Module
     public bool $enableHotspotAssets = true;
 
     protected array $defaultControllerMap = [
-        'hotspot' => [
-            'class' => HotspotController::class,
-            'viewPath' => '@hotspot/../resources/views/admin/hotspot',
-        ],
-        'hotspot-asset' => [
-            'class' => HotspotAssetController::class,
-            'viewPath' => '@hotspot/../resources/views/admin/hotspot-asset',
-        ],
+        'hotspot' => HotspotController::class,
+        'hotspot-asset' => HotspotAssetController::class,
     ];
 
     #[Override]
     public function init(): void
     {
-        $this->module->controllerMap = ArrayHelper::merge(
-            $this->module->controllerMap,
-            $this->defaultControllerMap,
-            $this->controllerMap,
-        );
-
+        $this->controllerMap = [...$this->defaultControllerMap, ...$this->controllerMap];
         parent::init();
     }
 }
