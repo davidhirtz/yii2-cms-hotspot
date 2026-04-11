@@ -8,12 +8,12 @@ use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\Asset;
+use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Alert;
 use Override;
 use Stringable;
 use Yii;
-use Hirtz\Skeleton\Helpers\Url;;
 
 class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField
 {
