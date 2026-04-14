@@ -46,7 +46,7 @@ class HotspotAssetGridView extends GridView
     use StatusGridViewTrait;
     use TypeGridViewTrait;
 
-    public string $layout = '{header}{items}{footer}';
+    protected string $layout = '{header}{items}{footer}';
 
     #[Override]
     protected function configure(): void

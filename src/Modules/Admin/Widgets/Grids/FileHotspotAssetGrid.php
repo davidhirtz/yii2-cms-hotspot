@@ -31,7 +31,7 @@ class FileHotspotAssetGrid extends GridView
 
     protected string $language;
 
-    public string $layout = '{items}{pager}';
+    protected string $layout = '{items}{pager}';
 
     public function language(string $language): static
     {
