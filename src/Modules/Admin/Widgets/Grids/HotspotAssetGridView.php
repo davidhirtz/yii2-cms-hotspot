@@ -30,7 +30,6 @@ use Override;
 use Stringable;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\db\ActiveRecordInterface;
 
 /**
  * @template T of HotspotAsset
@@ -185,15 +184,6 @@ class HotspotAssetGridView extends GridView
             ->text(Yii::t('cms', 'Link assets'))
             ->icon('images')
             ->href(['/admin/hotspot-asset/index', 'hotspot' => $this->parent->id]);
-    }
-
-    /**
-     * @param HotspotAsset $model
-     */
-    #[\Override]
-    protected function getRoute(ActiveRecordInterface $model, array $params = []): array|false
-    {
-        return [...$model->getAdminRoute(), ...$params];
     }
 
     protected function getFileUploadRoute(): array
