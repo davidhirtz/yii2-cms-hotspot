@@ -6,14 +6,14 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels;
 
 use Hirtz\Media\Modules\Admin\Widgets\Panels\Traits\DuplicateButtonTrait;
 use Hirtz\Skeleton\Widgets\Panels\Panel;
-use Hirtz\Skeleton\Widgets\Traits\ModelWidgetTrait;
+use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
 use Hirtz\Skeleton\Widgets\Widget;
 use Stringable;
 
 class HotspotPanel extends Widget
 {
     use DuplicateButtonTrait;
-    use ModelWidgetTrait;
+    use ModelTrait;
 
     protected function renderContent(): string|Stringable
     {
