@@ -74,7 +74,7 @@ class FileHotspotAssetGrid extends GridView
     {
         return LinkColumn::make()
             ->property('status')
-            ->header(false)
+            ->title(false)
             ->content($this->getStatusIcon(...))
             ->url(fn (HotspotAsset $asset) => $asset->getAdminRoute())
             ->centered();
