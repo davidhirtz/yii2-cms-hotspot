@@ -6,39 +6,40 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns;
 
 use Hirtz\Media\Models\Interfaces\AssetInterface;
 use Hirtz\Skeleton\Html\Div;
-use Override;
 use Stringable;
 use yii\base\Model;
 
 class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
 {
-    #[Override]
-    protected function getValue(array|Model $model, string|int $key, int $index): string|Stringable
+    public function __construct(array $config = [])
     {
-        $content = parent::getValue($model, $key, $index);
+        $this->content ??= $this->getThumbnailWithHotspotCount(...);
+        parent::__construct($config);
+    }
 
-        if ($content) {
-            $hotspotCount = $model instanceof AssetInterface ? $model->getAttribute('hotspot_count') : 0;
+    protected function getThumbnailWithHotspotCount(array|Model $model): string|Stringable
+    {
+        $content = $this->getThumbnail($model);
+        $hotspotCount = $model instanceof AssetInterface ? $model->getAttribute('hotspot_count') : 0;
 
-            if ($hotspotCount) {
-                $badge = Div::make()
-                    ->text((string)$hotspotCount)
-                    ->addClass('badge')
-                    ->addStyle([
-                        'position' => 'absolute',
-                        'top' => '5px',
-                        'left' => '5px',
-                    ]);
-
-                return Div::make()
-                    ->content($content)
-                    ->addContent($badge)
-                    ->addStyle([
-                        'position' => 'relative',
-                    ]);
-            }
+        if (!$content || !$hotspotCount) {
+            return $content;
         }
 
-        return $content;
+        $badge = Div::make()
+            ->text((string)$hotspotCount)
+            ->addClass('badge')
+            ->addStyle([
+                'position' => 'absolute',
+                'top' => '5px',
+                'left' => '5px',
+            ]);
+
+        return Div::make()
+            ->content($content)
+            ->addContent($badge)
+            ->addStyle([
+                'position' => 'relative',
+            ]);
     }
 }
