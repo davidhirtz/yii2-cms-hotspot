@@ -21,7 +21,7 @@ use Hirtz\Skeleton\Widgets\Grids\Columns\ButtonColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\DraggableSortGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
-use Hirtz\Skeleton\Widgets\Grids\Columns\PropertyColumn;
+use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridToolbarItem;
 use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
@@ -78,10 +78,14 @@ class HotspotAssetGridView extends GridView
         parent::configure();
     }
 
+    protected function getStatusDropdownItems(): array
+    {
+        return HotspotAsset::instance()::getStatuses();
+    }
 
     protected function getNameColumn(): ?Column
     {
-        return PropertyColumn::make()
+        return DataColumn::make()
             ->property(HotspotAsset::instance()->getI18nAttributeName('name'))
             ->content($this->getNameColumnContent(...));
     }
