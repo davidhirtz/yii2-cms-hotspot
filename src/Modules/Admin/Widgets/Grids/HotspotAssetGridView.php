@@ -23,9 +23,9 @@ use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
 use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\StatusIconColumn;
+use Hirtz\Skeleton\Widgets\Grids\Columns\TypeColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridToolbarItem;
-use Hirtz\Skeleton\Widgets\Grids\Traits\TypeGridViewTrait;
 use Override;
 use Stringable;
 use Yii;
@@ -42,7 +42,6 @@ class HotspotAssetGridView extends GridView
     use AssetGridViewTrait;
     use FileGridViewTrait;
     use ModuleTrait;
-    use TypeGridViewTrait;
 
     protected string $layout = '{header}{items}{footer}';
 
@@ -80,6 +79,18 @@ class HotspotAssetGridView extends GridView
     protected function getStatusColumn(): ?Column
     {
         return StatusIconColumn::make();
+    }
+
+    protected function getTypeColumn(): ?Column
+    {
+        return TypeColumn::make()
+            ->url(fn (HotspotAsset $model) => $model->getAdminRoute())
+            ->visible($this->hasVisibleTypes());
+    }
+
+    protected function hasVisibleTypes(): bool
+    {
+        return count(HotspotAsset::instance()::getTypes()) > 1;
     }
 
     protected function getNameColumn(): ?Column
