@@ -22,9 +22,9 @@ use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\DraggableSortGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Column;
 use Hirtz\Skeleton\Widgets\Grids\Columns\DataColumn;
+use Hirtz\Skeleton\Widgets\Grids\Columns\StatusIconColumn;
 use Hirtz\Skeleton\Widgets\Grids\GridView;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridToolbarItem;
-use Hirtz\Skeleton\Widgets\Grids\Traits\StatusGridViewTrait;
 use Hirtz\Skeleton\Widgets\Grids\Traits\TypeGridViewTrait;
 use Override;
 use Stringable;
@@ -42,7 +42,6 @@ class HotspotAssetGridView extends GridView
     use AssetGridViewTrait;
     use FileGridViewTrait;
     use ModuleTrait;
-    use StatusGridViewTrait;
     use TypeGridViewTrait;
 
     protected string $layout = '{header}{items}{footer}';
@@ -78,9 +77,9 @@ class HotspotAssetGridView extends GridView
         parent::configure();
     }
 
-    protected function getStatusDropdownItems(): array
+    protected function getStatusColumn(): ?Column
     {
-        return HotspotAsset::instance()::getStatuses();
+        return StatusIconColumn::make();
     }
 
     protected function getNameColumn(): ?Column
