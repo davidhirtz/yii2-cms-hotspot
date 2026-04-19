@@ -13,10 +13,11 @@ use Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\AssetGridViewTrait;
-use Hirtz\Media\Modules\Admin\Widgets\Grids\Traits\FileGridViewTrait;
+use Hirtz\Media\Modules\Admin\Widgets\Buttons\FileButtonsTrait;
 use Hirtz\Skeleton\Html\A;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Buttons\Button;
+use Hirtz\Skeleton\Widgets\Buttons\ButtonGroup;
 use Hirtz\Skeleton\Widgets\Grids\Columns\ButtonColumn;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\DraggableSortGridButton;
 use Hirtz\Skeleton\Widgets\Grids\Columns\Buttons\ViewGridButton;
@@ -40,7 +41,7 @@ use yii\data\ActiveDataProvider;
 class HotspotAssetGridView extends GridView
 {
     use AssetGridViewTrait;
-    use FileGridViewTrait;
+    use FileButtonsTrait;
     use ModuleTrait;
 
     protected string $layout = '{header}{items}{footer}';
@@ -66,8 +67,8 @@ class HotspotAssetGridView extends GridView
         $this->footer ??= [
             GridToolbarItem::make()
                 ->class('form-row')
-                ->content(Div::make()
-                    ->class('form-content btn-group')
+                ->content(ButtonGroup::make()
+                    ->class('form-content')
                     ->content(...$this->getFooterButtons())),
         ];
 
