@@ -198,7 +198,7 @@ class HotspotAssetGridView extends GridView
             ->primary()
             ->text(Yii::t('cms', 'Link assets'))
             ->icon('images')
-            ->href(['/admin/hotspot-asset/index', 'hotspot' => $this->parent->id]);
+            ->url(['/admin/hotspot-asset/index', 'hotspot' => $this->parent->id]);
     }
 
     protected function getFileUploadRoute(): array
