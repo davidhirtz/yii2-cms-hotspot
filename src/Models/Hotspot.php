@@ -365,7 +365,7 @@ class Hotspot extends ActiveRecord implements
     #[Override]
     public function attributeLabels(): array
     {
-        return [...parent::attributeLabels(), 'asset_id' => Lang::t('cms', 'HOTSPOT_ASSET_ID_LABEL_ALT'), 'name' => Lang::t('cms', 'HOTSPOT_NAME_LABEL'), 'content' => Lang::t('cms', 'HOTSPOT_CONTENT_LABEL'), 'link' => Lang::t('cms', 'HOTSPOT_ASSET_ID_LABEL'), 'x' => Lang::t('hotspot', 'HOTSPOT_X_LABEL_HORIZONTAL'), 'y' => Lang::t('hotspot', 'HOTSPOT_Y_LABEL'), 'asset_count' => Lang::t('hotspot', 'HOTSPOT_X_LABEL')];
+        return [...parent::attributeLabels(), 'asset_id' => Lang::t('cms', 'HOTSPOT_ASSET_ID_LABEL'), 'name' => Lang::t('cms', 'HOTSPOT_NAME_LABEL'), 'content' => Lang::t('cms', 'HOTSPOT_CONTENT_LABEL'), 'link' => Lang::t('cms', 'HOTSPOT_LINK_LABEL'), 'x' => Lang::t('hotspot', 'HOTSPOT_X_LABEL'), 'y' => Lang::t('hotspot', 'HOTSPOT_Y_LABEL'), 'asset_count' => Lang::t('hotspot', 'HOTSPOT_ASSET_COUNT_LABEL')];
     }
 
     #[Override]
