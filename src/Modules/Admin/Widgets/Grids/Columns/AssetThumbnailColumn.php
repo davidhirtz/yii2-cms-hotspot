@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns;
 
-use Hirtz\Media\Models\Interfaces\AssetInterface;
+use Hirtz\Cms\Models\Asset;
 use Hirtz\Skeleton\Html\Div;
 use Stringable;
-use yii\base\Model;
 
+/**
+ * @template T of Asset
+ * @extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn<T>
+ */
 class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
 {
     public function __construct(array $config = [])
@@ -17,10 +20,13 @@ class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Column
         parent::__construct($config);
     }
 
-    protected function getThumbnailWithHotspotCount(array|Model $model): string|Stringable
+    /**
+     * @param T $model
+     */
+    protected function getThumbnailWithHotspotCount(Asset $model): string|Stringable
     {
         $content = $this->getThumbnail($model);
-        $hotspotCount = $model instanceof AssetInterface ? $model->getAttribute('hotspot_count') : 0;
+        $hotspotCount = $model->getAttribute('hotspot_count');
 
         if (!$content || !$hotspotCount) {
             return $content;
