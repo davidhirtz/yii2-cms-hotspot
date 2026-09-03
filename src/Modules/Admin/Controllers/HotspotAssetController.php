@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Models\Actions\ReorderHotspotAssets;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
@@ -92,7 +93,7 @@ class HotspotAssetController extends Controller
             return '';
         }
 
-        $this->success(Yii::t('hotspot', 'The hotspot asset was added.'));
+        $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_FLASH_THE_HOTSPOT_ASSET_WAS_ADDED'));
         return $this->redirect(['hotspot/update', 'id' => $hotspot->id]);
     }
 
@@ -102,7 +103,7 @@ class HotspotAssetController extends Controller
 
         if ($asset->load(Yii::$app->getRequest()->post())) {
             if ($asset->update()) {
-                $this->success(Yii::t('hotspot', 'The hotspot asset was updated.'));
+                $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_FLASH_THE_HOTSPOT_ASSET_WAS_UPDATED'));
             }
 
             if (!$asset->hasErrors()) {
@@ -124,7 +125,7 @@ class HotspotAssetController extends Controller
                 return '';
             }
 
-            $this->success(Yii::t('hotspot', 'The hotspot asset was deleted.'));
+            $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_FLASH_THE_HOTSPOT_ASSET_WAS_DELETED'));
             return $this->redirect(['hotspot/update', 'id' => $asset->hotspot_id]);
         }
 

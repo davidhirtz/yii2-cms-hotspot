@@ -38,7 +38,8 @@ class Bootstrap implements BootstrapInterface
         $app->getI18n()->translations['hotspot'] ??= [
             'class' => PhpMessageSource::class,
             'basePath' => '@hotspot/../messages',
-        ];
+                    'forceTranslation' => true,
+];
 
         $app->extendModules([
             'admin' => [

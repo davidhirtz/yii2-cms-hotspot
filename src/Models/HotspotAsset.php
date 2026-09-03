@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models;
 
+use Hirtz\Skeleton\I18n\Lang;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotAssetQuery;
@@ -207,7 +208,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 
     public function getTrailModelType(): string
     {
-        return Yii::t('hotspot', 'Hotspot Asset');
+        return Lang::t('hotspot', 'COMMON_HOTSPOT_ASSET');
     }
 
     #[Override]
@@ -215,10 +216,10 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     {
         return [
             ...parent::attributeLabels(),
-            'section_id' => Yii::t('cms', 'Section'),
-            'file_id' => Yii::t('media', 'File'),
-            'alt_text' => Yii::t('cms', 'Alt text'),
-            'link' => Yii::t('cms', 'Link'),
+            'section_id' => Lang::t('cms', 'HOTSPOT_ASSET_SECTION_ID_LABEL'),
+            'file_id' => Lang::t('media', 'HOTSPOT_ASSET_FILE_ID_LABEL'),
+            'alt_text' => Lang::t('cms', 'HOTSPOT_ASSET_ALT_TEXT_LABEL'),
+            'link' => Lang::t('cms', 'HOTSPOT_ASSET_LINK_LABEL'),
         ];
     }
 

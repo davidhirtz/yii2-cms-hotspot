@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
@@ -73,7 +74,7 @@ class HotspotController extends Controller
                 return $this->asJson([]);
             }
 
-            $this->success(Yii::t('hotspot', 'The hotspot was updated.'));
+            $this->success(Lang::t('hotspot', 'HOTSPOT_FLASH_THE_HOTSPOT_WAS_UPDATED'));
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
@@ -91,7 +92,7 @@ class HotspotController extends Controller
                 return '';
             }
 
-            $this->success(Yii::t('hotspot', 'The hotspot was deleted.'));
+            $this->success(Lang::t('hotspot', 'HOTSPOT_FLASH_THE_HOTSPOT_WAS_DELETED'));
         }
 
         $this->error($hotspot);
@@ -108,7 +109,7 @@ class HotspotController extends Controller
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
-        $this->success(Yii::t('hotspot', 'The hotspot was duplicated.'));
+        $this->success(Lang::t('hotspot', 'HOTSPOT_FLASH_THE_HOTSPOT_WAS_DUPLICATED'));
         return $this->redirect(['update', 'id' => $duplicate->id]);
     }
 }

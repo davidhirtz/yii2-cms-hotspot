@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models\Actions;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Models\Actions\ReorderActiveRecords;
 use davidhirtz\yii2\datetime\DateTime;
@@ -29,10 +30,10 @@ class ReorderHotspotAssets extends ReorderActiveRecords
     #[Override]
     protected function afterReorder(): void
     {
-        $trail = Trail::createOrderTrail($this->hotspot, Yii::t('hotspot', 'Hotspot asset order changed'));
+        $trail = Trail::createOrderTrail($this->hotspot, Lang::t('hotspot', 'REORDER_HOTSPOT_ASSETS_HOTSPOT_ASSET_ORDER_CHANGED'));
 
         foreach ($this->hotspot->getTrailParents() as $parent) {
-            Trail::createOrderTrail($parent, Yii::t('hotspot', 'Hotspot asset order changed'), [
+            Trail::createOrderTrail($parent, Lang::t('hotspot', 'REORDER_HOTSPOT_ASSETS_HOTSPOT_ASSET_ORDER_CHANGED'), [
                 'trail_id' => $trail->id,
             ]);
 

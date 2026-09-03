@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Interfaces\FileRelationGridContainerInterface;
@@ -39,7 +40,7 @@ class FileHotspotAssetGridContainer extends Widget implements FileRelationGridCo
 
     protected function getTitle(string $language): string
     {
-        $title = Yii::t('hotspot', 'Hotspots');
+        $title = Lang::t('hotspot', 'FILE_HOTSPOT_ASSET_GRID_CONTAINER_HOTSPOTS');
 
         if ($language !== Yii::$app->language && self::getModule()->enableI18nTables) {
             $title .= ' (' . strtoupper($language) . ')';

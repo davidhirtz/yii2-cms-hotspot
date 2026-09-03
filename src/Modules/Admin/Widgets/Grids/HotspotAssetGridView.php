@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids;
 
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
@@ -196,7 +197,7 @@ class HotspotAssetGridView extends GridView
     {
         return Button::make()
             ->primary()
-            ->text(Yii::t('cms', 'Link assets'))
+            ->text(Lang::t('cms', 'COMMON_LINK_ASSETS'))
             ->icon('images')
             ->url(['/admin/hotspot-asset/index', 'hotspot' => $this->parent->id]);
     }
