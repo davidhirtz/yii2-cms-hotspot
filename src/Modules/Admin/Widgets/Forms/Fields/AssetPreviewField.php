@@ -39,7 +39,7 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
         if ($this->hasHotspotsEnabled()) {
             $alert = Alert::make()
                 ->info()
-                ->text(Lang::t('hotspot', 'ASSET_PREVIEW_DOUBLE_CLICK_ON_THE_IMAGE_TO'));
+                ->text(Lang::t('hotspot', 'ASSET_PREVIEW_DOUBLE_CLICK'));
 
             $content = $alert . Div::make()
                     ->attribute('hx-select', '#wrap')

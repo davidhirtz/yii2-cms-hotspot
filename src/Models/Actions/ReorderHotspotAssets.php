@@ -30,10 +30,10 @@ class ReorderHotspotAssets extends ReorderActiveRecords
     #[Override]
     protected function afterReorder(): void
     {
-        $trail = Trail::createOrderTrail($this->hotspot, Lang::t('hotspot', 'REORDER_HOTSPOT_ASSETS_HOTSPOT_ASSET_ORDER_CHANGED'));
+        $trail = Trail::createOrderTrail($this->hotspot, Lang::t('hotspot', 'REORDER_HOTSPOT_ASSETS_HOTSPOT'));
 
         foreach ($this->hotspot->getTrailParents() as $parent) {
-            Trail::createOrderTrail($parent, Lang::t('hotspot', 'REORDER_HOTSPOT_ASSETS_HOTSPOT_ASSET_ORDER_CHANGED'), [
+            Trail::createOrderTrail($parent, Lang::t('hotspot', 'REORDER_HOTSPOT_ASSETS_HOTSPOT'), [
                 'trail_id' => $trail->id,
             ]);
 

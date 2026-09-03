@@ -93,7 +93,7 @@ class HotspotAssetController extends Controller
             return '';
         }
 
-        $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_FLASH_THE_HOTSPOT_ASSET_WAS_ADDED'));
+        $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_ADDED'));
         return $this->redirect(['hotspot/update', 'id' => $hotspot->id]);
     }
 
@@ -103,7 +103,7 @@ class HotspotAssetController extends Controller
 
         if ($asset->load(Yii::$app->getRequest()->post())) {
             if ($asset->update()) {
-                $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_FLASH_THE_HOTSPOT_ASSET_WAS_UPDATED'));
+                $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_UPDATED'));
             }
 
             if (!$asset->hasErrors()) {
@@ -125,7 +125,7 @@ class HotspotAssetController extends Controller
                 return '';
             }
 
-            $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_FLASH_THE_HOTSPOT_ASSET_WAS_DELETED'));
+            $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_DELETED'));
             return $this->redirect(['hotspot/update', 'id' => $asset->hotspot_id]);
         }
 

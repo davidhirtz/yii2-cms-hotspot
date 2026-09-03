@@ -74,7 +74,7 @@ class HotspotController extends Controller
                 return $this->asJson([]);
             }
 
-            $this->success(Lang::t('hotspot', 'HOTSPOT_FLASH_THE_HOTSPOT_WAS_UPDATED'));
+            $this->success(Lang::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'));
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
@@ -92,7 +92,7 @@ class HotspotController extends Controller
                 return '';
             }
 
-            $this->success(Lang::t('hotspot', 'HOTSPOT_FLASH_THE_HOTSPOT_WAS_DELETED'));
+            $this->success(Lang::t('hotspot', 'HOTSPOT_SUCCESS_DELETED'));
         }
 
         $this->error($hotspot);
@@ -109,7 +109,7 @@ class HotspotController extends Controller
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
-        $this->success(Lang::t('hotspot', 'HOTSPOT_FLASH_THE_HOTSPOT_WAS_DUPLICATED'));
+        $this->success(Lang::t('hotspot', 'HOTSPOT_SUCCESS_DUPLICATED'));
         return $this->redirect(['update', 'id' => $duplicate->id]);
     }
 }
