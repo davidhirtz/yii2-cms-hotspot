@@ -36,11 +36,12 @@ use yii\data\ActiveDataProvider;
 /**
  * @template T of HotspotAsset
  * @extends GridView<T>
- *
- * @property Hotspot $parent
  */
 class HotspotAssetGridView extends GridView
 {
+    /**
+     * @use AssetGridViewTrait<Hotspot>
+     */
     use AssetGridViewTrait;
     use FileButtonsTrait;
     use ModuleTrait;

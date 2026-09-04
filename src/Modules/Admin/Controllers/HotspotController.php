@@ -105,7 +105,8 @@ class HotspotController extends Controller
         $hotspot = $this->findHotspot($id);
         $duplicate = DuplicateHotspot::create(['hotspot' => $hotspot]);
 
-        if ($this->error($duplicate)) {
+        if ($errors = $duplicate->getFirstErrors()) {
+            $this->error($errors);
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
