@@ -14,6 +14,7 @@ use Hirtz\Media\Models\Folder;
 use Hirtz\Media\Modules\Admin\Controllers\Traits\FileControllerTrait;
 use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
 use Hirtz\Skeleton\Web\Controller;
+use Hirtz\Skeleton\Widgets\Flashes;
 use Override;
 use Yii;
 use yii\filters\AccessControl;
@@ -133,11 +134,17 @@ class HotspotAssetController extends Controller
         throw new BadRequestHttpException(reset($errors));
     }
 
-    public function actionOrder(int $id): void
+    public function actionOrder(int $id): string
     {
-        ReorderHotspotAssets::runWithBodyParam('hotspot-asset', [
+        $success = ReorderHotspotAssets::runWithBodyParam('hotspot-asset', [
             'hotspot' => $this->findHotspot($id),
         ]);
+
+        if ($success) {
+            $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_ORDERED'));
+        }
+
+        return (string) Flashes::make();
     }
 
     private function findAsset(int $id): HotspotAsset

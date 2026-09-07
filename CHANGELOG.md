@@ -1,3 +1,8 @@
+## 3.0.0 (in development)
+
+- `HotspotAssetController::actionOrder()` now returns a flash fragment (was `void`) and emits a success
+  flash after a reorder; added the `HOTSPOT_ASSET_SUCCESS_ORDERED` message
+
 ## 2.3.0 (Oct 21, 2025)
 
 - Requires PHP 8.3

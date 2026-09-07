@@ -12,6 +12,7 @@ return [
     'HOTSPOT_ASSET_COUNT_LABEL' => 'Hotspot Asset',
     'HOTSPOT_ASSET_SUCCESS_ADDED' => 'Das Hotspot Asset wurde hinzugefügt.',
     'HOTSPOT_ASSET_SUCCESS_DELETED' => 'Das Hotspot Asset wurde gelöscht.',
+    'HOTSPOT_ASSET_SUCCESS_ORDERED' => 'Die Reihenfolge der Hotspot Assets wurde geändert.',
     'HOTSPOT_ASSET_SUCCESS_UPDATED' => 'Das Hotspot Asset wurde aktualisiert.',
     'HOTSPOT_SUCCESS_DELETED' => 'Der Hotspot wurde gelöscht.',
     'HOTSPOT_SUCCESS_DUPLICATED' => 'Der Hotspot wurde dupliziert.',
