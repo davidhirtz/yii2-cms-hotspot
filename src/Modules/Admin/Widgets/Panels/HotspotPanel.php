@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels;
 
+use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Skeleton\Widgets\Buttons\DuplicateButton;
 use Hirtz\Skeleton\Widgets\Panels\Panel;
 use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
@@ -12,6 +13,9 @@ use Stringable;
 
 class HotspotPanel extends Widget
 {
+    /**
+     * @use ModelTrait<Hotspot>
+     */
     use ModelTrait;
 
     protected function renderContent(): string|Stringable
