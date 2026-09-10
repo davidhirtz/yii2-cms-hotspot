@@ -52,10 +52,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return [
             ...parent::behaviors(),
             'DateTimeBehavior' => DateTimeBehavior::class,
-            'TrailBehavior' => [
-                'class' => TrailBehavior::class,
-                'modelClass' => static::getModule()->getI18nClassName(static::class),
-            ],
+            'TrailBehavior' => TrailBehavior::class,
         ];
     }
 
@@ -158,12 +155,13 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 
     public function updateFileRelatedCount(): bool|int
     {
-        $attributeName = static::getModule()->enableI18nTables
-            ? Yii::$app->getI18n()->getAttributeName('hotspot_asset_count')
-            : 'hotspot_asset_count';
-
-        $this->file->$attributeName = self::find()->where(['file_id' => $this->file_id])->count();
+        $this->file->{$this->getFileCountAttributeName()} = self::find()->where(['file_id' => $this->file_id])->count();
         return $this->file->update();
+    }
+
+    public function getFileCountAttributeName(): string
+    {
+        return 'hotspot_asset_count';
     }
 
     #[Override]
@@ -194,10 +192,7 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
 
     public function getFileCountAttributeNames(): array
     {
-        $languages = static::getModule()->getLanguages();
-        $attributes = array_map(fn ($lang) => Yii::$app->getI18n()->getAttributeName('hotspot_asset_count', $lang), $languages);
-
-        return array_combine($languages, $attributes);
+        return [Yii::$app->sourceLanguage => 'hotspot_asset_count'];
     }
 
     public function getTrailParents(): array
@@ -232,6 +227,6 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
     #[Override]
     public static function tableName(): string
     {
-        return static::getModule()->getTableName('hotspot_asset');
+        return '{{%hotspot_asset}}';
     }
 }
