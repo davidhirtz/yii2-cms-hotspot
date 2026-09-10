@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- Translated attributes of `Hotspot` and `HotspotAsset` moved from their `_xx` columns into the skeleton's
+  `translation` table (`M260910120000Translations`)
 - `HotspotAssetController::actionOrder()` now returns a flash fragment (was `void`) and emits a success
   flash after a reorder; added the `HOTSPOT_ASSET_SUCCESS_ORDERED` message
 

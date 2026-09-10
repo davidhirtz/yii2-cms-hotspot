@@ -224,6 +224,11 @@ class HotspotAsset extends ActiveRecord implements AssetInterface
         return 'HotspotAsset';
     }
 
+    public function getTranslationModelClass(): string
+    {
+        return self::class;
+    }
+
     #[Override]
     public static function tableName(): string
     {

@@ -19,13 +19,16 @@ use Hirtz\Media\Models\Traits\AssetParentTrait;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
+use Hirtz\Skeleton\Behaviors\TranslationBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
+use Hirtz\Skeleton\Models\Interfaces\TranslationInterface;
 use Hirtz\Skeleton\Models\Interfaces\TypeAttributeInterface;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\I18nAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
+use Hirtz\Skeleton\Models\Traits\TranslationTrait;
 use Hirtz\Skeleton\Models\Traits\TypeAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
 use Hirtz\Skeleton\Validators\DynamicRangeValidator;
@@ -59,10 +62,12 @@ class Hotspot extends ActiveRecord implements
     AssetParentInterface,
     DraftStatusAttributeInterface,
     TrailModelInterface,
+    TranslationInterface,
     TypeAttributeInterface
 {
     use AssetParentTrait;
     use I18nAttributesTrait;
+    use TranslationTrait;
     use ModuleTrait;
     use DraftStatusAttributeTrait;
     use TrailModelTrait;
@@ -90,6 +95,7 @@ class Hotspot extends ActiveRecord implements
         return [
             ...parent::behaviors(),
             'DateTimeBehavior' => DateTimeBehavior::class,
+            'TranslationBehavior' => TranslationBehavior::class,
             'TrailBehavior' => TrailBehavior::class,
         ];
     }
@@ -372,6 +378,11 @@ class Hotspot extends ActiveRecord implements
     public function formName(): string
     {
         return 'Hotspot';
+    }
+
+    public function getTranslationModelClass(): string
+    {
+        return self::class;
     }
 
     #[Override]

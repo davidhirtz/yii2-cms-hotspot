@@ -55,7 +55,7 @@ class HotspotEntrySiteRelationsBuilderEventHandler
 
         $this->hotspots = Hotspot::find()
             ->selectSiteAttributes()
-            ->replaceI18nAttributes()
+            ->withTranslations()
             ->whereStatus()
             ->andWhere(['asset_id' => $assetIdsWithHotspots])
             ->indexBy('id')
@@ -79,7 +79,7 @@ class HotspotEntrySiteRelationsBuilderEventHandler
 
         $this->hotspotAssets = HotspotAsset::find()
             ->selectSiteAttributes()
-            ->replaceI18nAttributes()
+            ->withTranslations()
             ->whereStatus()
             ->andWhere(['hotspot_id' => $this->hotspotIdsWithHotspotAssets])
             ->orderBy(['position' => SORT_ASC])
