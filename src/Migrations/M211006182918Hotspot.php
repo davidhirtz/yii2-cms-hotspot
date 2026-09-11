@@ -39,8 +39,6 @@ final class M211006182918Hotspot extends Migration
             'created_at' => $this->dateTime()->notNull(),
         ]);
 
-        $this->addI18nColumns(Hotspot::tableName(), Hotspot::instance()->i18nAttributes);
-
         $this->createIndex('asset_id', Hotspot::tableName(), ['asset_id', 'position']);
 
         $this->addForeignKey(
@@ -81,8 +79,6 @@ final class M211006182918Hotspot extends Migration
             'updated_at' => $this->dateTime(),
             'created_at' => $this->dateTime()->notNull(),
         ], $this->getTableOptions());
-
-        $this->addI18nColumns(HotspotAsset::tableName(), HotspotAsset::instance()->i18nAttributes);
 
         $this->createIndex('hotspot_id', HotspotAsset::tableName(), ['hotspot_id', 'position']);
 
