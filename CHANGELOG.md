@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- Added `Tests\Migrations\AssetMigrationTest`, which replays `M260912120000Assets` against the kept
+  `hotspot_asset` table and pins the id offset in the rows and in both places the trail stores it
 - `Models\HotspotAsset` is a subclass of `Hirtz\Media\Models\Asset` on the shared `asset` table, keeping its
   class name so existing trail rows still resolve. It borrows the permissions of the cms asset its hotspot sits on
   and drops the `embed_url` definition. `Models\Hotspot` implements `AssetModelInterface`
