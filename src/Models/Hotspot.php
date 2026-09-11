@@ -323,7 +323,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getAdminRoute(): array|false
     {
-        return $this->id ? ['/admin/hotspot/update', 'id' => $this->id] : false;
+        return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
     }
 
     public function getDisplayName(): string

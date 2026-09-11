@@ -75,7 +75,7 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
 
         $this->view->registerJsModule($bundle->getModuleFilename(), [
             'formName' => Hotspot::instance()->formName(),
-            'url' => Url::toRoute(['/admin/hotspot/create', 'id' => $this->asset->id]),
+            'url' => Url::toRoute(['/admin/hotspot/hotspot/create', 'id' => $this->asset->id]),
             'hotspots' => $this->hotspots,
         ]);
     }

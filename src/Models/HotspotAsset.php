@@ -23,7 +23,7 @@ class HotspotAsset extends Asset
     #[Override]
     public static function getAdminControllerRoute(): string
     {
-        return '/admin/hotspot-asset';
+        return '/admin/hotspot/hotspot-asset';
     }
 
     #[Override]

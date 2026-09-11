@@ -1,5 +1,10 @@
 ## 3.0.0 (in development)
 
+- `Widgets\Navs\HotspotSubmenu` renders the submenu of the entry or section the hotspot's asset belongs to
+  instead of extending `EntrySubmenu` and passing it an asset. It is the only place left that has to know
+  which of the two it is
+- Fixed the admin routes, which were missing the module segment the controllers are mapped under:
+  `/admin/hotspot/hotspot/update`, `/admin/hotspot/hotspot/create` and `/admin/hotspot/hotspot-asset/*`
 - `Modules\Admin\Controllers\HotspotAssetController` declares its own access rules and resolves every action
   through `HotspotTrait::findHotspot()`, which is what checks the cms asset the hotspot sits on
 - Added `Tests\Migrations\AssetMigrationTest`, which replays `M260912120000Assets` against the kept
