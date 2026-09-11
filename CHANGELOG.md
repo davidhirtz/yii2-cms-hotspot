@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `Modules\Admin\Controllers\HotspotAssetController` declares its own access rules and resolves every action
+  through `HotspotTrait::findHotspot()`, which is what checks the cms asset the hotspot sits on
 - Added `Tests\Migrations\AssetMigrationTest`, which replays `M260912120000Assets` against the kept
   `hotspot_asset` table and pins the id offset in the rows and in both places the trail stores it
 - `Models\HotspotAsset` is a subclass of `Hirtz\Media\Models\Asset` on the shared `asset` table, keeping its
