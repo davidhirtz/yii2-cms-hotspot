@@ -9,7 +9,8 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Cms\Models\Section;
-use Hirtz\Media\Modules\Admin\Controllers\AbstractAssetController;
+use Hirtz\Media\Modules\Admin\Controllers\Traits\AssetControllerTrait;
+use Hirtz\Skeleton\Web\Controller;
 use Override;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
@@ -19,8 +20,9 @@ use yii\web\Response;
  * A hotspot asset is edited by whoever may edit the cms asset its hotspot sits on, which is what
  * {@see HotspotTrait::findHotspot()} checks.
  */
-class HotspotAssetController extends AbstractAssetController
+class HotspotAssetController extends Controller
 {
+    use AssetControllerTrait;
     use HotspotTrait;
 
     #[Override]
@@ -28,6 +30,7 @@ class HotspotAssetController extends AbstractAssetController
     {
         return [
             ...parent::behaviors(),
+            'verbs' => $this->getAssetVerbs(),
             'access' => [
                 'class' => AccessControl::class,
                 'rules' => [
@@ -46,44 +49,38 @@ class HotspotAssetController extends AbstractAssetController
         ];
     }
 
-    #[Override]
-    public function actionIndex(?int $hotspot = null): Response|string
+    public function actionIndex(?int $id = null): Response|string
     {
-        return $this->renderIndex($this->findHotspotModel($hotspot));
+        return $this->renderIndex($this->findHotspotModel($id));
     }
 
-    #[Override]
     public function actionCreate(
-        ?int $hotspot = null,
+        ?int $id = null,
         ?int $file = null,
         ?int $folder = null,
         ?string $q = null
     ): Response|string {
-        return $this->createAsset($this->findHotspotModel($hotspot), $file, $folder, $q);
+        return $this->createAsset($this->findHotspotModel($id), $file, $folder, $q);
     }
 
-    #[Override]
     public function actionUpdate(int $id): Response|string
     {
         return $this->updateAsset($this->findHotspotAsset($id));
     }
 
-    #[Override]
     public function actionDelete(int $id): Response|string
     {
         return $this->deleteAsset($this->findHotspotAsset($id));
     }
 
-    #[Override]
     public function actionDuplicate(int $id): Response|string
     {
         return $this->duplicateAsset($this->findHotspotAsset($id));
     }
 
-    #[Override]
-    public function actionOrder(?int $hotspot = null): string
+    public function actionOrder(?int $id = null): string
     {
-        return $this->reorderAssets($this->findHotspotModel($hotspot));
+        return $this->reorderAssets($this->findHotspotModel($id));
     }
 
     protected function findHotspotModel(?int $id): Hotspot
