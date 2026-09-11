@@ -49,18 +49,18 @@ class HotspotAssetController extends Controller
         ];
     }
 
-    public function actionIndex(?int $id = null): Response|string
+    public function actionIndex(?int $hotspot = null): Response|string
     {
-        return $this->renderIndex($this->findHotspotModel($id));
+        return $this->renderIndex($this->findHotspotModel($hotspot));
     }
 
     public function actionCreate(
-        ?int $id = null,
+        ?int $hotspot = null,
         ?int $file = null,
         ?int $folder = null,
         ?string $q = null
     ): Response|string {
-        return $this->createAsset($this->findHotspotModel($id), $file, $folder, $q);
+        return $this->createAsset($this->findHotspotModel($hotspot), $file, $folder, $q);
     }
 
     public function actionUpdate(int $id): Response|string
@@ -78,19 +78,19 @@ class HotspotAssetController extends Controller
         return $this->duplicateAsset($this->findHotspotAsset($id));
     }
 
-    public function actionOrder(?int $id = null): string
+    public function actionOrder(?int $hotspot = null): string
     {
-        return $this->reorderAssets($this->findHotspotModel($id));
+        return $this->reorderAssets($this->findHotspotModel($hotspot));
     }
 
-    protected function findHotspotModel(?int $id): Hotspot
+    protected function findHotspotModel(?int $hotspot): Hotspot
     {
-        if (!$id) {
+        if (!$hotspot) {
             throw new NotFoundHttpException();
         }
 
         /** @var Hotspot */
-        return $this->findAssetModel($this->findHotspot($id));
+        return $this->findAssetModel($this->findHotspot($hotspot));
     }
 
     protected function findHotspotAsset(int $id): HotspotAsset

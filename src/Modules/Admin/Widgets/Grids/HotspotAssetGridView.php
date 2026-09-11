@@ -81,9 +81,6 @@ class HotspotAssetGridView extends AssetGridView
         /** @var Hotspot $hotspot */
         $hotspot = $this->provider->model;
 
-        return [
-            HotspotAsset::getAdminControllerRoute() . '/create',
-            'id' => $hotspot->id,
-        ];
+        return HotspotAsset::getAdminCreateRoute($hotspot);
     }
 }

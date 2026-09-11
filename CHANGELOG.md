@@ -2,9 +2,8 @@
 
 - `Models\Hotspot` implements the skeleton `Models\Interfaces\AdminRouteInterface` and dropped its
   `getTrailModelAdminRoute()`
-- `HotspotAssetController` extends the skeleton `Controller` and uses the media `AssetControllerTrait`; its
-  hotspot is addressed as `id`. The file picker moved from `hotspot-asset/index` to `hotspot-asset/create`,
-  and `index` lists the hotspot's assets
+- `HotspotAssetController` extends the skeleton `Controller` and uses the media `AssetControllerTrait`. The
+  file picker moved from `hotspot-asset/index` to `hotspot-asset/create`, and `index` lists the hotspot's assets
 - `Widgets\Navs\HotspotSubmenu` renders the submenu of the entry or section the hotspot's asset belongs to
   instead of extending `EntrySubmenu` and passing it an asset. It is the only place left that has to know
   which of the two it is
