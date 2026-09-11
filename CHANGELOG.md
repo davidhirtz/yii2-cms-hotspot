@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `Models\Hotspot` and `Models\HotspotAsset` use `VisibleAttributeTrait` from `Hirtz\Skeleton\Models\Traits`
+  instead of `Hirtz\Cms\Models\Traits`
 - `Models\Hotspot` implements `CustomAttributeInterface`; `Models\HotspotAsset` inherits it from the cms base. Added
   the `custom_attributes` column to `hotspot` and `hotspot_asset`, excluded from the trail
 - The admin forms render the custom attribute fields, and `HotspotController` and `HotspotAssetController` guard their
