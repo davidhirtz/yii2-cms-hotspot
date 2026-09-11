@@ -3,29 +3,30 @@
 declare(strict_types=1);
 
 /**
- * @see HotspotAssetController::actionIndex()
+ * @see AbstractAssetController::actionCreate()
  *
  * @var View $this
- * @var ActiveDataProvider $provider
- * @var Hotspot $hotspot
+ * @var Hotspot $model
+ * @var FileActiveDataProvider $provider
  */
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
+use Hirtz\Media\Modules\Admin\Controllers\AbstractAssetController;
+use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\FileGridView;
+use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Grids\GridContainer;
-use yii\data\ActiveDataProvider;
 
-$this->title(Yii::t('media', 'Assets'));
+$this->title(Lang::t('media', 'ASSET_MODEL_LABEL'));
 
 echo HotspotSubmenu::make()
-    ->hotspot($hotspot);
+    ->hotspot($model);
 
-$this->addBreadcrumb(Yii::t('cms', 'Link Assets'));
+$this->addBreadcrumb(Lang::t('media', 'COMMON_LINK_ASSETS'));
 
 echo GridContainer::make()
     ->grid(FileGridView::make()
-        ->parent($hotspot)
+        ->model($model)
         ->provider($provider));

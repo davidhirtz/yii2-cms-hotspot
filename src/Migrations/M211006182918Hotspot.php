@@ -6,7 +6,6 @@ namespace Hirtz\Cms\Hotspot\Migrations;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
-use Hirtz\Cms\Models\Asset;
 use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Db\Traits\MigrationTrait;
 use Hirtz\Skeleton\Models\User;
@@ -19,6 +18,10 @@ use yii\db\Migration;
 final class M211006182918Hotspot extends Migration
 {
     use MigrationTrait;
+
+    private const string LEGACY_TABLE = '{{%hotspot_asset}}';
+    private const string LEGACY_CMS_ASSET_TABLE = '{{%cms_asset}}';
+    private const string FILE_COUNT_COLUMN = 'hotspot_asset_count';
 
     public function safeUp(): void
     {
@@ -45,7 +48,7 @@ final class M211006182918Hotspot extends Migration
             $this->getForeignKeyName(Hotspot::tableName(), 'asset_id_ibfk'),
             Hotspot::tableName(),
             'asset_id',
-            Asset::tableName(),
+            self::LEGACY_CMS_ASSET_TABLE,
             'id',
             'CASCADE'
         );
@@ -59,12 +62,12 @@ final class M211006182918Hotspot extends Migration
             'SET NULL'
         );
 
-        $this->addColumn(Asset::tableName(), 'hotspot_count', (string)$this->smallInteger()
+        $this->addColumn(self::LEGACY_CMS_ASSET_TABLE, 'hotspot_count', (string)$this->smallInteger()
             ->notNull()
             ->defaultValue(0)
             ->after('link'));
 
-        $this->createTable(HotspotAsset::tableName(), [
+        $this->createTable(self::LEGACY_TABLE, [
             'id' => $this->primaryKey()->unsigned(),
             'status' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(HotspotAsset::STATUS_ENABLED),
             'type' => $this->smallInteger()->notNull()->defaultValue(HotspotAsset::TYPE_DEFAULT),
@@ -80,11 +83,11 @@ final class M211006182918Hotspot extends Migration
             'created_at' => $this->dateTime()->notNull(),
         ], $this->getTableOptions());
 
-        $this->createIndex('hotspot_id', HotspotAsset::tableName(), ['hotspot_id', 'position']);
+        $this->createIndex('hotspot_id', self::LEGACY_TABLE, ['hotspot_id', 'position']);
 
         $this->addForeignKey(
-            $this->getForeignKeyName(HotspotAsset::tableName(), 'hotspot_id_ibfk'),
-            HotspotAsset::tableName(),
+            $this->getForeignKeyName(self::LEGACY_TABLE, 'hotspot_id_ibfk'),
+            self::LEGACY_TABLE,
             'hotspot_id',
             Hotspot::tableName(),
             'id',
@@ -92,8 +95,8 @@ final class M211006182918Hotspot extends Migration
         );
 
         $this->addForeignKey(
-            $this->getForeignKeyName(HotspotAsset::tableName(), 'file_id_ibfk'),
-            HotspotAsset::tableName(),
+            $this->getForeignKeyName(self::LEGACY_TABLE, 'file_id_ibfk'),
+            self::LEGACY_TABLE,
             'file_id',
             File::tableName(),
             'id',
@@ -101,35 +104,27 @@ final class M211006182918Hotspot extends Migration
         );
 
         $this->addForeignKey(
-            $this->getForeignKeyName(HotspotAsset::tableName(), 'updated_by_ibfk'),
-            HotspotAsset::tableName(),
+            $this->getForeignKeyName(self::LEGACY_TABLE, 'updated_by_ibfk'),
+            self::LEGACY_TABLE,
             'updated_by_user_id',
             User::tableName(),
             'id',
             'SET NULL'
         );
 
-        $after = 'transformation_count';
-
-        foreach (HotspotAsset::instance()->getFileCountAttributeNames() as $attributeName) {
-            $this->addColumn(File::tableName(), $attributeName, (string)$this->smallInteger()
-                ->notNull()
-                ->defaultValue(0)
-                ->after($after));
-
-            $after = $attributeName;
-        }
+        $this->addColumn(File::tableName(), self::FILE_COUNT_COLUMN, (string)$this->smallInteger()
+            ->notNull()
+            ->defaultValue(0)
+            ->after('transformation_count'));
     }
 
     public function safeDown(): void
     {
-        foreach (HotspotAsset::instance()->getFileCountAttributeNames() as $attributeName) {
-            $this->dropColumn(File::tableName(), $attributeName);
-        }
+        $this->dropColumn(File::tableName(), self::FILE_COUNT_COLUMN);
 
-        $this->dropColumn(Asset::tableName(), 'hotspot_count');
+        $this->dropColumn(self::LEGACY_CMS_ASSET_TABLE, 'hotspot_count');
 
-        $this->dropTable(HotspotAsset::tableName());
+        $this->dropTable(self::LEGACY_TABLE);
         $this->dropTable(Hotspot::tableName());
     }
 }

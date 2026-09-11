@@ -7,8 +7,10 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Models\EntryAsset;
+use Hirtz\Cms\Models\SectionAsset;
+use Hirtz\Media\Models\Asset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
-use Hirtz\Cms\Modules\Admin\Controllers\Traits\AssetControllerTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Skeleton\Web\Controller;
 use Override;
@@ -16,11 +18,12 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class HotspotController extends Controller
 {
-    use AssetControllerTrait;
     use HotspotTrait;
     use ModuleTrait;
 
@@ -48,7 +51,7 @@ class HotspotController extends Controller
 
     public function actionCreate(int $id): Response|string
     {
-        $asset = $this->findAsset($id, 'assetUpdate');
+        $asset = $this->findAsset($id);
 
         $hotspot = Hotspot::create();
         $hotspot->populateAssetRelation($asset);
@@ -97,7 +100,25 @@ class HotspotController extends Controller
 
         $this->error($hotspot);
 
-        return $this->redirect(['/admin/asset/update', 'id' => $hotspot->asset_id]);
+        return $this->redirect($hotspot->asset->getAdminRoute());
+    }
+
+    /**
+     * Only the cms assets can carry hotspots.
+     */
+    protected function findAsset(int $id): Asset
+    {
+        $asset = Asset::findOne($id);
+
+        if (!$asset instanceof EntryAsset && !$asset instanceof SectionAsset) {
+            throw new NotFoundHttpException();
+        }
+
+        if (!Yii::$app->getUser()->can($asset->getPermissionName('update'), ['asset' => $asset])) {
+            throw new ForbiddenHttpException();
+        }
+
+        return $asset;
     }
 
     public function actionDuplicate(int $id): Response|string

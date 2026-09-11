@@ -4,234 +4,67 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models;
 
+use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\I18n\Lang;
-use davidhirtz\yii2\datetime\DateTime;
-use davidhirtz\yii2\datetime\DateTimeBehavior;
-use Hirtz\Cms\Hotspot\Models\Queries\HotspotAssetQuery;
-use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
-use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\FileHotspotAssetGridContainer;
-use Hirtz\Cms\Models\ActiveRecord;
-use Hirtz\Media\Models\Interfaces\AssetInterface;
-use Hirtz\Media\Models\Traits\AssetTrait;
-use Hirtz\Media\Models\Traits\FileRelationTrait;
-use Hirtz\Skeleton\Behaviors\TrailBehavior;
-use Hirtz\Skeleton\Models\Traits\VisibleAttributeTrait;
-use Hirtz\Skeleton\Validators\RelationValidator;
+use Hirtz\Skeleton\Models\CustomAttributes\CustomAttribute;
 use Override;
-use Yii;
 
 /**
- * @property int $id
- * @property int $hotspot_id
- * @property int $file_id
- * @property int $position
- * @property string $name
- * @property string $content
- * @property string $alt_text
- * @property string $link
- * @property int $updated_by_user_id
- * @property DateTime $updated_at
- * @property DateTime $created_at
- *
- * @property-read Hotspot $hotspot {@see static::getHotspot()}
- * @property-read Hotspot $parent {@see static::getParent()}
- *
- * @mixin TrailBehavior
+ * @property-read Hotspot $model {@see static::getModel()}
  */
-class HotspotAsset extends ActiveRecord implements AssetInterface
+class HotspotAsset extends Asset
 {
-    use AssetTrait;
-    use FileRelationTrait;
-    use VisibleAttributeTrait;
-
-    public ?bool $shouldUpdateHotspotAfterInsert = null;
-
     #[Override]
-    public function behaviors(): array
+    public static function getModelClass(): string
     {
-        return [
-            ...parent::behaviors(),
-            'DateTimeBehavior' => DateTimeBehavior::class,
-            'TrailBehavior' => TrailBehavior::class,
-        ];
+        return Hotspot::class;
     }
 
     #[Override]
-    public function rules(): array
+    public static function getAdminControllerRoute(): string
     {
-        return [
-            ...parent::rules(),
-            [
-                ['file_id', 'hotspot_id'],
-                'required',
-            ],
-            [
-                ['hotspot_id'],
-                'filter',
-                'filter' => 'intval',
-            ],
-            [
-                ['hotspot_id'],
-                RelationValidator::class,
-            ],
-            [
-                ['file_id'],
-                RelationValidator::class,
-            ],
-            [
-                $this->getI18nAttributesNames(['name', 'alt_text', 'link']),
-                'string',
-                'max' => 250,
-            ],
-        ];
+        return '/admin/hotspot-asset';
+    }
+
+    /**
+     * A hotspot has no permissions of its own; it is edited by whoever may edit the asset it sits on.
+     */
+    #[Override]
+    public function getPermissionName(string $action): string
+    {
+        return $this->model->asset->getPermissionName($action);
     }
 
     #[Override]
-    public function beforeSave($insert): bool
+    public function getModel(): Hotspot
     {
-        $this->shouldUpdateHotspotAfterInsert ??= !$this->getIsBatch();
-        return parent::beforeSave($insert);
+        /** @var Hotspot */
+        return parent::getModel();
+    }
+
+    /**
+     * @return list<CustomAttribute>
+     */
+    #[Override]
+    protected function getDefaultCustomAttributes(): array
+    {
+        return array_values(array_filter(
+            parent::getDefaultCustomAttributes(),
+            fn (CustomAttribute $definition): bool => $definition->name !== 'embed_url'
+        ));
     }
 
     #[Override]
-    public function afterSave($insert, $changedAttributes): void
-    {
-        if ($insert) {
-            if ($this->shouldUpdateHotspotAfterInsert) {
-                $this->updateHotspotAssetCount();
-            }
-
-            $this->updateFileRelatedCount();
-        } elseif ($changedAttributes) {
-            $this->hotspot->updated_at = $this->updated_at;
-            $this->hotspot->update();
-        }
-
-        parent::afterSave($insert, $changedAttributes);
-    }
-
-    #[Override]
-    public function afterDelete(): void
-    {
-        if (!$this->hotspot->isDeleted()) {
-            $this->updateHotspotAssetCount();
-        }
-
-        if (!$this->file->isDeleted()) {
-            $this->updateFileRelatedCount();
-        }
-
-        parent::afterDelete();
-    }
-
-    public function getHotspot(): HotspotQuery
-    {
-        /** @var HotspotQuery $relation */
-        $relation = $this->hasOne(Hotspot::class, ['id' => 'hotspot_id']);
-        return $relation;
-    }
-
-    public function findSiblings(): HotspotAssetQuery
-    {
-        return static::find()->where(['hotspot_id' => $this->hotspot_id]);
-    }
-
-    #[Override]
-    public static function find(): HotspotAssetQuery
-    {
-        return Yii::createObject(HotspotAssetQuery::class, [static::class]);
-    }
-
-    protected function updateHotspotAssetCount(): int
-    {
-        return $this->hotspot->recalculateAssetCount()->update();
-    }
-
-    public function populateHotspotRelation(?Hotspot $hotspot): void
-    {
-        $this->populateRelation('hotspot', $hotspot);
-        $this->hotspot_id = $hotspot?->id;
-    }
-
-    public function updateFileRelatedCount(): bool|int
-    {
-        $this->file->{$this->getFileCountAttributeName()} = self::find()->where(['file_id' => $this->file_id])->count();
-        return $this->file->update();
-    }
-
-    public function getFileCountAttributeName(): string
-    {
-        return 'hotspot_asset_count';
-    }
-
-    #[Override]
-    public function getMaxPosition(): int
-    {
-        return (int)$this->findSiblings()->max('[[position]]');
-    }
-
-    public function getParent(): Hotspot
-    {
-        return $this->hotspot;
-    }
-
-    public function getRoute(): false|array
-    {
-        return false;
-    }
-
-    public function getAdminRoute(): false|array
-    {
-        return ['/admin/hotspot-asset/update', 'id' => $this->id];
-    }
-
-    public function getFileRelationGridContainerClass(): string
-    {
-        return FileHotspotAssetGridContainer::class;
-    }
-
-    public function getFileCountAttributeNames(): array
-    {
-        return [Yii::$app->sourceLanguage => 'hotspot_asset_count'];
-    }
-
     public function getTrailParents(): array
     {
-        return $this->hotspot->asset->isSectionAsset() ? [$this->hotspot, $this->hotspot->asset, $this->hotspot->asset->section, $this->hotspot->asset->entry] :
-            [$this->hotspot, $this->hotspot->asset, $this->hotspot->asset->entry];
+        $hotspot = $this->model;
+
+        return [$hotspot, ...(array)$hotspot->getTrailParents()];
     }
 
+    #[Override]
     public function getTrailModelType(): string
     {
         return Lang::t('hotspot', 'COMMON_HOTSPOT_ASSET');
-    }
-
-    #[Override]
-    public function attributeLabels(): array
-    {
-        return [
-            ...parent::attributeLabels(),
-            'section_id' => Lang::t('cms', 'HOTSPOT_ASSET_SECTION_ID_LABEL'),
-            'file_id' => Lang::t('media', 'HOTSPOT_ASSET_FILE_ID_LABEL'),
-            'alt_text' => Lang::t('cms', 'HOTSPOT_ASSET_ALT_TEXT_LABEL'),
-            'link' => Lang::t('cms', 'HOTSPOT_ASSET_LINK_LABEL'),
-        ];
-    }
-
-    #[Override]
-    public function formName(): string
-    {
-        return 'HotspotAsset';
-    }
-
-    public function getTranslationModelClass(): string
-    {
-        return self::class;
-    }
-
-    #[Override]
-    public static function tableName(): string
-    {
-        return '{{%hotspot_asset}}';
     }
 }

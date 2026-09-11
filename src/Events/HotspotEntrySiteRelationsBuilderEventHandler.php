@@ -7,6 +7,7 @@ namespace Hirtz\Cms\Hotspot\Events;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\Models\Events\EntrySiteRelationsBuilderEvent;
 use Yii;
@@ -41,7 +42,7 @@ class HotspotEntrySiteRelationsBuilderEventHandler
         foreach ($event->sender->assets as $asset) {
             if (
                 $asset->getAttribute('hotspot_count')
-                && ($asset->isSectionAsset() ? $module->enableSectionAssetHotspots : $module->enableEntryAssetHotspots)
+                && ($asset instanceof EntryAsset ? $module->enableEntryAssetHotspots : $module->enableSectionAssetHotspots)
             ) {
                 $assetIdsWithHotspots[] = $asset->id;
             }
@@ -79,9 +80,8 @@ class HotspotEntrySiteRelationsBuilderEventHandler
 
         $this->hotspotAssets = HotspotAsset::find()
             ->selectSiteAttributes()
-            ->withTranslations()
             ->whereStatus()
-            ->andWhere(['hotspot_id' => $this->hotspotIdsWithHotspotAssets])
+            ->andWhere(['model_id' => $this->hotspotIdsWithHotspotAssets])
             ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')
             ->all();
@@ -96,13 +96,7 @@ class HotspotEntrySiteRelationsBuilderEventHandler
             }
 
             foreach ($this->hotspots as $hotspot) {
-                $assets = array_filter($this->hotspotAssets, fn (HotspotAsset $hotspotAsset) => $hotspotAsset->hotspot_id == $hotspot->id);
-
-                foreach ($assets as $asset) {
-                    $asset->populateRelation('hotspot', $hotspot);
-                }
-
-                $hotspot->populateAssetRelations($assets);
+                $hotspot->populateAssetRelations($this->hotspotAssets);
             }
 
             foreach ($event->sender->assets as $asset) {

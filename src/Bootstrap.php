@@ -8,14 +8,13 @@ use Hirtz\Cms\Hotspot\Events\HotspotEntrySiteRelationsBuilderEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetAfterDuplicateEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDuplicateEventHandler;
-use Hirtz\Cms\Hotspot\Models\Events\FileBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Cms\Models\EntryAsset;
+use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
-use Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
+use Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Widgets\Artwork;
-use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
@@ -50,7 +49,7 @@ class Bootstrap implements BootstrapInterface
                 ],
             ],
             'media' => [
-                'fileRelations' => [HotspotAsset::class],
+                'assets' => [HotspotAsset::class],
             ],
         ]);
 
@@ -66,43 +65,37 @@ class Bootstrap implements BootstrapInterface
             }
         }
 
-        Event::on(
-            Asset::class,
-            Asset::EVENT_BEFORE_DELETE,
-            fn (ModelEvent $event) => Yii::createObject(AssetBeforeDeleteEventHandler::class, [
-                $event,
-                $event->sender,
-            ])
-        );
+        // Both kinds of cms asset can carry hotspots.
+        foreach ([EntryAsset::class, SectionAsset::class] as $assetClass) {
+            Event::on(
+                $assetClass,
+                $assetClass::EVENT_BEFORE_DELETE,
+                fn (ModelEvent $event) => Yii::createObject(AssetBeforeDeleteEventHandler::class, [
+                    $event,
+                    $event->sender,
+                ])
+            );
 
-        Event::on(
-            Asset::class,
-            DuplicateActiveRecord::EVENT_BEFORE_DUPLICATE,
-            fn (DuplicateActiveRecordEvent $event) => Yii::createObject(AssetBeforeDuplicateEventHandler::class, [
-                $event,
-                $event->sender,
-                $event->duplicate,
-            ])
-        );
+            Event::on(
+                $assetClass,
+                DuplicateActiveRecord::EVENT_BEFORE_DUPLICATE,
+                fn (DuplicateActiveRecordEvent $event) => Yii::createObject(AssetBeforeDuplicateEventHandler::class, [
+                    $event,
+                    $event->sender,
+                    $event->duplicate,
+                ])
+            );
 
-        Event::on(
-            Asset::class,
-            DuplicateActiveRecord::EVENT_AFTER_DUPLICATE,
-            fn (DuplicateActiveRecordEvent $event) => Yii::createObject(AssetAfterDuplicateEventHandler::class, [
-                $event,
-                $event->sender,
-                $event->duplicate,
-            ])
-        );
-
-        Event::on(
-            File::class,
-            File::EVENT_BEFORE_DELETE,
-            fn (ModelEvent $event) => Yii::createObject(FileBeforeDeleteEventHandler::class, [
-                $event,
-                $event->sender,
-            ])
-        );
+            Event::on(
+                $assetClass,
+                DuplicateActiveRecord::EVENT_AFTER_DUPLICATE,
+                fn (DuplicateActiveRecordEvent $event) => Yii::createObject(AssetAfterDuplicateEventHandler::class, [
+                    $event,
+                    $event->sender,
+                    $event->duplicate,
+                ])
+            );
+        }
 
         Event::on(
             EntrySiteRelationsBuilder::class,

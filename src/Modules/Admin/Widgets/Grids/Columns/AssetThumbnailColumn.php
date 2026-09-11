@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns;
 
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\Html\Div;
 use Stringable;
 
 /**
  * @template T of Asset
- * @extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn<T>
+ * @extends \Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn<T>
  */
-class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
+class AssetThumbnailColumn extends \Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
 {
     public function __construct(array $config = [])
     {
@@ -21,12 +21,12 @@ class AssetThumbnailColumn extends \Hirtz\Cms\Modules\Admin\Widgets\Grids\Column
     }
 
     /**
-     * @param T $model
+     * @param T $asset
      */
-    protected function getThumbnailWithHotspotCount(Asset $model): string|Stringable
+    protected function getThumbnailWithHotspotCount(Asset $asset): string|Stringable
     {
-        $content = $this->getThumbnail($model);
-        $hotspotCount = $model->getAttribute('hotspot_count');
+        $content = $this->getThumbnail($asset);
+        $hotspotCount = $asset->getAttribute('hotspot_count');
 
         if (!$content || !$hotspotCount) {
             return $content;

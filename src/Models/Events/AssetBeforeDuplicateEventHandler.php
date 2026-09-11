@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models\Events;
 
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
 
 /**

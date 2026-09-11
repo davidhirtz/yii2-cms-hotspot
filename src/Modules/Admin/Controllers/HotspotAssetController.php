@@ -4,158 +4,28 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
-use Hirtz\Skeleton\I18n\Lang;
-use Hirtz\Cms\Hotspot\Models\Actions\ReorderHotspotAssets;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
-use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
-use Hirtz\Cms\Modules\ModuleTrait;
-use Hirtz\Media\Models\File;
-use Hirtz\Media\Models\Folder;
-use Hirtz\Media\Modules\Admin\Controllers\Traits\FileControllerTrait;
-use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
-use Hirtz\Skeleton\Web\Controller;
-use Hirtz\Skeleton\Widgets\Flashes;
+use Hirtz\Cms\Models\EntryAsset;
+use Hirtz\Cms\Models\SectionAsset;
+use Hirtz\Media\Modules\Admin\Controllers\AbstractAssetController;
 use Override;
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\BadRequestHttpException;
-use yii\web\NotFoundHttpException;
-use yii\web\Response;
 
-class HotspotAssetController extends Controller
+class HotspotAssetController extends AbstractAssetController
 {
-    use HotspotTrait;
-    use ModuleTrait;
-    use FileControllerTrait;
+    protected array $assetClasses = [
+        HotspotAsset::class,
+    ];
 
+    /**
+     * A hotspot asset borrows the permissions of the cms asset its hotspot sits on, and the coarse gate cannot know
+     * which of the two that is.
+     */
     #[Override]
-    public function behaviors(): array
+    protected function getPermissionNames(string $action): array
     {
         return [
-            ...parent::behaviors(),
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'delete', 'order', 'update'],
-                        'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => ['entryAssetCreate', 'sectionAssetCreate'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['post'],
-                    'order' => ['post'],
-                ],
-            ]];
-    }
-
-    public function actionIndex(int $hotspot, ?int $folder = null, ?string $q = null): Response|string
-    {
-        $hotspot = $this->findHotspot($hotspot);
-
-        $provider = Yii::$container->get(FileActiveDataProvider::class, [], [
-            'folder' => Folder::findOne($folder),
-            'search' => $q,
-        ]);
-
-        return $this->render('index', [
-            'provider' => $provider,
-            'hotspot' => $hotspot,
-        ]);
-    }
-
-    public function actionCreate(int $hotspot, ?int $file = null, ?int $folder = null): Response|string
-    {
-        $hotspot = $this->findHotspot($hotspot);
-
-        if (!($file = File::findOne($file) ?: $this->insertFileFromRequest($folder))) {
-            return '';
-        }
-
-        $asset = HotspotAsset::create();
-        $asset->populateHotspotRelation($hotspot);
-        $asset->populateFileRelation($file);
-
-        if (!$asset->insert()) {
-            $errors = $asset->getFirstErrors();
-            throw new BadRequestHttpException(reset($errors));
-        }
-
-        if (Yii::$app->getRequest()->getIsAjax()) {
-            return '';
-        }
-
-        $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_ADDED'));
-        return $this->redirect(['hotspot/update', 'id' => $hotspot->id]);
-    }
-
-    public function actionUpdate(int $id): Response|string
-    {
-        $asset = $this->findAsset($id);
-
-        if ($asset->load(Yii::$app->getRequest()->post()) && !$this->request->isFormReload()) {
-            if ($asset->update()) {
-                $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_UPDATED'));
-            }
-
-            if (!$asset->hasErrors()) {
-                return $this->redirect(['hotspot/update', 'id' => $asset->hotspot_id]);
-            }
-        }
-
-        return $this->render('update', [
-            'asset' => $asset,
-        ]);
-    }
-
-    public function actionDelete(int $id): Response|string
-    {
-        $asset = $this->findAsset($id);
-
-        if ($asset->delete()) {
-            if (Yii::$app->getRequest()->getIsAjax()) {
-                return '';
-            }
-
-            $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_DELETED'));
-            return $this->redirect(['hotspot/update', 'id' => $asset->hotspot_id]);
-        }
-
-        $errors = $asset->getFirstErrors();
-        throw new BadRequestHttpException(reset($errors));
-    }
-
-    public function actionOrder(int $id): string
-    {
-        $success = ReorderHotspotAssets::runWithBodyParam('hotspot-asset', [
-            'hotspot' => $this->findHotspot($id),
-        ]);
-
-        if ($success) {
-            $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_ORDERED'));
-        }
-
-        return (string) Flashes::make();
-    }
-
-    private function findAsset(int $id): HotspotAsset
-    {
-        if (!$asset = HotspotAsset::findOne($id)) {
-            throw new NotFoundHttpException();
-        }
-
-        $hotspot = $this->findHotspot($asset->hotspot_id);
-        $asset->populateHotspotRelation($hotspot);
-
-        return $asset;
+            EntryAsset::instance()->getPermissionName($action),
+            SectionAsset::instance()->getPermissionName($action),
+        ];
     }
 }

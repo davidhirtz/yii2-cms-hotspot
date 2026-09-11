@@ -6,7 +6,7 @@ namespace Hirtz\Cms\Hotspot\Models\Events;
 
 use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
 use Yii;
 

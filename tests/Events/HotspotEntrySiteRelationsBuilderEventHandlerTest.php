@@ -8,7 +8,7 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\Models\Section;
 
@@ -31,7 +31,7 @@ class HotspotEntrySiteRelationsBuilderEventHandlerTest extends TestCase
 
         $asset = current($section->getRelatedRecords()['assets']);
 
-        self::assertInstanceOf(Asset::class, $asset);
+        self::assertInstanceOf(SectionAsset::class, $asset);
         self::assertEquals(4, $asset->id);
 
         self::assertArrayHasKey('hotspots', $asset->getRelatedRecords());
@@ -46,6 +46,7 @@ class HotspotEntrySiteRelationsBuilderEventHandlerTest extends TestCase
         $asset = current($hotspot->getRelatedRecords()['assets']);
 
         self::assertInstanceOf(HotspotAsset::class, $asset);
-        self::assertEquals(1, $asset->id);
+        self::assertEquals(8, $asset->id);
+        self::assertSame($hotspot->id, $asset->model->id);
     }
 }

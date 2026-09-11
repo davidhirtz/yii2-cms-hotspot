@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Migrations;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Skeleton\Db\Traits\MigrationTrait;
 use yii\db\Migration;
 
@@ -15,6 +14,8 @@ use yii\db\Migration;
 class M260911110000CustomAttributes extends Migration
 {
     use MigrationTrait;
+
+    private const string LEGACY_TABLE = '{{%hotspot_asset}}';
 
     public function safeUp(): void
     {
@@ -37,7 +38,7 @@ class M260911110000CustomAttributes extends Migration
     {
         return [
             Hotspot::tableName(),
-            HotspotAsset::tableName(),
+            self::LEGACY_TABLE,
         ];
     }
 }

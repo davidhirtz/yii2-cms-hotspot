@@ -17,9 +17,9 @@ trait HotspotTrait
             throw new NotFoundHttpException();
         }
 
-        $permissionName = $hotspot->asset->isEntryAsset() ? 'entryAssetUpdate' : 'sectionAssetUpdate';
+        $asset = $hotspot->asset;
 
-        if (!Yii::$app->getUser()->can($permissionName, ['asset' => $hotspot->asset])) {
+        if (!Yii::$app->getUser()->can($asset->getPermissionName('update'), ['asset' => $asset])) {
             throw new ForbiddenHttpException();
         }
 

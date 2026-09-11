@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Test\Fixtures;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Media\Models\Asset;
 use Hirtz\Cms\Test\Fixtures\AssetFixture;
 use yii\test\ActiveFixture;
 

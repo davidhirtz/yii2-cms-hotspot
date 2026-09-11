@@ -15,6 +15,7 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\HotspotActiveForm;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\HotspotAssetGridView;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Panels\HotspotPanel;
+use Hirtz\Media\Modules\Admin\Data\AssetArrayDataProvider;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Forms\DeleteActiveForm;
 use Hirtz\Skeleton\Widgets\Forms\FormContainer;
@@ -35,7 +36,9 @@ if ($hotspot->hasAssetsEnabled()) {
         ->attribute('id', 'assets')
         ->title(Yii::t('cms', 'Assets'))
         ->grid(HotspotAssetGridView::make()
-            ->parent($hotspot));
+            ->provider(Yii::$container->get(AssetArrayDataProvider::class, config: [
+                'model' => $hotspot,
+            ])));
 }
 
 echo HotspotPanel::make()

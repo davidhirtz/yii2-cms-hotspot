@@ -7,14 +7,13 @@ namespace Hirtz\Cms\Hotspot\Models;
 use Hirtz\Skeleton\I18n\Lang;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
-use Hirtz\Cms\Hotspot\Models\Queries\HotspotAssetQuery;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
-use Hirtz\Cms\Models\Asset;
-use Hirtz\Cms\Models\Queries\AssetQuery;
+use Hirtz\Media\Models\Asset;
+use Hirtz\Media\Models\Queries\AssetQuery;
 use Hirtz\Cms\Modules\ModuleTrait;
-use Hirtz\Media\Models\Interfaces\AssetParentInterface;
-use Hirtz\Media\Models\Traits\AssetParentTrait;
+use Hirtz\Media\Models\Interfaces\AssetModelInterface;
+use Hirtz\Media\Models\Traits\AssetModelTrait;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
@@ -60,14 +59,14 @@ use Yii;
  * @mixin TrailBehavior
  */
 class Hotspot extends ActiveRecord implements
-    AssetParentInterface,
+    AssetModelInterface,
     CustomAttributeInterface,
     DraftStatusAttributeInterface,
     TrailModelInterface,
     TranslationInterface,
     TypeAttributeInterface
 {
-    use AssetParentTrait;
+    use AssetModelTrait;
     use CustomAttributesTrait;
     use I18nAttributesTrait;
     use TranslationTrait;
@@ -253,17 +252,6 @@ class Hotspot extends ActiveRecord implements
         return $relation;
     }
 
-    public function getAssets(): HotspotAssetQuery
-    {
-        /** @var HotspotAssetQuery $relation */
-        $relation = $this->hasMany(HotspotAsset::class, ['hotspot_id' => 'id'])
-            ->orderBy(['position' => SORT_ASC])
-            ->indexBy('id')
-            ->inverseOf('hotspot');
-
-        return $relation;
-    }
-
     #[Override]
     public static function find(): HotspotQuery
     {
@@ -279,17 +267,6 @@ class Hotspot extends ActiveRecord implements
     {
         $this->populateRelation('asset', $asset);
         $this->asset_id = $asset?->id;
-    }
-
-    public function populateAssetRelations(?array $assets = null): void
-    {
-        $this->populateRelation('assets', $assets);
-    }
-
-    public function recalculateAssetCount(): static
-    {
-        $this->asset_count = $this->getAssets()->count();
-        return $this;
     }
 
     public function updateAssetHotspotCount(): void
@@ -317,9 +294,9 @@ class Hotspot extends ActiveRecord implements
 
     public function getTrailParents(): array
     {
-        return $this->asset->isSectionAsset()
-            ? [$this->asset, $this->asset->section, $this->asset->entry]
-            : [$this->asset, $this->asset->entry];
+        $asset = $this->asset;
+
+        return [$asset, ...(array)$asset->getTrailParents()];
     }
 
     public function getTrailModelName(): string
@@ -362,6 +339,11 @@ class Hotspot extends ActiveRecord implements
     public function getVisibleAssets(): array
     {
         return $this->hasAssetsEnabled() && $this->isAttributeVisible('#assets') ? $this->assets : [];
+    }
+
+    public function getAssetClass(): string
+    {
+        return HotspotAsset::class;
     }
 
     public function hasAssetsEnabled(): bool

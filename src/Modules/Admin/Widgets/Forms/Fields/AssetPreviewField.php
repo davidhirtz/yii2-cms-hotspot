@@ -8,7 +8,8 @@ use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Cms\Models\EntryAsset;
+use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Alert;
@@ -52,16 +53,20 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
 
     protected function hasHotspotsEnabled(): bool
     {
-        if (!$this->asset instanceof Asset || !$this->asset->file->hasPreview()) {
+        if (!$this->asset instanceof EntryAsset && !$this->asset instanceof SectionAsset) {
+            return false;
+        }
+
+        if (!$this->asset->file->hasPreview()) {
             return false;
         }
 
         /** @var Module $module */
         $module = Yii::$app->getModule('admin')->getModule('hotspot');
 
-        return $this->asset->isSectionAsset()
-            ? $module->enableSectionAssetHotspots
-            : $module->enableEntryAssetHotspots;
+        return $this->asset instanceof EntryAsset
+            ? $module->enableEntryAssetHotspots
+            : $module->enableSectionAssetHotspots;
     }
 
     protected function registerClientScript(): void

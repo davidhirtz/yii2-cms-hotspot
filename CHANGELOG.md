@@ -1,5 +1,18 @@
 ## 3.0.0 (in development)
 
+- `Models\HotspotAsset` is a subclass of `Hirtz\Media\Models\Asset` on the shared `asset` table, keeping its
+  class name so existing trail rows still resolve. It borrows the permissions of the cms asset its hotspot sits on
+  and drops the `embed_url` definition. `Models\Hotspot` implements `AssetModelInterface`
+- `M260912120000Assets` re-points `hotspot.asset_id` at `asset`, copies `hotspot_asset` with the ids offset past the
+  cms ones, shifts its trail rows in both places and folds `file.hotspot_asset_count` into `asset_count`. The id
+  shift must run exactly once: nothing marks a row as shifted. It asserts its own result; `safeDown()` returns
+  `false`. `hotspot_asset` is kept as the validation reference
+- Removed `Models\Queries\HotspotAssetQuery`, `Models\Actions\ReorderHotspotAssets`,
+  `Models\Events\FileBeforeDeleteEventHandler`, `Widgets\Forms\HotspotAssetActiveForm`,
+  `Widgets\Grids\FileHotspotAssetGrid`, `FileHotspotAssetGridContainer` and `Test\Fixtures\HotspotAssetFixture`.
+  `HotspotAssetController` extends the media `AbstractAssetController`, and `Widgets\Grids\HotspotAssetGridView`
+  extends the media grid
+- The asset duplicate and delete handlers subscribe on `EntryAsset` and `SectionAsset`; the file handler is gone
 - `Models\Hotspot` and `Models\HotspotAsset` use `VisibleAttributeTrait` from `Hirtz\Skeleton\Models\Traits`
   instead of `Hirtz\Cms\Models\Traits`
 - `Models\Hotspot` implements `CustomAttributeInterface`; `Models\HotspotAsset` inherits it from the cms base. Added

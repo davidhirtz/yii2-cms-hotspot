@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Models\Actions;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Models\Actions\DuplicateActiveRecord;
-use Hirtz\Cms\Models\Asset;
+use Hirtz\Media\Models\Actions\Traits\DuplicateAssetsTrait;
+use Hirtz\Media\Models\Asset;
 use Override;
-use Yii;
 
 /**
  * @extends  DuplicateActiveRecord<Hotspot>
  */
 class DuplicateHotspot extends DuplicateActiveRecord
 {
+    use DuplicateAssetsTrait;
+
     public function __construct(
         Hotspot $hotspot,
         protected ?Asset $asset = null,
@@ -49,24 +50,13 @@ class DuplicateHotspot extends DuplicateActiveRecord
         }
     }
 
-    protected function duplicateAssets(): void
+    /**
+     * @return Asset[]
+     */
+    protected function getAssets(): array
     {
-        Yii::debug('Duplicating hotspot assets ...');
-
-        $assets = $this->model->getAssets()
+        return $this->model->getAssets()
             ->with('file')
             ->all();
-
-        $position = 0;
-
-        foreach ($assets as $asset) {
-            $duplicate = HotspotAsset::create();
-            $duplicate->populateHotspotRelation($this->duplicate);
-            $duplicate->populateFileRelation($asset->file);
-            $duplicate->shouldUpdateHotspotAfterInsert = false;
-            $duplicate->status = $asset->status;
-            $duplicate->position = ++$position;
-            $duplicate->insert();
-        }
     }
 }
