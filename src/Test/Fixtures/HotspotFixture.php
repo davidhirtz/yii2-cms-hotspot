@@ -7,7 +7,7 @@ namespace Hirtz\Cms\Hotspot\Test\Fixtures;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Cms\Test\Fixtures\AssetFixture;
-use yii\test\ActiveFixture;
+use Hirtz\Skeleton\Test\Fixtures\ActiveFixture;
 
 class HotspotFixture extends ActiveFixture
 {
