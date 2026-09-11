@@ -18,6 +18,7 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
+use Hirtz\Skeleton\Models\Interfaces\AdminRouteInterface;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
@@ -59,6 +60,7 @@ use Yii;
  * @mixin TrailBehavior
  */
 class Hotspot extends ActiveRecord implements
+    AdminRouteInterface,
     AssetModelInterface,
     CustomAttributeInterface,
     DraftStatusAttributeInterface,
@@ -314,11 +316,6 @@ class Hotspot extends ActiveRecord implements
     public function getTrailModelType(): string
     {
         return Lang::t('hotspot', 'COMMON_HOTSPOT');
-    }
-
-    public function getTrailModelAdminRoute(): array|false
-    {
-        return $this->getAdminRoute();
     }
 
     public function getAdminRoute(): array|false

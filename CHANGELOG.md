@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `Models\Hotspot` implements the skeleton `Models\Interfaces\AdminRouteInterface` and dropped its
+  `getTrailModelAdminRoute()`
 - `HotspotAssetController` extends the skeleton `Controller` and uses the media `AssetControllerTrait`; its
   hotspot is addressed as `id`. The file picker moved from `hotspot-asset/index` to `hotspot-asset/create`,
   and `index` lists the hotspot's assets
