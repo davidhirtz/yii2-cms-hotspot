@@ -9,6 +9,7 @@ use Hirtz\Cms\Modules\Admin\Widgets\Forms\Traits\ActiveFormFieldsTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
 use Hirtz\Skeleton\Widgets\Forms\Fields\InputField;
+use Hirtz\Skeleton\Widgets\Forms\Traits\CustomAttributeFieldsTrait;
 use Override;
 use Stringable;
 
@@ -18,6 +19,7 @@ use Stringable;
 class HotspotActiveForm extends ActiveForm
 {
     use ActiveFormFieldsTrait;
+    use CustomAttributeFieldsTrait;
     use ModuleTrait;
 
     #[Override]
@@ -31,6 +33,7 @@ class HotspotActiveForm extends ActiveForm
             $this->getLinkField(),
             $this->getXField(),
             $this->getYField(),
+            ...$this->getCustomAttributeFields(),
         ];
 
         parent::configure();

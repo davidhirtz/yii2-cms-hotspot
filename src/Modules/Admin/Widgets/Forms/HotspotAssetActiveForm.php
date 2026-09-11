@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Modules\Admin\Widgets\Forms\Traits\ActiveFormFieldsTrait;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Traits\AssetFieldsTrait;
 use Hirtz\Skeleton\Widgets\Forms\ActiveForm;
+use Hirtz\Skeleton\Widgets\Forms\Traits\CustomAttributeFieldsTrait;
 
 /**
  * @property HotspotAsset $model
@@ -16,6 +17,7 @@ class HotspotAssetActiveForm extends ActiveForm
 {
     use ActiveFormFieldsTrait;
     use AssetFieldsTrait;
+    use CustomAttributeFieldsTrait;
 
     #[\Override]
     public function configure(): void
@@ -27,6 +29,7 @@ class HotspotAssetActiveForm extends ActiveForm
             $this->getContentField(),
             $this->getAltTextField(),
             $this->getLinkField(),
+            ...$this->getCustomAttributeFields(),
         ];
 
         parent::configure();

@@ -102,7 +102,7 @@ class HotspotAssetController extends Controller
     {
         $asset = $this->findAsset($id);
 
-        if ($asset->load(Yii::$app->getRequest()->post())) {
+        if ($asset->load(Yii::$app->getRequest()->post()) && !$this->request->isFormReload()) {
             if ($asset->update()) {
                 $this->success(Lang::t('hotspot', 'HOTSPOT_ASSET_SUCCESS_UPDATED'));
             }

@@ -53,7 +53,7 @@ class HotspotController extends Controller
         $hotspot = Hotspot::create();
         $hotspot->populateAssetRelation($asset);
 
-        if ($hotspot->load($this->request->post())) {
+        if ($hotspot->load($this->request->post()) && !$this->request->isFormReload()) {
             if ($hotspot->insert()) {
                 return $this->asJson($hotspot);
             }
@@ -69,7 +69,7 @@ class HotspotController extends Controller
     {
         $hotspot = $this->findHotspot($id);
 
-        if ($hotspot->load($this->request->post()) && $hotspot->update()) {
+        if ($hotspot->load($this->request->post()) && !$this->request->isFormReload() && $hotspot->update()) {
             if ($this->request->getIsAjax()) {
                 return $this->asJson([]);
             }

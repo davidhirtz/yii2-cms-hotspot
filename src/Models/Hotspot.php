@@ -20,10 +20,12 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
+use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Hirtz\Skeleton\Models\Interfaces\TranslationInterface;
 use Hirtz\Skeleton\Models\Interfaces\TypeAttributeInterface;
+use Hirtz\Skeleton\Models\Traits\CustomAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\I18nAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
@@ -59,12 +61,14 @@ use Yii;
  */
 class Hotspot extends ActiveRecord implements
     AssetParentInterface,
+    CustomAttributeInterface,
     DraftStatusAttributeInterface,
     TrailModelInterface,
     TranslationInterface,
     TypeAttributeInterface
 {
     use AssetParentTrait;
+    use CustomAttributesTrait;
     use I18nAttributesTrait;
     use TranslationTrait;
     use ModuleTrait;
@@ -302,6 +306,7 @@ class Hotspot extends ActiveRecord implements
     public function getTrailAttributes(): array
     {
         return array_diff($this->attributes(), [
+            $this->getCustomAttributesColumn(),
             'position',
             'asset_count',
             'updated_by_user_id',

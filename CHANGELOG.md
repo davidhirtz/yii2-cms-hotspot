@@ -1,5 +1,10 @@
 ## 3.0.0 (in development)
 
+- `Models\Hotspot` implements `CustomAttributeInterface`; `Models\HotspotAsset` inherits it from the cms base. Added
+  the `custom_attributes` column to `hotspot` and `hotspot_asset`, excluded from the trail
+- The admin forms render the custom attribute fields, and `HotspotController` and `HotspotAssetController` guard their
+  save with `Request::isFormReload()`
+
 - Translated attributes of `Hotspot` and `HotspotAsset` moved from their `_xx` columns into the skeleton's
   `translation` table (`M260910120000Translations`)
 - `HotspotAssetController::actionOrder()` now returns a flash fragment (was `void`) and emits a success
