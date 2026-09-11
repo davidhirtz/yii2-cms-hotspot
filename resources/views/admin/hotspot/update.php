@@ -27,7 +27,6 @@ echo HotspotSubmenu::make()
     ->hotspot($hotspot);
 
 echo FormContainer::make()
-    ->title($this->title)
     ->form(HotspotActiveForm::make()
         ->model($hotspot));
 
