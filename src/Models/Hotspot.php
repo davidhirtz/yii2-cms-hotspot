@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models;
 
-use Hirtz\Skeleton\I18n\Lang;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
@@ -304,7 +303,7 @@ class Hotspot extends ActiveRecord implements
     public function getTrailModelName(): string
     {
         if ($this->id) {
-            return Lang::t('skeleton', 'COMMON_MODEL_ID', [
+            return Yii::t('skeleton', 'COMMON_MODEL_ID', [
                 'model' => $this->getTrailModelType(),
                 'id' => $this->id,
             ]);
@@ -315,7 +314,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getTrailModelType(): string
     {
-        return Lang::t('hotspot', 'COMMON_HOTSPOT');
+        return Yii::t('hotspot', 'COMMON_HOTSPOT');
     }
 
     public function getAdminRoute(): array|false
@@ -325,7 +324,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getDisplayName(): string
     {
-        return $this->getI18nAttribute('name') ?: Lang::t('cms', 'COMMON_NO_TITLE');
+        return $this->getI18nAttribute('name') ?: Yii::t('cms', 'COMMON_NO_TITLE');
     }
 
     public function getHtmlId(): string
@@ -353,7 +352,7 @@ class Hotspot extends ActiveRecord implements
     #[Override]
     public function attributeLabels(): array
     {
-        return [...parent::attributeLabels(), 'asset_id' => Lang::t('cms', 'HOTSPOT_ASSET_ID_LABEL'), 'name' => Lang::t('cms', 'HOTSPOT_NAME_LABEL'), 'content' => Lang::t('cms', 'HOTSPOT_CONTENT_LABEL'), 'link' => Lang::t('cms', 'HOTSPOT_LINK_LABEL'), 'x' => Lang::t('hotspot', 'HOTSPOT_X_LABEL'), 'y' => Lang::t('hotspot', 'HOTSPOT_Y_LABEL'), 'asset_count' => Lang::t('hotspot', 'HOTSPOT_ASSET_COUNT_LABEL')];
+        return [...parent::attributeLabels(), 'asset_id' => Yii::t('cms', 'HOTSPOT_ASSET_ID_LABEL'), 'name' => Yii::t('cms', 'HOTSPOT_NAME_LABEL'), 'content' => Yii::t('cms', 'HOTSPOT_CONTENT_LABEL'), 'link' => Yii::t('cms', 'HOTSPOT_LINK_LABEL'), 'x' => Yii::t('hotspot', 'HOTSPOT_X_LABEL'), 'y' => Yii::t('hotspot', 'HOTSPOT_Y_LABEL'), 'asset_count' => Yii::t('hotspot', 'HOTSPOT_ASSET_COUNT_LABEL')];
     }
 
     #[Override]

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -19,7 +18,7 @@ trait HotspotTrait
 
         $asset = $hotspot->asset;
 
-        if (!Yii::$app->getUser()->can($asset->getPermissionName('update'), ['asset' => $asset])) {
+        if (!$this->webuser->can($asset->getPermissionName('update'), ['asset' => $asset])) {
             throw new ForbiddenHttpException();
         }
 

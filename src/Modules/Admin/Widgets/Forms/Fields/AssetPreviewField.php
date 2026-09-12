@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\Fields;
 
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
@@ -40,7 +39,7 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
         if ($this->hasHotspotsEnabled()) {
             $alert = Alert::make()
                 ->info()
-                ->text(Lang::t('hotspot', 'ASSET_PREVIEW_DOUBLE_CLICK'));
+                ->text(Yii::t('hotspot', 'ASSET_PREVIEW_DOUBLE_CLICK'));
 
             $content = $alert . Div::make()
                     ->attribute('hx-select', '#wrap')

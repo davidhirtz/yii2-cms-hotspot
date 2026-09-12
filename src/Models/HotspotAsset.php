@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Models;
 
 use Hirtz\Media\Models\Asset;
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Models\CustomAttributes\CustomAttribute;
 use Override;
+use Yii;
 
 /**
  * @property-read Hotspot $model {@see static::getModel()}
@@ -50,6 +50,6 @@ class HotspotAsset extends Asset
     #[Override]
     public function getTrailModelType(): string
     {
-        return Lang::t('hotspot', 'COMMON_HOTSPOT_ASSET');
+        return Yii::t('hotspot', 'COMMON_HOTSPOT_ASSET');
     }
 }

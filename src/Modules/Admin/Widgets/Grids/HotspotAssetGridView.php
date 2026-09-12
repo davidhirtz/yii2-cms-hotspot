@@ -10,12 +10,12 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Buttons\FileButtonsTrait;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\AssetGridView;
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Widgets\Buttons\Button;
 use Hirtz\Skeleton\Widgets\Buttons\ButtonGroup;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridToolbarItem;
 use Override;
 use Stringable;
+use Yii;
 
 /**
  * Embedded in the hotspot update page, so it carries its own footer buttons instead of a header dropdown.
@@ -70,7 +70,7 @@ class HotspotAssetGridView extends AssetGridView
     {
         return Button::make()
             ->primary()
-            ->text(Lang::t('media', 'COMMON_LINK_ASSETS'))
+            ->text(Yii::t('media', 'COMMON_LINK_ASSETS'))
             ->icon('images')
             ->url($this->getFileUploadRoute());
     }

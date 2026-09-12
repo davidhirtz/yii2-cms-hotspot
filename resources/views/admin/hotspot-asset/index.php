@@ -15,11 +15,10 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\HotspotAssetGridView;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
 use Hirtz\Media\Modules\Admin\Data\AssetArrayDataProvider;
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Grids\GridContainer;
 
-$this->title(Lang::t('media', 'ASSET_MODEL_LABEL'));
+$this->title(Yii::t('media', 'ASSET_MODEL_LABEL'));
 
 echo HotspotSubmenu::make()
     ->hotspot($model);

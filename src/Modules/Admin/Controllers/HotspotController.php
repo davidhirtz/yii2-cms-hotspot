@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
-use Hirtz\Skeleton\I18n\Lang;
 use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Models\EntryAsset;
@@ -77,7 +76,7 @@ class HotspotController extends Controller
                 return $this->asJson([]);
             }
 
-            $this->success(Lang::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'));
+            $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'));
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
@@ -91,11 +90,11 @@ class HotspotController extends Controller
         $hotspot = $this->findHotspot($id);
 
         if ($hotspot->delete()) {
-            if (Yii::$app->getRequest()->getIsAjax()) {
+            if ($this->request->getIsAjax()) {
                 return '';
             }
 
-            $this->success(Lang::t('hotspot', 'HOTSPOT_SUCCESS_DELETED'));
+            $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_DELETED'));
         }
 
         $this->error($hotspot);
@@ -114,7 +113,7 @@ class HotspotController extends Controller
             throw new NotFoundHttpException();
         }
 
-        if (!Yii::$app->getUser()->can($asset->getPermissionName('update'), ['asset' => $asset])) {
+        if (!$this->webuser->can($asset->getPermissionName('update'), ['asset' => $asset])) {
             throw new ForbiddenHttpException();
         }
 
@@ -131,7 +130,7 @@ class HotspotController extends Controller
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 
-        $this->success(Lang::t('hotspot', 'HOTSPOT_SUCCESS_DUPLICATED'));
+        $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_DUPLICATED'));
         return $this->redirect(['update', 'id' => $duplicate->id]);
     }
 }
