@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- The hotspot update page's asset grid container lost its `assets` id, which duplicated the id of the submenu's
+  assets item on the same page; `Modules\Admin\Widgets\Grids\HotspotAssetGridView` refreshes that item out of
+  band after an upload instead
 - `Modules\Admin\Widgets\Grids\HotspotAssetGridView` points its file upload button at the asset grid instead of
   the file grid, so uploading from the hotspot update page replaces the grid rather than the whole `body`
 - `esbuild.js` uses the skeleton's shared `esbuild.config.js`, so the styles are built by sass with autoprefixer

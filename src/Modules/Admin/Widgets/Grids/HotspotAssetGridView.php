@@ -10,6 +10,7 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Buttons\FileButtonsTrait;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\AssetGridView;
+use Hirtz\Media\Modules\Admin\Widgets\Navs\AssetSubmenuItem;
 use Hirtz\Skeleton\Widgets\Buttons\Button;
 use Hirtz\Skeleton\Widgets\Buttons\ButtonGroup;
 use Hirtz\Skeleton\Widgets\Grids\Toolbars\GridToolbarItem;
@@ -88,5 +89,10 @@ class HotspotAssetGridView extends AssetGridView
     protected function getFileUploadTarget(): string
     {
         return '#' . AssetGridView::ID;
+    }
+
+    protected function getFileUploadSelectOob(): ?string
+    {
+        return '#' . AssetSubmenuItem::ID;
     }
 }

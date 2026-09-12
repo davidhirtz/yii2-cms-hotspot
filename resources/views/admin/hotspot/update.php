@@ -32,7 +32,6 @@ echo FormContainer::make()
 
 if ($hotspot->hasAssetsEnabled()) {
     echo GridContainer::make()
-        ->attribute('id', 'assets')
         ->title(Yii::t('cms', 'Assets'))
         ->grid(HotspotAssetGridView::make()
             ->provider(Yii::$container->get(AssetArrayDataProvider::class, config: [
