@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `esbuild.js` uses the skeleton's shared `esbuild.config.js`, so the styles are built by sass with autoprefixer
+  instead of esbuild's css loader. `resources/assets/src/css/hotspot.css` is now `hotspot.scss` — it already nested
+  with `&`, which sass flattens into plain selectors rather than shipping native CSS nesting
 - `Models\Hotspot` implements the skeleton `Models\Interfaces\AdminRouteInterface` and dropped its
   `getTrailModelAdminRoute()`
 - `HotspotAssetController` extends the skeleton `Controller` and uses the media `AssetControllerTrait`. The
