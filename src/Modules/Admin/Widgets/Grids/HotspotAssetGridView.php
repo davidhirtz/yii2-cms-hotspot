@@ -83,4 +83,10 @@ class HotspotAssetGridView extends AssetGridView
 
         return HotspotAsset::getAdminCreateRoute($hotspot);
     }
+
+    #[Override]
+    protected function getFileUploadTarget(): string
+    {
+        return '#' . AssetGridView::ID;
+    }
 }

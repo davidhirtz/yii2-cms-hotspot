@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `Modules\Admin\Widgets\Grids\HotspotAssetGridView` points its file upload button at the asset grid instead of
+  the file grid, so uploading from the hotspot update page replaces the grid rather than the whole `body`
 - `esbuild.js` uses the skeleton's shared `esbuild.config.js`, so the styles are built by sass with autoprefixer
   instead of esbuild's css loader. `resources/assets/src/css/hotspot.css` is now `hotspot.scss` — it already nested
   with `&`, which sass flattens into plain selectors rather than shipping native CSS nesting
