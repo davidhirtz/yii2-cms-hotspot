@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `Models\HotspotAsset` declares `@extends Asset<Hotspot>` in place of its narrowed `getModel()` override, see
+  `yii2-media`
 - The hotspot update view translates through `HOTSPOT_UPDATE_TITLE` and `HOTSPOT_DELETE_TITLE`, and titles its
   asset grid with the media `COMMON_ASSETS` instead of a literal in the cms category
 - `Models\HotspotAsset::getPermissionName()` lost its `$action` parameter, following the media `Models\Asset`;

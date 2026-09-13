@@ -10,7 +10,7 @@ use Override;
 use Yii;
 
 /**
- * @property-read Hotspot $model {@see static::getModel()}
+ * @extends Asset<Hotspot>
  */
 class HotspotAsset extends Asset
 {
@@ -30,13 +30,6 @@ class HotspotAsset extends Asset
     public function getPermissionName(): string
     {
         return $this->model->asset->getPermissionName();
-    }
-
-    #[Override]
-    public function getModel(): Hotspot
-    {
-        /** @var Hotspot */
-        return parent::getModel();
     }
 
     #[Override]
