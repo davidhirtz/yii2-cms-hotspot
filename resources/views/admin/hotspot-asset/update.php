@@ -17,7 +17,7 @@ use Hirtz\Media\Modules\Admin\Widgets\Navs\AssetActionDropdown;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Forms\FormContainer;
 
-$this->title($asset->getTrailModelName());
+$this->title($asset->getAdminName());
 
 echo HotspotSubmenu::make()
     ->hotspot($asset->model)

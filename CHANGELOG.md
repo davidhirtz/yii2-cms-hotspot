@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `Models\Hotspot` and `Models\HotspotAsset` implement the skeleton's `Models\Interfaces\AdminModelInterface`:
+  `getTrailModelName()` and `getTrailModelType()` are `getAdminName()` and `getAdminType()`. `Hotspot`'s unused
+  `getDisplayName()` is gone — `getAdminName()` is the one name — and a hotspot with a `name` is named by it
 - The hotspot update page's asset grid container lost its `assets` id, which duplicated the id of the submenu's
   assets item on the same page; `Modules\Admin\Widgets\Grids\HotspotAssetGridView` refreshes that item out of
   band after an upload instead

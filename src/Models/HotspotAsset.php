@@ -48,7 +48,7 @@ class HotspotAsset extends Asset
     }
 
     #[Override]
-    public function getTrailModelType(): string
+    public function getAdminType(): string
     {
         return Yii::t('hotspot', 'COMMON_HOTSPOT_ASSET');
     }

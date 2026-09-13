@@ -17,12 +17,12 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
-use Hirtz\Skeleton\Models\Interfaces\AdminRouteInterface;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Hirtz\Skeleton\Models\Interfaces\TranslationInterface;
 use Hirtz\Skeleton\Models\Interfaces\TypeAttributeInterface;
+use Hirtz\Skeleton\Models\Traits\AdminModelTrait;
 use Hirtz\Skeleton\Models\Traits\CustomAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\I18nAttributesTrait;
@@ -59,7 +59,6 @@ use Yii;
  * @mixin TrailBehavior
  */
 class Hotspot extends ActiveRecord implements
-    AdminRouteInterface,
     AssetModelInterface,
     CustomAttributeInterface,
     DraftStatusAttributeInterface,
@@ -67,6 +66,7 @@ class Hotspot extends ActiveRecord implements
     TranslationInterface,
     TypeAttributeInterface
 {
+    use AdminModelTrait;
     use AssetModelTrait;
     use CustomAttributesTrait;
     use I18nAttributesTrait;
@@ -300,19 +300,7 @@ class Hotspot extends ActiveRecord implements
         return [$asset, ...(array)$asset->getTrailParents()];
     }
 
-    public function getTrailModelName(): string
-    {
-        if ($this->id) {
-            return Yii::t('skeleton', 'COMMON_MODEL_ID', [
-                'model' => $this->getTrailModelType(),
-                'id' => $this->id,
-            ]);
-        }
-
-        return $this->getTrailModelType();
-    }
-
-    public function getTrailModelType(): string
+    public function getAdminType(): string
     {
         return Yii::t('hotspot', 'COMMON_HOTSPOT');
     }
@@ -320,11 +308,6 @@ class Hotspot extends ActiveRecord implements
     public function getAdminRoute(): array|false
     {
         return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
-    }
-
-    public function getDisplayName(): string
-    {
-        return $this->getI18nAttribute('name') ?: Yii::t('cms', 'COMMON_NO_TITLE');
     }
 
     public function getHtmlId(): string
