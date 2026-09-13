@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- `Modules\Admin\Controllers\HotspotController`'s access rule names `Cms\Models\Entry::AUTH_ENTRY`, as
+  `HotspotAssetController` already did. It still named `entryAssetUpdate` and `sectionAssetUpdate`, which the RBAC
+  simplification deleted, so every hotspot action was forbidden for every user
+- `HotspotController::actionCreate()` reports the hotspot's own errors rather than the asset's, which had none
 - `Models\HotspotAsset` declares `@extends Asset<Hotspot>` in place of its narrowed `getModel()` override, see
   `yii2-media`
 - The hotspot update view translates through `HOTSPOT_UPDATE_TITLE` and `HOTSPOT_DELETE_TITLE`, and titles its

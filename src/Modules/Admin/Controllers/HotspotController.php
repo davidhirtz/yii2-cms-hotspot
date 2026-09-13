@@ -6,6 +6,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
 use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Models\Entry;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Asset;
@@ -29,23 +30,27 @@ class HotspotController extends Controller
     #[Override]
     public function behaviors(): array
     {
-        return [...parent::behaviors(), 'access' => [
-            'class' => AccessControl::class,
-            'rules' => [
-                [
-                    'allow' => true,
-                    'actions' => ['create', 'delete', 'duplicate', 'update'],
-                    'roles' => ['entryAssetUpdate', 'sectionAssetUpdate'],
+        return [
+            ...parent::behaviors(),
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'delete', 'duplicate', 'update'],
+                        'roles' => [Entry::AUTH_ENTRY],
+                    ],
                 ],
             ],
-        ], 'verbs' => [
-            'class' => VerbFilter::class,
-            'actions' => [
-                'create' => ['post'],
-                'delete' => ['post'],
-                'duplicate' => ['post'],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'create' => ['post'],
+                    'delete' => ['post'],
+                    'duplicate' => ['post'],
+                ],
             ],
-        ]];
+        ];
     }
 
     public function actionCreate(int $id): Response|string
@@ -60,8 +65,8 @@ class HotspotController extends Controller
                 return $this->asJson($hotspot);
             }
 
-            $errors = $asset->getFirstErrors();
-            throw new BadRequestHttpException(reset($errors));
+            $errors = $hotspot->getFirstErrors();
+            throw new BadRequestHttpException(reset($errors) ?: null);
         }
 
         return $this->redirect($asset->getAdminRoute());
