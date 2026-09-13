@@ -27,9 +27,9 @@ class HotspotAsset extends Asset
     }
 
     #[Override]
-    public function getPermissionName(string $action): string
+    public function getPermissionName(): string
     {
-        return $this->model->asset->getPermissionName($action);
+        return $this->model->asset->getPermissionName();
     }
 
     #[Override]

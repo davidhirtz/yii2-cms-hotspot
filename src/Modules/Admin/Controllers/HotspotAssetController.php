@@ -8,7 +8,6 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\Models\Entry;
-use Hirtz\Cms\Models\Section;
 use Hirtz\Media\Modules\Admin\Controllers\Traits\AssetControllerTrait;
 use Hirtz\Skeleton\Web\Controller;
 use Override;
@@ -36,13 +35,8 @@ class HotspotAssetController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'delete', 'order', 'update'],
-                        'roles' => [Entry::AUTH_ENTRY_ASSET_UPDATE, Section::AUTH_SECTION_ASSET_UPDATE],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create', 'duplicate'],
-                        'roles' => [Entry::AUTH_ENTRY_ASSET_CREATE, Section::AUTH_SECTION_ASSET_CREATE],
+                        'actions' => ['create', 'delete', 'duplicate', 'index', 'order', 'update'],
+                        'roles' => [Entry::AUTH_ENTRY],
                     ],
                 ],
             ],

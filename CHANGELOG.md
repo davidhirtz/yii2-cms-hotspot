@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- `Models\HotspotAsset::getPermissionName()` lost its `$action` parameter, following the media `Models\Asset`;
+  it still delegates to the entry or section asset, which resolves to the cms `Models\Entry::AUTH_ENTRY`
 - `Models\Hotspot` and `Models\HotspotAsset` implement the skeleton's `Models\Interfaces\AdminModelInterface`:
   `getTrailModelName()` and `getTrailModelType()` are `getAdminName()` and `getAdminType()`. `Hotspot`'s unused
   `getDisplayName()` is gone — `getAdminName()` is the one name — and a hotspot with a `name` is named by it

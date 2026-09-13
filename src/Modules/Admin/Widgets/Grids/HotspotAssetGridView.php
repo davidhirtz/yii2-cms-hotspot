@@ -55,8 +55,8 @@ class HotspotAssetGridView extends AssetGridView
         $asset = $hotspot->asset;
         $buttons = [];
 
-        if ($this->webuser->can($asset->getPermissionName('create'), ['asset' => $asset])) {
-            if ($this->webuser->can(File::AUTH_FILE_CREATE)) {
+        if ($this->webuser->can($asset->getPermissionName())) {
+            if ($this->webuser->can(File::AUTH_FILE)) {
                 $buttons[] = $this->getFileUploadButton();
                 $buttons[] = $this->getFileImportButton();
             }

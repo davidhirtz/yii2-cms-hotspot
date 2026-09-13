@@ -18,7 +18,7 @@ trait HotspotTrait
 
         $asset = $hotspot->asset;
 
-        if (!$this->webuser->can($asset->getPermissionName('update'), ['asset' => $asset])) {
+        if (!$this->webuser->can($asset->getPermissionName())) {
             throw new ForbiddenHttpException();
         }
 

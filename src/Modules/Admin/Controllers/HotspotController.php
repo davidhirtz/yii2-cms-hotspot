@@ -113,7 +113,7 @@ class HotspotController extends Controller
             throw new NotFoundHttpException();
         }
 
-        if (!$this->webuser->can($asset->getPermissionName('update'), ['asset' => $asset])) {
+        if (!$this->webuser->can($asset->getPermissionName())) {
             throw new ForbiddenHttpException();
         }
 
