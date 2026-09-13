@@ -1,5 +1,7 @@
 ## 3.0.0 (in development)
 
+- The hotspot update view translates through `HOTSPOT_UPDATE_TITLE` and `HOTSPOT_DELETE_TITLE`, and titles its
+  asset grid with the media `COMMON_ASSETS` instead of a literal in the cms category
 - `Models\HotspotAsset::getPermissionName()` lost its `$action` parameter, following the media `Models\Asset`;
   it still delegates to the entry or section asset, which resolves to the cms `Models\Entry::AUTH_ENTRY`
 - `Models\Hotspot` and `Models\HotspotAsset` implement the skeleton's `Models\Interfaces\AdminModelInterface`:

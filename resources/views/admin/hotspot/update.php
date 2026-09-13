@@ -21,7 +21,7 @@ use Hirtz\Skeleton\Widgets\Forms\DeleteActiveForm;
 use Hirtz\Skeleton\Widgets\Forms\FormContainer;
 use Hirtz\Skeleton\Widgets\Grids\GridContainer;
 
-$this->title(Yii::t('hotspot', 'Edit Hotspot'));
+$this->title(Yii::t('hotspot', 'HOTSPOT_UPDATE_TITLE'));
 
 echo HotspotSubmenu::make()
     ->hotspot($hotspot);
@@ -32,7 +32,7 @@ echo FormContainer::make()
 
 if ($hotspot->hasAssetsEnabled()) {
     echo GridContainer::make()
-        ->title(Yii::t('cms', 'Assets'))
+        ->title(Yii::t('media', 'COMMON_ASSETS'))
         ->grid(HotspotAssetGridView::make()
             ->provider(Yii::$container->get(AssetArrayDataProvider::class, config: [
                 'model' => $hotspot,
@@ -44,6 +44,6 @@ echo HotspotPanel::make()
 
 echo FormContainer::make()
     ->danger()
-    ->title(Yii::t('hotspot', 'Delete Hotspot'))
+    ->title(Yii::t('hotspot', 'HOTSPOT_DELETE_TITLE'))
     ->form(DeleteActiveForm::make()
         ->model($hotspot));
