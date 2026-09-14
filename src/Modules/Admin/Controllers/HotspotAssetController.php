@@ -52,9 +52,12 @@ class HotspotAssetController extends Controller
         ?int $hotspot = null,
         ?int $file = null,
         ?int $folder = null,
-        ?string $q = null
+        ?string $q = null,
+        ?int $asset = null,
     ): Response|string {
-        return $this->createAsset($this->findHotspotModel($hotspot), $file, $folder, $q);
+        $model = $this->findHotspotModel($hotspot);
+
+        return $this->createAsset($model, $file, $folder, $q, $asset ? $this->findHotspotAsset($asset) : null);
     }
 
     public function actionUpdate(int $id): Response|string

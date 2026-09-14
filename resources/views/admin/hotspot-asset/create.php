@@ -3,16 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @see AbstractAssetController::actionCreate()
+ * @see HotspotAssetController::actionCreate()
  *
  * @var View $this
  * @var Hotspot $model
  * @var FileActiveDataProvider $provider
+ * @var HotspotAsset|null $asset
  */
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
-use Hirtz\Media\Modules\Admin\Controllers\AbstractAssetController;
 use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\FileGridView;
 use Hirtz\Skeleton\Web\View;
@@ -28,4 +30,5 @@ $this->addBreadcrumb(Yii::t('media', 'COMMON_LINK_ASSETS'));
 echo GridContainer::make()
     ->grid(FileGridView::make()
         ->model($model)
-        ->provider($provider));
+        ->provider($provider)
+        ->asset($asset));
