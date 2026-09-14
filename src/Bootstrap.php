@@ -14,9 +14,11 @@ use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\CmsNavItem;
+use Hirtz\Media\Models\Asset;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Widgets\Artwork;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
+use Hirtz\Skeleton\Helpers\EventHelper;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
 use Hirtz\Skeleton\Web\Application;
@@ -80,33 +82,31 @@ class Bootstrap implements BootstrapInterface
 
         // Both kinds of cms asset can carry hotspots.
         foreach ([EntryAsset::class, SectionAsset::class] as $assetClass) {
-            Event::on(
+            EventHelper::on(
                 $assetClass,
                 BaseActiveRecord::EVENT_BEFORE_DELETE,
-                fn (ModelEvent $event) => Yii::createObject(AssetBeforeDeleteEventHandler::class, [
+                fn (Asset $asset, ModelEvent $event) => Yii::createObject(AssetBeforeDeleteEventHandler::class, [
                     $event,
-                    $event->sender,
+                    $asset,
                 ])
             );
 
-            Event::on(
+            EventHelper::on(
                 $assetClass,
                 DuplicateActiveRecord::EVENT_BEFORE_DUPLICATE,
-                fn (DuplicateActiveRecordEvent $event) => Yii::createObject(AssetBeforeDuplicateEventHandler::class, [
-                    $event,
-                    $event->sender,
-                    $event->duplicate,
-                ])
+                fn (Asset $asset, DuplicateActiveRecordEvent $event) => Yii::createObject(
+                    AssetBeforeDuplicateEventHandler::class,
+                    [$event, $asset, $event->duplicate]
+                )
             );
 
-            Event::on(
+            EventHelper::on(
                 $assetClass,
                 DuplicateActiveRecord::EVENT_AFTER_DUPLICATE,
-                fn (DuplicateActiveRecordEvent $event) => Yii::createObject(AssetAfterDuplicateEventHandler::class, [
-                    $event,
-                    $event->sender,
-                    $event->duplicate,
-                ])
+                fn (Asset $asset, DuplicateActiveRecordEvent $event) => Yii::createObject(
+                    AssetAfterDuplicateEventHandler::class,
+                    [$event, $asset, $event->duplicate]
+                )
             );
         }
 
@@ -127,12 +127,10 @@ class Bootstrap implements BootstrapInterface
      */
     protected function addCmsNavItemRoutes(): void
     {
-        Event::on(
+        EventHelper::on(
             CmsNavItem::class,
             Widget::EVENT_CONFIGURE,
-            static function (Event $event): void {
-                /** @var CmsNavItem $item */
-                $item = $event->sender;
+            static function (CmsNavItem $item): void {
                 $item->routes([
                     'admin/hotspot/hotspot',
                     'admin/hotspot/hotspot-asset',
