@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models;
 
+use Hirtz\Cms\Hotspot\Models\Types\HotspotType;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
@@ -305,6 +306,19 @@ class Hotspot extends ActiveRecord implements
         return Yii::t('hotspot', 'COMMON_HOTSPOT');
     }
 
+    #[Override]
+    public static function getTypeClass(): string
+    {
+        return HotspotType::class;
+    }
+
+    #[Override]
+    public function getType(): ?HotspotType
+    {
+        /** @var HotspotType|null */
+        return static::findType($this->type ?? null);
+    }
+
     public function getAdminRoute(): array|false
     {
         return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
@@ -317,7 +331,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getVisibleAssets(): array
     {
-        return $this->hasAssetsEnabled() && $this->isAttributeVisible('#assets') ? $this->assets : [];
+        return $this->hasAssetsEnabled() && $this->isAttributeVisible(self::FIELD_ASSETS) ? $this->assets : [];
     }
 
     public function getAssetClass(): string

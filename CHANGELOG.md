@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `Models\Types\HotspotType` is the hotspot's type class, carrying the media `sizes()` and `transformations()`;
+  `Models\HotspotAsset::FIELD_HOTSPOTS` replaces the magic `'#hotspots'` string. See the skeleton's UPGRADE.md
+
 - `Modules\Admin\Controllers\HotspotController`'s access rule names `Cms\Models\Entry::AUTH_ENTRY`, as
   `HotspotAssetController` already did. It still named `entryAssetUpdate` and `sectionAssetUpdate`, which the RBAC
   simplification deleted, so every hotspot action was forbidden for every user
