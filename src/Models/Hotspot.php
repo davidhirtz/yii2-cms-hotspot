@@ -26,12 +26,14 @@ use Hirtz\Skeleton\Models\CustomAttributes\UrlCustomAttribute;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
+use Hirtz\Skeleton\Models\Interfaces\SearchableInterface;
 use Hirtz\Skeleton\Models\Interfaces\TranslationInterface;
 use Hirtz\Skeleton\Models\Interfaces\TypeAttributeInterface;
 use Hirtz\Skeleton\Models\Traits\AdminModelTrait;
 use Hirtz\Skeleton\Models\Traits\CustomAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\I18nAttributesTrait;
+use Hirtz\Skeleton\Models\Traits\SearchableTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
 use Hirtz\Skeleton\Models\Traits\TranslatableAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\TranslationTrait;
@@ -68,6 +70,7 @@ class Hotspot extends ActiveRecord implements
     AssetModelInterface,
     CustomAttributeInterface,
     DraftStatusAttributeInterface,
+    SearchableInterface,
     TrailModelInterface,
     TranslationInterface,
     TypeAttributeInterface
@@ -78,6 +81,7 @@ class Hotspot extends ActiveRecord implements
         getCustomAttributes as getOwnCustomAttributes;
     }
     use I18nAttributesTrait;
+    use SearchableTrait;
     use TranslationTrait;
     use ModuleTrait;
     use DraftStatusAttributeTrait;
@@ -307,6 +311,31 @@ class Hotspot extends ActiveRecord implements
     public function getAdminType(): string
     {
         return Yii::t('hotspot', 'COMMON_HOTSPOT');
+    }
+
+    public function getSearchAttributes(): array
+    {
+        return ['name', 'content'];
+    }
+
+    public function getSearchWeight(): float
+    {
+        return 0.4;
+    }
+
+    public static function findSearchable(): HotspotQuery
+    {
+        return static::find()->with('asset');
+    }
+
+    protected function getSearchResultTitle(): string
+    {
+        return implode(' › ', array_filter([$this->asset->getAdminName(), $this->getSearchTitle()]));
+    }
+
+    protected function isSearchResultVisible(): bool
+    {
+        return Yii::$app->has('user') && Yii::$app->getUser()->can($this->asset->getPermissionName());
     }
 
     #[Override]

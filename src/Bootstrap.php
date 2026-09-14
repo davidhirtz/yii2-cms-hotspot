@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Events\HotspotEntrySiteRelationsBuilderEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetAfterDuplicateEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDuplicateEventHandler;
+use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
@@ -41,6 +42,13 @@ class Bootstrap implements BootstrapInterface
             'basePath' => '@hotspot/../messages',
                     'forceTranslation' => true,
 ];
+
+        $app->extendComponent('search', [
+            'models' => [
+                Hotspot::class,
+                HotspotAsset::class,
+            ],
+        ]);
 
         $app->extendModules([
             'admin' => [

@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`Models\Hotspot` is searchable and `Models\HotspotAsset` is registered with the `search` component.** The
+  hotspot indexes its `name` and `content`, the hotspot asset inherits the media asset's opt-in, and both hits are
+  titled after the asset the hotspot sits on. Run `./yii search/rebuild` once to index the rows that already exist.
+
 - **The three hotspot flags moved off the admin module onto a new base `Module`.** `enableEntryAssetHotspots`,
   `enableSectionAssetHotspots` and `enableHotspotAssets` were the only options of any bundle that lived on its
   admin module rather than on its own — they decide what the frontend renders as much as what the admin offers.
