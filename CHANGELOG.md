@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `Migrations\M260915160000CustomAttributesColumn` moves `hotspot.custom_attributes` after `y` — cosmetic column
+  order only.
+
 - **`Models\HotspotAsset` declares only `name`, `content`, `alt_text` and `link`.** A hotspot asset is a marker on
   an image, so the media asset's `embed_url`, `loading` and `fetchpriority` are not its to carry — the asset the
   hotspot sits on has them. A value already stored under one of the three keys is kept but no longer read.
