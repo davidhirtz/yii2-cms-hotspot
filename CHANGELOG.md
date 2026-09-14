@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`Models\HotspotAsset` declares only `name`, `content`, `alt_text` and `link`.** A hotspot asset is a marker on
+  an image, so the media asset's `embed_url`, `loading` and `fetchpriority` are not its to carry — the asset the
+  hotspot sits on has them. A value already stored under one of the three keys is kept but no longer read.
+
 - **`hotspot.name`, `hotspot.content` and `hotspot.link` are custom attributes**, moved into the
   `custom_attributes` column by `Migrations\M260915110000CustomAttributes`; `Models\Hotspot::$contentType` and
   `$htmlValidator` are gone with them. The link is a `UrlCustomAttribute`, as the media `Asset::$link` already
