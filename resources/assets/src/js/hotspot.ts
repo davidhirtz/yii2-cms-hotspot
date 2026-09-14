@@ -19,6 +19,17 @@ const csrfToken = Object.values(
     JSON.parse(document.querySelector('#wrap')!.getAttribute('hx-headers') as string) as object
 ).pop();
 
+// The bundle must not import htmx, which would be a second copy of the one the admin already runs, so the flashes
+// the action answers with are moved into the page rather than swapped in out of band.
+export const showFlashes = (html: string) => {
+    const $flashes = document.getElementById('flashes');
+    const $response = document.createElement('div');
+
+    $response.innerHTML = html;
+
+    $flashes?.append(...Array.from($response.querySelector('#flashes')?.children ?? []));
+};
+
 export const post = (url: string, formName: string, x: number, y: number, position: number) => {
     const params = new URLSearchParams();
     params.append(`${formName}[x]`, String(x));
@@ -105,9 +116,12 @@ export default (config: HotspotConfig) => {
                 const x = ($btn.offsetLeft + btnOffsetX) / $canvas.clientWidth * 100;
                 const y = ($btn.offsetTop + btnOffsetY) / $canvas.clientHeight * 100;
 
-                void post(data.url, config.formName, x, y, zIndex + 1).then(() => {
-                    didDrag = false;
-                });
+                void post(data.url, config.formName, x, y, zIndex + 1)
+                    .then((response) => response.text())
+                    .then((html) => {
+                        showFlashes(html);
+                        didDrag = false;
+                    });
             }
 
             setTimeout(() => setDragging(false), 1000);

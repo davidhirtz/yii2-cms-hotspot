@@ -13,6 +13,7 @@ use Hirtz\Media\Models\Asset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Skeleton\Web\Controller;
+use Hirtz\Skeleton\Widgets\Flashes;
 use Override;
 use Yii;
 use yii\filters\AccessControl;
@@ -77,11 +78,13 @@ class HotspotController extends Controller
         $hotspot = $this->findHotspot($id);
 
         if ($hotspot->load($this->request->post()) && !$this->request->isFormReload() && $hotspot->update()) {
+            $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'));
+
+            // Dragging a hotspot posts through `fetch()` and swaps the flashes in, so the page itself stays put.
             if ($this->request->getIsAjax()) {
-                return $this->asJson([]);
+                return (string)Flashes::make();
             }
 
-            $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'));
             return $this->redirect(['update', 'id' => $hotspot->id]);
         }
 

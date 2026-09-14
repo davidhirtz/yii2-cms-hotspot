@@ -111,6 +111,30 @@ class HotspotControllerTest extends TestCase
         self::assertSame(30.0, (float)$hotspot->x);
     }
 
+    /**
+     * Dragging a hotspot posts through `fetch()` rather than htmx, so the action answers with the flashes alone and
+     * the page it was dragged on stays where it is.
+     */
+    public function testTheDraggedHotspotIsAnsweredWithItsFlash(): void
+    {
+        $this->login();
+
+        Yii::$app->getRequest()->getHeaders()->set('X-Requested-With', 'XMLHttpRequest');
+
+        $html = $this->post('admin/hotspot/hotspot/update', ['id' => 1], [
+            'Hotspot' => [
+                'x' => '30',
+                'y' => '40',
+                'position' => '2',
+            ],
+        ]);
+
+        self::assertIsString($html);
+        self::assertStringContainsString('hx-swap-oob="beforeend:#flashes"', $html);
+        self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'), $html);
+        self::assertSame(30.0, (float)Hotspot::findOne(1)->x);
+    }
+
     public function testAHotspotIsCreatedOnTheAsset(): void
     {
         $this->login();
