@@ -16,7 +16,7 @@ class AssetThumbnailColumn extends \Hirtz\Media\Modules\Admin\Widgets\Grids\Colu
 {
     public function __construct(array $config = [])
     {
-        $this->content ??= $this->getThumbnailWithHotspotCount(...);
+        $this->value ??= $this->getThumbnailWithHotspotCount(...);
         parent::__construct($config);
     }
 
