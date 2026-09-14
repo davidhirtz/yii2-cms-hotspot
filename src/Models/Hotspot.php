@@ -18,6 +18,10 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
+use Hirtz\Skeleton\Models\CustomAttributes\CustomAttribute;
+use Hirtz\Skeleton\Models\CustomAttributes\HtmlCustomAttribute;
+use Hirtz\Skeleton\Models\CustomAttributes\TextCustomAttribute;
+use Hirtz\Skeleton\Models\CustomAttributes\UrlCustomAttribute;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
@@ -28,12 +32,12 @@ use Hirtz\Skeleton\Models\Traits\CustomAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\I18nAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\TrailModelTrait;
+use Hirtz\Skeleton\Models\Traits\TranslatableAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\TranslationTrait;
 use Hirtz\Skeleton\Models\Traits\TypeAttributeTrait;
 use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
 use Hirtz\Skeleton\Models\Traits\VisibleAttributeTrait;
 use Hirtz\Skeleton\Validators\DynamicRangeValidator;
-use Hirtz\Skeleton\Validators\HtmlValidator;
 use Hirtz\Skeleton\Validators\RelationValidator;
 use Override;
 use Yii;
@@ -43,9 +47,9 @@ use Yii;
  * @property int $status
  * @property int $type
  * @property int $asset_id
- * @property string $name
- * @property string $content
- * @property string $link
+ * @property string|null $name
+ * @property string|null $content
+ * @property string|null $link
  * @property string|float $x
  * @property string|float $y
  * @property int $position
@@ -69,27 +73,18 @@ class Hotspot extends ActiveRecord implements
 {
     use AdminModelTrait;
     use AssetModelTrait;
-    use CustomAttributesTrait;
+    use CustomAttributesTrait {
+        getCustomAttributes as getOwnCustomAttributes;
+    }
     use I18nAttributesTrait;
     use TranslationTrait;
     use ModuleTrait;
     use DraftStatusAttributeTrait;
     use TrailModelTrait;
+    use TranslatableAttributesTrait;
     use TypeAttributeTrait;
     use UpdatedByUserTrait;
     use VisibleAttributeTrait;
-
-    /**
-     * @var array|string|false used when `$contentType` is set to "html". use an array with the first value containing
-     * a validator class, following keys can be used to configure the validator, string containing the class name or
-     * false for disabling the validation.
-     */
-    public array|string|false $htmlValidator = HtmlValidator::class;
-
-    /**
-     * @var string|false the content type, "html" enables HTML validators and WYSIWYG editor
-     */
-    public string|false $contentType = 'html';
 
     public ?bool $shouldUpdateAssetAfterInsert = null;
 
@@ -137,21 +132,6 @@ class Hotspot extends ActiveRecord implements
                 'max' => 100,
                 'min' => 0,
             ],
-            ...$this->getI18nRules([
-                [
-                    ['name', 'content', 'link'],
-                    'trim',
-                ],
-                [
-                    ['name', 'link'],
-                    'string',
-                    'max' => 250,
-                ],
-                [
-                    $this->getI18nAttributesNames(['content']),
-                    ...(array)($this->contentType == 'html' && $this->htmlValidator ? $this->htmlValidator : 'safe'),
-                ],
-            ]),
         ];
     }
 
@@ -254,6 +234,28 @@ class Hotspot extends ActiveRecord implements
         return $relation;
     }
 
+    /**
+     * Resolved for every loaded record, with no relation populated, so nothing here may read one.
+     *
+     * @return list<CustomAttribute>
+     */
+    public function getCustomAttributes(): array
+    {
+        return [
+            TextCustomAttribute::make('name')
+                ->max(250)
+                ->label(Yii::t('cms', 'HOTSPOT_NAME_LABEL'))
+                ->translatable($this->isTranslatableAttribute('name')),
+            HtmlCustomAttribute::make('content')
+                ->label(Yii::t('cms', 'HOTSPOT_CONTENT_LABEL'))
+                ->translatable($this->isTranslatableAttribute('content')),
+            UrlCustomAttribute::make('link')
+                ->label(Yii::t('cms', 'HOTSPOT_LINK_LABEL'))
+                ->translatable($this->isTranslatableAttribute('link')),
+            ...$this->getOwnCustomAttributes(),
+        ];
+    }
+
     #[Override]
     public static function find(): HotspotQuery
     {
@@ -326,7 +328,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getHtmlId(): string
     {
-        return $this->getI18nAttribute('slug') ?: ('hotspot-' . $this->id);
+        return 'hotspot-' . $this->id;
     }
 
     public function getVisibleAssets(): array
@@ -349,7 +351,13 @@ class Hotspot extends ActiveRecord implements
     #[Override]
     public function attributeLabels(): array
     {
-        return [...parent::attributeLabels(), 'asset_id' => Yii::t('cms', 'HOTSPOT_ASSET_ID_LABEL'), 'name' => Yii::t('cms', 'HOTSPOT_NAME_LABEL'), 'content' => Yii::t('cms', 'HOTSPOT_CONTENT_LABEL'), 'link' => Yii::t('cms', 'HOTSPOT_LINK_LABEL'), 'x' => Yii::t('hotspot', 'HOTSPOT_X_LABEL'), 'y' => Yii::t('hotspot', 'HOTSPOT_Y_LABEL'), 'asset_count' => Yii::t('media', 'MODEL_ASSET_COUNT_LABEL')];
+        return [
+            ...parent::attributeLabels(),
+            'asset_id' => Yii::t('cms', 'HOTSPOT_ASSET_ID_LABEL'),
+            'x' => Yii::t('hotspot', 'HOTSPOT_X_LABEL'),
+            'y' => Yii::t('hotspot', 'HOTSPOT_Y_LABEL'),
+            'asset_count' => Yii::t('media', 'MODEL_ASSET_COUNT_LABEL'),
+        ];
     }
 
     #[Override]

@@ -1,5 +1,12 @@
 ## 3.0.0 (in development)
 
+- **`hotspot.name`, `hotspot.content` and `hotspot.link` are custom attributes**, moved into the
+  `custom_attributes` column by `Migrations\M260915110000CustomAttributes`; `Models\Hotspot::$contentType` and
+  `$htmlValidator` are gone with them. The link is a `UrlCustomAttribute`, as the media `Asset::$link` already
+  was, so it is validated as a URL now. A project that translated any of the three moves them from
+  `Hotspot::$i18nAttributes` to the new `translatableAttributes`. `Models\Hotspot::getHtmlId()` no longer reads
+  a `slug` the model never had — it is `hotspot-<id>`. None of the three can be a query condition any more.
+
 - **The hotspot admin pages are shaped like the cms asset pages.**
   `Modules\Admin\Widgets\Navs\HotspotHeader` extends the new media `Widgets\Navs\AssetHeader` — the header of
   the asset the hotspot sits on, with the hotspot as its subtitle — and `HotspotSubmenu` is a real

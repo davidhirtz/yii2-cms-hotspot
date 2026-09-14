@@ -149,7 +149,7 @@ class HotspotControllerTest extends TestCase
         ]);
 
         self::assertInstanceOf(Response::class, $response);
-        self::assertNotNull(Hotspot::findOne(['name' => 'A new hotspot']));
+        self::assertNotNull($this->findHotspotByName('A new hotspot'));
     }
 
     /**
@@ -175,7 +175,7 @@ class HotspotControllerTest extends TestCase
             self::assertNotSame('', $exception->getMessage());
         }
 
-        self::assertNull(Hotspot::findOne(['name' => 'Out of bounds']));
+        self::assertNull($this->findHotspotByName('Out of bounds'));
     }
 
     /**
@@ -208,13 +208,24 @@ class HotspotControllerTest extends TestCase
 
         self::assertInstanceOf(Response::class, $response);
 
-        $duplicate = Hotspot::find()
-            ->andWhere(['name' => 'Test Hotspot 1'])
-            ->andWhere(['!=', 'id', 1])
-            ->one();
+        $duplicate = $this->findHotspotByName('Test Hotspot 1', 1);
 
         self::assertNotNull($duplicate);
         self::assertSame(1, $duplicate->asset_count);
+    }
+
+    /**
+     * The name is a custom attribute, so it cannot be a query condition.
+     */
+    protected function findHotspotByName(string $name, ?int $exceptId = null): ?Hotspot
+    {
+        foreach (Hotspot::find()->all() as $hotspot) {
+            if ($hotspot->name === $name && $hotspot->id !== $exceptId) {
+                return $hotspot;
+            }
+        }
+
+        return null;
     }
 
     public function testAHotspotIsDeleted(): void

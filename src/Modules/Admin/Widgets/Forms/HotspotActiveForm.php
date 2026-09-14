@@ -28,12 +28,9 @@ class HotspotActiveForm extends ActiveForm
         $this->rows ??= [
             $this->getStatusField(),
             $this->getTypeField(),
-            $this->getNameField(),
-            $this->getContentField(),
-            $this->getLinkField(),
+            ...$this->getCustomAttributeFields(),
             $this->getXField(),
             $this->getYField(),
-            ...$this->getCustomAttributeFields(),
         ];
 
         parent::configure();
