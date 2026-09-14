@@ -9,6 +9,8 @@ use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Models\EntryAsset;
+use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Media\Models\Queries\AssetQuery;
 use Hirtz\Cms\Modules\ModuleTrait;
@@ -54,7 +56,7 @@ use Yii;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  *
- * @property-read Asset $asset {@see static::getAsset()}
+ * @property-read EntryAsset|SectionAsset $asset {@see static::getAsset()}
  * @property-read HotspotAsset[] $assets {@see static::getAssets()}
  *
  * @mixin TrailBehavior
@@ -298,7 +300,7 @@ class Hotspot extends ActiveRecord implements
     {
         $asset = $this->asset;
 
-        return [$asset, ...(array)$asset->getTrailParents()];
+        return [$asset, ...$asset->getTrailParents()];
     }
 
     public function getAdminType(): string
