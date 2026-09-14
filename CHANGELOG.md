@@ -1,5 +1,13 @@
 ## 3.0.0 (in development)
 
+- **The three hotspot flags moved off the admin module onto a new base `Module`.** `enableEntryAssetHotspots`,
+  `enableSectionAssetHotspots` and `enableHotspotAssets` were the only options of any bundle that lived on its
+  admin module rather than on its own — they decide what the frontend renders as much as what the admin offers.
+  The bundle now registers a top-level `hotspot` module beside the admin submodule and ships
+  `Modules\ModuleTrait::getModule()` like every other bundle, so a project moves them from
+  `modules.admin.modules.hotspot` to `modules.hotspot`. `Models\Hotspot` uses that trait now, not the cms one, so
+  `Hotspot::getModule()` answers the hotspot module rather than the cms module it never read.
+
 - `Migrations\M260915160000CustomAttributesColumn` moves `hotspot.custom_attributes` after `y` — cosmetic column
   order only.
 

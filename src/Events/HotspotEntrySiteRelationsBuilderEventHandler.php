@@ -6,7 +6,7 @@ namespace Hirtz\Cms\Hotspot\Events;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
-use Hirtz\Cms\Hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
 use Hirtz\Cms\Models\Events\EntrySiteRelationsBuilderEvent;
@@ -14,6 +14,8 @@ use Yii;
 
 class HotspotEntrySiteRelationsBuilderEventHandler
 {
+    use ModuleTrait;
+
     /**
      * @var Hotspot[]
      */
@@ -35,8 +37,7 @@ class HotspotEntrySiteRelationsBuilderEventHandler
             return;
         }
 
-        /** @var Module $module */
-        $module = Yii::$app->getModule('admin')->getModule('hotspot');
+        $module = static::getModule();
         $assetIdsWithHotspots = [];
 
         foreach ($event->sender->assets as $asset) {

@@ -9,7 +9,6 @@ use Hirtz\Cms\Hotspot\Models\Events\AssetAfterDuplicateEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDuplicateEventHandler;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
-use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
@@ -47,9 +46,12 @@ class Bootstrap implements BootstrapInterface
             'admin' => [
                 'modules' => [
                     'hotspot' => [
-                        'class' => Module::class,
+                        'class' => Modules\Admin\Module::class,
                     ],
                 ],
+            ],
+            'hotspot' => [
+                'class' => Module::class,
             ],
             'media' => [
                 'assets' => [HotspotAsset::class],

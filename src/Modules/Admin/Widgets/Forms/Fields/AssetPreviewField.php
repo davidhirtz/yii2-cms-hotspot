@@ -6,7 +6,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\Fields;
 
 use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Skeleton\Helpers\Url;
@@ -18,6 +18,8 @@ use Yii;
 
 class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField
 {
+    use ModuleTrait;
+
     protected array $hotspots;
 
     #[Override]
@@ -60,8 +62,7 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
             return false;
         }
 
-        /** @var Module $module */
-        $module = Yii::$app->getModule('admin')->getModule('hotspot');
+        $module = static::getModule();
 
         return $this->asset instanceof EntryAsset
             ? $module->enableEntryAssetHotspots

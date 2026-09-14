@@ -8,12 +8,11 @@ use Hirtz\Cms\Hotspot\Models\Types\HotspotType;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
-use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Media\Models\Queries\AssetQuery;
-use Hirtz\Cms\Modules\ModuleTrait;
+use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Media\Models\Interfaces\AssetModelInterface;
 use Hirtz\Media\Models\Traits\AssetModelTrait;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
@@ -345,9 +344,7 @@ class Hotspot extends ActiveRecord implements
 
     public function hasAssetsEnabled(): bool
     {
-        /** @var Module $module */
-        $module = Yii::$app->getModule('admin')->getModule('hotspot');
-        return $module->enableHotspotAssets;
+        return static::getModule()->enableHotspotAssets;
     }
 
     #[Override]
