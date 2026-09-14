@@ -1,5 +1,19 @@
 ## 3.0.0 (in development)
 
+- **The hotspot admin pages are shaped like the cms asset pages.**
+  `Modules\Admin\Widgets\Navs\HotspotHeader` extends the new media `Widgets\Navs\AssetHeader` — the header of
+  the asset the hotspot sits on, with the hotspot as its subtitle — and `HotspotSubmenu` is a real
+  `Widgets\Navs\Submenu` again: a first item leading back to that asset, the hotspot's own "General" item and
+  the assets item. It no longer borrows the entry's or the section's submenu, so nothing in the bundle has to
+  know which of the two carries the hotspot. The hotspot's assets moved out of the update page onto their own
+  `hotspot-asset/index`, rendered by the media `Widgets\Grids\AssetGridView` with `AssetModelActionDropdown` in
+  the header, and the "operations" panel and the delete form became `HotspotActionDropdown`. Removed with them:
+  `Modules\Admin\Widgets\Panels\HotspotPanel` and `Modules\Admin\Widgets\Grids\HotspotAssetGridView`,
+  whose footer buttons and out-of-band refresh the media dropdown does. `HotspotSubmenu::hotspot()` and
+  `HotspotHeader::hotspot()` take the hotspot; `Models\Hotspot`'s `asset_count` label is the media
+  `MODEL_ASSET_COUNT_LABEL` ("Assets") rather than `HOTSPOT_ASSET_COUNT_LABEL` ("Hotspot Asset"), and that key
+  and `HOTSPOT_UPDATE_TITLE` are gone — the header titles the page
+
 - `Models\Types\HotspotType` is the hotspot's type class, carrying the media `sizes()` and `transformations()`;
   `Models\HotspotAsset::FIELD_HOTSPOTS` replaces the magic `'#hotspots'` string. See the skeleton's UPGRADE.md
 
@@ -9,18 +23,13 @@
 - `HotspotController::actionCreate()` reports the hotspot's own errors rather than the asset's, which had none
 - `Models\HotspotAsset` declares `@extends Asset<Hotspot>` in place of its narrowed `getModel()` override, see
   `yii2-media`
-- The hotspot update view translates through `HOTSPOT_UPDATE_TITLE` and `HOTSPOT_DELETE_TITLE`, and titles its
-  asset grid with the media `COMMON_ASSETS` instead of a literal in the cms category
+- The hotspot views translate through the bundle's own keys and the media ones instead of literals in the cms
+  category
 - `Models\HotspotAsset::getPermissionName()` lost its `$action` parameter, following the media `Models\Asset`;
   it still delegates to the entry or section asset, which resolves to the cms `Models\Entry::AUTH_ENTRY`
 - `Models\Hotspot` and `Models\HotspotAsset` implement the skeleton's `Models\Interfaces\AdminModelInterface`:
   `getTrailModelName()` and `getTrailModelType()` are `getAdminName()` and `getAdminType()`. `Hotspot`'s unused
   `getDisplayName()` is gone — `getAdminName()` is the one name — and a hotspot with a `name` is named by it
-- The hotspot update page's asset grid container lost its `assets` id, which duplicated the id of the submenu's
-  assets item on the same page; `Modules\Admin\Widgets\Grids\HotspotAssetGridView` refreshes that item out of
-  band after an upload instead
-- `Modules\Admin\Widgets\Grids\HotspotAssetGridView` points its file upload button at the asset grid instead of
-  the file grid, so uploading from the hotspot update page replaces the grid rather than the whole `body`
 - `esbuild.js` uses the skeleton's shared `esbuild.config.js`, so the styles are built by sass with autoprefixer
   instead of esbuild's css loader. `resources/assets/src/css/hotspot.css` is now `hotspot.scss` — it already nested
   with `&`, which sass flattens into plain selectors rather than shipping native CSS nesting
@@ -28,9 +37,6 @@
   `getTrailModelAdminRoute()`
 - `HotspotAssetController` extends the skeleton `Controller` and uses the media `AssetControllerTrait`. The
   file picker moved from `hotspot-asset/index` to `hotspot-asset/create`, and `index` lists the hotspot's assets
-- `Widgets\Navs\HotspotSubmenu` renders the submenu of the entry or section the hotspot's asset belongs to
-  instead of extending `EntrySubmenu` and passing it an asset. It is the only place left that has to know
-  which of the two it is
 - Fixed the admin routes, which were missing the module segment the controllers are mapped under:
   `/admin/hotspot/hotspot/update`, `/admin/hotspot/hotspot/create` and `/admin/hotspot/hotspot-asset/*`
 - `Modules\Admin\Controllers\HotspotAssetController` declares its own access rules and resolves every action

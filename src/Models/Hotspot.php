@@ -349,7 +349,7 @@ class Hotspot extends ActiveRecord implements
     #[Override]
     public function attributeLabels(): array
     {
-        return [...parent::attributeLabels(), 'asset_id' => Yii::t('cms', 'HOTSPOT_ASSET_ID_LABEL'), 'name' => Yii::t('cms', 'HOTSPOT_NAME_LABEL'), 'content' => Yii::t('cms', 'HOTSPOT_CONTENT_LABEL'), 'link' => Yii::t('cms', 'HOTSPOT_LINK_LABEL'), 'x' => Yii::t('hotspot', 'HOTSPOT_X_LABEL'), 'y' => Yii::t('hotspot', 'HOTSPOT_Y_LABEL'), 'asset_count' => Yii::t('hotspot', 'HOTSPOT_ASSET_COUNT_LABEL')];
+        return [...parent::attributeLabels(), 'asset_id' => Yii::t('cms', 'HOTSPOT_ASSET_ID_LABEL'), 'name' => Yii::t('cms', 'HOTSPOT_NAME_LABEL'), 'content' => Yii::t('cms', 'HOTSPOT_CONTENT_LABEL'), 'link' => Yii::t('cms', 'HOTSPOT_LINK_LABEL'), 'x' => Yii::t('hotspot', 'HOTSPOT_X_LABEL'), 'y' => Yii::t('hotspot', 'HOTSPOT_Y_LABEL'), 'asset_count' => Yii::t('media', 'MODEL_ASSET_COUNT_LABEL')];
     }
 
     #[Override]

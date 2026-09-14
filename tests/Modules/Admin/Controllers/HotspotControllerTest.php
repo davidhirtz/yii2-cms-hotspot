@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Tests\Modules\Admin\Controllers;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Media\Models\Asset;
+use Hirtz\Media\Modules\Admin\Widgets\Grids\AssetGridView;
+use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Test\Fixtures\UserFixture;
 use Override;
@@ -52,6 +55,23 @@ class HotspotControllerTest extends TestCase
         self::assertIsString($html);
         self::assertStringContainsString('name="Hotspot[name]"', $html);
         self::assertStringContainsString('Test Hotspot 1', $html);
+    }
+
+    /**
+     * The hotspot has no page of its own to lead back to, and its assets live on their own page since the update
+     * page stopped embedding their grid.
+     */
+    public function testTheUpdatePageLinksToTheAssetAndToItsOwnAssets(): void
+    {
+        $this->login();
+
+        $html = Yii::$app->runAction('admin/hotspot/hotspot/update', ['id' => 1]);
+        $hotspot = Hotspot::findOne(1);
+
+        self::assertIsString($html);
+        self::assertStringContainsString(Url::toRoute($hotspot->asset->getAdminRoute()), $html);
+        self::assertStringContainsString(Url::toRoute(HotspotAsset::getAdminIndexRoute($hotspot)), $html);
+        self::assertStringNotContainsString(AssetGridView::ID, $html);
     }
 
     public function testTheUpdatePageIsForbiddenWithoutTheEntryPermission(): void
@@ -190,6 +210,7 @@ class HotspotControllerTest extends TestCase
         $html = Yii::$app->runAction('admin/hotspot/hotspot-asset/index', ['hotspot' => 1]);
 
         self::assertIsString($html);
+        self::assertStringContainsString(AssetGridView::ID, $html);
     }
 
     public function testTheAssetIndexNeedsAHotspot(): void

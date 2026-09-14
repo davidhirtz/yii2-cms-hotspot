@@ -14,21 +14,21 @@ declare(strict_types=1);
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
+use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotHeader;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
 use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\FileGridView;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Grids\GridContainer;
 
-$this->title(Yii::t('media', 'ASSET_MODEL_LABEL'));
+echo HotspotHeader::make()
+    ->hotspot($model);
 
 echo HotspotSubmenu::make()
     ->hotspot($model);
 
-$this->addBreadcrumb(Yii::t('media', 'COMMON_LINK_ASSETS'));
-
 echo GridContainer::make()
     ->grid(FileGridView::make()
-        ->model($model)
         ->provider($provider)
+        ->model($model)
         ->asset($asset));
