@@ -316,7 +316,7 @@ class Hotspot extends ActiveRecord implements
     public function getType(): ?HotspotType
     {
         /** @var HotspotType|null */
-        return static::findType($this->type ?? null);
+        return static::findType(static::normalizeTypeValue($this->type ?? null));
     }
 
     public function getAdminRoute(): array|false
