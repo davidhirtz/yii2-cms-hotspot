@@ -13,12 +13,14 @@ use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
+use Hirtz\Cms\Modules\Admin\Widgets\Navs\CmsNavItem;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Widgets\Artwork;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
 use Hirtz\Skeleton\Web\Application;
+use Hirtz\Skeleton\Widgets\Widget;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
@@ -103,6 +105,28 @@ class Bootstrap implements BootstrapInterface
             new HotspotEntrySiteRelationsBuilderEventHandler(),
         );
 
+        $this->addCmsNavItemRoutes();
+
         $app->setMigrationNamespace('Hirtz\Cms\Hotspot\Migrations');
+    }
+
+    /**
+     * A hotspot is always reached from a cms asset, so its pages belong to the entries item — which the bundle adds
+     * itself rather than leaving the cms to name a bundle that may not be installed.
+     */
+    protected function addCmsNavItemRoutes(): void
+    {
+        Event::on(
+            CmsNavItem::class,
+            Widget::EVENT_CONFIGURE,
+            static function (Event $event): void {
+                /** @var CmsNavItem $item */
+                $item = $event->sender;
+                $item->routes([
+                    'admin/hotspot/hotspot',
+                    'admin/hotspot/hotspot-asset',
+                ]);
+            }
+        );
     }
 }
