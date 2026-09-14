@@ -25,6 +25,7 @@ use Yii;
 use yii\base\BootstrapInterface;
 use yii\base\Event;
 use yii\base\ModelEvent;
+use yii\db\BaseActiveRecord;
 use yii\i18n\PhpMessageSource;
 
 class Bootstrap implements BootstrapInterface
@@ -71,7 +72,7 @@ class Bootstrap implements BootstrapInterface
         foreach ([EntryAsset::class, SectionAsset::class] as $assetClass) {
             Event::on(
                 $assetClass,
-                $assetClass::EVENT_BEFORE_DELETE,
+                BaseActiveRecord::EVENT_BEFORE_DELETE,
                 fn (ModelEvent $event) => Yii::createObject(AssetBeforeDeleteEventHandler::class, [
                     $event,
                     $event->sender,
