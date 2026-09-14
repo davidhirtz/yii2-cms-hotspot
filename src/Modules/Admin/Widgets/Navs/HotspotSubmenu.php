@@ -34,16 +34,12 @@ class HotspotSubmenu extends Submenu
         parent::configure();
     }
 
-    /**
-     * A hotspot is created and picked on the asset it sits on, which is the only way back to its siblings.
-     */
     protected function getAssetItem(): ?NavItem
     {
         $asset = $this->hotspot->asset;
 
         return NavItem::make()
             ->icon('angle-double-left')
-            ->badge($asset->getAttribute('hotspot_count'))
             ->label($asset->getAdminType())
             ->url($asset->getAdminRoute() ?: null);
     }
