@@ -10,7 +10,6 @@ use Hirtz\Media\Modules\Admin\Widgets\Navs\AssetSubmenuItem;
 use Hirtz\Skeleton\Widgets\Navs\NavItem;
 use Hirtz\Skeleton\Widgets\Navs\Submenu;
 use Override;
-use Yii;
 
 class HotspotSubmenu extends Submenu
 {
@@ -48,7 +47,7 @@ class HotspotSubmenu extends Submenu
     {
         return NavItem::make()
             ->icon('cog')
-            ->label(Yii::t('skeleton', 'COMMON_GENERAL'))
+            ->label($this->hotspot->getAdminType())
             ->routes(['admin/hotspot/hotspot/update'])
             ->url($this->hotspot->getAdminRoute() ?: null);
     }
