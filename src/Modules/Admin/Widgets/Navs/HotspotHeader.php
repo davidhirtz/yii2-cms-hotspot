@@ -8,10 +8,11 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\EntryHeader;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\SectionHeader;
+use Hirtz\Skeleton\Widgets\Navs\Header;
 use Hirtz\Skeleton\Widgets\Widget;
 use Stringable;
 
-class HotspotHeader extends Widget
+class HotspotHeader extends Header
 {
     protected Hotspot $hotspot;
 

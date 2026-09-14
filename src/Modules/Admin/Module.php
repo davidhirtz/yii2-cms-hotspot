@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Modules\Admin;
 
-use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
-use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
-use Override;
-
 /**
  * @property \Hirtz\Skeleton\Modules\Admin\Module $module
  */
@@ -28,15 +24,4 @@ class Module extends \Hirtz\Skeleton\Base\Module
      */
     public bool $enableHotspotAssets = true;
 
-    protected array $defaultControllerMap = [
-        'hotspot' => HotspotController::class,
-        'hotspot-asset' => HotspotAssetController::class,
-    ];
-
-    #[Override]
-    public function init(): void
-    {
-        $this->controllerMap = [...$this->defaultControllerMap, ...$this->controllerMap];
-        parent::init();
-    }
 }
