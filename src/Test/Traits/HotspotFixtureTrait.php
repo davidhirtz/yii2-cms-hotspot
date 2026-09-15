@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Test\Fixtures\HotspotFixture;
 use Hirtz\Cms\Test\Fixtures\AssetFixture;
 use Hirtz\Cms\Test\Fixtures\Traits\CmsFixtureTrait;
+use RuntimeException;
 
 trait HotspotFixtureTrait
 {
@@ -48,6 +49,7 @@ trait HotspotFixtureTrait
 
     protected function getHotspotFromFixture(string $key): Hotspot
     {
-        return Hotspot::findOne($this->getHotspotFixtureData($key)['id']);
+        return Hotspot::findOne($this->getHotspotFixtureData($key)['id'])
+            ?? throw new RuntimeException("Hotspot fixture \"$key\" was not loaded.");
     }
 }
