@@ -25,11 +25,13 @@ class HotspotEntrySiteRelationsBuilderEventHandlerTest extends TestCase
         ]);
 
         $section = current($builder->entry->getRelatedRecords()['sections']);
+        self::assertNotFalse($section);
 
         self::assertInstanceOf(Section::class, $section);
         self::assertEquals(1, $section->id);
 
         $asset = current($section->getRelatedRecords()['assets']);
+        self::assertNotFalse($asset);
 
         self::assertInstanceOf(SectionAsset::class, $asset);
         self::assertEquals(4, $asset->id);
@@ -37,6 +39,7 @@ class HotspotEntrySiteRelationsBuilderEventHandlerTest extends TestCase
         self::assertArrayHasKey('hotspots', $asset->getRelatedRecords());
 
         $hotspot = current($asset->getRelatedRecords()['hotspots']);
+        self::assertNotFalse($hotspot);
 
         self::assertInstanceOf(Hotspot::class, $hotspot);
         self::assertEquals(1, $hotspot->id);
@@ -44,6 +47,7 @@ class HotspotEntrySiteRelationsBuilderEventHandlerTest extends TestCase
         self::assertArrayHasKey('assets', $hotspot->getRelatedRecords());
 
         $asset = current($hotspot->getRelatedRecords()['assets']);
+        self::assertNotFalse($asset);
 
         self::assertInstanceOf(HotspotAsset::class, $asset);
         self::assertEquals(8, $asset->id);

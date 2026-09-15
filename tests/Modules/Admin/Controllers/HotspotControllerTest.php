@@ -71,7 +71,7 @@ class HotspotControllerTest extends TestCase
         $hotspot = Hotspot::findOne(1);
 
         self::assertIsString($html);
-        self::assertStringContainsString(Url::toRoute($hotspot->asset->getAdminRoute()), $html);
+        self::assertStringContainsString(Url::toRoute($hotspot->asset->getAdminRoute() ?: []), $html);
         self::assertStringContainsString(Url::toRoute(HotspotAsset::getAdminIndexRoute($hotspot)), $html);
         self::assertStringNotContainsString(AssetGridView::ID, $html);
     }
