@@ -188,8 +188,8 @@ class Hotspot extends ActiveRecord implements
         ]);
 
         // Sanitize values to prevent unnecessary attribute updates
-        $this->x = number_format($this->x, 2);
-        $this->y = number_format($this->y, 2);
+        $this->x = number_format((float)$this->x, 2);
+        $this->y = number_format((float)$this->y, 2);
 
         $this->position ??= $this->getMaxPosition() + 1;
 
@@ -307,14 +307,14 @@ class Hotspot extends ActiveRecord implements
      */
     public function getTrailAttributes(): array
     {
-        return array_diff($this->attributes(), [
+        return array_values(array_diff($this->attributes(), [
             $this->getCustomAttributesColumn(),
             'position',
             'asset_count',
             'updated_by_user_id',
             'updated_at',
             'created_at',
-        ]);
+        ]));
     }
 
     /**
@@ -385,7 +385,7 @@ class Hotspot extends ActiveRecord implements
      */
     public function getVisibleAssets(): array
     {
-        return $this->hasAssetsEnabled() && $this->isAttributeVisible(self::FIELD_ASSETS) ? $this->assets : [];
+        return $this->hasAssetsEnabled() && $this->isAttributeVisible(self::FIELD_ASSETS) ? array_values($this->assets) : [];
     }
 
     public function getAssetClass(): string

@@ -90,7 +90,8 @@ class Bootstrap implements BootstrapInterface
                 fn (Asset $asset, ModelEvent $event) => Yii::createObject(AssetBeforeDeleteEventHandler::class, [
                     $event,
                     $asset,
-                ])
+                ]),
+                ModelEvent::class
             );
 
             EventHelper::on(
@@ -99,7 +100,8 @@ class Bootstrap implements BootstrapInterface
                 fn (Asset $asset, DuplicateActiveRecordEvent $event) => Yii::createObject(
                     AssetBeforeDuplicateEventHandler::class,
                     [$event, $asset, $event->duplicate]
-                )
+                ),
+                DuplicateActiveRecordEvent::class
             );
 
             EventHelper::on(
@@ -108,7 +110,8 @@ class Bootstrap implements BootstrapInterface
                 fn (Asset $asset, DuplicateActiveRecordEvent $event) => Yii::createObject(
                     AssetAfterDuplicateEventHandler::class,
                     [$event, $asset, $event->duplicate]
-                )
+                ),
+                DuplicateActiveRecordEvent::class
             );
         }
 

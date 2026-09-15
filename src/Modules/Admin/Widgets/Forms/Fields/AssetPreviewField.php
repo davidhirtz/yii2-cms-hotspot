@@ -29,7 +29,7 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
     protected function configure(): void
     {
         if ($this->hasHotspotsEnabled()) {
-            $this->hotspots = $this->getHotspots();
+            $this->hotspots = array_values($this->getHotspots());
             $this->registerClientScript();
         }
 
