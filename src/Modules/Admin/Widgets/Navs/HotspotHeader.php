@@ -9,7 +9,7 @@ use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\EntryHeader;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\SectionHeader;
 use Hirtz\Skeleton\Widgets\Navs\Header;
-use Hirtz\Skeleton\Widgets\Widget;
+use Override;
 use Stringable;
 
 class HotspotHeader extends Header
@@ -22,12 +22,19 @@ class HotspotHeader extends Header
         return $this;
     }
 
+    /**
+     * The header of the asset the hotspot hangs on, which owns the title and the breadcrumbs — so whatever the view
+     * added, the action dropdown above all, has to be handed on to it.
+     */
+    #[Override]
     protected function renderContent(): string|Stringable
     {
-        return $this->hotspot->asset instanceof SectionAsset
-            ? SectionHeader::make()
-                ->model($this->hotspot->asset->model)
-            : EntryHeader::make()
-                ->model($this->hotspot->asset->model);
+        $asset = $this->hotspot->asset;
+
+        $header = $asset instanceof SectionAsset
+            ? SectionHeader::make()->model($asset->model)
+            : EntryHeader::make()->model($asset->model);
+
+        return $header->addContent(...$this->content);
     }
 }
