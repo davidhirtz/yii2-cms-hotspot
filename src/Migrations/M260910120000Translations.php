@@ -23,25 +23,11 @@ class M260910120000Translations extends Migration
 
     public function safeUp(): void
     {
-        foreach ($this->getModels() as $model) {
-            $this->moveI18nColumnsToTranslations($model);
-        }
+        $this->moveI18nColumnsToTranslations(Hotspot::tableName(), Hotspot::class);
     }
 
     public function safeDown(): void
     {
-        foreach ($this->getModels() as $model) {
-            $this->restoreI18nColumnsFromTranslations($model);
-        }
-    }
-
-    /**
-     * @return list<Hotspot>
-     */
-    protected function getModels(): array
-    {
-        return [
-            Hotspot::create(),
-        ];
+        $this->restoreI18nColumnsFromTranslations(Hotspot::tableName(), Hotspot::class);
     }
 }
