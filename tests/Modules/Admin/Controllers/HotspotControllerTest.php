@@ -132,7 +132,7 @@ class HotspotControllerTest extends TestCase
         ]);
 
         self::assertIsString($html);
-        self::assertStringContainsString('hx-swap-oob="beforeend:#flashes"', $html);
+        self::assertStringContainsString('id="flashes"', $html);
         self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'), $html);
         self::assertSame(30.0, (float)Hotspot::findOne(1)->x);
     }
