@@ -1,3 +1,7 @@
+## 2.3.1 (Sep 15, 2026)
+
+- Fixed dependencies
+
 ## 2.3.0 (Oct 21, 2025)
 
 - Requires PHP 8.3
