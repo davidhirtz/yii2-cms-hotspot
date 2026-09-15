@@ -14,6 +14,9 @@ use Stringable;
  */
 class AssetThumbnailColumn extends \Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
 {
+    /**
+     * @param array<string, mixed> $config
+     */
     public function __construct(array $config = [])
     {
         $this->value ??= $this->getThumbnailWithHotspotCount(...);

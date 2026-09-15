@@ -9,6 +9,7 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Media\Modules\Admin\Controllers\Traits\AssetControllerTrait;
+use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Skeleton\Web\Controller;
 use Override;
 use yii\filters\AccessControl;
@@ -18,6 +19,9 @@ use yii\web\Response;
 /**
  * A hotspot asset is edited by whoever may edit the cms asset its hotspot sits on, which is what
  * {@see HotspotTrait::findHotspot()} checks.
+ */
+/**
+ * @extends Controller<Module>
  */
 class HotspotAssetController extends Controller
 {

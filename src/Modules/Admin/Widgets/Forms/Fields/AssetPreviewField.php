@@ -20,6 +20,9 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
 {
     use ModuleTrait;
 
+    /**
+     * @var list<Hotspot>
+     */
     protected array $hotspots;
 
     #[Override]

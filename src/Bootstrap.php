@@ -21,6 +21,7 @@ use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
 use Hirtz\Skeleton\Helpers\EventHelper;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
+use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Widgets\Widget;
 use Yii;
@@ -34,6 +35,7 @@ class Bootstrap implements BootstrapInterface
 {
     /**
      * @param Application $app
+     * @param Application<User> $app
      */
     public function bootstrap($app): void
     {

@@ -11,6 +11,9 @@ use Hirtz\Skeleton\Test\Fixtures\ActiveFixture;
 
 class HotspotFixture extends ActiveFixture
 {
+    /**
+     * @var list<class-string<ActiveFixture>>
+     */
     public $depends = [AssetFixture::class];
     public $modelClass = Hotspot::class;
 

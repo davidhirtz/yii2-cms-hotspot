@@ -12,6 +12,7 @@ use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
 use Hirtz\Cms\Modules\ModuleTrait;
+use Hirtz\Cms\Hotspot\Modules\Admin\Module;
 use Hirtz\Skeleton\Web\Controller;
 use Hirtz\Skeleton\Widgets\Flashes;
 use Override;
@@ -23,6 +24,9 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
+/**
+ * @extends Controller<Module>
+ */
 class HotspotController extends Controller
 {
     use HotspotTrait;

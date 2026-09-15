@@ -15,6 +15,9 @@ trait HotspotFixtureTrait
         CmsFixtureTrait::fixtures as cmsFixtures;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function fixtures(): array
     {
         return [
@@ -35,6 +38,9 @@ trait HotspotFixtureTrait
         return $fixture;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getHotspotFixtureData(string $key): array
     {
         return $this->getHotspotFixture()->data[$key];

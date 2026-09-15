@@ -17,6 +17,9 @@ class DuplicateHotspot extends DuplicateActiveRecord
 {
     use DuplicateAssetsTrait;
 
+    /**
+     * @param array<string, mixed> $attributes
+     */
     public function __construct(
         Hotspot $hotspot,
         protected ?Asset $asset = null,

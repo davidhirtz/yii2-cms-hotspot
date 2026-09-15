@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Models;
 
+use Closure;
 use Hirtz\Cms\Hotspot\Models\Types\HotspotType;
 use davidhirtz\yii2\datetime\DateTime;
 use davidhirtz\yii2\datetime\DateTimeBehavior;
@@ -140,6 +141,9 @@ class Hotspot extends ActiveRecord implements
         ];
     }
 
+    /**
+     * @return array<int|string, string|Closure(self): mixed>
+     */
     #[Override]
     public function fields(): array
     {
@@ -191,6 +195,9 @@ class Hotspot extends ActiveRecord implements
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @param array<string, mixed> $changedAttributes
+     */
     #[Override]
     public function afterSave($insert, $changedAttributes): void
     {
@@ -232,9 +239,12 @@ class Hotspot extends ActiveRecord implements
         parent::afterDelete();
     }
 
+    /**
+     * @return AssetQuery<Asset>
+     */
     public function getAsset(): AssetQuery
     {
-        /** @var AssetQuery $relation */
+        /** @var AssetQuery<Asset> $relation */
         $relation = $this->hasOne(Asset::class, ['id' => 'asset_id']);
         return $relation;
     }
@@ -289,6 +299,9 @@ class Hotspot extends ActiveRecord implements
         return (int)$this->findSiblings()->max('[[position]]');
     }
 
+    /**
+     * @return list<string>
+     */
     public function getTrailAttributes(): array
     {
         return array_diff($this->attributes(), [
@@ -301,6 +314,9 @@ class Hotspot extends ActiveRecord implements
         ]);
     }
 
+    /**
+     * @return list<TrailModelInterface>
+     */
     public function getTrailParents(): array
     {
         $asset = $this->asset;
@@ -361,6 +377,9 @@ class Hotspot extends ActiveRecord implements
         return 'hotspot-' . $this->id;
     }
 
+    /**
+     * @return list<HotspotAsset>
+     */
     public function getVisibleAssets(): array
     {
         return $this->hasAssetsEnabled() && $this->isAttributeVisible(self::FIELD_ASSETS) ? $this->assets : [];

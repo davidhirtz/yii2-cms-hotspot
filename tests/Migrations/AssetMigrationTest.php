@@ -41,6 +41,8 @@ class AssetMigrationTest extends TestCase
     /**
      * The migration asserts that `asset` holds exactly the hotspot assets it copied, so the fixture contributes the
      * cms rows only — which is also what gives the offset something to clear.
+     *
+     * @return array<string, mixed>
      */
     #[Override]
     public function fixtures(): array

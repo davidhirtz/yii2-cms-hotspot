@@ -22,6 +22,8 @@ class CmsNavItemTest extends TestCase
 
     /**
      * Declared rather than merged: both fixture traits carry a `fixtures()` of their own.
+     *
+     * @return array<string, mixed>
      */
     #[Override]
     public function fixtures(): array

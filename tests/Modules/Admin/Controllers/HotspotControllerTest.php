@@ -31,6 +31,8 @@ class HotspotControllerTest extends TestCase
 
     /**
      * Declared rather than merged: both fixture traits carry a `fixtures()` of their own.
+     *
+     * @return array<string, mixed>
      */
     #[Override]
     public function fixtures(): array
@@ -256,6 +258,10 @@ class HotspotControllerTest extends TestCase
         Yii::$app->runAction('admin/hotspot/hotspot-asset/index');
     }
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $bodyParams
+     */
     private function post(string $route, array $params = [], array $bodyParams = []): mixed
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';

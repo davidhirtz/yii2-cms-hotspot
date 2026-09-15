@@ -6,6 +6,7 @@ namespace Hirtz\Cms\Hotspot\Models;
 
 use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\Models\CustomAttributes\CustomAttribute;
+use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Override;
 use Yii;
 
@@ -54,6 +55,9 @@ class HotspotAsset extends Asset
         ));
     }
 
+    /**
+     * @return list<TrailModelInterface>
+     */
     #[Override]
     public function getTrailParents(): array
     {
