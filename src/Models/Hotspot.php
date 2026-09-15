@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Models;
 
 use Closure;
-use Hirtz\Cms\Hotspot\Models\Types\HotspotType;
-use davidhirtz\yii2\datetime\DateTime;
-use davidhirtz\yii2\datetime\DateTimeBehavior;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
+use Hirtz\Cms\Hotspot\Models\Types\HotspotType;
+use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Asset;
-use Hirtz\Media\Models\Queries\AssetQuery;
-use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Media\Models\Interfaces\AssetModelInterface;
+use Hirtz\Media\Models\Queries\AssetQuery;
 use Hirtz\Media\Models\Traits\AssetModelTrait;
 use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
@@ -26,8 +24,8 @@ use Hirtz\Skeleton\Models\CustomAttributes\TextCustomAttribute;
 use Hirtz\Skeleton\Models\CustomAttributes\UrlCustomAttribute;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
-use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Hirtz\Skeleton\Models\Interfaces\SearchableInterface;
+use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Hirtz\Skeleton\Models\Interfaces\TranslationInterface;
 use Hirtz\Skeleton\Models\Interfaces\TypeAttributeInterface;
 use Hirtz\Skeleton\Models\Traits\AdminModelTrait;
@@ -43,8 +41,11 @@ use Hirtz\Skeleton\Models\Traits\UpdatedByUserTrait;
 use Hirtz\Skeleton\Models\Traits\VisibleAttributeTrait;
 use Hirtz\Skeleton\Validators\DynamicRangeValidator;
 use Hirtz\Skeleton\Validators\RelationValidator;
+use Hirtz\Skeleton\Web\User as WebUser;
 use Override;
 use Yii;
+use davidhirtz\yii2\datetime\DateTime;
+use davidhirtz\yii2\datetime\DateTimeBehavior;
 
 /**
  * @property int $id
@@ -152,7 +153,9 @@ class Hotspot extends ActiveRecord implements
             'displayName',
             'x',
             'y',
-            'url' => fn (self $hotspot) => Yii::$app->getUrlManager()->createUrl($hotspot->getAdminRoute()),
+            'url' => fn (self $hotspot): ?string => ($route = $hotspot->getAdminRoute())
+                ? Yii::$app->getUrlManager()->createUrl($route)
+                : null,
         ];
     }
 
@@ -351,7 +354,7 @@ class Hotspot extends ActiveRecord implements
 
     protected function isSearchResultVisible(): bool
     {
-        return Yii::$app->has('user') && Yii::$app->getUser()->can($this->asset->getPermissionName());
+        return WebUser::current()?->can($this->asset->getPermissionName()) ?? false;
     }
 
     #[Override]

@@ -26,7 +26,7 @@ class HotspotFixture extends ActiveFixture
         }
 
         foreach ($hotspotCountByAssetId as $assetId => $count) {
-            $this->db->createCommand()
+            $this->getDb()->createCommand()
                 ->update(Asset::tableName(), ['hotspot_count' => $count], ['id' => $assetId])
                 ->execute();
         }

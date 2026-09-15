@@ -74,7 +74,7 @@ class HotspotController extends Controller
             throw new BadRequestHttpException(reset($errors) ?: null);
         }
 
-        return $this->redirect($asset->getAdminRoute());
+        return $this->redirectToAsset($asset);
     }
 
     public function actionUpdate(int $id): Response|string
@@ -111,12 +111,17 @@ class HotspotController extends Controller
 
         $this->error($hotspot);
 
-        return $this->redirect($hotspot->asset->getAdminRoute());
+        return $this->redirectToAsset($hotspot->asset);
     }
 
     /**
      * Only the cms assets can carry hotspots.
      */
+    protected function redirectToAsset(Asset $asset): Response
+    {
+        return $this->redirect($asset->getAdminRoute() ?: $asset::getAdminIndexRoute($asset->model));
+    }
+
     protected function findAsset(int $id): Asset
     {
         $asset = Asset::findOne($id);
