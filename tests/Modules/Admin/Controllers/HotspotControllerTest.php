@@ -16,6 +16,7 @@ use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Test\Fixtures\UserFixture;
 use Override;
 use Yii;
+use yii\helpers\Json;
 use yii\web\ForbiddenHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\NotFoundHttpException;
@@ -152,6 +153,35 @@ class HotspotControllerTest extends TestCase
 
         self::assertInstanceOf(Response::class, $response);
         self::assertNotNull($this->findHotspotByName('A new hotspot'));
+    }
+
+    /**
+     * Creating a hotspot posts through `fetch()` as well, so the flash the action sets travels in the response
+     * beside the hotspot — and an unnamed one is titled after its id rather than after nothing.
+     */
+    public function testACreatedHotspotIsAnsweredWithItsFlashAndDisplayName(): void
+    {
+        $this->login();
+
+        $response = $this->post('admin/hotspot/hotspot/create', ['id' => 4], [
+            'Hotspot' => [
+                'x' => '10',
+                'y' => '90',
+            ],
+        ]);
+
+        self::assertInstanceOf(Response::class, $response);
+
+        /** @var array{hotspot: array{displayName: string}, flashes: string} $data */
+        $data = Json::decode(Json::encode($response->data));
+
+        $hotspot = Hotspot::find()->orderBy(['id' => SORT_DESC])->one();
+        self::assertNotNull($hotspot);
+
+        self::assertStringContainsString('id="flashes"', $data['flashes']);
+        self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_SUCCESS_CREATED'), $data['flashes']);
+        self::assertSame($hotspot->getAdminName(), $data['hotspot']['displayName']);
+        self::assertStringContainsString((string)$hotspot->id, $data['hotspot']['displayName']);
     }
 
     /**

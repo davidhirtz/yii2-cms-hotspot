@@ -150,7 +150,7 @@ class Hotspot extends ActiveRecord implements
     {
         return [
             'id',
-            'displayName',
+            'displayName' => fn (self $hotspot): string => $hotspot->getAdminName(),
             'x',
             'y',
             'url' => fn (self $hotspot): ?string => ($route = $hotspot->getAdminRoute())

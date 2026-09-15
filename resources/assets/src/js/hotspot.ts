@@ -15,6 +15,11 @@ interface HotspotData {
     url: string;
 }
 
+interface HotspotCreateResponse {
+    hotspot: HotspotData;
+    flashes: string;
+}
+
 const csrfToken = Object.values(
     JSON.parse(document.querySelector('#wrap')!.getAttribute('hx-headers') as string) as object
 ).pop();
@@ -191,8 +196,10 @@ export default (config: HotspotConfig) => {
 
         post(config.url, config.formName, x, y, zIndex + 1)
             .then((response) => response.json())
-            .then((data: HotspotData) => {
-                const $hotspot = setHotspot(data);
+            .then((data: HotspotCreateResponse) => {
+                showFlashes(data.flashes);
+
+                const $hotspot = setHotspot(data.hotspot);
 
                 document.dispatchEvent(new CustomEvent('tooltip:init', {
                     detail: {

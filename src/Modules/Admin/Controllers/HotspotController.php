@@ -67,7 +67,14 @@ class HotspotController extends Controller
 
         if ($hotspot->load($this->request->post()) && !$this->request->isFormReload()) {
             if ($hotspot->insert()) {
-                return $this->asJson($hotspot);
+                $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_CREATED'));
+
+                // Creating a hotspot posts through `fetch()`, so the flashes travel with it rather than being
+                // swapped in by htmx.
+                return $this->asJson([
+                    'hotspot' => $hotspot,
+                    'flashes' => (string)Flashes::make(),
+                ]);
             }
 
             $errors = $hotspot->getFirstErrors();

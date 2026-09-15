@@ -9,6 +9,7 @@ return [
     'COMMON_HOTSPOT' => 'Hotspot',
     'COMMON_HOTSPOT_ASSET' => 'Ressource du hotspot',
     'HOTSPOT_DELETE_TITLE' => 'Supprimer le hotspot',
+    'HOTSPOT_SUCCESS_CREATED' => 'Le hotspot a été créé.',
     'HOTSPOT_SUCCESS_DELETED' => 'Le hotspot a été supprimé.',
     'HOTSPOT_SUCCESS_DUPLICATED' => 'Le hotspot a été dupliqué.',
     'HOTSPOT_SUCCESS_UPDATED' => 'Le hotspot a été mis à jour.',

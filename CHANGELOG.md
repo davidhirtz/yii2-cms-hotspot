@@ -1,5 +1,11 @@
 ## 3.0.0 (in development)
 
+- **`Modules\Admin\Controllers\HotspotController::actionCreate()` answers with `{hotspot, flashes}`** rather than
+  the hotspot alone, so the double click that creates one reports it like every other action — `HOTSPOT_SUCCESS_CREATED`
+  is the new message key. A project shipping its own `hotspot.ts` reads the hotspot out of that envelope.
+  `Models\Hotspot::fields()` resolves `displayName` through `getAdminName()`, which nothing implemented, so the
+  field serialized as `null` and every unnamed hotspot was titled "null"; it now falls back to `Hotspot #<id>`.
+
 - **`Models\Hotspot` is searchable and `Models\HotspotAsset` is registered with the `search` component.** The
   hotspot indexes its `name` and `content`, the hotspot asset inherits the media asset's opt-in, and both hits are
   titled after the asset the hotspot sits on. Run `./yii search/rebuild` once to index the rows that already exist.
