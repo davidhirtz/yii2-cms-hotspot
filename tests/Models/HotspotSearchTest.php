@@ -9,7 +9,6 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
 use Hirtz\Skeleton\Models\User;
-use Yii;
 
 class HotspotSearchTest extends TestCase
 {
@@ -27,7 +26,7 @@ class HotspotSearchTest extends TestCase
     public function testTheResultTitleNamesTheAsset(): void
     {
         // The owner sees every hit, so the result is not hidden by the asset's permission.
-        Yii::$app->getUser()->setIdentity(User::findOne(['name' => 'owner']));
+        $this->getWebUser()->setIdentity(User::findOne(['name' => 'owner']));
 
         $hotspot = $this->getHotspotFromFixture('hotspot-1');
 

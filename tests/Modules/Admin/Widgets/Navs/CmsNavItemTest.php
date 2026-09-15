@@ -59,6 +59,6 @@ class CmsNavItemTest extends TestCase
 
     private function login(): void
     {
-        Yii::$app->getUser()->setIdentity(User::findOne(1));
+        $this->getWebUser()->setIdentity(User::findOne(1));
     }
 }

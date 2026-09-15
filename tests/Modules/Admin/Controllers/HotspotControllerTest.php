@@ -78,7 +78,7 @@ class HotspotControllerTest extends TestCase
 
     public function testTheUpdatePageIsForbiddenWithoutTheEntryPermission(): void
     {
-        Yii::$app->getUser()->setIdentity($this->getUserFromFixture('admin'));
+        $this->getWebUser()->setIdentity($this->getUserFromFixture('admin'));
 
         $this->expectException(ForbiddenHttpException::class);
         Yii::$app->runAction('admin/hotspot/hotspot/update', ['id' => 1]);
@@ -121,7 +121,7 @@ class HotspotControllerTest extends TestCase
     {
         $this->login();
 
-        Yii::$app->getRequest()->getHeaders()->set('X-Requested-With', 'XMLHttpRequest');
+        $this->getWebRequest()->getHeaders()->set('X-Requested-With', 'XMLHttpRequest');
 
         $html = $this->post('admin/hotspot/hotspot/update', ['id' => 1], [
             'Hotspot' => [
@@ -266,7 +266,7 @@ class HotspotControllerTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $request = Yii::$app->getRequest();
+        $request = $this->getWebRequest();
         $request->setBodyParams([...$bodyParams, $request->csrfParam => $request->getCsrfToken()]);
 
         return Yii::$app->runAction($route, $params);
@@ -279,7 +279,7 @@ class HotspotControllerTest extends TestCase
         $auth = Yii::$app->getAuthManager();
         $auth->assign($auth->getPermission(Entry::AUTH_ENTRY), $user->id);
 
-        Yii::$app->getUser()->setIdentity($user);
+        $this->getWebUser()->setIdentity($user);
 
         return $user;
     }
