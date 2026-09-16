@@ -26,11 +26,15 @@ class HotspotActiveForm extends ActiveForm
     protected function getDefaultRows(): array
     {
         return [
-            $this->getStatusField(),
-            $this->getTypeField(),
-            ...$this->getCustomAttributeFields(),
-            $this->getXField(),
-            $this->getYField(),
+            [
+                $this->getStatusField(),
+                $this->getTypeField(),
+                ...$this->getCustomAttributeFields(),
+            ],
+            [
+                $this->getXField(),
+                $this->getYField(),
+            ],
         ];
     }
 
