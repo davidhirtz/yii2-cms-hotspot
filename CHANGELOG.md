@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- `Modules\Admin\Controllers\HotspotController::actionCreate()` builds the hotspot from the posted type, through
+  the skeleton's `instantiateFromPost()`, so a `Models\Types\HotspotType` naming a model class of its own gets it
+  (monorepo issue #105).
+
 - `Modules\Admin\Widgets\Forms\HotspotActiveForm` declares its fields in `getDefaultRows()` instead of assigning
   `$this->rows ??=` in `configure()`, which the skeleton's `Widgets\Forms\ActiveForm` needs to normalize them
   before an `EVENT_CONFIGURE` listener sees them (monorepo issue #120). A subclass overriding `configure()` to
