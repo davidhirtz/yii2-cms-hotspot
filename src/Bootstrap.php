@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot;
 
-use Hirtz\Cms\Hotspot\Events\HotspotEntrySiteRelationsBuilderEventHandler;
+use Hirtz\Cms\Hotspot\Events\HotspotEntrySiteRelationsEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetAfterDuplicateEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDuplicateEventHandler;
@@ -12,7 +12,7 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
-use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
+use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\CmsNavItem;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
@@ -115,9 +115,9 @@ class Bootstrap implements BootstrapInterface
         }
 
         Event::on(
-            EntrySiteRelationsBuilder::class,
-            EntrySiteRelationsBuilder::EVENT_AFTER_LOAD_ASSETS,
-            new HotspotEntrySiteRelationsBuilderEventHandler(),
+            PreloadEntrySiteRelations::class,
+            PreloadEntrySiteRelations::EVENT_AFTER_LOAD_ASSETS,
+            new HotspotEntrySiteRelationsEventHandler(),
         );
 
         $this->addCmsNavItemRoutes();

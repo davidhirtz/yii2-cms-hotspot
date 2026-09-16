@@ -8,11 +8,11 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Cms\Models\EntryAsset;
-use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
-use Hirtz\Cms\Models\Events\EntrySiteRelationsBuilderEvent;
+use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
+use Hirtz\Cms\Models\Events\EntrySiteRelationsEvent;
 use Yii;
 
-class HotspotEntrySiteRelationsBuilderEventHandler
+class HotspotEntrySiteRelationsEventHandler
 {
     use ModuleTrait;
 
@@ -31,7 +31,7 @@ class HotspotEntrySiteRelationsBuilderEventHandler
      */
     private array $hotspotIdsWithHotspotAssets = [];
 
-    public function __invoke(EntrySiteRelationsBuilderEvent $event): void
+    public function __invoke(EntrySiteRelationsEvent $event): void
     {
         if (!$event->sender->assets) {
             return;
@@ -91,7 +91,7 @@ class HotspotEntrySiteRelationsBuilderEventHandler
             $event->sender->fileIds[] = $asset->file_id;
         }
 
-        $event->sender->on(EntrySiteRelationsBuilder::EVENT_AFTER_LOAD_FILES, function () use ($event): void {
+        $event->sender->on(PreloadEntrySiteRelations::EVENT_AFTER_LOAD_FILES, function () use ($event): void {
             foreach ($this->hotspotAssets as $hotspotAsset) {
                 $hotspotAsset->populateFileRelation($this->files[$hotspotAsset->file_id] ?? null);
             }

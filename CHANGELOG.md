@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`Events\HotspotEntrySiteRelationsBuilderEventHandler` is `Events\HotspotEntrySiteRelationsEventHandler`**,
+  following the cms rename of `Models\Builders\EntrySiteRelationsBuilder` to
+  `Models\Actions\PreloadEntrySiteRelations` (monorepo issue #136). Only the names change.
+
 - **`Modules\Admin\Controllers\HotspotAssetController` traded `duplicate` for a POST-only `remove` action**
   (monorepo issue #133): a hotspot holds a file once. See the media bundle's `UPGRADE.md`.
 

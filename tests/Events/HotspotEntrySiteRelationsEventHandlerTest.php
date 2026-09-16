@@ -9,22 +9,22 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
 use Hirtz\Cms\Models\SectionAsset;
-use Hirtz\Cms\Models\Builders\EntrySiteRelationsBuilder;
+use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Models\Section;
 
-class HotspotEntrySiteRelationsBuilderEventHandlerTest extends TestCase
+class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
 {
     use HotspotFixtureTrait;
 
-    public function testEntrySiteRelationsBuilder(): void
+    public function testPreloadEntrySiteRelations(): void
     {
         $entry = $this->getEntryFromFixture('page-enabled');
 
-        $builder = new EntrySiteRelationsBuilder([
+        $preload = new PreloadEntrySiteRelations([
             'entry' => $entry,
         ]);
 
-        $section = current($builder->entry->getRelatedRecords()['sections']);
+        $section = current($preload->entry->getRelatedRecords()['sections']);
         self::assertNotFalse($section);
 
         self::assertInstanceOf(Section::class, $section);
