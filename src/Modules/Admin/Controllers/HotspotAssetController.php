@@ -43,9 +43,9 @@ class HotspotAssetController extends Controller
                             'create',
                             'delete',
                             'delete-all',
-                            'duplicate',
                             'index',
                             'order',
+                            'remove',
                             'status',
                             'update',
                         ],
@@ -88,9 +88,13 @@ class HotspotAssetController extends Controller
         return $this->updateStatus($this->findHotspotAsset($id));
     }
 
-    public function actionDuplicate(int $id): Response|string
-    {
-        return $this->duplicateAsset($this->findHotspotAsset($id));
+    public function actionRemove(
+        ?int $hotspot = null,
+        ?int $file = null,
+        ?int $folder = null,
+        ?string $q = null,
+    ): Response|string {
+        return $this->removeAsset($this->findHotspotModel($hotspot), $file, $folder, $q);
     }
 
     public function actionDeleteAll(?int $hotspot = null): Response

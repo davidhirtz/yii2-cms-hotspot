@@ -7,6 +7,7 @@ namespace Hirtz\Cms\Hotspot\Tests\Models\Events;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
+use Hirtz\Cms\Models\Section;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Actions\DuplicateAsset;
 
@@ -30,10 +31,19 @@ class AssetEventHandlersTest extends TestCase
         self::assertSame(0, (int)Hotspot::find()->where(['asset_id' => 4])->count());
     }
 
+    /**
+     * A section holds a file once, so the duplicate goes to another section — which is the only case left now that
+     * the asset `duplicate` action is gone, and the one `DuplicateSection` and `DuplicateEntry` exercise.
+     */
     public function testDuplicatingTheAssetCopiesItsHotspots(): void
     {
         $asset = SectionAsset::findOne(4);
-        $duplicate = DuplicateAsset::create(['asset' => $asset]);
+        self::assertNotNull($asset);
+
+        $section = Section::findOne(2);
+        self::assertNotNull($section);
+
+        $duplicate = DuplicateAsset::create(['asset' => $asset, 'model' => $section]);
 
         self::assertEmpty($duplicate->getErrors());
         self::assertNotSame($asset->id, $duplicate->id);

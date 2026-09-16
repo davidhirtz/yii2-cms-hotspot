@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- **`Modules\Admin\Controllers\HotspotAssetController` traded `duplicate` for a POST-only `remove` action**
+  (monorepo issue #133): a hotspot holds a file once. See the media bundle's `UPGRADE.md`.
+
 - **`Modules\Admin\Controllers\HotspotAssetController` gained a POST-only `delete-all` action** that removes the
   assets a grid selection names (monorepo issue #128).
 
