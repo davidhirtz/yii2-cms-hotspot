@@ -28,6 +28,7 @@ use Hirtz\Skeleton\Models\Interfaces\SearchableInterface;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Hirtz\Skeleton\Models\Interfaces\TranslationInterface;
 use Hirtz\Skeleton\Models\Interfaces\TypeAttributeInterface;
+use Hirtz\Skeleton\Models\Interfaces\VisibleAttributeInterface;
 use Hirtz\Skeleton\Models\Traits\AdminModelTrait;
 use Hirtz\Skeleton\Models\Traits\CustomAttributesTrait;
 use Hirtz\Skeleton\Models\Traits\DraftStatusAttributeTrait;
@@ -75,7 +76,8 @@ class Hotspot extends ActiveRecord implements
     SearchableInterface,
     TrailModelInterface,
     TranslationInterface,
-    TypeAttributeInterface
+    TypeAttributeInterface,
+    VisibleAttributeInterface
 {
     use AdminModelTrait;
     use AssetModelTrait;

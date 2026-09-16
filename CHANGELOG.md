@@ -1,5 +1,9 @@
 ## 3.0.0 (in development)
 
+- **`Models\HotspotAsset::FIELD_HOTSPOTS` is `'hotspots'`, not `'#hotspots'`** — a type's hidden fields are no
+  longer CSS selectors a script toggles. A project naming the marker through the constant needs no change.
+  `Models\Hotspot` declares `Skeleton\Models\Interfaces\VisibleAttributeInterface`, which it satisfied already.
+
 - **`Modules\Admin\Controllers\HotspotController::actionCreate()` answers with `{hotspot, flashes}`** rather than
   the hotspot alone, so the double click that creates one reports it like every other action — `HOTSPOT_SUCCESS_CREATED`
   is the new message key. A project shipping its own `hotspot.ts` reads the hotspot out of that envelope.

@@ -18,7 +18,7 @@ class HotspotAsset extends Asset
     /**
      * The marker that hides the hotspot panel, listed among a type's hidden fields.
      */
-    final public const string FIELD_HOTSPOTS = '#hotspots';
+    final public const string FIELD_HOTSPOTS = 'hotspots';
 
     #[Override]
     public static function getModelClass(): string
