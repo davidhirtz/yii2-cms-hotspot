@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- **`Modules\Admin\Controllers\HotspotAssetController` gained a POST-only `delete-all` action** that removes the
+  assets a grid selection names (monorepo issue #128).
+
 - **`Modules\Admin\Controllers\HotspotAssetController` gained a POST-only `status` action** that cycles the
   asset's status, which the grid's status icon posts to (monorepo issue #121).
 
