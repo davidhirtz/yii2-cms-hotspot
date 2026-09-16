@@ -22,6 +22,7 @@ class HotspotFixture extends ActiveFixture
         $hotspotCountByAssetId = [];
 
         foreach ($this->data as $data) {
+            $hotspotCountByAssetId[$data['asset_id']] ??= 0;
             $hotspotCountByAssetId[$data['asset_id']]++;
         }
 
