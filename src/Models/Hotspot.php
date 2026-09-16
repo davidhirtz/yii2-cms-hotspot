@@ -60,7 +60,6 @@ use davidhirtz\yii2\datetime\DateTimeBehavior;
  * @property string|float $y
  * @property int $position
  * @property int $asset_count
- * @property int $updated_by_user_id
  * @property DateTime $updated_at
  * @property DateTime $created_at
  *
