@@ -63,6 +63,8 @@ class HotspotController extends Controller
         $asset = $this->findAsset($id);
 
         $hotspot = Hotspot::instantiateFromPost($this->request->post());
+        $hotspot->loadDefaultValues();
+
         $hotspot->populateAssetRelation($asset);
 
         if ($hotspot->load($this->request->post()) && !$this->request->isFormReload()) {
