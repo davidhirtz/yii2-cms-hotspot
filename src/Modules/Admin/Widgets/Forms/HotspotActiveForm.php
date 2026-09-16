@@ -23,17 +23,15 @@ class HotspotActiveForm extends ActiveForm
     use ModuleTrait;
 
     #[Override]
-    protected function configure(): void
+    protected function getDefaultRows(): array
     {
-        $this->rows ??= [
+        return [
             $this->getStatusField(),
             $this->getTypeField(),
             ...$this->getCustomAttributeFields(),
             $this->getXField(),
             $this->getYField(),
         ];
-
-        parent::configure();
     }
 
     protected function getXField(): ?Stringable

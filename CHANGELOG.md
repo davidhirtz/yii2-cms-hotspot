@@ -1,5 +1,10 @@
 ## 3.0.0 (in development)
 
+- `Modules\Admin\Widgets\Forms\HotspotActiveForm` declares its fields in `getDefaultRows()` instead of assigning
+  `$this->rows ??=` in `configure()`, which the skeleton's `Widgets\Forms\ActiveForm` needs to normalize them
+  before an `EVENT_CONFIGURE` listener sees them (monorepo issue #120). A subclass overriding `configure()` to
+  change the fields has to move to the hook.
+
 - **`Models\HotspotAsset::FIELD_HOTSPOTS` is `Module::FIELD_HOTSPOTS`, and `Module::allowsHotspots()` is the one
   reader.** The marker sat on the hotspot asset while it is checked on the *entry* and *section* asset, and only
   `Widgets\Artwork` consulted it — `Modules\Admin\Widgets\Forms\Fields\AssetPreviewField` read the module flags
