@@ -50,8 +50,6 @@ use davidhirtz\yii2\datetime\DateTimeBehavior;
 
 /**
  * @property int $id
- * @property int $status
- * @property int $type
  * @property int $asset_id
  * @property string|null $name
  * @property string|null $content
