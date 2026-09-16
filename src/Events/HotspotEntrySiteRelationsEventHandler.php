@@ -93,7 +93,7 @@ class HotspotEntrySiteRelationsEventHandler
 
         $event->sender->on(PreloadEntrySiteRelations::EVENT_AFTER_LOAD_FILES, function () use ($event): void {
             foreach ($this->hotspotAssets as $hotspotAsset) {
-                $hotspotAsset->populateFileRelation($this->files[$hotspotAsset->file_id] ?? null);
+                $hotspotAsset->populateFileRelation($event->sender->files[$hotspotAsset->file_id] ?? null);
             }
 
             foreach ($this->hotspots as $hotspot) {

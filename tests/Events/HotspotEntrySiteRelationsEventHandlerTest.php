@@ -11,6 +11,7 @@ use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Models\Section;
+use Hirtz\Media\Models\File;
 
 class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
 {
@@ -52,5 +53,12 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
         self::assertInstanceOf(HotspotAsset::class, $asset);
         self::assertEquals(8, $asset->id);
         self::assertSame($hotspot->id, $asset->model->id);
+
+        self::assertArrayHasKey('file', $asset->getRelatedRecords());
+
+        $file = $asset->getRelatedRecords()['file'];
+
+        self::assertInstanceOf(File::class, $file);
+        self::assertSame($asset->file_id, $file->id);
     }
 }
