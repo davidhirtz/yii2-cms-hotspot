@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Widgets;
 
 use Closure;
-use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Skeleton\Html\Div;
 use Override;
 use Stringable;
 
 class Artwork extends \Hirtz\Cms\Widgets\Artwork
 {
+    use ModuleTrait;
+
     protected string|false $hotspotViewFile = 'widgets/_hotspots';
 
     protected ?Closure $hotspotWrapper = null;
@@ -51,7 +53,7 @@ class Artwork extends \Hirtz\Cms\Widgets\Artwork
 
     protected function renderHotspots(): ?string
     {
-        $hotspots = $this->asset->isAttributeVisible(HotspotAsset::FIELD_HOTSPOTS) && $this->hotspotViewFile
+        $hotspots = $this->hotspotViewFile && static::getModule()->allowsHotspots($this->asset)
             ? ($this->asset->getRelatedRecords()['hotspots'] ?? null)
             : null;
 

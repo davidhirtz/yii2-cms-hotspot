@@ -1,5 +1,17 @@
 ## 3.0.0 (in development)
 
+- **`Models\HotspotAsset::FIELD_HOTSPOTS` is `Module::FIELD_HOTSPOTS`, and `Module::allowsHotspots()` is the one
+  reader.** The marker sat on the hotspot asset while it is checked on the *entry* and *section* asset, and only
+  `Widgets\Artwork` consulted it — `Modules\Admin\Widgets\Forms\Fields\AssetPreviewField` read the module flags
+  alone, so the admin placed hotspots on an asset type the frontend refused to render them for. Both go through
+  `Module::allowsHotspots($asset)` now, which answers for the flag and the marker together.
+
+  The marker stays a `hiddenFields()` entry rather than becoming an `allowHotspots()` on the type: the cms owns the
+  asset classes and the media bundle owns their type, so this bundle has none of its own to add to — which is the
+  door a project declaring its own panel on a type it does not own goes through as well.
+
+- `Models\Hotspot::hasAssetsEnabled()` is `allowsAssets()` and consults the hotspot type.
+
 - **`Models\HotspotAsset::FIELD_HOTSPOTS` is `'hotspots'`, not `'#hotspots'`** — a type's hidden fields are no
   longer CSS selectors a script toggles. A project naming the marker through the constant needs no change.
   `Models\Hotspot` declares `Skeleton\Models\Interfaces\VisibleAttributeInterface`, which it satisfied already.

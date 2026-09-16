@@ -7,8 +7,6 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Forms\Fields;
 use Hirtz\Cms\Hotspot\Assets\HotspotAdminAssetBundle;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
-use Hirtz\Cms\Models\EntryAsset;
-use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Skeleton\Helpers\Url;
 use Hirtz\Skeleton\Html\Div;
 use Hirtz\Skeleton\Widgets\Alert;
@@ -28,7 +26,7 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
     #[Override]
     protected function configure(): void
     {
-        if ($this->hasHotspotsEnabled()) {
+        if ($this->allowsHotspots()) {
             $this->hotspots = array_values($this->getHotspots());
             $this->registerClientScript();
         }
@@ -41,7 +39,7 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
     {
         $content = parent::renderContent();
 
-        if ($this->hasHotspotsEnabled()) {
+        if ($this->allowsHotspots()) {
             $alert = Alert::make()
                 ->info()
                 ->text(Yii::t('hotspot', 'ASSET_PREVIEW_DOUBLE_CLICK'));
@@ -55,21 +53,9 @@ class AssetPreviewField extends \Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\
         return $content;
     }
 
-    protected function hasHotspotsEnabled(): bool
+    protected function allowsHotspots(): bool
     {
-        if (!$this->asset instanceof EntryAsset && !$this->asset instanceof SectionAsset) {
-            return false;
-        }
-
-        if (!$this->asset->file->hasPreview()) {
-            return false;
-        }
-
-        $module = static::getModule();
-
-        return $this->asset instanceof EntryAsset
-            ? $module->enableEntryAssetHotspots
-            : $module->enableSectionAssetHotspots;
+        return $this->asset->file->hasPreview() && static::getModule()->allowsHotspots($this->asset);
     }
 
     protected function registerClientScript(): void

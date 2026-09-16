@@ -59,6 +59,6 @@ class HotspotSubmenu extends Submenu
             ->label($this->hotspot->getAttributeLabel('asset_count'))
             ->routes(['admin/hotspot/hotspot-asset'])
             ->url(HotspotAsset::getAdminIndexRoute($this->hotspot))
-            ->visible($this->hotspot->hasAssetsEnabled());
+            ->visible($this->hotspot->allowsAssets());
     }
 }

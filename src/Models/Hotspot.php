@@ -387,7 +387,7 @@ class Hotspot extends ActiveRecord implements
      */
     public function getVisibleAssets(): array
     {
-        return $this->hasAssetsEnabled() && $this->isAttributeVisible(self::FIELD_ASSETS) ? array_values($this->assets) : [];
+        return $this->allowsAssets() ? array_values($this->assets) : [];
     }
 
     public function getAssetClass(): string
@@ -395,9 +395,9 @@ class Hotspot extends ActiveRecord implements
         return HotspotAsset::class;
     }
 
-    public function hasAssetsEnabled(): bool
+    public function allowsAssets(): bool
     {
-        return static::getModule()->enableHotspotAssets;
+        return static::getModule()->enableHotspotAssets && $this->typeAllowsAssets();
     }
 
     #[Override]
