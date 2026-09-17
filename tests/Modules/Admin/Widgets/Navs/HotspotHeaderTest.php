@@ -61,21 +61,27 @@ class HotspotHeaderTest extends TestCase
         self::assertStringContainsString('/admin/hotspot/hotspot-asset/create?hotspot=1', $html);
     }
 
-    public function testTheHotspotPageIsTitledWithTheHotspot(): void
+    public function testTheHotspotPageIsTitledWithTheEntry(): void
     {
         $this->login();
-        $hotspot = Hotspot::findOne(1);
+        $section = Hotspot::findOne(1)->asset->model;
+        self::assertInstanceOf(Section::class, $section);
 
         $html = Yii::$app->runAction('admin/hotspot/hotspot/update', ['id' => 1]);
 
         self::assertIsString($html);
-        self::assertStringContainsString('>' . $hotspot->getAdminName() . '</a></h1>', $html);
+        self::assertStringContainsString(
+            '<h1><a href="/admin/cms/entry/update?id=' . $section->entry_id . '">'
+            . $section->entry->getAdminName() . '</a></h1>',
+            $html,
+        );
     }
 
-    public function testTheHotspotPathHoldsTheAssetTheSectionAndTheEntry(): void
+    public function testTheHotspotSubtitleHoldsTheSectionTheAssetAndTheHotspot(): void
     {
         $this->login();
-        $asset = Hotspot::findOne(1)->asset;
+        $hotspot = Hotspot::findOne(1);
+        $asset = $hotspot->asset;
         $section = $asset->model;
         self::assertInstanceOf(Section::class, $section);
 
@@ -83,23 +89,18 @@ class HotspotHeaderTest extends TestCase
 
         self::assertIsString($html);
         self::assertStringContainsString(
-            '<a class="header-path-link" href="/admin/cms/entry/update?id=' . $section->entry_id . '">',
-            $html,
-        );
-        self::assertStringContainsString(
-            '<a class="header-path-link" href="/admin/cms/section/update?id=' . $asset->model_id . '">',
-            $html,
-        );
-        self::assertStringContainsString(
-            '<a class="header-path-link" href="/admin/cms/section-asset/update?id=' . $asset->id . '">',
+            '<h2 class="header-subtitle">'
+            . $this->getPositionLabel($section->getAdminType(), $section->position) . ' · '
+            . $this->getPositionLabel($asset->getAdminType(), $asset->position) . ' · '
+            . $this->getPositionLabel($hotspot->getAdminType(), $hotspot->position) . '</h2>',
             $html,
         );
     }
 
     /**
-     * The path is capped at three, so the entry collapses into the non-linked `…`; the bar carries all four.
+     * An asset four levels down still reads as one line under the entry's title; the bar carries the records.
      */
-    public function testTheHotspotAssetPathHoldsTheThreeNearestAncestorsAndAnEllipsis(): void
+    public function testTheHotspotAssetSubtitleHoldsTheWholeChain(): void
     {
         $this->login();
         $asset = Asset::findOne(8);
@@ -111,19 +112,21 @@ class HotspotHeaderTest extends TestCase
         $html = Yii::$app->runAction('admin/hotspot/hotspot-asset/update', ['id' => $asset->id]);
 
         self::assertIsString($html);
-        self::assertStringContainsString('<li class="header-path-item">…</li>', $html);
         self::assertStringContainsString(
-            '<a class="header-path-link" href="/admin/cms/section/update?id=' . $section->id . '">',
+            '<h1><a href="/admin/cms/entry/update?id=' . $section->entry_id . '">'
+            . $section->entry->getAdminName() . '</a></h1>',
             $html,
         );
         self::assertStringContainsString(
-            '<a class="header-path-link" href="/admin/cms/section-asset/update?id=' . $sectionAsset->id . '">',
+            '<h2 class="header-subtitle">'
+            . $this->getPositionLabel($section->getAdminType(), $section->position) . ' · '
+            . $this->getPositionLabel($sectionAsset->getAdminType(), $sectionAsset->position) . ' · '
+            . $this->getPositionLabel($hotspot->getAdminType(), $hotspot->position) . ' · '
+            . $this->getPositionLabel($asset->getAdminType(), $asset->position) . '</h2>',
             $html,
         );
-        self::assertStringContainsString(
-            '<a class="header-path-link" href="/admin/hotspot/hotspot/update?id=' . $hotspot->id . '">',
-            $html,
-        );
+
+        self::assertStringContainsString('#' . $section->getHtmlId() . '" target="_blank"', $html);
 
         self::assertSame(
             [
@@ -138,6 +141,11 @@ class HotspotHeaderTest extends TestCase
             ],
             $this->getBreadcrumbLabels(),
         );
+    }
+
+    private function getPositionLabel(string $type, int $position): string
+    {
+        return Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $type, 'id' => $position]);
     }
 
     /**
