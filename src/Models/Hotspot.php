@@ -353,7 +353,7 @@ class Hotspot extends ActiveRecord implements
 
     protected function isSearchResultVisible(): bool
     {
-        return WebUser::current()?->can($this->asset->getPermissionName()) ?? false;
+        return WebUser::current()?->can($this->getPermissionName()) ?? false;
     }
 
     #[Override]
@@ -372,6 +372,11 @@ class Hotspot extends ActiveRecord implements
     public function getAdminRoute(): array|false
     {
         return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
+    }
+
+    public function getPermissionName(): string
+    {
+        return $this->asset->getPermissionName();
     }
 
     public function getHtmlId(): string
