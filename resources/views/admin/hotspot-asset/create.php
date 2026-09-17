@@ -22,10 +22,10 @@ use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Grids\GridContainer;
 
 echo HotspotHeader::make()
-    ->hotspot($model);
+    ->model($model);
 
 echo HotspotSubmenu::make()
-    ->hotspot($model);
+    ->model($model);
 
 echo GridContainer::make()
     ->grid(FileGridView::make()

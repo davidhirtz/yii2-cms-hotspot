@@ -21,12 +21,12 @@ use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Grids\GridContainer;
 
 echo HotspotHeader::make()
-    ->hotspot($model)
+    ->model($model)
     ->content(AssetModelActionDropdown::make()
         ->provider($provider));
 
 echo HotspotSubmenu::make()
-    ->hotspot($model);
+    ->model($model);
 
 echo GridContainer::make()
     ->grid(AssetGridView::make()

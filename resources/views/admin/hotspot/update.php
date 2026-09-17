@@ -19,12 +19,12 @@ use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Forms\FormContainer;
 
 echo HotspotHeader::make()
-    ->hotspot($hotspot)
+    ->model($hotspot)
     ->content(HotspotActionDropdown::make()
         ->model($hotspot));
 
 echo HotspotSubmenu::make()
-    ->hotspot($hotspot);
+    ->model($hotspot);
 
 echo FormContainer::make()
     ->form(HotspotActiveForm::make()

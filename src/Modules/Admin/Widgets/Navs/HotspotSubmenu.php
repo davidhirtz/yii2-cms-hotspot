@@ -9,23 +9,20 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Media\Modules\Admin\Widgets\Navs\AssetSubmenuItem;
 use Hirtz\Skeleton\Widgets\Navs\NavItem;
 use Hirtz\Skeleton\Widgets\Navs\Submenu;
+use Hirtz\Skeleton\Widgets\Traits\ModelTrait;
 use Override;
 
 class HotspotSubmenu extends Submenu
 {
-    protected Hotspot $hotspot;
-
-    public function hotspot(Hotspot $hotspot): static
-    {
-        $this->hotspot = $hotspot;
-        return $this;
-    }
+    /**
+     * @use ModelTrait<Hotspot>
+     */
+    use ModelTrait;
 
     #[Override]
     protected function configure(): void
     {
         $this->addItem(
-            $this->getAssetItem(),
             $this->getHotspotUpdateItem(),
             $this->getAssetsItem(),
         );
@@ -33,32 +30,22 @@ class HotspotSubmenu extends Submenu
         parent::configure();
     }
 
-    protected function getAssetItem(): ?NavItem
-    {
-        $asset = $this->hotspot->asset;
-
-        return NavItem::make()
-            ->icon('angle-double-left')
-            ->label($asset->getAdminType())
-            ->url($asset->getAdminRoute() ?: null);
-    }
-
     protected function getHotspotUpdateItem(): ?NavItem
     {
         return NavItem::make()
             ->icon('cog')
-            ->label($this->hotspot->getAdminType())
+            ->label($this->model->getAdminType())
             ->routes(['admin/hotspot/hotspot/update'])
-            ->url($this->hotspot->getAdminRoute() ?: null);
+            ->url($this->model->getAdminRoute() ?: null);
     }
 
     protected function getAssetsItem(): ?NavItem
     {
         return AssetSubmenuItem::make()
-            ->badge($this->hotspot->asset_count)
-            ->label($this->hotspot->getAttributeLabel('asset_count'))
+            ->badge($this->model->asset_count)
+            ->label($this->model->getAttributeLabel('asset_count'))
             ->routes(['admin/hotspot/hotspot-asset'])
-            ->url(HotspotAsset::getAdminIndexRoute($this->hotspot))
-            ->visible($this->hotspot->allowsAssets());
+            ->url(HotspotAsset::getAdminIndexRoute($this->model))
+            ->visible($this->model->allowsAssets());
     }
 }

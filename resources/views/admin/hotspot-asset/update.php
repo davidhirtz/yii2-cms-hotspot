@@ -11,20 +11,20 @@ declare(strict_types=1);
 
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotAssetController;
-use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotHeader;
 use Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs\HotspotSubmenu;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\AssetActiveForm;
 use Hirtz\Media\Modules\Admin\Widgets\Navs\AssetActionDropdown;
+use Hirtz\Media\Modules\Admin\Widgets\Navs\AssetHeader;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Forms\FormContainer;
 
-echo HotspotHeader::make()
-    ->hotspot($asset->model)
+echo AssetHeader::make()
+    ->model($asset)
     ->content(AssetActionDropdown::make()
         ->model($asset));
 
 echo HotspotSubmenu::make()
-    ->hotspot($asset->model);
+    ->model($asset->model);
 
 echo FormContainer::make()
     ->form(AssetActiveForm::make()

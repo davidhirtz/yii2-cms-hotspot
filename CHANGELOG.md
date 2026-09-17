@@ -1,5 +1,14 @@
 ## 3.0.0 (in development)
 
+- **A hotspot page is titled with the hotspot.** `Models\Hotspot::getAdminParent()` is the asset it hangs on —
+  it has no listing of its own, being listed on that asset's page — so
+  `Modules\Admin\Widgets\Navs\HotspotHeader` is a `Skeleton\Widgets\Navs\ModelHeader` over the hotspot
+  rather than a wrapper rendering the cms `EntryHeader`, `SectionHeader` or `BlockHeader`, and its
+  `renderContent()` override is gone with that delegation. `HotspotHeader::hotspot()` and
+  `HotspotSubmenu::hotspot()` are **`model()`**, and `HotspotSubmenu` lost its `<<` item: a submenu holds the
+  views of one record and the way back is the header path. The hotspot asset update view renders the media
+  `AssetHeader` over the asset and keeps the hotspot's submenu.
+
 - **A block asset carries hotspots** (monorepo issue #145). `Module::allowsHotspots()` answers for a
   `Cms\Models\BlockAsset` under `enableSectionAssetHotspots` — a block renders in place of a section, so its assets
   follow the section flag — and the delete and duplicate handlers subscribe on it beside the entry and section

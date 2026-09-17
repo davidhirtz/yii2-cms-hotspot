@@ -375,6 +375,14 @@ class Hotspot extends ActiveRecord implements
         return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
     }
 
+    /**
+     * A hotspot is listed on the asset's own page rather than in an index of its own, so it has no listing crumb.
+     */
+    public function getAdminParent(): Asset
+    {
+        return $this->asset;
+    }
+
     public function getPermissionName(): string
     {
         return $this->asset->getPermissionName();
