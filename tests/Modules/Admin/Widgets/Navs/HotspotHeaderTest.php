@@ -90,9 +90,10 @@ class HotspotHeaderTest extends TestCase
         self::assertIsString($html);
         self::assertStringContainsString(
             '<h2 class="header-subtitle">'
-            . $this->getPositionLabel($section->getAdminType(), $section->position) . ' · '
-            . $this->getPositionLabel($asset->getAdminType(), $asset->position) . ' · '
-            . $this->getPositionLabel($hotspot->getAdminType(), $hotspot->position) . '</h2>',
+            . $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position)
+            . $this->subtitleItem("/admin/cms/section-asset/update?id=$asset->id", $this->getAssetType(), $asset->position)
+            . $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position)
+            . '</h2>',
             $html,
         );
     }
@@ -119,10 +120,11 @@ class HotspotHeaderTest extends TestCase
         );
         self::assertStringContainsString(
             '<h2 class="header-subtitle">'
-            . $this->getPositionLabel($section->getAdminType(), $section->position) . ' · '
-            . $this->getPositionLabel($sectionAsset->getAdminType(), $sectionAsset->position) . ' · '
-            . $this->getPositionLabel($hotspot->getAdminType(), $hotspot->position) . ' · '
-            . $this->getPositionLabel($asset->getAdminType(), $asset->position) . '</h2>',
+            . $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position)
+            . $this->subtitleItem("/admin/cms/section-asset/update?id=$sectionAsset->id", $this->getAssetType(), $sectionAsset->position)
+            . $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position)
+            . $this->subtitleItem("/admin/hotspot/hotspot-asset/update?id=$asset->id", $this->getAssetType(), $asset->position)
+            . '</h2>',
             $html,
         );
 
@@ -143,9 +145,18 @@ class HotspotHeaderTest extends TestCase
         );
     }
 
-    private function getPositionLabel(string $type, int $position): string
+    private function subtitleItem(string $route, string $type, int $position): string
     {
-        return Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $type, 'id' => $position]);
+        return '<a class="header-subtitle-item" href="' . $route . '">'
+            . Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $type, 'id' => $position]) . '</a>';
+    }
+
+    /**
+     * An asset names itself by the base noun, whatever subclass it is: its owner is named right before it.
+     */
+    private function getAssetType(): string
+    {
+        return Yii::t('media', 'ASSET_ASSET');
     }
 
     /**
