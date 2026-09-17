@@ -21,16 +21,20 @@ class HotspotAsset extends Asset
         return Hotspot::class;
     }
 
-    #[Override]
-    public static function getAdminControllerRoute(): string
-    {
-        return '/admin/hotspot/hotspot-asset';
-    }
-
+    /**
+     * The hotspot hangs on an asset of its own, whose permission depends on which model that one hangs on — so
+     * this one is the record's, not the class's.
+     */
     #[Override]
     public function getPermissionName(): string
     {
         return $this->model->asset->getPermissionName();
+    }
+
+    #[Override]
+    public static function getAdminControllerRoute(): string
+    {
+        return '/admin/hotspot/hotspot-asset';
     }
 
     /**
