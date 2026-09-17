@@ -1,5 +1,17 @@
 ## 3.0.0 (in development)
 
+- **A block asset carries hotspots** (monorepo issue #145). `Module::allowsHotspots()` answers for a
+  `Cms\Models\BlockAsset` under `enableSectionAssetHotspots` — a block renders in place of a section, so its assets
+  follow the section flag — and the delete and duplicate handlers subscribe on it beside the entry and section
+  asset. `Modules\Admin\Controllers\HotspotController` and `HotspotAssetController` admit `Block::AUTH_BLOCK`
+  beside `Entry::AUTH_ENTRY`, the asset's own permission deciding after that as before, and
+  `Modules\Admin\Widgets\Navs\HotspotHeader` renders the cms `BlockHeader` for one.
+
+  `HotspotController::findAsset()` asks `allowsHotspots()` rather than the asset's class, so an asset the admin
+  offers no hotspots for — the flag off, or the type hiding them — is not found on `create`, while a hotspot that
+  exists stays reachable. `Events\HotspotEntrySiteRelationsEventHandler` reads the same method, so the frontend
+  preload honours the type's marker too, which it used to ignore.
+
 - **`Events\HotspotEntrySiteRelationsBuilderEventHandler` is `Events\HotspotEntrySiteRelationsEventHandler`**,
   following the cms rename of `Models\Builders\EntrySiteRelationsBuilder` to
   `Models\Actions\PreloadEntrySiteRelations` (monorepo issue #136). Only the names change.

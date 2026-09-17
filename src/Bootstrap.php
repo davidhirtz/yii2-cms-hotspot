@@ -10,6 +10,7 @@ use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDuplicateEventHandler;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
+use Hirtz\Cms\Models\BlockAsset;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
@@ -81,8 +82,8 @@ class Bootstrap implements BootstrapInterface
             }
         }
 
-        // Both kinds of cms asset can carry hotspots.
-        foreach ([EntryAsset::class, SectionAsset::class] as $assetClass) {
+        // Every cms asset can carry hotspots.
+        foreach ([BlockAsset::class, EntryAsset::class, SectionAsset::class] as $assetClass) {
             EventHelper::on(
                 $assetClass,
                 BaseActiveRecord::EVENT_BEFORE_DELETE,

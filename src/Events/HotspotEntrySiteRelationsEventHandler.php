@@ -7,7 +7,6 @@ namespace Hirtz\Cms\Hotspot\Events;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
-use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Models\Events\EntrySiteRelationsEvent;
 use Yii;
@@ -41,10 +40,7 @@ class HotspotEntrySiteRelationsEventHandler
         $assetIdsWithHotspots = [];
 
         foreach ($event->sender->assets as $asset) {
-            if (
-                $asset->getAttribute('hotspot_count')
-                && ($asset instanceof EntryAsset ? $module->enableEntryAssetHotspots : $module->enableSectionAssetHotspots)
-            ) {
+            if ($asset->getAttribute('hotspot_count') && $module->allowsHotspots($asset)) {
                 $assetIdsWithHotspots[] = $asset->id;
             }
         }

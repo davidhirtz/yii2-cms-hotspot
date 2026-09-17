@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot;
 
+use Hirtz\Cms\Models\BlockAsset;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Interfaces\AssetInterface;
@@ -24,7 +25,8 @@ class Module extends \Hirtz\Skeleton\Base\Module
     public bool $enableEntryAssetHotspots = false;
 
     /**
-     * @var bool whether section assets should have hotspots enabled, defaults to `true`.
+     * @var bool whether section and block assets should have hotspots enabled, defaults to `true`. A block renders
+     * in place of a section, so its assets follow the section flag.
      */
     public bool $enableSectionAssetHotspots = true;
 
@@ -47,6 +49,6 @@ class Module extends \Hirtz\Skeleton\Base\Module
             return $this->enableEntryAssetHotspots;
         }
 
-        return $asset instanceof SectionAsset && $this->enableSectionAssetHotspots;
+        return ($asset instanceof SectionAsset || $asset instanceof BlockAsset) && $this->enableSectionAssetHotspots;
     }
 }

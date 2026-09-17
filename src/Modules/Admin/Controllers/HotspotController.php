@@ -6,13 +6,12 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 
 use Hirtz\Cms\Hotspot\Models\Actions\DuplicateHotspot;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Cms\Models\Entry;
-use Hirtz\Cms\Models\EntryAsset;
-use Hirtz\Cms\Models\SectionAsset;
-use Hirtz\Media\Models\Asset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
-use Hirtz\Cms\Modules\ModuleTrait;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
+use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
+use Hirtz\Cms\Models\Block;
+use Hirtz\Cms\Models\Entry;
+use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\Web\Controller;
 use Hirtz\Skeleton\Widgets\Flashes;
 use Override;
@@ -43,7 +42,7 @@ class HotspotController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['create', 'delete', 'duplicate', 'update'],
-                        'roles' => [Entry::AUTH_ENTRY],
+                        'roles' => [Block::AUTH_BLOCK, Entry::AUTH_ENTRY],
                     ],
                 ],
             ],
@@ -123,19 +122,20 @@ class HotspotController extends Controller
         return $this->redirectToAsset($hotspot->asset);
     }
 
-    /**
-     * Only the cms assets can carry hotspots.
-     */
     protected function redirectToAsset(Asset $asset): Response
     {
         return $this->redirect($asset->getAdminRoute() ?: $asset::getAdminIndexRoute($asset->model));
     }
 
+    /**
+     * The gate is on adding: an asset the admin offers no hotspots for is not found here, while a hotspot that
+     * already exists stays reachable through {@see HotspotTrait::findHotspot()}.
+     */
     protected function findAsset(int $id): Asset
     {
         $asset = Asset::findOne($id);
 
-        if (!$asset instanceof EntryAsset && !$asset instanceof SectionAsset) {
+        if (!$asset || !static::getModule()->allowsHotspots($asset)) {
             throw new NotFoundHttpException();
         }
 

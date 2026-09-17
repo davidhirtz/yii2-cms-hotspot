@@ -8,6 +8,8 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
+use Hirtz\Cms\Models\Block;
+use Hirtz\Cms\Models\BlockAsset;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\AssetGridView;
@@ -23,8 +25,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
- * A hotspot is edited by whoever may edit the cms asset it sits on, so the whole controller answers to the entry
- * permission.
+ * A hotspot is edited by whoever may edit the cms asset it sits on, so the controller answers to the permission of
+ * that asset: the entry one for an entry or section asset, the block one for a block asset.
  */
 class HotspotControllerTest extends TestCase
 {
@@ -224,6 +226,65 @@ class HotspotControllerTest extends TestCase
         $this->post('admin/hotspot/hotspot/create', ['id' => $asset->id]);
     }
 
+    /**
+     * A block asset carries hotspots under the section flag and answers to the block permission (monorepo issue
+     * #145).
+     */
+    public function testAHotspotIsCreatedOnABlockAsset(): void
+    {
+        $asset = $this->createBlockAsset();
+        $this->login(Block::AUTH_BLOCK);
+
+        $response = $this->post('admin/hotspot/hotspot/create', ['id' => $asset->id], [
+            'Hotspot' => [
+                'status' => Hotspot::STATUS_ENABLED,
+                'name' => 'Block hotspot',
+                'x' => '10',
+                'y' => '20',
+            ],
+        ]);
+
+        self::assertInstanceOf(Response::class, $response);
+
+        $hotspot = $this->findHotspotByName('Block hotspot');
+        self::assertNotNull($hotspot);
+        self::assertSame($asset->id, $hotspot->asset_id);
+        self::assertSame(1, BlockAsset::findOne($asset->id)?->getAttribute('hotspot_count'));
+    }
+
+    public function testTheUpdatePageOfABlockHotspotRendersTheBlockHeader(): void
+    {
+        $hotspot = $this->createBlockHotspot();
+        $this->login(Block::AUTH_BLOCK);
+
+        $html = Yii::$app->runAction('admin/hotspot/hotspot/update', ['id' => $hotspot->id]);
+
+        self::assertIsString($html);
+        self::assertStringContainsString('name="Hotspot[name]"', $html);
+        self::assertStringContainsString("/admin/cms/block/update?id={$hotspot->asset->model_id}", $html);
+        self::assertStringContainsString("/admin/hotspot/hotspot/delete?id=$hotspot->id", $html);
+    }
+
+    public function testABlockHotspotIsForbiddenWithTheEntryPermissionAlone(): void
+    {
+        $hotspot = $this->createBlockHotspot();
+        $this->login();
+
+        $this->expectException(ForbiddenHttpException::class);
+        Yii::$app->runAction('admin/hotspot/hotspot/update', ['id' => $hotspot->id]);
+    }
+
+    public function testAHotspotIsRefusedOnABlockAssetWhileSectionAssetHotspotsAreOff(): void
+    {
+        $asset = $this->createBlockAsset();
+        $this->login(Block::AUTH_BLOCK);
+
+        Hotspot::getModule()->enableSectionAssetHotspots = false;
+
+        $this->expectException(NotFoundHttpException::class);
+        $this->post('admin/hotspot/hotspot/create', ['id' => $asset->id]);
+    }
+
     public function testCreateRefusesAGetRequest(): void
     {
         $this->login();
@@ -302,12 +363,42 @@ class HotspotControllerTest extends TestCase
         return Yii::$app->runAction($route, $params);
     }
 
-    private function login(): User
+    private function createBlockAsset(): BlockAsset
+    {
+        $module = Block::getModule();
+        $module->enableBlocks = true;
+        $module->enableBlockAssets = true;
+
+        $block = Block::create();
+        $block->name = 'Hotspot Block';
+        self::assertTrue($block->insert(), print_r($block->getErrors(), true));
+
+        $asset = BlockAsset::create();
+        $asset->populateModelRelation($block);
+        $asset->file_id = $this->getFileFixtureData('file-1')['id'];
+        self::assertTrue($asset->insert(), print_r($asset->getErrors(), true));
+
+        return $asset;
+    }
+
+    private function createBlockHotspot(): Hotspot
+    {
+        $hotspot = Hotspot::create();
+        $hotspot->populateAssetRelation($this->createBlockAsset());
+        $hotspot->name = 'Block hotspot';
+        $hotspot->x = 10;
+        $hotspot->y = 20;
+        self::assertTrue($hotspot->insert(), print_r($hotspot->getErrors(), true));
+
+        return $hotspot;
+    }
+
+    private function login(string $permission = Entry::AUTH_ENTRY): User
     {
         $user = $this->getUserFromFixture('admin');
 
         $auth = Yii::$app->getAuthManager();
-        $auth->assign($auth->getPermission(Entry::AUTH_ENTRY), $user->id);
+        $auth->assign($auth->getPermission($permission), $user->id);
 
         $this->getWebUser()->setIdentity($user);
 

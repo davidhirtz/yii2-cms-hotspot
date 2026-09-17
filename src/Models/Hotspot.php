@@ -8,6 +8,7 @@ use Closure;
 use Hirtz\Cms\Hotspot\Models\Queries\HotspotQuery;
 use Hirtz\Cms\Hotspot\Models\Types\HotspotType;
 use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
+use Hirtz\Cms\Models\BlockAsset;
 use Hirtz\Cms\Models\EntryAsset;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Asset;
@@ -61,7 +62,7 @@ use davidhirtz\yii2\datetime\DateTimeBehavior;
  * @property DateTime $updated_at
  * @property DateTime $created_at
  *
- * @property-read EntryAsset|SectionAsset $asset {@see static::getAsset()}
+ * @property-read BlockAsset|EntryAsset|SectionAsset $asset {@see static::getAsset()}
  * @property-read HotspotAsset[] $assets {@see static::getAssets()}
  *
  * @mixin TrailBehavior

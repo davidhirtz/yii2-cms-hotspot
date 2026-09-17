@@ -7,6 +7,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Controllers;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\Traits\HotspotTrait;
+use Hirtz\Cms\Models\Block;
 use Hirtz\Cms\Models\Entry;
 use Hirtz\Media\Modules\Admin\Controllers\Traits\AssetControllerTrait;
 use Hirtz\Cms\Hotspot\Modules\Admin\Module;
@@ -19,8 +20,7 @@ use yii\web\Response;
 /**
  * A hotspot asset is edited by whoever may edit the cms asset its hotspot sits on, which is what
  * {@see HotspotTrait::findHotspot()} checks.
- */
-/**
+ *
  * @extends Controller<Module>
  */
 class HotspotAssetController extends Controller
@@ -49,7 +49,7 @@ class HotspotAssetController extends Controller
                             'status',
                             'update',
                         ],
-                        'roles' => [Entry::AUTH_ENTRY],
+                        'roles' => [Block::AUTH_BLOCK, Entry::AUTH_ENTRY],
                     ],
                 ],
             ],

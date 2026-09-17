@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
+use Hirtz\Cms\Models\BlockAsset;
 use Hirtz\Cms\Models\SectionAsset;
+use Hirtz\Cms\Modules\Admin\Widgets\Navs\BlockHeader;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\EntryHeader;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\SectionHeader;
 use Hirtz\Skeleton\Widgets\Navs\Header;
@@ -31,9 +33,11 @@ class HotspotHeader extends Header
     {
         $asset = $this->hotspot->asset;
 
-        $header = $asset instanceof SectionAsset
-            ? SectionHeader::make()->model($asset->model)
-            : EntryHeader::make()->model($asset->model);
+        $header = match (true) {
+            $asset instanceof BlockAsset => BlockHeader::make()->model($asset->model),
+            $asset instanceof SectionAsset => SectionHeader::make()->model($asset->model),
+            default => EntryHeader::make()->model($asset->model),
+        };
 
         return $header->addContent(...$this->content);
     }
