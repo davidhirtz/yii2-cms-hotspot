@@ -21,7 +21,7 @@ interface HotspotCreateResponse {
 }
 
 const csrfToken = Object.values(
-    JSON.parse(document.querySelector('#wrap')!.getAttribute('hx-headers') as string) as object
+    JSON.parse(document.querySelector('#wrap')!.getAttribute('hx-headers:inherited') as string) as object
 ).pop();
 
 // The bundle must not import htmx, which would be a second copy of the one the admin already runs, so the flashes

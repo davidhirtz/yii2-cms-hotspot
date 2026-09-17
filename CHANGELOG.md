@@ -1,5 +1,10 @@
 ## 3.0.0 (in development)
 
+- **htmx 4** (monorepo issue #154): the preview wrapper of
+  `Modules\Admin\Widgets\Forms\Fields\AssetPreviewField` declares `hx-select:inherited` / `hx-target:inherited`,
+  since nothing inherits by default any more, and `resources/assets/src/js/hotspot.ts` reads the CSRF token off
+  `#wrap`'s renamed `hx-headers:inherited`.
+
 - **A hotspot page is titled with the entry, the hotspot naming its place beneath it.**
   `Models\Hotspot::getAdminParent()` is the asset it hangs on and `getAdminSubtitle()` its "Hotspot #2"; it has
   no listing crumb of its own, being listed on that asset's page. So
