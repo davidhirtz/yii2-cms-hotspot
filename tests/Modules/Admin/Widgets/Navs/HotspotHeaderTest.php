@@ -88,13 +88,13 @@ class HotspotHeaderTest extends TestCase
         $html = Yii::$app->runAction('admin/hotspot/hotspot/update', ['id' => 1]);
 
         self::assertIsString($html);
-        self::assertStringContainsString(
-            '<h2 class="header-subtitle">'
-            . $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position)
-            . $this->subtitleItem("/admin/cms/section-asset/update?id=$asset->id", $this->getAssetType(), $asset->position)
-            . $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position)
-            . '</h2>',
-            $html,
+        self::assertSame(
+            [
+                $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position),
+                $this->subtitleItem("/admin/cms/section-asset/update?id=$asset->id", $this->getAssetType(), $asset->position),
+                $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position),
+            ],
+            $this->getSubtitleItems($html),
         );
     }
 
@@ -118,14 +118,14 @@ class HotspotHeaderTest extends TestCase
             . $section->entry->getAdminName() . '</a></h1>',
             $html,
         );
-        self::assertStringContainsString(
-            '<h2 class="header-subtitle">'
-            . $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position)
-            . $this->subtitleItem("/admin/cms/section-asset/update?id=$sectionAsset->id", $this->getAssetType(), $sectionAsset->position)
-            . $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position)
-            . $this->subtitleItem("/admin/hotspot/hotspot-asset/update?id=$asset->id", $this->getAssetType(), $asset->position)
-            . '</h2>',
-            $html,
+        self::assertSame(
+            [
+                $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position),
+                $this->subtitleItem("/admin/cms/section-asset/update?id=$sectionAsset->id", $this->getAssetType(), $sectionAsset->position),
+                $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position),
+                $this->subtitleItem("/admin/hotspot/hotspot-asset/update?id=$asset->id", $this->getAssetType(), $asset->position),
+            ],
+            $this->getSubtitleItems($html),
         );
 
         self::assertStringContainsString('#' . $section->getHtmlId() . '" target="_blank"', $html);
@@ -145,10 +145,28 @@ class HotspotHeaderTest extends TestCase
         );
     }
 
-    private function subtitleItem(string $route, string $type, int $position): string
+    /**
+     * @return array{string, string}
+     */
+    private function subtitleItem(string $route, string $type, int $position): array
     {
-        return '<a class="header-subtitle-item" href="' . $route . '">'
-            . Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $type, 'id' => $position]) . '</a>';
+        return [$route, Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $type, 'id' => $position])];
+    }
+
+    /**
+     * @return list<array{string, string}> the href and the text of each subtitle item, in order. Matched rather
+     *     than spelled out: an item also carries the generated `view-transition-name` its group is matched by.
+     */
+    private function getSubtitleItems(string $html): array
+    {
+        preg_match_all('~<a[^>]*class="header-subtitle-item"[^>]*>[^<]*</a>~', $html, $matches);
+
+        return array_map(static function (string $tag): array {
+            preg_match('~href="([^"]*)"~', $tag, $href);
+            preg_match('~>([^<]*)<~', $tag, $text);
+
+            return [$href[1] ?? '', $text[1] ?? ''];
+        }, $matches[0]);
     }
 
     /**
