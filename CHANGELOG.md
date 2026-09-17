@@ -1,5 +1,8 @@
 ## 3.0.0 (in development)
 
+- `Modules\Admin\Controllers\HotspotController::actionCreate()` takes a `?int $type` from the query and hands it
+  to `instantiateFromPost()` (monorepo issue #161).
+
 - **htmx 4** (monorepo issue #154): the preview wrapper of
   `Modules\Admin\Widgets\Forms\Fields\AssetPreviewField` declares `hx-select:inherited` / `hx-target:inherited`,
   since nothing inherits by default any more, and `resources/assets/src/js/hotspot.ts` reads the CSRF token off

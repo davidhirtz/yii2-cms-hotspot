@@ -57,11 +57,11 @@ class HotspotController extends Controller
         ];
     }
 
-    public function actionCreate(int $id): Response|string
+    public function actionCreate(int $id, ?int $type = null): Response|string
     {
         $asset = $this->findAsset($id);
 
-        $hotspot = Hotspot::instantiateFromPost($this->request->post());
+        $hotspot = Hotspot::instantiateFromPost($this->request->post(), $type);
         $hotspot->loadDefaultValues();
 
         $hotspot->populateAssetRelation($asset);
