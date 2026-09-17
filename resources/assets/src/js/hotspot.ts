@@ -20,9 +20,14 @@ interface HotspotCreateResponse {
     flashes: string;
 }
 
-const csrfToken = Object.values(
-    JSON.parse(document.querySelector('#wrap')!.getAttribute('hx-headers:inherited') as string) as object
-).pop();
+// The token is read when the request is made, never at import: a module is evaluated once per document while
+// `#wrap` carries a freshly rendered token on every swap, and the evaluation can happen before it is in the
+// document at all, where reading it threw and left the whole module — hotspots included — uninitialised.
+const getCsrfToken = (): string => {
+    const headers = document.querySelector('#wrap')?.getAttribute('hx-headers:inherited');
+
+    return headers ? String(Object.values(JSON.parse(headers) as Record<string, string>).pop() ?? '') : '';
+};
 
 // The bundle must not import htmx, which would be a second copy of the one the admin already runs, so the flashes
 // the action answers with are moved into the page rather than swapped in out of band.
@@ -44,10 +49,10 @@ export const post = (url: string, formName: string, x: number, y: number, positi
     return fetch(url, {
         method: 'POST',
         headers: {
-            'X-CSRF-Token': csrfToken as string,
+            'X-CSRF-Token': getCsrfToken(),
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             'X-Requested-With': 'XMLHttpRequest',
-        } as HeadersInit,
+        },
         body: params.toString(),
     });
 };
