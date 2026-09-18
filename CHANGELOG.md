@@ -1,5 +1,12 @@
 ## 3.0.0 (in development)
 
+- **A hotspot is named by its position** (monorepo issue #169). `Models\Hotspot::getAdminName()` answers
+  "Hotspot #2" where the hotspot has no name of its own, which is what its subtitle already said and what the
+  editor's marker titles read; the primary key says nothing to whoever is placing them. `beforeSave()` assigned
+  the position with `??=` while the column defaults to `0`, so no hotspot ever carried one —
+  `Migrations\M260918100000Position` numbers the ones an installation already holds, per asset and in the order
+  they were placed.
+
 - `Modules\Admin\Controllers\HotspotController::actionCreate()` takes a `?int $type` from the query and hands it
   to `instantiateFromPost()` (monorepo issue #161).
 

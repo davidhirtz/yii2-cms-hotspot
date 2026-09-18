@@ -191,7 +191,9 @@ class Hotspot extends ActiveRecord implements
         $this->x = number_format((float)$this->x, 2);
         $this->y = number_format((float)$this->y, 2);
 
-        $this->position ??= $this->getMaxPosition() + 1;
+        // The column defaults to `0`, so `??=` never fired and no hotspot was ever given a position;
+        // `Migrations\M260918100000Position` renumbers the ones an installation already holds.
+        $this->position = $this->position ?: ($this->getMaxPosition() + 1);
 
         $this->shouldUpdateAssetAfterInsert ??= !$this->getIsBatch();
 
@@ -373,6 +375,15 @@ class Hotspot extends ActiveRecord implements
     public function getAdminRoute(): array|false
     {
         return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
+    }
+
+    /**
+     * A hotspot is placed and ordered by its position on the asset, so that is what identifies it where it has
+     * no name of its own — the primary key says nothing to whoever is placing them.
+     */
+    public function getAdminName(): string
+    {
+        return $this->getAdminNameAttributeValue() ?: $this->getAdminPositionLabel();
     }
 
     public function getAdminSubtitle(): string

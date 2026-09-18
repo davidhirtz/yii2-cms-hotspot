@@ -159,7 +159,7 @@ class HotspotControllerTest extends TestCase
 
     /**
      * Creating a hotspot posts through `fetch()` as well, so the flash the action sets travels in the response
-     * beside the hotspot — and an unnamed one is titled after its id rather than after nothing.
+     * beside the hotspot — and an unnamed one is titled after its position rather than after nothing.
      */
     public function testACreatedHotspotIsAnsweredWithItsFlashAndDisplayName(): void
     {
@@ -183,7 +183,8 @@ class HotspotControllerTest extends TestCase
         self::assertStringContainsString('id="flashes"', $data['flashes']);
         self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_SUCCESS_CREATED'), $data['flashes']);
         self::assertSame($hotspot->getAdminName(), $data['hotspot']['displayName']);
-        self::assertStringContainsString((string)$hotspot->id, $data['hotspot']['displayName']);
+        self::assertSame(3, $hotspot->position);
+        self::assertStringContainsString('#3', $data['hotspot']['displayName']);
     }
 
     /**
