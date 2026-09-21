@@ -13,6 +13,7 @@ use Hirtz\Cms\Test\Fixtures\AssetFixture;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Models\Trail;
+use Hirtz\Skeleton\Test\Traits\UpgradeMigrationTrait;
 use Override;
 use Yii;
 use yii\db\Expression;
@@ -26,6 +27,8 @@ use yii\db\JsonExpression;
  */
 class AssetMigrationTest extends TestCase
 {
+    use UpgradeMigrationTrait;
+
     use HotspotFixtureTrait {
         fixtures as hotspotFixtures;
     }
@@ -57,6 +60,9 @@ class AssetMigrationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // The migration lives in davidhirtz/yii2-upgrade now; this is the test that runs it.
+        $this->requireUpgradeMigration('yii2-cms-hotspot', M260912120000Assets::class);
 
         $db = Yii::$app->getDb();
 
