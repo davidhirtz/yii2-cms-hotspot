@@ -63,6 +63,10 @@ class AssetMigrationTest extends TestCase
 
         // The migration lives in davidhirtz/yii2-upgrade now; this is the test that runs it.
         $this->requireUpgradeMigration('yii2-cms-hotspot', M260912120000Assets::class);
+        $this->createLegacyTable('hotspot_asset');
+
+        // The copy shifts its ids past the cms ones, so both legacy tables have to be here.
+        $this->createLegacyTable('cms_asset');
 
         $db = Yii::$app->getDb();
 
@@ -87,8 +91,8 @@ class AssetMigrationTest extends TestCase
                 ->execute();
         }
 
-        $db->createCommand()->delete('{{%hotspot_asset}}')->execute();
-        $db->createCommand()->delete('{{%cms_asset}}')->execute();
+        $this->dropLegacyTable('hotspot_asset');
+        $this->dropLegacyTable('cms_asset');
         Trail::deleteAll(['model_class' => [HotspotAsset::class, Hotspot::class]]);
 
         parent::tearDown();

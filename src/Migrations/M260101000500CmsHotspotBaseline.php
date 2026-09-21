@@ -46,29 +46,6 @@ class M260101000500CmsHotspotBaseline extends Migration
             SQL);
 
         $this->execute(<<<'SQL'
-            CREATE TABLE `hotspot_asset` (
-              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-              `status` tinyint(1) unsigned NOT NULL DEFAULT 3,
-              `type` smallint(6) NOT NULL DEFAULT 1,
-              `hotspot_id` int(11) unsigned NOT NULL,
-              `file_id` int(11) unsigned NOT NULL,
-              `position` int(11) unsigned NOT NULL DEFAULT 0,
-              `name` varchar(250) DEFAULT NULL,
-              `content` text DEFAULT NULL,
-              `alt_text` varchar(250) DEFAULT NULL,
-              `link` varchar(250) DEFAULT NULL,
-              `updated_by_user_id` int(11) unsigned DEFAULT NULL,
-              `updated_at` datetime DEFAULT NULL,
-              `created_at` datetime NOT NULL,
-              `custom_attributes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`custom_attributes`)),
-              PRIMARY KEY (`id`),
-              KEY `hotspot_id` (`hotspot_id`,`position`),
-              KEY `hotspot_asset_file_id_ibfk` (`file_id`),
-              KEY `hotspot_asset_updated_by_ibfk` (`updated_by_user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci
-            SQL);
-
-        $this->execute(<<<'SQL'
             ALTER TABLE `asset` ADD `hotspot_count` smallint(6) NOT NULL DEFAULT '0'
             SQL);
 
@@ -78,18 +55,6 @@ class M260101000500CmsHotspotBaseline extends Migration
 
         $this->execute(<<<'SQL'
             ALTER TABLE `hotspot` ADD CONSTRAINT `hotspot_updated_by_ibfk` FOREIGN KEY (`updated_by_user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
-            SQL);
-
-        $this->execute(<<<'SQL'
-            ALTER TABLE `hotspot_asset` ADD CONSTRAINT `hotspot_asset_file_id_ibfk` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`) ON DELETE CASCADE
-            SQL);
-
-        $this->execute(<<<'SQL'
-            ALTER TABLE `hotspot_asset` ADD CONSTRAINT `hotspot_asset_hotspot_id_ibfk` FOREIGN KEY (`hotspot_id`) REFERENCES `hotspot` (`id`) ON DELETE CASCADE
-            SQL);
-
-        $this->execute(<<<'SQL'
-            ALTER TABLE `hotspot_asset` ADD CONSTRAINT `hotspot_asset_updated_by_ibfk` FOREIGN KEY (`updated_by_user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL
             SQL);
     }
 
