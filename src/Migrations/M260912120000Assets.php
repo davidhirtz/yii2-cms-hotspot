@@ -72,6 +72,11 @@ class M260912120000Assets extends Migration
 
     protected function copyHotspotCounts(): void
     {
+        // A fresh install has the column from the baseline and nothing to copy into it.
+        if ($this->hasColumn(Asset::tableName(), 'hotspot_count')) {
+            return;
+        }
+
         $this->addColumn(Asset::tableName(), 'hotspot_count', (string)$this->smallInteger()
             ->notNull()
             ->defaultValue(0)
@@ -219,6 +224,11 @@ class M260912120000Assets extends Migration
 
     protected function foldFileCounts(): void
     {
+        // The column is folded away and dropped, so a fresh install has nothing to fold.
+        if (!$this->hasColumn(File::tableName(), 'hotspot_asset_count')) {
+            return;
+        }
+
         $files = $this->getQuotedTableName(File::tableName());
 
         $this->execute("UPDATE $files SET [[asset_count]] = [[asset_count]] + [[hotspot_asset_count]]");
