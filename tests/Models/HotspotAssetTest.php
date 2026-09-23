@@ -32,7 +32,7 @@ class HotspotAssetTest extends TestCase
         self::assertNull($asset->getLoading());
         self::assertNull($asset->getFetchPriority());
         self::assertSame('', $asset->getFormattedEmbedUrl());
-        self::assertFalse($asset->getVisibleAttribute('embed_url'));
+        self::assertNull($asset->getVisibleAttribute('embed_url'));
     }
 
     /**
