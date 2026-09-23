@@ -38,6 +38,7 @@ class HotspotActionDropdown extends ActionDropdown
     protected function getDuplicateButton(): ?Stringable
     {
         return DuplicateButton::make()
+            ->label(Yii::t('hotspot', 'HOTSPOT_BUTTON_DUPLICATE'))
             ->model($this->model)
             ->url(['/admin/hotspot/hotspot/duplicate', 'id' => $this->model->id]);
     }
@@ -49,7 +50,8 @@ class HotspotActionDropdown extends ActionDropdown
     {
         return DeleteButton::make()
             ->model($this->model)
-            ->label(Yii::t('hotspot', 'HOTSPOT_DELETE_TITLE'))
+            ->label(Yii::t('hotspot', 'HOTSPOT_BUTTON_DELETE'))
+            ->title(Yii::t('hotspot', 'HOTSPOT_CONFIRM_DELETE'))
             ->url(['/admin/hotspot/hotspot/delete', 'id' => $this->model->id]);
     }
 }
