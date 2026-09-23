@@ -1,179 +1,42 @@
 ## 3.0.0 (in development)
 
-- **A hotspot is named by its position** (monorepo issue #169). `Models\Hotspot::getAdminName()` answers
-  "Hotspot #2" where the hotspot has no name of its own, which is what its subtitle already said and what the
-  editor's marker titles read; the primary key says nothing to whoever is placing them. `beforeSave()` assigned
-  the position with `??=` while the column defaults to `0`, so no hotspot ever carried one —
-  `Migrations\M260918100000Position` numbers the ones an installation already holds, per asset and in the order
-  they were placed.
-
-- `Modules\Admin\Controllers\HotspotController::actionCreate()` takes a `?int $type` from the query and hands it
-  to `instantiateFromPost()` (monorepo issue #161).
-
-- **htmx 4** (monorepo issue #154): the preview wrapper of
-  `Modules\Admin\Widgets\Forms\Fields\AssetPreviewField` declares `hx-select:inherited` / `hx-target:inherited`,
-  since nothing inherits by default any more, and `resources/assets/src/js/hotspot.ts` reads the CSRF token off
-  `#wrap`'s renamed `hx-headers:inherited`.
-
-- **A hotspot page is titled with the entry, the hotspot naming its place beneath it.**
-  `Models\Hotspot::getAdminParent()` is the asset it hangs on and `getAdminSubtitle()` its "Hotspot #2"; it has
-  no listing crumb of its own, being listed on that asset's page. So
-  `Modules\Admin\Widgets\Navs\HotspotHeader` is a `Skeleton\Widgets\Navs\ModelHeader` rather than a wrapper
-  rendering the cms `EntryHeader`, `SectionHeader` or `BlockHeader`, and its `renderContent()` override is gone
-  with that delegation. `HotspotHeader::hotspot()` and `HotspotSubmenu::hotspot()` are **`model()`**, and
-  `HotspotSubmenu` lost its `<<` item: a submenu holds the views of one record. Both the hotspot page and the
-  hotspot asset page carry the frontend link of whatever the hotspot hangs on, through the cms
-  `FrontendLink::findInChain()`.
-
-- **A block asset carries hotspots** (monorepo issue #145). `Module::allowsHotspots()` answers for a
-  `Cms\Models\BlockAsset` under `enableSectionAssetHotspots` — a block renders in place of a section, so its assets
-  follow the section flag — and the delete and duplicate handlers subscribe on it beside the entry and section
-  asset. `Modules\Admin\Controllers\HotspotController` and `HotspotAssetController` admit `Block::AUTH_BLOCK`
-  beside `Entry::AUTH_ENTRY`, the asset's own permission deciding after that as before, and
-  `Modules\Admin\Widgets\Navs\HotspotHeader` renders the cms `BlockHeader` for one.
-
-  `HotspotController::findAsset()` asks `allowsHotspots()` rather than the asset's class, so an asset the admin
-  offers no hotspots for — the flag off, or the type hiding them — is not found on `create`, while a hotspot that
-  exists stays reachable. `Events\HotspotEntrySiteRelationsEventHandler` reads the same method, so the frontend
-  preload honours the type's marker too, which it used to ignore.
-
-- **`Events\HotspotEntrySiteRelationsBuilderEventHandler` is `Events\HotspotEntrySiteRelationsEventHandler`**,
-  following the cms rename of `Models\Builders\EntrySiteRelationsBuilder` to
-  `Models\Actions\PreloadEntrySiteRelations` (monorepo issue #136). Only the names change.
-
-- **`Modules\Admin\Controllers\HotspotAssetController` traded `duplicate` for a POST-only `remove` action**
-  (monorepo issue #133): a hotspot holds a file once. See the media bundle's `UPGRADE.md`.
-
-- **`Modules\Admin\Controllers\HotspotAssetController` gained a POST-only `delete-all` action** that removes the
-  assets a grid selection names (monorepo issue #128).
-
-- **`Modules\Admin\Controllers\HotspotAssetController` gained a POST-only `status` action** that cycles the
-  asset's status, which the grid's status icon posts to (monorepo issue #121).
-
-- `Modules\Admin\Controllers\HotspotController::actionCreate()` builds the hotspot from the posted type, through
-  the skeleton's `instantiateFromPost()`, so a `Models\Types\HotspotType` naming a model class of its own gets it
-  (monorepo issue #105).
-
-- `Modules\Admin\Widgets\Forms\HotspotActiveForm` declares its fields in `getDefaultRows()` instead of assigning
-  `$this->rows ??=` in `configure()`, which the skeleton's `Widgets\Forms\ActiveForm` needs to normalize them
-  before an `EVENT_CONFIGURE` listener sees them (monorepo issue #120). A subclass overriding `configure()` to
-  change the fields has to move to the hook.
-
-- **`Models\HotspotAsset::FIELD_HOTSPOTS` is `Module::FIELD_HOTSPOTS`, and `Module::allowsHotspots()` is the one
-  reader.** The marker sat on the hotspot asset while it is checked on the *entry* and *section* asset, and only
-  `Widgets\Artwork` consulted it — `Modules\Admin\Widgets\Forms\Fields\AssetPreviewField` read the module flags
-  alone, so the admin placed hotspots on an asset type the frontend refused to render them for. Both go through
-  `Module::allowsHotspots($asset)` now, which answers for the flag and the marker together.
-
-  The marker stays a `hiddenFields()` entry rather than becoming an `allowHotspots()` on the type: the cms owns the
-  asset classes and the media bundle owns their type, so this bundle has none of its own to add to — which is the
-  door a project declaring its own panel on a type it does not own goes through as well.
-
-- `Models\Hotspot::hasAssetsEnabled()` is `allowsAssets()` and consults the hotspot type.
-
-- **`Models\HotspotAsset::FIELD_HOTSPOTS` is `'hotspots'`, not `'#hotspots'`** — a type's hidden fields are no
-  longer CSS selectors a script toggles. A project naming the marker through the constant needs no change.
-  `Models\Hotspot` declares `Skeleton\Models\Interfaces\VisibleAttributeInterface`, which it satisfied already.
-
-- **`Modules\Admin\Controllers\HotspotController::actionCreate()` answers with `{hotspot, flashes}`** rather than
-  the hotspot alone, so the double click that creates one reports it like every other action — `HOTSPOT_SUCCESS_CREATED`
-  is the new message key. A project shipping its own `hotspot.ts` reads the hotspot out of that envelope.
-  `Models\Hotspot::fields()` resolves `displayName` through `getAdminName()`, which nothing implemented, so the
-  field serialized as `null` and every unnamed hotspot was titled "null"; it now falls back to `Hotspot #<id>`.
-
-- **`Models\Hotspot` is searchable and `Models\HotspotAsset` is registered with the `search` component.** The
-  hotspot indexes its `name` and `content`, the hotspot asset inherits the media asset's opt-in, and both hits are
-  titled after the asset the hotspot sits on. Run `./yii search/rebuild` once to index the rows that already exist.
-
-- **The three hotspot flags moved off the admin module onto a new base `Module`.** `enableEntryAssetHotspots`,
-  `enableSectionAssetHotspots` and `enableHotspotAssets` were the only options of any bundle that lived on its
-  admin module rather than on its own — they decide what the frontend renders as much as what the admin offers.
-  The bundle now registers a top-level `hotspot` module beside the admin submodule and ships
-  `Modules\ModuleTrait::getModule()` like every other bundle, so a project moves them from
-  `modules.admin.modules.hotspot` to `modules.hotspot`. `Models\Hotspot` uses that trait now, not the cms one, so
-  `Hotspot::getModule()` answers the hotspot module rather than the cms module it never read.
-
-- `Migrations\M260915160000CustomAttributesColumn` moves `hotspot.custom_attributes` after `y` — cosmetic column
-  order only.
-
-- **`Models\HotspotAsset` declares only `name`, `content`, `alt_text` and `link`.** A hotspot asset is a marker on
-  an image, so the media asset's `embed_url`, `loading` and `fetchpriority` are not its to carry — the asset the
-  hotspot sits on has them. A value already stored under one of the three keys is kept but no longer read.
-
-- **`hotspot.name`, `hotspot.content` and `hotspot.link` are custom attributes**, moved into the
-  `custom_attributes` column by `Migrations\M260915110000CustomAttributes`; `Models\Hotspot::$contentType` and
-  `$htmlValidator` are gone with them. The link is a `UrlCustomAttribute`, as the media `Asset::$link` already
-  was, so it is validated as a URL now. A project that translated any of the three moves them from
-  `Hotspot::$i18nAttributes` to the new `translatableAttributes`. `Models\Hotspot::getHtmlId()` no longer reads
-  a `slug` the model never had — it is `hotspot-<id>`. None of the three can be a query condition any more.
-
-- **The hotspot admin pages are shaped like the cms asset pages.**
-  `Modules\Admin\Widgets\Navs\HotspotHeader` extends the new media `Widgets\Navs\AssetHeader` — the header of
-  the asset the hotspot sits on, with the hotspot as its subtitle — and `HotspotSubmenu` is a real
-  `Widgets\Navs\Submenu` again: a first item leading back to that asset, the hotspot's own "General" item and
-  the assets item. It no longer borrows the entry's or the section's submenu, so nothing in the bundle has to
-  know which of the two carries the hotspot. The hotspot's assets moved out of the update page onto their own
-  `hotspot-asset/index`, rendered by the media `Widgets\Grids\AssetGridView` with `AssetModelActionDropdown` in
-  the header, and the "operations" panel and the delete form became `HotspotActionDropdown`. Removed with them:
-  `Modules\Admin\Widgets\Panels\HotspotPanel` and `Modules\Admin\Widgets\Grids\HotspotAssetGridView`,
-  whose footer buttons and out-of-band refresh the media dropdown does. `HotspotSubmenu::hotspot()` and
-  `HotspotHeader::hotspot()` take the hotspot; `Models\Hotspot`'s `asset_count` label is the media
-  `MODEL_ASSET_COUNT_LABEL` ("Assets") rather than `HOTSPOT_ASSET_COUNT_LABEL` ("Hotspot Asset"), and that key
-  and `HOTSPOT_UPDATE_TITLE` are gone — the header titles the page
-
-- `Models\Types\HotspotType` is the hotspot's type class, carrying the media `sizes()` and `transformations()`;
-  `Models\HotspotAsset::FIELD_HOTSPOTS` replaces the magic `'#hotspots'` string. See the skeleton's UPGRADE.md
-
-- `Modules\Admin\Controllers\HotspotController`'s access rule names `Cms\Models\Entry::AUTH_ENTRY`, as
-  `HotspotAssetController` already did. It still named `entryAssetUpdate` and `sectionAssetUpdate`, which the RBAC
-  simplification deleted, so every hotspot action was forbidden for every user
-- `HotspotController::actionCreate()` reports the hotspot's own errors rather than the asset's, which had none
-- `Models\HotspotAsset` declares `@extends Asset<Hotspot>` in place of its narrowed `getModel()` override, see
-  `yii2-media`
-- The hotspot views translate through the bundle's own keys and the media ones instead of literals in the cms
-  category
-- `Models\HotspotAsset::getPermissionName()` lost its `$action` parameter, following the media `Models\Asset`;
-  it still delegates to the entry or section asset, which resolves to the cms `Models\Entry::AUTH_ENTRY`
-- `Models\Hotspot` and `Models\HotspotAsset` implement the skeleton's `Models\Interfaces\AdminModelInterface`:
-  `getTrailModelName()` and `getTrailModelType()` are `getAdminName()` and `getAdminType()`. `Hotspot`'s unused
-  `getDisplayName()` is gone — `getAdminName()` is the one name — and a hotspot with a `name` is named by it
-- `esbuild.js` uses the skeleton's shared `esbuild.config.js`, so the styles are built by sass with autoprefixer
-  instead of esbuild's css loader. `resources/assets/src/css/hotspot.css` is now `hotspot.scss` — it already nested
-  with `&`, which sass flattens into plain selectors rather than shipping native CSS nesting
-- `Models\Hotspot` implements the skeleton `Models\Interfaces\AdminRouteInterface` and dropped its
-  `getTrailModelAdminRoute()`
-- `HotspotAssetController` extends the skeleton `Controller` and uses the media `AssetControllerTrait`. The
-  file picker moved from `hotspot-asset/index` to `hotspot-asset/create`, and `index` lists the hotspot's assets
-- Fixed the admin routes, which were missing the module segment the controllers are mapped under:
-  `/admin/hotspot/hotspot/update`, `/admin/hotspot/hotspot/create` and `/admin/hotspot/hotspot-asset/*`
-- `Modules\Admin\Controllers\HotspotAssetController` declares its own access rules and resolves every action
-  through `HotspotTrait::findHotspot()`, which is what checks the cms asset the hotspot sits on
-- Added `Tests\Migrations\AssetMigrationTest`, which replays `M260912120000Assets` against the kept
-  `hotspot_asset` table and pins the id offset in the rows and in both places the trail stores it
-- `Models\HotspotAsset` is a subclass of `Hirtz\Media\Models\Asset` on the shared `asset` table, keeping its
-  class name so existing trail rows still resolve. It borrows the permissions of the cms asset its hotspot sits on
-  and drops the `embed_url` definition. `Models\Hotspot` implements `AssetModelInterface`
-- `M260912120000Assets` re-points `hotspot.asset_id` at `asset`, copies `hotspot_asset` with the ids offset past the
-  cms ones, shifts its trail rows in both places and folds `file.hotspot_asset_count` into `asset_count`. The id
-  shift must run exactly once: nothing marks a row as shifted. It asserts its own result; `safeDown()` returns
-  `false`. `hotspot_asset` is kept as the validation reference
-- Removed `Models\Queries\HotspotAssetQuery`, `Models\Actions\ReorderHotspotAssets`,
-  `Models\Events\FileBeforeDeleteEventHandler`, `Widgets\Forms\HotspotAssetActiveForm`,
-  `Widgets\Grids\FileHotspotAssetGrid`, `FileHotspotAssetGridContainer` and `Test\Fixtures\HotspotAssetFixture`.
-  `HotspotAssetController` extends the media `AbstractAssetController`, and `Widgets\Grids\HotspotAssetGridView`
-  extends the media grid
-- The asset duplicate and delete handlers subscribe on `EntryAsset` and `SectionAsset`; the file handler is gone
-- `Models\Hotspot` and `Models\HotspotAsset` use `VisibleAttributeTrait` from `Hirtz\Skeleton\Models\Traits`
-  instead of `Hirtz\Cms\Models\Traits`
-- `Models\Hotspot` implements `CustomAttributeInterface`; `Models\HotspotAsset` inherits it from the cms base. Added
-  the `custom_attributes` column to `hotspot` and `hotspot_asset`, excluded from the trail
-- The admin forms render the custom attribute fields, and `HotspotController` and `HotspotAssetController` guard their
-  save with `Request::isFormReload()`
-
-- Translated attributes of `Hotspot` and `HotspotAsset` moved from their `_xx` columns into the skeleton's
-  `translation` table (`M260910120000Translations`)
-- `HotspotAssetController::actionOrder()` now returns a flash fragment (was `void`) and emits a success
-  flash after a reorder; added the `HOTSPOT_ASSET_SUCCESS_ORDERED` message
+- Renamed the namespace from `davidhirtz\yii2\cms\hotspot\` to `Hirtz\Cms\Hotspot\` and every directory to
+  StudlyCase (`Models\Hotspot`, `Modules\Admin\Controllers\HotspotController`); requires PHP 8.3 and `yii2-cms` 3.0
+- Moved `enableEntryAssetHotspots`, `enableSectionAssetHotspots` and `enableHotspotAssets` from the admin submodule
+  to the new base `Module`, configured under `modules.hotspot` instead of `modules.admin.modules.hotspot`
+- Changed `Models\HotspotAsset` to a subclass of `Hirtz\Media\Models\Asset` on the shared `asset` table, registered
+  through `media.assets` and limited to `name`, `content`, `alt_text` and `link`; removed the `hotspot_asset` model
+  table, `file.hotspot_asset_count`, `Models\Queries\HotspotAssetQuery`, `Models\Actions\ReorderHotspotAssets` and
+  `Models\Events\FileBeforeDeleteEventHandler`
+- Changed `hotspot.name`, `content` and `link` to custom attributes in `custom_attributes`; removed `Hotspot::$contentType`
+  and `$htmlValidator`, `link` is validated as a URL, and none of the three is a query condition any more
+- Moved the translated attributes of `Hotspot` into the skeleton `translation` table; a project names them in
+  `Hotspot::$translatableAttributes` instead of `$i18nAttributes`
+- Added `Models\Types\HotspotType` as the hotspot's type class, carrying the media `sizes()` and `transformations()`
+- Replaced `HotspotAsset::FIELD_HOTSPOTS` and the `'#hotspots'` marker with `Module::FIELD_HOTSPOTS` (`'hotspots'`);
+  `Module::allowsHotspots()` is the one reader for admin and frontend, and covers block assets under `enableSectionAssetHotspots`
+- Renamed `Hotspot::hasAssetsEnabled()` to `allowsAssets()`, which consults the hotspot type as well
+- Replaced `Widgets\Canvas` with `Widgets\Artwork` over the cms `Widgets\Artwork`: the `{hotspots}` template token is
+  gone, the hotspots wrap the media in a `.relative` `Div`, `hotspotViewFile()` and `hotspotWrapper()` are setters
+- Replaced `Models\Builders\EntrySiteRelationsBuilder` with `Events\HotspotEntrySiteRelationsEventHandler`, a listener
+  on the cms `PreloadEntrySiteRelations::EVENT_AFTER_LOAD_ASSETS` instead of a container override
+- Renamed `Modules\Admin\Widgets\Forms\Fields\AssetPreview` to `AssetPreviewField` and `Assets\AdminAsset` to
+  `Assets\HotspotAdminAssetBundle`; the container keys are the media `AssetPreviewField` and `AssetThumbnailColumn`
+- Changed the admin routes to `/admin/hotspot/hotspot/*` and `/admin/hotspot/hotspot-asset/*`; the controllers require
+  `Entry::AUTH_ENTRY` or `Block::AUTH_BLOCK` instead of `entryAssetUpdate` and `sectionAssetUpdate`
+- Changed `HotspotController::actionCreate()` to answer `{hotspot, flashes}` as JSON and to take an optional `type`
+- Replaced `HotspotAssetController::actionDuplicate()` with `actionRemove()`; added `actionStatus()` and `actionDeleteAll()`
+- Removed `Modules\Admin\Widgets\Grids\HotspotAssetGridView`, `HotspotAssetParentGridView`,
+  `Columns\HotspotAssetThumbnailColumn`, `Panels\HotspotAssetFilePanel`, `Panels\HotspotHelpPanel` and
+  `Forms\HotspotAssetActiveForm`; the hotspot's assets are listed on `hotspot-asset/index` by the media `AssetGridView`
+- Added `Modules\Admin\Widgets\Navs\HotspotHeader` and `HotspotActionDropdown`; `HotspotSubmenu` extends the skeleton
+  `Submenu`, and header and submenu take the hotspot through `model()`
+- Changed `Hotspot` and `HotspotAsset` to implement the skeleton `AdminModelInterface`: `getTrailModelName()`,
+  `getTrailModelType()`, `getTrailModelAdminRoute()` and `getDisplayName()` are `getAdminName()`, `getAdminType()`
+  and `getAdminRoute()`; an unnamed hotspot is named by its `position`, which every hotspot now carries
+- Changed `Hotspot::getHtmlId()` to always answer `hotspot-<id>` and `Hotspot::getModule()` to answer the hotspot module
+- Changed the message keys to domain-first constants (`HOTSPOT_SUCCESS_UPDATED`, `HOTSPOT_X_LABEL`); removed `zh-CN` and `zh-TW`
+- Added `Hotspot` and `HotspotAsset` to the `search` component; run `./yii search/rebuild` once
 
 ## 2.3.0 (Oct 21, 2025)
 
