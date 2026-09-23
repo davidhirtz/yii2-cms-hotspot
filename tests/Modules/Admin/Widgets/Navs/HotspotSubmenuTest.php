@@ -12,9 +12,6 @@ use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
 use Hirtz\Cms\Test\Fixtures\AssetFixture;
 use Override;
 
-/**
- * A submenu holds the views of one record, so it never links out of it — the way back is the header path.
- */
 class HotspotSubmenuTest extends TestCase
 {
     use HotspotFixtureTrait;
@@ -37,7 +34,10 @@ class HotspotSubmenuTest extends TestCase
         ];
     }
 
-    public function testTheSubmenuHoldsNoLinkOutOfTheHotspot(): void
+    /**
+     * A hotspot is listed on its asset's page rather than in an index of its own, so that is the way back.
+     */
+    public function testTheBackButtonLeadsToTheAsset(): void
     {
         $hotspot = Hotspot::findOne(1);
 
@@ -45,8 +45,7 @@ class HotspotSubmenuTest extends TestCase
             ->model($hotspot)
             ->render();
 
-        self::assertStringNotContainsString('angle-double-left', $html);
-        self::assertStringNotContainsString('/admin/cms/section-asset/update', $html);
+        self::assertStringContainsString('<a class="nav-link nav-back-link" href="/admin/cms/section-asset/update?id=' . $hotspot->asset_id . '"', $html);
         self::assertStringContainsString('/admin/hotspot/hotspot/update?id=' . $hotspot->id, $html);
     }
 }

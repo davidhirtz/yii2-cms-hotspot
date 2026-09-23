@@ -27,6 +27,8 @@ class HotspotSubmenu extends Submenu
             assets: $this->getAssetsItem(),
         );
 
+        $this->backUrl ??= $this->getAdminBackUrl($this->model);
+
         parent::configure();
     }
 
