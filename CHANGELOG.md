@@ -1,4 +1,4 @@
-## 3.0.0 (in development)
+## 3.0.0 (September 23, 2026)
 
 - Renamed the namespace from `davidhirtz\yii2\cms\hotspot\` to `Hirtz\Cms\Hotspot\` and every directory to
   StudlyCase (`Models\Hotspot`, `Modules\Admin\Controllers\HotspotController`); requires PHP 8.3 and `yii2-cms` 3.0
