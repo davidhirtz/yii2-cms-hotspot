@@ -16,15 +16,17 @@ class Artwork extends \Hirtz\Cms\Widgets\Artwork
 
     protected string|false $hotspotViewFile = 'widgets/_hotspots';
 
-    protected ?Closure $hotspotWrapper = null;
+    /**
+     * @var list<Closure>|null
+     */
+    private ?array $hotspotWrapperClosures = null;
 
     /**
-     * @param Closure(Div): (string|Stringable|null)|null $wrapper
-     * @return $this
+     * @param Closure(Div): Div $wrapper
      */
-    public function hotspotWrapper(?Closure $wrapper): static
+    public function hotspotWrapper(Closure $wrapper): static
     {
-        $this->hotspotWrapper = $wrapper;
+        $this->hotspotWrapperClosures[] = $wrapper;
         return $this;
     }
 
@@ -48,7 +50,7 @@ class Artwork extends \Hirtz\Cms\Widgets\Artwork
             ->class('relative')
             ->content($content, $hotspots);
 
-        return $this->hotspotWrapper ? ($this->hotspotWrapper)($wrapper) : $wrapper;
+        return $this->evaluate($this->hotspotWrapperClosures, $wrapper);
     }
 
     protected function renderHotspots(): ?string

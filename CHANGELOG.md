@@ -1,3 +1,7 @@
+## Unreleased
+
+- Changed `Artwork::hotspotWrapper()` to stack its closures
+
 ## 3.0.0 (September 23, 2026)
 
 - Renamed the namespace from `davidhirtz\yii2\cms\hotspot\` to `Hirtz\Cms\Hotspot\` and every directory to
