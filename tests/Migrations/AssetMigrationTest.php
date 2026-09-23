@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Hirtz\Cms\Hotspot\Tests\Migrations;
 
-use Hirtz\Cms\Hotspot\Migrations\M260912120000Assets;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
@@ -32,6 +31,8 @@ class AssetMigrationTest extends TestCase
     use HotspotFixtureTrait {
         fixtures as hotspotFixtures;
     }
+
+    private const string MIGRATION = 'Hirtz\\Cms\\Hotspot\\Migrations\\M260912120000Assets';
 
     private const string LEGACY_FILE_COUNT_COLUMN = 'hotspot_asset_count';
     private const int LEGACY_ASSET_ID = 1;
@@ -62,7 +63,7 @@ class AssetMigrationTest extends TestCase
         parent::setUp();
 
         // The migration lives in davidhirtz/yii2-upgrade now; this is the test that runs it.
-        $this->requireUpgradeMigration('yii2-cms-hotspot', M260912120000Assets::class);
+        $this->requireUpgradeMigration('yii2-cms-hotspot', self::MIGRATION);
         $this->createLegacyTable('hotspot_asset');
 
         // The copy shifts its ids past the cms ones, so both legacy tables have to be here.
@@ -151,7 +152,7 @@ class AssetMigrationTest extends TestCase
         $offset = (int)Asset::find()->max('[[id]]');
 
         ob_start();
-        (new M260912120000Assets())->up();
+        $this->createUpgradeMigration('yii2-cms-hotspot', self::MIGRATION)->up();
         ob_end_clean();
 
         return $offset;
