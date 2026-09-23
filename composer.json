@@ -12,7 +12,8 @@
   ],
   "require": {
     "php": "^8.3",
-    "davidhirtz/yii2-cms": "main-dev"
+    "davidhirtz/yii2-cms": "main-dev",
+    "davidhirtz/yii2-media": "main-dev"
   },
   "require-dev": {
     "phpstan/phpstan": "^2.1",
