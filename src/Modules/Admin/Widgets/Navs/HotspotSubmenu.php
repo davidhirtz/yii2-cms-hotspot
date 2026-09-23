@@ -23,8 +23,8 @@ class HotspotSubmenu extends Submenu
     protected function configure(): void
     {
         $this->addItem(
-            $this->getHotspotUpdateItem(),
-            $this->getAssetsItem(),
+            hotspot: $this->getHotspotUpdateItem(),
+            assets: $this->getAssetsItem(),
         );
 
         parent::configure();
@@ -35,7 +35,7 @@ class HotspotSubmenu extends Submenu
         return NavItem::make()
             ->icon('cog')
             ->label($this->model->getAdminType())
-            ->routes(['admin/hotspot/hotspot/update'])
+            ->addRoute('admin/hotspot/hotspot/update')
             ->url($this->model->getAdminRoute() ?: null);
     }
 
@@ -44,7 +44,7 @@ class HotspotSubmenu extends Submenu
         return AssetSubmenuItem::make()
             ->badge($this->model->asset_count)
             ->label($this->model->getAttributeLabel('asset_count'))
-            ->routes(['admin/hotspot/hotspot-asset'])
+            ->addRoute('admin/hotspot/hotspot-asset')
             ->url(HotspotAsset::getAdminIndexRoute($this->model))
             ->visible($this->model->allowsAssets());
     }
