@@ -121,8 +121,7 @@ class Hotspot extends ActiveRecord implements
             ],
             [
                 ['asset_id', 'position'],
-                'filter',
-                'filter' => 'intval',
+                'integer',
             ],
             [
                 ['asset_id'],
@@ -186,10 +185,6 @@ class Hotspot extends ActiveRecord implements
             'BlameableBehavior' => BlameableBehavior::class,
             'TimestampBehavior' => TimestampBehavior::class,
         ]);
-
-        // Sanitize values to prevent unnecessary attribute updates
-        $this->x = number_format((float)$this->x, 2);
-        $this->y = number_format((float)$this->y, 2);
 
         // The column defaults to `0`, so `??=` never fired and no hotspot was ever given a position;
         // `Migrations\M260918100000Position` renumbers the ones an installation already holds.

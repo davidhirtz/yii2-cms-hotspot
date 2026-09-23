@@ -34,6 +34,18 @@ class HotspotTest extends TestCase
         self::assertEquals(0, $asset->getAttribute('hotspot_count'));
     }
 
+    public function testUnchangedCoordinatesAreNotDirty(): void
+    {
+        $hotspot = Hotspot::findOne(1);
+        self::assertInstanceOf(Hotspot::class, $hotspot);
+
+        $hotspot->load(['x' => (string)(float)$hotspot->x, 'y' => (string)(float)$hotspot->y], '');
+
+        self::assertTrue($hotspot->validate());
+        self::assertFalse($hotspot->isAttributeChanged('x'));
+        self::assertFalse($hotspot->isAttributeChanged('y'));
+    }
+
     public function testANamelessHotspotIsNamedByItsPosition(): void
     {
         $hotspot = Hotspot::findOne(1);
