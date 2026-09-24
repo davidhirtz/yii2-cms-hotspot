@@ -356,11 +356,6 @@ class Hotspot extends ActiveRecord implements
         return static::find()->with('asset');
     }
 
-    protected function getSearchResultTitle(): string
-    {
-        return implode(' › ', array_filter([$this->asset->getAdminName(), $this->getSearchTitle()]));
-    }
-
     protected function isSearchResultVisible(): bool
     {
         return WebUser::current()?->can($this->getPermissionName()) ?? false;

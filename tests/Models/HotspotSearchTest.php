@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
+use Hirtz\Skeleton\Models\AdminModelChain;
 use Hirtz\Skeleton\Models\User;
 
 class HotspotSearchTest extends TestCase
@@ -23,16 +24,18 @@ class HotspotSearchTest extends TestCase
         self::assertStringContainsString('Test content for hotspot 1', $document->content);
     }
 
-    public function testTheResultTitleNamesTheAsset(): void
+    public function testTheResultIsNamedLikeTheHeader(): void
     {
         // The owner sees every hit, so the result is not hidden by the asset's permission.
         $this->getWebUser()->setIdentity(User::findOne(['name' => 'owner']));
 
         $hotspot = $this->getHotspotFromFixture('hotspot-1');
+        $result = $hotspot->getSearchResult();
 
+        self::assertSame(AdminModelChain::fromModel($hotspot->asset)->base->getAdminName(), $result?->title);
         self::assertSame(
-            $hotspot->asset->getAdminName() . ' › Test Hotspot 1',
-            $hotspot->getSearchResult()?->title
+            [$hotspot->asset->getAdminSubtitle(), $hotspot->getAdminSubtitle()],
+            array_slice($result->subtitles, -2)
         );
     }
 
