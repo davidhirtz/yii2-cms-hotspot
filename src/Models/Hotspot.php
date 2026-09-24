@@ -336,6 +336,11 @@ class Hotspot extends ActiveRecord implements
         return Yii::t('hotspot', 'COMMON_HOTSPOT');
     }
 
+    protected function getDefaultAdminIcon(): ?string
+    {
+        return 'crosshairs';
+    }
+
     public function getSearchAttributes(): array
     {
         return ['name', 'content'];
