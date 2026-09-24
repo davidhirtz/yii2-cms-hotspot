@@ -52,18 +52,17 @@ class HotspotTest extends TestCase
         self::assertInstanceOf(Hotspot::class, $hotspot);
 
         $hotspot->name = null;
-        $hotspot->position = 42;
 
         self::assertSame(
-            Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $hotspot->getAdminType(), 'id' => 42]),
+            Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $hotspot->getAdminType(), 'id' => 1]),
             $hotspot->getAdminName(),
         );
 
-        // The name is read per row (trail, search), so only the header's subtitle counts the siblings.
+        // The name is read per row (trail, search), so only the header's subtitle names the total.
         self::assertSame(
             Yii::t('skeleton', 'COMMON_MODEL_POSITION_TOTAL', [
                 'model' => $hotspot->getAdminType(),
-                'position' => 2,
+                'position' => 1,
                 'total' => 2,
             ]),
             $hotspot->getAdminSubtitle(),
@@ -71,5 +70,30 @@ class HotspotTest extends TestCase
 
         $hotspot->name = 'Test Hotspot';
         self::assertSame('Test Hotspot', $hotspot->getAdminName());
+    }
+
+    public function testAPositionPastTheCountFallsBackToTheNumber(): void
+    {
+        $hotspot = Hotspot::findOne(1);
+        self::assertInstanceOf(Hotspot::class, $hotspot);
+
+        $hotspot->position = 42;
+
+        self::assertSame(
+            Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $hotspot->getAdminType(), 'id' => 42]),
+            $hotspot->getAdminSubtitle(),
+        );
+    }
+
+    public function testDeletingAHotspotRenumbersTheOthers(): void
+    {
+        $hotspot = Hotspot::findOne(1);
+        self::assertInstanceOf(Hotspot::class, $hotspot);
+        self::assertSame(1, $hotspot->delete());
+
+        $sibling = Hotspot::findOne(2);
+        self::assertInstanceOf(Hotspot::class, $sibling);
+        self::assertSame(1, $sibling->position);
+        self::assertSame(1, $sibling->asset->getAttribute('hotspot_count'));
     }
 }

@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Changed `Hotspot::updateAssetHotspotCount()` to renumber the hotspots `1..n` first, so a delete leaves no gap;
+  `M260924100000RenumberHotspotPositions` closes the gaps an installation already holds
 - Changed `Artwork::hotspotWrapper()` to stack its closures
 
 ## 3.0.0 (September 23, 2026)

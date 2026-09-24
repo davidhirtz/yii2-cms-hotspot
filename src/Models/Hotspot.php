@@ -19,6 +19,7 @@ use Hirtz\Skeleton\Behaviors\BlameableBehavior;
 use Hirtz\Skeleton\Behaviors\TimestampBehavior;
 use Hirtz\Skeleton\Behaviors\TrailBehavior;
 use Hirtz\Skeleton\Db\ActiveRecord;
+use Hirtz\Skeleton\Db\Commands\RenumberPositions;
 use Hirtz\Skeleton\Models\CustomAttributes\CustomAttribute;
 use Hirtz\Skeleton\Models\CustomAttributes\HtmlCustomAttribute;
 use Hirtz\Skeleton\Models\CustomAttributes\TextCustomAttribute;
@@ -186,8 +187,7 @@ class Hotspot extends ActiveRecord implements
             'TimestampBehavior' => TimestampBehavior::class,
         ]);
 
-        // The column defaults to `0`, so `??=` never fired and no hotspot was ever given a position;
-        // `Migrations\M260918100000Position` renumbers the ones an installation already holds.
+        // The column defaults to `0`, so `??=` would never fire.
         $this->position = $this->position ?: ($this->getMaxPosition() + 1);
 
         $this->shouldUpdateAssetAfterInsert ??= !$this->getIsBatch();
@@ -288,8 +288,15 @@ class Hotspot extends ActiveRecord implements
         $this->asset_id = $asset?->id;
     }
 
+    /**
+     * Renumbers the hotspots first, so the count is also the total each position is out of.
+     */
     public function updateAssetHotspotCount(): void
     {
+        (new RenumberPositions(static::getDb(), static::tableName(), ['asset_id'], [
+            'asset_id' => $this->asset_id,
+        ]))->execute();
+
         $this->asset->setAttribute('hotspot_count', (int)static::findSiblings()->count());
         $this->asset->update();
     }
@@ -383,7 +390,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getAdminSubtitle(): string
     {
-        return $this->getAdminPositionLabel(siblings: $this->findSiblings());
+        return $this->getAdminPositionLabel(total: (int)$this->asset->getAttribute('hotspot_count'));
     }
 
     /**
