@@ -59,8 +59,15 @@ class HotspotTest extends TestCase
             $hotspot->getAdminName(),
         );
 
-        // The name and the subtitle name the same record, so they must not disagree about how.
-        self::assertSame($hotspot->getAdminSubtitle(), $hotspot->getAdminName());
+        // The name is read per row (trail, search), so only the header's subtitle counts the siblings.
+        self::assertSame(
+            Yii::t('skeleton', 'COMMON_MODEL_POSITION_TOTAL', [
+                'model' => $hotspot->getAdminType(),
+                'position' => 2,
+                'total' => 2,
+            ]),
+            $hotspot->getAdminSubtitle(),
+        );
 
         $hotspot->name = 'Test Hotspot';
         self::assertSame('Test Hotspot', $hotspot->getAdminName());

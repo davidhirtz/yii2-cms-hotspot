@@ -383,7 +383,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getAdminSubtitle(): string
     {
-        return $this->getAdminPositionLabel();
+        return $this->getAdminPositionLabel(siblings: $this->findSiblings());
     }
 
     /**

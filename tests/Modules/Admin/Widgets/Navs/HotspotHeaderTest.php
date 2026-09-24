@@ -90,9 +90,9 @@ class HotspotHeaderTest extends TestCase
         self::assertIsString($html);
         self::assertSame(
             [
-                $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position),
-                $this->subtitleItem("/admin/cms/section-asset/update?id=$asset->id", $this->getAssetType(), $asset->position),
-                $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position),
+                $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), 1, 5),
+                $this->subtitleItem("/admin/cms/section-asset/update?id=$asset->id", $this->getAssetType(), 1, 4),
+                $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), 1, 2),
             ],
             $this->getSubtitleItems($html),
         );
@@ -120,10 +120,10 @@ class HotspotHeaderTest extends TestCase
         );
         self::assertSame(
             [
-                $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), $section->position),
-                $this->subtitleItem("/admin/cms/section-asset/update?id=$sectionAsset->id", $this->getAssetType(), $sectionAsset->position),
-                $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), $hotspot->position),
-                $this->subtitleItem("/admin/hotspot/hotspot-asset/update?id=$asset->id", $this->getAssetType(), $asset->position),
+                $this->subtitleItem("/admin/cms/section/update?id=$section->id", $section->getAdminType(), 1, 5),
+                $this->subtitleItem("/admin/cms/section-asset/update?id=$sectionAsset->id", $this->getAssetType(), 1, 4),
+                $this->subtitleItem("/admin/hotspot/hotspot/update?id=$hotspot->id", $hotspot->getAdminType(), 1, 2),
+                $this->subtitleItem("/admin/hotspot/hotspot-asset/update?id=$asset->id", $this->getAssetType(), 1, 1),
             ],
             $this->getSubtitleItems($html),
         );
@@ -148,9 +148,13 @@ class HotspotHeaderTest extends TestCase
     /**
      * @return array{string, string}
      */
-    private function subtitleItem(string $route, string $type, int $position): array
+    private function subtitleItem(string $route, string $type, int $position, int $total): array
     {
-        return [$route, Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $type, 'id' => $position])];
+        return [$route, Yii::t('skeleton', 'COMMON_MODEL_POSITION_TOTAL', [
+            'model' => $type,
+            'position' => $position,
+            'total' => $total,
+        ])];
     }
 
     /**
