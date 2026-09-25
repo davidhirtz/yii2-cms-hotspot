@@ -1,4 +1,4 @@
-## Unreleased
+## 3.2.0 (September 25, 2026)
 
 - Changed `HotspotAsset` to declare every custom attribute of an asset
 
