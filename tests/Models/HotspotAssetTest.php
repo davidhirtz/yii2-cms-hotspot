@@ -55,7 +55,7 @@ class HotspotAssetTest extends TestCase
 
     public function testAnAssetOfAnotherModelKeepsThemAll(): void
     {
-        $asset = $this->getAssetFromFixture('entry-asset');
+        $asset = $this->getAssetFromFixture('section-image-1');
 
         self::assertSame(
             ['name', 'content', 'alt_text', 'link', 'embed_url', 'loading', 'fetchpriority'],
