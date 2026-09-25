@@ -1,3 +1,7 @@
+## Unreleased
+
+- Changed `HotspotAsset` to declare every custom attribute of an asset
+
 ## 3.1.0 (September 24, 2026)
 
 - Changed `Hotspot::updateAssetHotspotCount()` to renumber the hotspots `1..n` first, so a delete leaves no gap;

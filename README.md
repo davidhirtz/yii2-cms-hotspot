@@ -71,8 +71,8 @@ ones to translate are `translatableAttributes` (never `i18nAttributes`, which na
 ],
 ```
 
-`Models\HotspotAsset` is a `Hirtz\Media\Models\Asset` subclass and is configured as one; it offers `name`, `content`,
-`alt_text` and `link` only.
+`Models\HotspotAsset` is a `Hirtz\Media\Models\Asset` subclass and is configured as one, with the asset's custom
+attributes.
 
 ### Widgets replaced through the container
 

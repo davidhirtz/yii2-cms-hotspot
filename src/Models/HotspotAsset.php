@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Models;
 
 use Hirtz\Media\Models\Asset;
-use Hirtz\Skeleton\Models\CustomAttributes\CustomAttribute;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Override;
 use Yii;
@@ -35,23 +34,6 @@ class HotspotAsset extends Asset
     public static function getAdminControllerRoute(): string
     {
         return '/admin/hotspot/hotspot-asset';
-    }
-
-    /**
-     * A hotspot asset is a marker on an image: it is never an embed, and it is never the element whose loading
-     * priority the page tunes — the asset the hotspot sits on is.
-     *
-     * @return list<CustomAttribute>
-     */
-    #[Override]
-    protected function getDefaultCustomAttributes(): array
-    {
-        $names = ['name', 'content', 'alt_text', 'link'];
-
-        return array_values(array_filter(
-            parent::getDefaultCustomAttributes(),
-            static fn (CustomAttribute $definition): bool => in_array($definition->name, $names, true),
-        ));
     }
 
     /**
