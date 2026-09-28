@@ -20,12 +20,16 @@ use Hirtz\Media\Modules\Admin\Data\FileActiveDataProvider;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\FileGridView;
 use Hirtz\Skeleton\Web\View;
 use Hirtz\Skeleton\Widgets\Grids\GridContainer;
+use Hirtz\Skeleton\Modules\Admin\Widgets\HintAlert;
 
 echo HotspotHeader::make()
     ->model($model);
 
 echo HotspotSubmenu::make()
     ->model($model);
+
+echo HintAlert::make()
+    ->text(Yii::t('media', 'ASSET_CREATE_HINT'));
 
 echo GridContainer::make()
     ->grid(FileGridView::make()
