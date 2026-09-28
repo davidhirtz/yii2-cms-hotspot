@@ -1,6 +1,6 @@
 ## Unreleased
 
-- Added a default hotspot view the `Artwork` widget falls back to while the page has none (`Artwork::DEFAULT_HOTSPOT_VIEW_FILE`)
+- Added `Artwork::DEFAULT_HOTSPOT_VIEW_FILE`
 
 ## 3.2.0 (September 25, 2026)
 
