@@ -1,4 +1,4 @@
-## Unreleased
+## 3.3.0 (September 28, 2026)
 
 - Added `Artwork::DEFAULT_HOTSPOT_VIEW_FILE`
 
