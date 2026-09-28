@@ -9,10 +9,13 @@ use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Skeleton\Html\Div;
 use Override;
 use Stringable;
+use yii\base\ViewNotFoundException;
 
 class Artwork extends \Hirtz\Cms\Widgets\Artwork
 {
     use ModuleTrait;
+
+    final public const string DEFAULT_HOTSPOT_VIEW_FILE = '@hotspot/../resources/views/widgets/_hotspots.php';
 
     protected string|false $hotspotViewFile = 'widgets/_hotspots';
 
@@ -59,6 +62,15 @@ class Artwork extends \Hirtz\Cms\Widgets\Artwork
             ? ($this->asset->getRelatedRecords()['hotspots'] ?? null)
             : null;
 
-        return $hotspots ? $this->view->render($this->hotspotViewFile, ['hotspots' => $hotspots]) : null;
+        if (!$hotspots) {
+            return null;
+        }
+
+        // The view is the page's own, resolved beside it; a project that never wrote one gets the bundle's.
+        try {
+            return $this->view->render($this->hotspotViewFile, ['hotspots' => $hotspots]);
+        } catch (ViewNotFoundException) {
+            return $this->view->render(self::DEFAULT_HOTSPOT_VIEW_FILE, ['hotspots' => $hotspots]);
+        }
     }
 }

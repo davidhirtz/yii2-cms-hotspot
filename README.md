@@ -86,7 +86,9 @@ extends the hotspot subclass.
 `Widgets\Artwork` renders the asset as the cms widget does and, where `allowsHotspots()` answers `true` and the asset
 has hotspots, wraps media and hotspots in a `<div class="relative">`. The hotspots come from the view named by
 `hotspotViewFile()` (default `widgets/_hotspots`, resolved relative to the page's view like the cms `widgets/_embed`),
-which receives `$hotspots`, a list of `Models\Hotspot`:
+which receives `$hotspots`, a list of `Models\Hotspot`. A page without that view gets the bundle's default
+(`Artwork::DEFAULT_HOTSPOT_VIEW_FILE`: one `.hotspot` link per hotspot, placed by its percentages); a project's own
+looks like this:
 
 ```php
 <?php foreach ($hotspots as $hotspot): ?>
