@@ -1,4 +1,4 @@
-## Unreleased
+## 3.4.0 (September 29, 2026)
 
 - Requires `davidhirtz/yii2-cms` `^3.7`, whose skeleton makes date columns dates: `Hotspot` no longer attaches `DateTimeBehavior`
 
