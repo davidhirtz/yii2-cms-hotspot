@@ -19,68 +19,74 @@ use Hirtz\Media\Models\Asset;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Widgets\Artwork;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
+use Hirtz\Skeleton\Base\ConfigBootstrapInterface;
 use Hirtz\Skeleton\Helpers\EventHelper;
 use Hirtz\Skeleton\Models\Actions\DuplicateActiveRecord;
 use Hirtz\Skeleton\Models\Events\DuplicateActiveRecordEvent;
 use Hirtz\Skeleton\Models\User;
 use Hirtz\Skeleton\Web\Application;
 use Hirtz\Skeleton\Widgets\Widget;
+use Override;
 use Yii;
-use yii\base\BootstrapInterface;
 use yii\base\Event;
 use yii\base\ModelEvent;
 use yii\db\BaseActiveRecord;
 use yii\i18n\PhpMessageSource;
 
-class Bootstrap implements BootstrapInterface
+class Bootstrap implements ConfigBootstrapInterface
 {
+    #[Override]
+    public static function getDefaultConfig(): array
+    {
+        return [
+            'components' => [
+                'i18n' => [
+                    'translations' => [
+                        'hotspot' => [
+                            'class' => PhpMessageSource::class,
+                            'basePath' => '@hotspot/../messages',
+                            'forceTranslation' => true,
+                        ],
+                    ],
+                ],
+                'search' => [
+                    'models' => [
+                        Hotspot::class,
+                        HotspotAsset::class,
+                    ],
+                ],
+            ],
+            'container' => [
+                'definitions' => [
+                    AssetPreviewField::class => Modules\Admin\Widgets\Forms\Fields\AssetPreviewField::class,
+                    AssetThumbnailColumn::class => Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn::class,
+                    Artwork::class => Widgets\Artwork::class,
+                ],
+            ],
+            'modules' => [
+                'admin' => [
+                    'modules' => [
+                        'hotspot' => [
+                            'class' => Modules\Admin\Module::class,
+                        ],
+                    ],
+                ],
+                'hotspot' => [
+                    'class' => Module::class,
+                ],
+                'media' => [
+                    'assets' => [HotspotAsset::class],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @param Application<User> $app
      */
     public function bootstrap($app): void
     {
         Yii::setAlias('@hotspot', __DIR__);
-
-        $app->getI18n()->translations['hotspot'] ??= [
-            'class' => PhpMessageSource::class,
-            'basePath' => '@hotspot/../messages',
-                    'forceTranslation' => true,
-];
-
-        $app->extendComponent('search', [
-            'models' => [
-                Hotspot::class,
-                HotspotAsset::class,
-            ],
-        ]);
-
-        $app->extendModules([
-            'admin' => [
-                'modules' => [
-                    'hotspot' => [
-                        'class' => Modules\Admin\Module::class,
-                    ],
-                ],
-            ],
-            'hotspot' => [
-                'class' => Module::class,
-            ],
-            'media' => [
-                'assets' => [HotspotAsset::class],
-            ],
-        ]);
-
-        $definitions = [
-            AssetPreviewField::class => Modules\Admin\Widgets\Forms\Fields\AssetPreviewField::class,
-            AssetThumbnailColumn::class => Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn::class,
-            Artwork::class => Widgets\Artwork::class,
-        ];
-
-        foreach ($definitions as $class => $definition) {
-            if (!Yii::$container->has($class)) {
-                Yii::$container->set($class, $definition);
-            }
-        }
 
         // Every cms asset can carry hotspots.
         foreach ([BlockAsset::class, EntryAsset::class, SectionAsset::class] as $assetClass) {
