@@ -1,3 +1,7 @@
+## Unreleased
+
+- Requires `davidhirtz/yii2-cms` `^3.7`, whose skeleton makes date columns dates: `Hotspot` no longer attaches `DateTimeBehavior`
+
 ## 3.3.0 (September 28, 2026)
 
 - Added `Artwork::DEFAULT_HOTSPOT_VIEW_FILE`
