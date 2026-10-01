@@ -203,9 +203,13 @@ class Hotspot extends ActiveRecord implements
             if ($this->shouldUpdateAssetAfterInsert) {
                 $this->updateAssetHotspotCount();
             }
+
+            Asset::getModule()->invalidatePageCache();
         } elseif ($changedAttributes) {
+            // Through the asset's save hooks, which touch its owner and invalidate the page cache, but without
+            // validating an asset that may no longer validate.
             $this->asset->updated_at = $this->updated_at;
-            $this->asset->update();
+            $this->asset->update(false, ['updated_at']);
         }
 
         parent::afterSave($insert, $changedAttributes);
@@ -233,6 +237,8 @@ class Hotspot extends ActiveRecord implements
         if (!$this->asset->isDeleted()) {
             $this->updateAssetHotspotCount();
         }
+
+        Asset::getModule()->invalidatePageCache();
 
         parent::afterDelete();
     }
@@ -295,8 +301,9 @@ class Hotspot extends ActiveRecord implements
             'asset_id' => $this->asset_id,
         ]))->execute();
 
-        $this->asset->setAttribute('hotspot_count', (int)static::findSiblings()->count());
-        $this->asset->update();
+        $this->asset->updateDenormalizedAttributes([
+            'hotspot_count' => (int)$this->findSiblings()->count(),
+        ]);
     }
 
     public function getMaxPosition(): int

@@ -7,7 +7,12 @@ namespace Hirtz\Cms\Hotspot\Tests\Models;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
+use Hirtz\Media\Models\Asset;
+use Hirtz\Skeleton\Filters\PageCache;
+use Hirtz\Skeleton\Models\CustomAttributes\TextCustomAttribute;
 use Yii;
+use yii\caching\TagDependency;
+use yii\db\Query;
 
 class HotspotTest extends TestCase
 {
@@ -95,5 +100,35 @@ class HotspotTest extends TestCase
         self::assertInstanceOf(Hotspot::class, $sibling);
         self::assertSame(1, $sibling->position);
         self::assertSame(1, $sibling->asset->getAttribute('hotspot_count'));
+    }
+
+    /**
+     * The count is bookkeeping: an asset that no longer validates (a required custom attribute added to its type)
+     * must still record its hotspots, or deleting it leaves them to the foreign key's cascade.
+     */
+    public function testTheCountIsWrittenOnAnAssetThatNoLongerValidates(): void
+    {
+        $asset = $this->getAssetFromFixture('post-asset');
+        $asset->setCustomAttributes([TextCustomAttribute::make('credit')->required()]);
+
+        $cache = Yii::$app->getCache();
+        $cache->set('page', 'cached', 0, new TagDependency(['tags' => [PageCache::TAG_DEPENDENCY_KEY]]));
+
+        $hotspot = Hotspot::create();
+        $hotspot->populateAssetRelation($asset);
+        $hotspot->x = 10;
+        $hotspot->y = 10;
+
+        self::assertTrue($hotspot->insert(), print_r($hotspot->getErrors(), true));
+        self::assertFalse($cache->get('page'));
+
+        $stored = (new Query())->select('hotspot_count')->from(Asset::tableName())->where(['id' => $asset->id]);
+        self::assertSame(1, (int)$stored->scalar());
+
+        $hotspot->x = 20;
+        self::assertSame(1, $hotspot->update());
+
+        self::assertSame(1, $hotspot->delete());
+        self::assertSame(0, (int)$stored->scalar());
     }
 }
