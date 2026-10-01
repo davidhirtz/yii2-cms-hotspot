@@ -77,6 +77,39 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
         self::assertSame($asset->file_id, $file->id);
     }
 
+    public function testHotspotsWithoutHotspotAssetsAreLoaded(): void
+    {
+        Hotspot::updateAll(['asset_count' => 0]);
+
+        $asset = $this->getPreloadedSectionAsset();
+        self::assertArrayHasKey('hotspots', $asset->getRelatedRecords());
+
+        $hotspot = current($asset->getRelatedRecords()['hotspots']);
+        self::assertInstanceOf(Hotspot::class, $hotspot);
+        self::assertSame([], $hotspot->getRelatedRecords()['assets']);
+    }
+
+    public function testHotspotsAreLoadedWithHotspotAssetsDisabled(): void
+    {
+        Hotspot::getModule()->enableHotspotAssets = false;
+
+        $asset = $this->getPreloadedSectionAsset();
+        self::assertArrayHasKey('hotspots', $asset->getRelatedRecords());
+        self::assertNotEmpty($asset->getRelatedRecords()['hotspots']);
+    }
+
+    public function testEachPreloadLoadsOnlyItsOwnHotspotAssets(): void
+    {
+        $this->getPreloadedSectionAsset();
+
+        Hotspot::updateAll(['asset_count' => 0]);
+        $asset = $this->getPreloadedSectionAsset();
+
+        $hotspot = current($asset->getRelatedRecords()['hotspots']);
+        self::assertInstanceOf(Hotspot::class, $hotspot);
+        self::assertSame([], $hotspot->getRelatedRecords()['assets']);
+    }
+
     /**
      * A block's assets are loaded with the entry's own, so their hotspots are too (monorepo issue #145).
      */
@@ -129,6 +162,21 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
         $hotspots = $loaded->getRelatedRecords()['hotspots'];
         self::assertCount(1, $hotspots);
         self::assertSame($hotspot->id, current($hotspots)->id);
+    }
+
+    private function getPreloadedSectionAsset(): SectionAsset
+    {
+        $preload = new PreloadEntrySiteRelations([
+            'entry' => $this->getEntryFromFixture('page-enabled'),
+        ]);
+
+        $section = current($preload->entry->getRelatedRecords()['sections']);
+        self::assertInstanceOf(Section::class, $section);
+
+        $asset = current($section->getRelatedRecords()['assets']);
+        self::assertInstanceOf(SectionAsset::class, $asset);
+
+        return $asset;
     }
 }
 

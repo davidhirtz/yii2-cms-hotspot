@@ -16,20 +16,8 @@ class HotspotEntrySiteRelationsEventHandler
     use ModuleTrait;
 
     /**
-     * @var Hotspot[]
+     * One instance serves every preload of the process, so nothing of a preload is kept on it.
      */
-    private array $hotspots = [];
-
-    /**
-     * @var HotspotAsset[]
-     */
-    private array $hotspotAssets = [];
-
-    /**
-     * @var int[]
-     */
-    private array $hotspotIdsWithHotspotAssets = [];
-
     public function __invoke(EntrySiteRelationsEvent $event): void
     {
         if (!$event->sender->assets) {
@@ -51,7 +39,7 @@ class HotspotEntrySiteRelationsEventHandler
 
         Yii::debug('Loading related hotspots ...');
 
-        $this->hotspots = Hotspot::find()
+        $hotspots = Hotspot::find()
             ->selectSiteAttributes()
             ->withTranslations()
             ->whereStatus()
@@ -59,46 +47,54 @@ class HotspotEntrySiteRelationsEventHandler
             ->indexBy('id')
             ->all();
 
+        foreach ($event->sender->assets as $asset) {
+            if (in_array($asset->id, $assetIdsWithHotspots, true)) {
+                $related = array_filter($hotspots, fn (Hotspot $hotspot): bool => $hotspot->asset_id === $asset->id);
+                $asset->populateRelation('hotspots', $related);
+            }
+        }
+
         if (!$module->enableHotspotAssets) {
             return;
         }
 
-        foreach ($this->hotspots as $hotspot) {
+        $hotspotIdsWithHotspotAssets = [];
+
+        foreach ($hotspots as $hotspot) {
             if ($hotspot->asset_count) {
-                $this->hotspotIdsWithHotspotAssets[] = $hotspot->id;
+                $hotspotIdsWithHotspotAssets[] = $hotspot->id;
             }
         }
 
-        if (!$this->hotspotIdsWithHotspotAssets) {
+        if (!$hotspotIdsWithHotspotAssets) {
+            foreach ($hotspots as $hotspot) {
+                $hotspot->populateAssetRelations([]);
+            }
+
             return;
         }
 
         Yii::debug('Loading related hotspot assets ...');
 
-        $this->hotspotAssets = HotspotAsset::find()
+        $hotspotAssets = HotspotAsset::find()
             ->selectSiteAttributes()
             ->whereStatus()
-            ->andWhere(['model_id' => $this->hotspotIdsWithHotspotAssets])
+            ->andWhere(['model_id' => $hotspotIdsWithHotspotAssets])
             ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')
             ->all();
 
-        foreach ($this->hotspotAssets as $asset) {
+        foreach ($hotspotAssets as $asset) {
             $event->sender->fileIds[] = $asset->file_id;
         }
 
-        $event->sender->on(PreloadEntrySiteRelations::EVENT_AFTER_LOAD_FILES, function () use ($event): void {
-            foreach ($this->hotspotAssets as $hotspotAsset) {
+        $event->sender->on(PreloadEntrySiteRelations::EVENT_AFTER_LOAD_FILES, function () use ($event, $hotspots, $hotspotAssets): void {
+            foreach ($hotspotAssets as $hotspotAsset) {
                 $hotspotAsset->populateFileRelation($event->sender->files[$hotspotAsset->file_id] ?? null);
             }
 
-            foreach ($this->hotspots as $hotspot) {
-                $hotspot->populateAssetRelations($this->hotspotAssets);
-            }
-
-            foreach ($event->sender->assets as $asset) {
-                $hotspots = array_filter($this->hotspots, fn (Hotspot $hotspot) => $hotspot->asset_id == $asset->id);
-                $asset->populateRelation('hotspots', $hotspots);
+            foreach ($hotspots as $hotspot) {
+                $hotspot->populateAssetRelations($hotspotAssets);
             }
         });
     }
