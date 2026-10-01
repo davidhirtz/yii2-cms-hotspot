@@ -203,16 +203,19 @@ class Hotspot extends ActiveRecord implements
             if ($this->shouldUpdateAssetAfterInsert) {
                 $this->updateAssetHotspotCount();
             }
-
-            Asset::getModule()->invalidatePageCache();
         } elseif ($changedAttributes) {
-            // Through the asset's save hooks, which touch its owner and invalidate the page cache, but without
-            // validating an asset that may no longer validate.
-            $this->asset->updated_at = $this->updated_at;
-            $this->asset->update(false, ['updated_at']);
+            $this->touchOwners();
         }
 
+        Asset::getModule()->invalidatePageCache();
+
         parent::afterSave($insert, $changedAttributes);
+    }
+
+    #[Override]
+    protected function touchOwners(): void
+    {
+        $this->asset->touchUpdatedAt();
     }
 
     #[Override]
