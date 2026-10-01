@@ -3,7 +3,7 @@
 Image hotspots for [yii2-cms](https://github.com/davidhirtz/yii2-cms): markers placed on an entry, section or block
 asset, each with a name, content, a link, a type and optionally assets of its own. The admin adds an editor to the
 asset preview, the frontend widget renders them over the image, and the cms site preload loads them with the entry.
-Requires `davidhirtz/yii2-cms` 3.0, which brings `yii2-media`, `yii2-tenant` and `yii2-skeleton`.
+Requires `davidhirtz/yii2-cms` `^3.10`, `yii2-media` `^3.6` and `yii2-skeleton` `^3.8`; the cms brings `yii2-tenant`.
 
 ## Installation
 

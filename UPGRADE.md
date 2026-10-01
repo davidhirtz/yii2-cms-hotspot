@@ -214,8 +214,9 @@ instance method. The v2 array form is refused. `Hotspot::allowsAssets()` (was `h
 
 It extends `Hirtz\Media\Models\Asset` and lives in the `asset` table with `model_class` set to its class name. The
 hotspot is `$asset->model` (was `$hotspot`), `hotspot_id` is `model_id`, `find()` is scoped to the class and
-`where()` on it replaces that scope (use `andWhere()`). The text attributes are the media asset's custom attributes,
-narrowed to `name`, `content`, `alt_text` and `link`; `embed_url`, `loading` and `fetchpriority` are not offered.
+`where()` on it replaces that scope (use `andWhere()`). The text attributes are every custom attribute of a media
+asset (`content`, `alt_text`, `link`, `embed_url`, `loading`, `fetchpriority`). v2's `name` is moved into
+`custom_attributes` with the others but is not declared; a project that shows it declares it on its own subclass.
 Reordering, status, removal and deletion go through the media `AssetControllerTrait`, so a project's own hotspot asset
 controller or grid subclasses the media ones.
 
