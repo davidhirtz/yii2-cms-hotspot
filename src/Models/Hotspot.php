@@ -59,7 +59,7 @@ use Hirtz\Skeleton\Db\DateTime;
  * @property string|float $y
  * @property int $position
  * @property int $asset_count
- * @property DateTime $updated_at
+ * @property DateTime|null $updated_at
  * @property DateTime $created_at
  *
  * @property-read BlockAsset|EntryAsset|SectionAsset $asset {@see static::getAsset()}

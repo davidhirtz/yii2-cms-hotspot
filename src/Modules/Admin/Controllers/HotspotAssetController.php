@@ -123,7 +123,7 @@ class HotspotAssetController extends Controller
         $asset = $this->findAsset($id, HotspotAsset::class);
 
         // Throws when the cms asset the hotspot sits on may not be edited.
-        $this->findHotspot($asset->model_id);
+        $this->findHotspot((int)$asset->model_id);
 
         return $asset;
     }
