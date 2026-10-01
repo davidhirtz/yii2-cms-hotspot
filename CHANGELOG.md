@@ -1,8 +1,10 @@
 ## Unreleased
 
 - Fixed hotspots missing on the frontend when none of them has hotspot assets or `enableHotspotAssets` is off
-- Changed the requirements to `davidhirtz/yii2-cms` `^3.10` and `davidhirtz/yii2-media` `^3.6`
 - Fixed `Hotspot::updateAssetHotspotCount()` skipping an asset that no longer validates
+- Changed the requirements to `davidhirtz/yii2-cms` `^3.10`, `davidhirtz/yii2-media` `^3.10` and
+  `davidhirtz/yii2-skeleton` `^3.11`
+- Fixed hotspots and hotspot assets not touching the entry's `updated_at`
 
 ## 3.5.0 (September 30, 2026)
 
