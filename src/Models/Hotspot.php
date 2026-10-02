@@ -119,7 +119,7 @@ class Hotspot extends ActiveRecord implements
                 'required',
             ],
             [
-                ['asset_id', 'position'],
+                ['asset_id', '!position'],
                 'integer',
             ],
             [

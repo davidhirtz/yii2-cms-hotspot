@@ -51,6 +51,17 @@ class HotspotTest extends TestCase
         self::assertFalse($hotspot->isAttributeChanged('y'));
     }
 
+    public function testThePositionIsNotMassAssignable(): void
+    {
+        $hotspot = Hotspot::findOne(1);
+        self::assertInstanceOf(Hotspot::class, $hotspot);
+
+        $position = $hotspot->position;
+        $hotspot->load(['position' => 40000], '');
+
+        self::assertSame($position, $hotspot->position);
+    }
+
     public function testANamelessHotspotIsNamedByItsPosition(): void
     {
         $hotspot = Hotspot::findOne(1);
