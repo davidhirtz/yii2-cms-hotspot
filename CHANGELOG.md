@@ -1,4 +1,4 @@
-## Unreleased
+## 3.6.0 (October 2, 2026)
 
 - Fixed hotspots missing on the frontend when none of them has hotspot assets or `enableHotspotAssets` is off
 - Fixed `Hotspot::updateAssetHotspotCount()` skipping an asset that no longer validates
