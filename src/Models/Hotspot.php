@@ -225,10 +225,8 @@ class Hotspot extends ActiveRecord implements
             return false;
         }
 
-        if ($this->asset_count) {
-            foreach ($this->assets as $asset) {
-                $asset->delete();
-            }
+        foreach ($this->assets as $asset) {
+            $asset->delete();
         }
 
         return true;

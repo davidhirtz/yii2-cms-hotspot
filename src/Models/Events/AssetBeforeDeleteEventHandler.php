@@ -18,14 +18,12 @@ readonly class AssetBeforeDeleteEventHandler
 
     protected function handleEvent(): void
     {
-        if ($this->asset->getAttribute('hotspot_count')) {
-            Yii::debug('Deleting hotspots before deleting asset ...', __METHOD__);
+        Yii::debug('Deleting hotspots before deleting asset ...', __METHOD__);
 
-            $hotspots = Hotspot::findAll(['asset_id' => $this->asset->id]);
+        $hotspots = Hotspot::findAll(['asset_id' => $this->asset->id]);
 
-            foreach ($hotspots as $hotspot) {
-                $hotspot->delete();
-            }
+        foreach ($hotspots as $hotspot) {
+            $hotspot->delete();
         }
     }
 }
