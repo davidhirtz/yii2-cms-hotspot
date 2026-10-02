@@ -32,7 +32,7 @@ class HotspotTest extends TestCase
         $hotspot->x = 50;
         $hotspot->y = 50;
 
-        self::assertTrue($hotspot->insert());
+        self::assertTrue($hotspot->insert(), print_r($hotspot->getErrors(), true));
         self::assertEquals(1, $asset->getAttribute('hotspot_count'));
 
         self::assertTrue($hotspot->delete() === 1);
@@ -46,7 +46,7 @@ class HotspotTest extends TestCase
 
         $hotspot->load(['x' => (string)(float)$hotspot->x, 'y' => (string)(float)$hotspot->y], '');
 
-        self::assertTrue($hotspot->validate());
+        self::assertTrue($hotspot->validate(), print_r($hotspot->getErrors(), true));
         self::assertFalse($hotspot->isAttributeChanged('x'));
         self::assertFalse($hotspot->isAttributeChanged('y'));
     }
