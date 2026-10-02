@@ -7,7 +7,7 @@
 return [
     'ASSET_PREVIEW_DOUBLE_CLICK' => 'Mit einem Doppelklick auf das Bild können Sie einen neuen Hotspot erstellen.',
     'COMMON_HOTSPOT' => 'Hotspot',
-    'COMMON_HOTSPOT_ASSET' => 'Hotspot Asset',
+    'COMMON_HOTSPOT_ASSET' => 'Hotspot-Dateiverknüpfung',
     'HOTSPOT_ASSET_ID_LABEL' => 'Dateiverknüpfung',
     'HOTSPOT_BUTTON_DELETE' => 'Hotspot löschen',
     'HOTSPOT_BUTTON_DUPLICATE' => 'Hotspot duplizieren',
