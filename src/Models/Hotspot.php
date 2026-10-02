@@ -270,7 +270,7 @@ class Hotspot extends ActiveRecord implements
                 ->label(Yii::t('cms', 'HOTSPOT_CONTENT_LABEL'))
                 ->translatable($this->isTranslatableAttribute('content')),
             UrlCustomAttribute::make('link')
-                ->label(Yii::t('cms', 'HOTSPOT_LINK_LABEL'))
+                ->label(Yii::t('hotspot', 'HOTSPOT_LINK_LABEL'))
                 ->translatable($this->isTranslatableAttribute('link')),
             ...$this->getOwnCustomAttributes(),
         ];
@@ -440,7 +440,7 @@ class Hotspot extends ActiveRecord implements
     {
         return [
             ...parent::attributeLabels(),
-            'asset_id' => Yii::t('cms', 'HOTSPOT_ASSET_ID_LABEL'),
+            'asset_id' => Yii::t('hotspot', 'HOTSPOT_ASSET_ID_LABEL'),
             'x' => Yii::t('hotspot', 'HOTSPOT_X_LABEL'),
             'y' => Yii::t('hotspot', 'HOTSPOT_Y_LABEL'),
             'asset_count' => Yii::t('media', 'MODEL_ASSET_COUNT_LABEL'),
