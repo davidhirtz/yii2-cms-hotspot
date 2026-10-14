@@ -115,15 +115,15 @@ class Hotspot extends ActiveRecord implements
                 'skipOnEmpty' => false,
             ],
             [
-                ['asset_id'],
+                ['!asset_id'],
                 'required',
             ],
             [
-                ['asset_id', '!position'],
+                ['!asset_id', '!position'],
                 'integer',
             ],
             [
-                ['asset_id'],
+                ['!asset_id'],
                 RelationValidator::class,
                 'required' => true,
             ],

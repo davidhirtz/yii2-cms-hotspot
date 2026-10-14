@@ -253,6 +253,25 @@ class HotspotControllerTest extends TestCase
         self::assertSame(1, BlockAsset::findOne($asset->id)?->getAttribute('hotspot_count'));
     }
 
+    public function testAPostedAssetIsIgnored(): void
+    {
+        $asset = $this->createBlockAsset();
+        $this->login();
+
+        $this->post('admin/hotspot/hotspot/create', ['id' => 4], [
+            'Hotspot' => [
+                'asset_id' => $asset->id,
+                'status' => Hotspot::STATUS_ENABLED,
+                'name' => 'Elsewhere',
+                'x' => '10',
+                'y' => '20',
+            ],
+        ]);
+
+        self::assertSame(4, $this->findHotspotByName('Elsewhere')?->asset_id);
+        self::assertSame(0, BlockAsset::findOne($asset->id)?->getAttribute('hotspot_count'));
+    }
+
     public function testTheUpdatePageOfABlockHotspotRendersTheBlockHeader(): void
     {
         $hotspot = $this->createBlockHotspot();
