@@ -76,6 +76,7 @@ class Bootstrap implements ConfigBootstrapInterface
                 ],
                 'media' => [
                     'assets' => [HotspotAsset::class],
+                    'fileReferenceModels' => [Hotspot::class],
                 ],
             ],
         ];
