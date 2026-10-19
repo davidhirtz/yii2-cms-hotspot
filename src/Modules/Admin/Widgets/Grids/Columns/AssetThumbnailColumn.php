@@ -6,7 +6,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Grids\Columns;
 
 use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\Html\Div;
-use Stringable;
+use Override;
 
 /**
  * @template T of Asset
@@ -14,41 +14,18 @@ use Stringable;
  */
 class AssetThumbnailColumn extends \Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn
 {
-    /**
-     * @param array<string, mixed> $config
-     */
-    public function __construct(array $config = [])
+    #[Override]
+    protected function getThumbnailBadges(Asset $asset): array
     {
-        $this->value ??= $this->getThumbnailWithHotspotCount(...);
-        parent::__construct($config);
-    }
-
-    /**
-     * @param T $asset
-     */
-    protected function getThumbnailWithHotspotCount(Asset $asset): string|Stringable
-    {
-        $content = $this->getThumbnail($asset);
+        $badges = parent::getThumbnailBadges($asset);
         $hotspotCount = $asset->getAttribute('hotspot_count');
 
-        if (!$content || !$hotspotCount) {
-            return $content;
+        if ($hotspotCount) {
+            array_unshift($badges, Div::make()
+                ->class('badge')
+                ->text((string)$hotspotCount));
         }
 
-        $badge = Div::make()
-            ->text((string)$hotspotCount)
-            ->addClass('badge')
-            ->addStyle([
-                'position' => 'absolute',
-                'top' => '5px',
-                'left' => '5px',
-            ]);
-
-        return Div::make()
-            ->content($content)
-            ->addContent($badge)
-            ->addStyle([
-                'position' => 'relative',
-            ]);
+        return $badges;
     }
 }

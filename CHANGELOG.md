@@ -1,3 +1,8 @@
+## Unreleased
+
+- Changed the `davidhirtz/yii2-media` requirement to `^3.18`
+- Removed `AssetThumbnailColumn::getThumbnailWithHotspotCount()`: the hotspot count is a thumbnail badge beside the asset type's icon
+
 ## 3.6.0 (October 2, 2026)
 
 - Fixed hotspots missing on the frontend when none of them has hotspot assets or `enableHotspotAssets` is off
