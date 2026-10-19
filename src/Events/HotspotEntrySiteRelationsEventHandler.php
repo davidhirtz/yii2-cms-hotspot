@@ -9,6 +9,7 @@ use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Models\Events\EntrySiteRelationsEvent;
+use Hirtz\Media\Models\Actions\LoadCustomAttributeFiles;
 use Yii;
 
 class HotspotEntrySiteRelationsEventHandler
@@ -53,6 +54,16 @@ class HotspotEntrySiteRelationsEventHandler
                 $asset->populateRelation('hotspots', $related);
             }
         }
+
+        // The files their custom attributes name share the preload's files query.
+        $event->sender->fileIds = [
+            ...$event->sender->fileIds,
+            ...LoadCustomAttributeFiles::getFileIds(array_values($hotspots)),
+        ];
+
+        $event->sender->on(PreloadEntrySiteRelations::EVENT_AFTER_LOAD_FILES, function () use ($event, $hotspots): void {
+            LoadCustomAttributeFiles::populate(array_values($hotspots), $event->sender->files);
+        });
 
         if (!$module->enableHotspotAssets) {
             return;

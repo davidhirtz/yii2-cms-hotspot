@@ -16,6 +16,7 @@ use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Types\BlockSectionType;
 use Hirtz\Cms\Models\Types\SectionType;
 use Hirtz\Cms\Test\Models\TestEntry;
+use Hirtz\Media\Models\CustomAttributes\FileCustomAttribute;
 use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Db\ActiveQuery;
 use Override;
@@ -28,6 +29,7 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
     #[Override]
     protected function tearDown(): void
     {
+        Yii::$container->clear(Hotspot::class);
         Yii::$container->clear(Section::class);
         parent::tearDown();
     }
@@ -75,6 +77,39 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
 
         self::assertInstanceOf(File::class, $file);
         self::assertSame($asset->file_id, $file->id);
+    }
+
+    public function testTheFileOfAHotspotCustomAttributeSharesTheFilesQuery(): void
+    {
+        Yii::$container->set(Hotspot::class, ['customAttributes' => [FileCustomAttribute::make('icon')]]);
+
+        $hotspot = Hotspot::findOne(1);
+        self::assertNotNull($hotspot);
+
+        $stored = $hotspot->getAttribute('custom_attributes');
+        $hotspot->updateAttributes(['custom_attributes' => [...is_array($stored) ? $stored : [], 'icon' => 2]]);
+
+        $preload = null;
+        $entry = $this->getEntryFromFixture('page-enabled');
+
+        $queries = $this->countQueries(function () use ($entry, &$preload): void {
+            $preload = new PreloadEntrySiteRelations(['entry' => $entry]);
+        }, '/FROM `file`/');
+
+        self::assertSame(1, $queries);
+
+        $section = current($entry->getRelatedRecords()['sections']);
+        self::assertInstanceOf(Section::class, $section);
+
+        $asset = current($section->getRelatedRecords()['assets']);
+        self::assertNotFalse($asset);
+
+        $hotspot = current($asset->getRelatedRecords()['hotspots']);
+        self::assertInstanceOf(Hotspot::class, $hotspot);
+
+        $queries = $this->countQueries(fn () => self::assertSame(2, FileCustomAttribute::getFile($hotspot, 'icon')?->id));
+
+        self::assertSame(0, $queries);
     }
 
     public function testHotspotsWithoutHotspotAssetsAreLoaded(): void
