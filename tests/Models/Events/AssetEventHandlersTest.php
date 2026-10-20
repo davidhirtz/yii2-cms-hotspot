@@ -13,6 +13,7 @@ use Hirtz\Cms\Models\BlockAsset;
 use Hirtz\Cms\Models\Section;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Media\Models\Actions\DuplicateAsset;
+use Hirtz\Media\Models\File;
 
 /**
  * The hotspots of a cms asset are the bundle's own, so the cms bootstrap knows nothing about them: they follow
@@ -31,6 +32,24 @@ class AssetEventHandlersTest extends TestCase
 
         self::assertSame(1, $asset->delete());
 
+        self::assertSame(0, (int)Hotspot::find()->where(['asset_id' => 4])->count());
+    }
+
+    /**
+     * The hotspot's own asset shows the same file, so deleting the section asset removes it before the file reaches
+     * it (monorepo issue #568).
+     */
+    public function testDeletingAFileShownByAnAssetAndItsHotspotDeletesBoth(): void
+    {
+        HotspotAsset::updateAll(['file_id' => 3], ['id' => 8]);
+
+        $file = File::findOne(3);
+
+        self::assertNotNull($file);
+        self::assertSame(1, $file->delete());
+
+        self::assertNull(SectionAsset::findOne(4));
+        self::assertNull(HotspotAsset::findOne(8));
         self::assertSame(0, (int)Hotspot::find()->where(['asset_id' => 4])->count());
     }
 
