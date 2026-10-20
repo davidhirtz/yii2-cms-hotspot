@@ -1,4 +1,4 @@
-## Unreleased
+## 3.7.0 (October 20, 2026)
 
 - Changed the `davidhirtz/yii2-media` requirement to `^3.18`
 - Removed `AssetThumbnailColumn::getThumbnailWithHotspotCount()`: the hotspot count is a thumbnail badge beside the asset type's icon
