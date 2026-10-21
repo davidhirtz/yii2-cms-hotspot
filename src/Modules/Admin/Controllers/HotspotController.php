@@ -128,8 +128,8 @@ class HotspotController extends Controller
     }
 
     /**
-     * The gate is on adding: an asset the admin offers no hotspots for is not found here, while a hotspot that
-     * already exists stays reachable through {@see HotspotTrait::findHotspot()}.
+     * The gate is on adding, duplicating included: an asset the admin offers no hotspots for is not found here, while
+     * a hotspot that already exists stays reachable through {@see HotspotTrait::findHotspot()}.
      */
     protected function findAsset(int $id): Asset
     {
@@ -149,6 +149,8 @@ class HotspotController extends Controller
     public function actionDuplicate(int $id): Response|string
     {
         $hotspot = $this->findHotspot($id);
+        $this->findAsset($hotspot->asset_id);
+
         $duplicate = DuplicateHotspot::create(['hotspot' => $hotspot]);
 
         if ($errors = $duplicate->getFirstErrors()) {

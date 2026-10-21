@@ -6,6 +6,7 @@ namespace Hirtz\Cms\Hotspot\Modules\Admin\Widgets\Navs;
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Modules\Admin\Controllers\HotspotController;
+use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
 use Hirtz\Skeleton\Widgets\Buttons\DeleteButton;
 use Hirtz\Skeleton\Widgets\Buttons\DuplicateButton;
 use Hirtz\Skeleton\Widgets\Navs\ActionDropdown;
@@ -20,6 +21,7 @@ class HotspotActionDropdown extends ActionDropdown
      * @use ModelTrait<Hotspot>
      */
     use ModelTrait;
+    use ModuleTrait;
 
     #[Override]
     protected function configure(): void
@@ -37,6 +39,10 @@ class HotspotActionDropdown extends ActionDropdown
      */
     protected function getDuplicateButton(): ?Stringable
     {
+        if (!static::getModule()->allowsHotspots($this->model->asset)) {
+            return null;
+        }
+
         return DuplicateButton::make()
             ->label(Yii::t('hotspot', 'HOTSPOT_BUTTON_DUPLICATE'))
             ->model($this->model)

@@ -327,6 +327,20 @@ class HotspotControllerTest extends TestCase
         self::assertSame(1, $duplicate->asset_count);
     }
 
+    public function testAHotspotIsNotDuplicatedOnAnAssetThatNoLongerOffersHotspots(): void
+    {
+        $this->login();
+        Hotspot::getModule()->enableSectionAssetHotspots = false;
+
+        $html = Yii::$app->runAction('admin/hotspot/hotspot/update', ['id' => 1]);
+
+        self::assertIsString($html);
+        self::assertStringNotContainsString('/admin/hotspot/hotspot/duplicate', $html);
+
+        $this->expectException(NotFoundHttpException::class);
+        $this->post('admin/hotspot/hotspot/duplicate', ['id' => 1]);
+    }
+
     /**
      * The name is a custom attribute, so it cannot be a query condition.
      */
