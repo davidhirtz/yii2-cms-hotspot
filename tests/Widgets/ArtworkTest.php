@@ -11,6 +11,7 @@ use Hirtz\Cms\Hotspot\Widgets\Artwork;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Skeleton\Helpers\FileHelper;
+use Hirtz\Skeleton\Models\Definitions\DefinitionRegistry;
 use Yii;
 
 /**
@@ -42,6 +43,30 @@ class ArtworkTest extends TestCase
         self::assertStringContainsString('id="' . $hotspot->getHtmlId() . '"', $html);
         self::assertStringContainsString('class="hotspot"', $html);
         self::assertStringContainsString("left: $hotspot->x%; top: $hotspot->y%", $html);
+    }
+
+    public function testTheDefaultViewShowsTheHotspotInThePagesLanguage(): void
+    {
+        Yii::$app->getI18n()->setLanguages(['en-US', 'de']);
+        Yii::$container->set(Hotspot::class, ['translatableAttributes' => ['name', 'link']]);
+        DefinitionRegistry::reset();
+
+        try {
+            $hotspot = Hotspot::create();
+            $hotspot->setAttribute('name', 'Lamp');
+            $hotspot->setAttribute('name_de', 'Lampe – Ölçü');
+            $hotspot->setAttribute('link', 'https://example.com/lamp');
+            $hotspot->setAttribute('link_de', 'https://example.com/de/lampe');
+
+            Yii::$app->language = 'de';
+            $html = Yii::$app->getView()->renderFile(dirname(__DIR__, 2) . '/resources/views/widgets/_hotspots.php', ['hotspots' => [$hotspot]]);
+        } finally {
+            Yii::$container->clear(Hotspot::class);
+            DefinitionRegistry::reset();
+        }
+
+        self::assertStringContainsString('>Lampe – Ölçü</a>', $html);
+        self::assertStringContainsString('href="https://example.com/de/lampe"', $html);
     }
 
     public function testNoViewRendersNoHotspots(): void

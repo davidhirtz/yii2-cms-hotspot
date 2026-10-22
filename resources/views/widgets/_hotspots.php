@@ -14,10 +14,12 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Skeleton\Helpers\Html;
 
 foreach ($hotspots as $hotspot) {
-    echo Html::tag($hotspot->link ? 'a' : 'span', Html::encode((string)$hotspot->name), [
+    $link = $hotspot->getVisibleAttribute('link');
+
+    echo Html::tag($link ? 'a' : 'span', Html::encode((string)$hotspot->getVisibleAttribute('name')), [
         'id' => $hotspot->getHtmlId(),
         'class' => 'hotspot',
-        'href' => $hotspot->link ?: null,
+        'href' => $link ?: null,
         'style' => "left: $hotspot->x%; top: $hotspot->y%",
     ]);
 }
