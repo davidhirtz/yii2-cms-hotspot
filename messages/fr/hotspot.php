@@ -12,6 +12,7 @@ return [
     'HOTSPOT_BUTTON_DELETE' => 'Supprimer le hotspot',
     'HOTSPOT_BUTTON_DUPLICATE' => 'Dupliquer le hotspot',
     'HOTSPOT_CONFIRM_DELETE' => 'Voulez-vous vraiment supprimer ce hotspot ?',
+    'HOTSPOT_ERROR_FILE_WITHOUT_PREVIEW' => 'Les hotspots sont placés sur une image : supprimez-les avant de la remplacer par un fichier qui n’en a pas.',
     'HOTSPOT_LINK_LABEL' => 'Lien',
     'HOTSPOT_SUCCESS_CREATED' => 'Le hotspot a été créé.',
     'HOTSPOT_SUCCESS_DELETED' => 'Le hotspot a été supprimé.',

@@ -8,6 +8,8 @@ use Hirtz\Cms\Hotspot\Events\HotspotEntrySiteRelationsEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetAfterDuplicateEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDeleteEventHandler;
 use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeDuplicateEventHandler;
+use Hirtz\Cms\Hotspot\Models\Events\AssetBeforeValidateEventHandler;
+use Hirtz\Cms\Hotspot\Models\Events\FileBeforeValidateEventHandler;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Models\BlockAsset;
@@ -16,6 +18,7 @@ use Hirtz\Cms\Models\SectionAsset;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Modules\Admin\Widgets\Navs\CmsNavItem;
 use Hirtz\Media\Models\Asset;
+use Hirtz\Media\Models\File;
 use Hirtz\Media\Modules\Admin\Widgets\Grids\Columns\AssetThumbnailColumn;
 use Hirtz\Cms\Widgets\Artwork;
 use Hirtz\Media\Modules\Admin\Widgets\Forms\Fields\AssetPreviewField;
@@ -29,6 +32,7 @@ use Hirtz\Skeleton\Widgets\Widget;
 use Override;
 use Yii;
 use yii\base\Event;
+use yii\base\Model;
 use yii\base\ModelEvent;
 use yii\db\BaseActiveRecord;
 use yii\i18n\PhpMessageSource;
@@ -120,7 +124,19 @@ class Bootstrap implements ConfigBootstrapInterface
                 ),
                 DuplicateActiveRecordEvent::class
             );
+
+            EventHelper::on(
+                $assetClass,
+                Model::EVENT_BEFORE_VALIDATE,
+                fn (Asset $asset) => Yii::createObject(AssetBeforeValidateEventHandler::class, [$asset]),
+            );
         }
+
+        EventHelper::on(
+            File::class,
+            Model::EVENT_BEFORE_VALIDATE,
+            fn (File $file) => Yii::createObject(FileBeforeValidateEventHandler::class, [$file]),
+        );
 
         Event::on(
             PreloadEntrySiteRelations::class,
