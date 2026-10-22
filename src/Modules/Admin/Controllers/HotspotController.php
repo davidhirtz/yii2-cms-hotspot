@@ -89,15 +89,19 @@ class HotspotController extends Controller
     {
         $hotspot = $this->findHotspot($id);
 
-        if ($hotspot->load($this->request->post()) && !$this->request->isFormReload() && $hotspot->update()) {
-            $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'));
-
-            // Dragging a hotspot posts through `fetch()` and swaps the flashes in, so the page itself stays put.
-            if ($this->request->getIsAjax()) {
-                return (string)Flashes::make();
+        if ($hotspot->load($this->request->post()) && !$this->request->isFormReload()) {
+            if ($hotspot->update()) {
+                $this->success(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'));
             }
 
-            return $this->redirect(['update', 'id' => $hotspot->id]);
+            if (!$hotspot->hasErrors()) {
+                // Dragging a hotspot posts through `fetch()` and swaps the flashes in, so the page itself stays put.
+                if ($this->request->getIsAjax()) {
+                    return (string)Flashes::make();
+                }
+
+                return $this->redirect(['update', 'id' => $hotspot->id]);
+            }
         }
 
         return $this->render('update', [
