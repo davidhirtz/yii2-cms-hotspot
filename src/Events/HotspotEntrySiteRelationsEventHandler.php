@@ -45,6 +45,7 @@ class HotspotEntrySiteRelationsEventHandler
             ->withTranslations()
             ->whereStatus()
             ->andWhere(['asset_id' => $assetIdsWithHotspots])
+            ->orderBy(['position' => SORT_ASC])
             ->indexBy('id')
             ->all();
 

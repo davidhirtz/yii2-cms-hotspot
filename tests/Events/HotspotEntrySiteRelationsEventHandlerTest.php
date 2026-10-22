@@ -112,6 +112,17 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
         self::assertSame(0, $queries);
     }
 
+    public function testHotspotsAreLoadedInTheirOrder(): void
+    {
+        Hotspot::updateAll(['position' => 2], ['id' => 1]);
+        Hotspot::updateAll(['position' => 1], ['id' => 2]);
+
+        $hotspots = $this->getPreloadedSectionAsset()->getRelatedRecords()['hotspots'];
+        self::assertIsArray($hotspots);
+
+        self::assertSame([2, 1], array_values(array_map(fn (Hotspot $hotspot): int => $hotspot->id, $hotspots)));
+    }
+
     public function testHotspotsWithoutHotspotAssetsAreLoaded(): void
     {
         Hotspot::updateAll(['asset_count' => 0]);
