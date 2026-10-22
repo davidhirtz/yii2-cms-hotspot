@@ -1,5 +1,9 @@
 # Upgrading to 3.0
 
+## 3.8
+
+`HotspotAssetController::actionOrder()` is `actionReorder()`, its route `hotspot-asset/reorder`.
+
 ## Requirements
 
 - PHP `^8.3`

@@ -1,3 +1,8 @@
+## Unreleased
+
+- Changed the `davidhirtz/yii2-media` requirement to `^3.20` (reorder)
+- Renamed `HotspotAssetController::actionOrder()` to `actionReorder()` (route `reorder`)
+
 ## 3.7.0 (October 20, 2026)
 
 - Changed the `davidhirtz/yii2-media` requirement to `^3.18`

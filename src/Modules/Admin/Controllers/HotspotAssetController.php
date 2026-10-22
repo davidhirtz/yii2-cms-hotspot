@@ -44,8 +44,8 @@ class HotspotAssetController extends Controller
                             'delete',
                             'delete-all',
                             'index',
-                            'order',
                             'remove',
+                            'reorder',
                             'status',
                             'update',
                         ],
@@ -102,7 +102,7 @@ class HotspotAssetController extends Controller
         return $this->deleteAssets($this->findHotspotModel($hotspot));
     }
 
-    public function actionOrder(?int $hotspot = null): string
+    public function actionReorder(?int $hotspot = null): string
     {
         return $this->reorderAssets($this->findHotspotModel($hotspot));
     }
