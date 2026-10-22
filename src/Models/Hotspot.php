@@ -362,6 +362,20 @@ class Hotspot extends ActiveRecord implements
         return static::find()->with('asset');
     }
 
+    /**
+     * A hotspot answers to the permission of its asset, so its hits are visible where any cms asset's are.
+     */
+    public static function isSearchResultClassVisible(): bool
+    {
+        foreach ([BlockAsset::class, EntryAsset::class, SectionAsset::class] as $assetClass) {
+            if ($assetClass::isSearchResultClassVisible()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     protected function isSearchResultVisible(): bool
     {
         return WebUser::current()?->can($this->getPermissionName()) ?? false;
