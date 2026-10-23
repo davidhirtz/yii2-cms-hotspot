@@ -244,6 +244,11 @@ class Hotspot extends ActiveRecord implements
         parent::afterDelete();
     }
 
+    public function getI18nLanguages(): array
+    {
+        return $this->asset->getI18nLanguages();
+    }
+
     /**
      * @return AssetQuery<Asset>
      */

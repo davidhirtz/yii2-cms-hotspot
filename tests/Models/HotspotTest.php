@@ -7,9 +7,12 @@ namespace Hirtz\Cms\Hotspot\Tests\Models;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
+use Hirtz\Cms\Models\Entry;
 use Hirtz\Media\Models\Asset;
 use Hirtz\Skeleton\Filters\PageCache;
 use Hirtz\Skeleton\Models\CustomAttributes\TextCustomAttribute;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
+use Hirtz\Tenant\Models\Tenant;
 use Yii;
 use yii\caching\TagDependency;
 use yii\db\Query;
@@ -37,6 +40,31 @@ class HotspotTest extends TestCase
 
         self::assertTrue($hotspot->delete() === 1);
         self::assertEquals(0, $asset->getAttribute('hotspot_count'));
+    }
+
+    public function testAHotspotOffersTheLanguagesOfItsAsset(): void
+    {
+        Yii::$app->getI18n()->setLanguages(['en-US', 'de']);
+
+        $tenant = Tenant::create();
+        $tenant->loadDefaultValues();
+        $tenant->name = 'Languages';
+        $tenant->url = 'https://www.languages.localhost';
+        $tenant->language = 'en-US';
+        $tenant->languages = [];
+        self::assertTrue($tenant->save(), implode(' ', $tenant->getErrorSummary(true)));
+        TenantCollection::invalidateCache();
+
+        $asset = $this->getAssetFromFixture('post-asset');
+        $entry = $asset->getModel();
+        self::assertInstanceOf(Entry::class, $entry);
+
+        $hotspot = Hotspot::create();
+        $hotspot->populateAssetRelation($asset);
+        self::assertSame(['en-US', 'de'], $hotspot->getI18nLanguages());
+
+        $entry->populateTenantRelation($tenant);
+        self::assertSame(['en-US'], $hotspot->getI18nLanguages());
     }
 
     public function testUnchangedCoordinatesAreNotDirty(): void
