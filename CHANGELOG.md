@@ -1,4 +1,4 @@
-## Unreleased
+## 3.9.0 (October 24, 2026)
 
 - Changed `Hotspot` to offer the languages of its asset in the admin
 - Changed the `davidhirtz/yii2-media` requirement to `^3.23`
