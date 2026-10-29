@@ -26,6 +26,6 @@ readonly class AssetBeforeValidateEventHandler
             return;
         }
 
-        $this->asset->addError('file_id', Yii::t('hotspot', 'HOTSPOT_ERROR_FILE_WITHOUT_PREVIEW'));
+        $this->asset->addError('file_id', Yii::t('hotspot', 'HOTSPOT_FILE_PREVIEW_ERROR'));
     }
 }

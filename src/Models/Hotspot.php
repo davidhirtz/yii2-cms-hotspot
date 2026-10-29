@@ -269,10 +269,10 @@ class Hotspot extends ActiveRecord implements
         return [
             TextCustomAttribute::make('name')
                 ->max(250)
-                ->label(Yii::t('cms', 'HOTSPOT_NAME_LABEL'))
+                ->label(Yii::t('hotspot', 'HOTSPOT_NAME_LABEL'))
                 ->translatable($this->isTranslatableAttribute('name')),
             HtmlCustomAttribute::make('content')
-                ->label(Yii::t('cms', 'HOTSPOT_CONTENT_LABEL'))
+                ->label(Yii::t('hotspot', 'HOTSPOT_CONTENT_LABEL'))
                 ->translatable($this->isTranslatableAttribute('content')),
             UrlCustomAttribute::make('link')
                 ->label(Yii::t('hotspot', 'HOTSPOT_LINK_LABEL'))
@@ -344,7 +344,7 @@ class Hotspot extends ActiveRecord implements
 
     public function getAdminType(): string
     {
-        return Yii::t('hotspot', 'COMMON_HOTSPOT');
+        return Yii::t('hotspot', 'HOTSPOT_SINGULAR');
     }
 
     protected function getDefaultAdminIcon(): ?string

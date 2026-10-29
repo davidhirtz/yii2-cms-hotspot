@@ -136,7 +136,7 @@ class HotspotControllerTest extends TestCase
 
         self::assertIsString($html);
         self::assertStringContainsString('id="flashes"', $html);
-        self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_SUCCESS_UPDATED'), $html);
+        self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_UPDATE_SUCCESS'), $html);
         self::assertSame(30.0, (float)Hotspot::findOne(1)->x);
     }
 
@@ -181,7 +181,7 @@ class HotspotControllerTest extends TestCase
         self::assertNotNull($hotspot);
 
         self::assertStringContainsString('id="flashes"', $data['flashes']);
-        self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_SUCCESS_CREATED'), $data['flashes']);
+        self::assertStringContainsString(Yii::t('hotspot', 'HOTSPOT_CREATE_SUCCESS'), $data['flashes']);
         self::assertSame($hotspot->getAdminName(), $data['hotspot']['displayName']);
         self::assertSame(3, $hotspot->position);
         self::assertStringContainsString('#3', $data['hotspot']['displayName']);

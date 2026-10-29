@@ -132,9 +132,9 @@ class HotspotHeaderTest extends TestCase
 
         self::assertSame(
             [
-                Yii::t('cms', 'COMMON_ENTRIES'),
+                Yii::t('cms', 'ENTRY_PLURAL'),
                 $section->entry->getAdminName(),
-                Yii::t('cms', 'COMMON_SECTIONS'),
+                Yii::t('cms', 'SECTION_PLURAL'),
                 $section->getAdminName(),
                 $section->getAttributeLabel('asset_count'),
                 $sectionAsset->getAdminName(),

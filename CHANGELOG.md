@@ -1,3 +1,7 @@
+## Unreleased
+
+- Changed every message key to the `{DOMAIN}_{SUBJECT}_{KIND}` scheme; the hotspot labels moved from the `cms` category to `hotspot`
+
 ## 3.9.0 (October 24, 2026)
 
 - Changed `Hotspot` to offer the languages of its asset in the admin

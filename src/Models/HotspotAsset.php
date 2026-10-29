@@ -50,6 +50,6 @@ class HotspotAsset extends Asset
     #[Override]
     public function getAdminType(): string
     {
-        return Yii::t('hotspot', 'COMMON_HOTSPOT_ASSET');
+        return Yii::t('hotspot', 'HOTSPOT_ASSET_SINGULAR');
     }
 }

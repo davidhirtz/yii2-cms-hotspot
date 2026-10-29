@@ -30,7 +30,7 @@ class FileWithoutPreviewTest extends TestCase
         $asset->populateFileRelation($file);
 
         self::assertFalse($asset->update());
-        self::assertSame(Yii::t('hotspot', 'HOTSPOT_ERROR_FILE_WITHOUT_PREVIEW'), $asset->getFirstError('file_id'));
+        self::assertSame(Yii::t('hotspot', 'HOTSPOT_FILE_PREVIEW_ERROR'), $asset->getFirstError('file_id'));
     }
 
     public function testAnAssetWithHotspotsTakesAnotherImage(): void
@@ -60,7 +60,7 @@ class FileWithoutPreviewTest extends TestCase
 
             self::assertTrue($file->copy("$directory/notes.txt"));
             self::assertFalse($file->update());
-            self::assertSame(Yii::t('hotspot', 'HOTSPOT_ERROR_FILE_WITHOUT_PREVIEW'), $file->getFirstError('upload'));
+            self::assertSame(Yii::t('hotspot', 'HOTSPOT_FILE_PREVIEW_ERROR'), $file->getFirstError('upload'));
         } finally {
             FileHelper::removeDirectory($directory);
         }

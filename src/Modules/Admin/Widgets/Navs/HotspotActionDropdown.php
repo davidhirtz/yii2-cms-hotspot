@@ -44,7 +44,7 @@ class HotspotActionDropdown extends ActionDropdown
         }
 
         return DuplicateButton::make()
-            ->label(Yii::t('hotspot', 'HOTSPOT_BUTTON_DUPLICATE'))
+            ->label(Yii::t('hotspot', 'HOTSPOT_DUPLICATE_BUTTON'))
             ->model($this->model)
             ->url(['/admin/hotspot/hotspot/duplicate', 'id' => $this->model->id]);
     }
@@ -56,8 +56,8 @@ class HotspotActionDropdown extends ActionDropdown
     {
         return DeleteButton::make()
             ->model($this->model)
-            ->label(Yii::t('hotspot', 'HOTSPOT_BUTTON_DELETE'))
-            ->title(Yii::t('hotspot', 'HOTSPOT_CONFIRM_DELETE'))
+            ->label(Yii::t('hotspot', 'HOTSPOT_DELETE_BUTTON'))
+            ->title(Yii::t('hotspot', 'HOTSPOT_DELETE_CONFIRM'))
             ->url(['/admin/hotspot/hotspot/delete', 'id' => $this->model->id]);
     }
 }

@@ -32,7 +32,7 @@ readonly class FileBeforeValidateEventHandler
             ->exists(File::getDb());
 
         if ($hasHotspots) {
-            $this->file->addError('upload', Yii::t('hotspot', 'HOTSPOT_ERROR_FILE_WITHOUT_PREVIEW'));
+            $this->file->addError('upload', Yii::t('hotspot', 'HOTSPOT_FILE_PREVIEW_ERROR'));
         }
     }
 }
