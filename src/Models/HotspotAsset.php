@@ -21,8 +21,7 @@ class HotspotAsset extends Asset
     }
 
     /**
-     * The hotspot hangs on an asset of its own, whose permission depends on which model that one hangs on — so
-     * this one is the record's, not the class's.
+     * The permission depends on the model the hotspot's own asset hangs on, so it is the record's, not the class's.
      */
     #[Override]
     public function getPermissionName(): string

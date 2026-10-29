@@ -13,31 +13,22 @@ use Hirtz\Skeleton\Models\Interfaces\VisibleAttributeInterface;
 class Module extends \Hirtz\Skeleton\Base\Module
 {
     /**
-     * The marker that takes the hotspots off an asset type, named among its hidden fields. The cms owns the asset
-     * classes and the media bundle owns their type, so this bundle has no `allowHotspots()` of its own to add to
-     * either — a project declaring its own panel on a type it does not own does the same.
+     * Named among an asset type's hidden fields to take its hotspots off, since this bundle owns neither the asset
+     * classes nor their type.
      */
     final public const string FIELD_HOTSPOTS = 'hotspots';
 
-    /**
-     * @var bool whether entry assets should have hotspots enabled, defaults to `false`.
-     */
     public bool $enableEntryAssetHotspots = false;
 
     /**
-     * @var bool whether section and block assets should have hotspots enabled, defaults to `true`. A block renders
-     * in place of a section, so its assets follow the section flag.
+     * A block renders in place of a section, so its assets follow this flag.
      */
     public bool $enableSectionAssetHotspots = true;
 
-    /**
-     * @var bool whether hotspots should have assets enabled, defaults to `true`.
-     */
     public bool $enableHotspotAssets = true;
 
     /**
-     * Whether the asset carries hotspots: the installation's flag for the kind of asset it is, then the asset
-     * type's own marker. The single reader, so the admin and the frontend cannot disagree.
+     * The single reader of the flags and the type's marker, so the admin and the frontend cannot disagree.
      */
     public function allowsHotspots(AssetInterface $asset): bool
     {

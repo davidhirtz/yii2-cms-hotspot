@@ -62,8 +62,8 @@ use Hirtz\Skeleton\Db\DateTime;
  * @property DateTime|null $updated_at
  * @property DateTime $created_at
  *
- * @property-read BlockAsset|EntryAsset|SectionAsset $asset {@see static::getAsset()}
- * @property-read HotspotAsset[] $assets {@see static::getAssets()}
+ * @property-read BlockAsset|EntryAsset|SectionAsset $asset
+ * @property-read HotspotAsset[] $assets
  *
  * @mixin TrailBehavior
  */
@@ -405,8 +405,7 @@ class Hotspot extends ActiveRecord implements
     }
 
     /**
-     * A hotspot is placed and ordered by its position on the asset, so that is what identifies it where it has
-     * no name of its own — the primary key says nothing to whoever is placing them.
+     * The position identifies an unnamed hotspot, since the primary key says nothing to whoever places them.
      */
     public function getAdminName(): string
     {

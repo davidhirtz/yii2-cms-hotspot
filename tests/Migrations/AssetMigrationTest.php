@@ -19,10 +19,8 @@ use yii\db\Expression;
 use yii\db\JsonExpression;
 
 /**
- * The hotspot copy shifts every id past the cms ones, in the rows and in both places the trail stores them. Nothing
- * marks a row as shifted, so this is the part that must be right the first time.
- *
- * The DDL below commits the test transaction, so everything is cleaned up by hand.
+ * Nothing marks a row whose id the copy shifted, so it must be right the first time; the DDL commits the test
+ * transaction, so everything is cleaned up by hand.
  */
 class AssetMigrationTest extends TestCase
 {
@@ -43,8 +41,7 @@ class AssetMigrationTest extends TestCase
     private const int CMS_ASSET_ID = 4;
 
     /**
-     * The migration asserts that `asset` holds exactly the hotspot assets it copied, so the fixture contributes the
-     * cms rows only — which is also what gives the offset something to clear.
+     * The migration asserts that `asset` holds exactly the hotspot assets it copied, so the fixture loads none.
      *
      * @return array<string, mixed>
      */
@@ -144,7 +141,7 @@ class AssetMigrationTest extends TestCase
     }
 
     /**
-     * @return int the offset the migration used
+     * Answers the offset the migration used.
      */
     protected function migrate(): int
     {

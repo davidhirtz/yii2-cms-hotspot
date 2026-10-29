@@ -158,8 +158,9 @@ class HotspotHeaderTest extends TestCase
     }
 
     /**
-     * @return list<array{string, string}> the href and the text of each subtitle item, in order. Matched rather
-     *     than spelled out: an item also carries the generated `view-transition-name` its group is matched by.
+     * Matched rather than spelled out, since an item also carries a generated `view-transition-name`.
+     *
+     * @return list<array{string, string}>
      */
     private function getSubtitleItems(string $html): array
     {

@@ -142,8 +142,7 @@ class HotspotTest extends TestCase
     }
 
     /**
-     * The count is bookkeeping: an asset that no longer validates (a required custom attribute added to its type)
-     * must still record its hotspots, or deleting it leaves them to the foreign key's cascade.
+     * An asset that no longer validates still records its hotspots, or deleting it leaves them to the cascade.
      */
     public function testTheCountIsWrittenOnAnAssetThatNoLongerValidates(): void
     {

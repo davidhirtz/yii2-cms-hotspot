@@ -16,8 +16,7 @@ use Hirtz\Media\Models\Actions\DuplicateAsset;
 use Hirtz\Media\Models\File;
 
 /**
- * The hotspots of a cms asset are the bundle's own, so the cms bootstrap knows nothing about them: they follow
- * their asset through the delete and the duplicate through events.
+ * The cms knows nothing of hotspots, so they follow their asset through the delete and the duplicate by events.
  */
 class AssetEventHandlersTest extends TestCase
 {
@@ -54,9 +53,7 @@ class AssetEventHandlersTest extends TestCase
     }
 
     /**
-     * A block asset is subscribed like the other two cms assets (monorepo issue #145). `hotspot.asset_id` cascades,
-     * so the hotspot row alone proves nothing — the hotspot's own assets are what the handler removes and the
-     * database would leave behind.
+     * `hotspot.asset_id` cascades, so only the hotspot's own assets prove the handler ran (monorepo issue #145).
      */
     public function testDeletingABlockAssetDeletesItsHotspots(): void
     {
@@ -94,8 +91,7 @@ class AssetEventHandlersTest extends TestCase
     }
 
     /**
-     * A section holds a file once, so the duplicate goes to another section — which is the only case left now that
-     * the asset `duplicate` action is gone, and the one `DuplicateSection` and `DuplicateEntry` exercise.
+     * A section holds a file once, so the duplicate goes to another section, as in `DuplicateSection`.
      */
     public function testDuplicatingTheAssetCopiesItsHotspots(): void
     {

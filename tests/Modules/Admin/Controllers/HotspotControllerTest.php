@@ -25,8 +25,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
- * A hotspot is edited by whoever may edit the cms asset it sits on, so the controller answers to the permission of
- * that asset: the entry one for an entry or section asset, the block one for a block asset.
+ * A hotspot answers to the permission of its cms asset: the entry one for an entry or section asset, the block one
+ * for a block asset.
  */
 class HotspotControllerTest extends TestCase
 {
@@ -63,8 +63,7 @@ class HotspotControllerTest extends TestCase
     }
 
     /**
-     * The hotspot has no page of its own to lead back to, and its assets live on their own page since the update
-     * page stopped embedding their grid.
+     * The hotspot has no page of its own to lead back to, and its assets have a page of their own.
      */
     public function testTheUpdatePageLinksToTheAssetAndToItsOwnAssets(): void
     {
@@ -158,8 +157,8 @@ class HotspotControllerTest extends TestCase
     }
 
     /**
-     * Creating a hotspot posts through `fetch()` as well, so the flash the action sets travels in the response
-     * beside the hotspot — and an unnamed one is titled after its position rather than after nothing.
+     * Creating a hotspot posts through `fetch()` as well, so its flash travels in the response, and an unnamed one is
+     * titled after its position.
      */
     public function testACreatedHotspotIsAnsweredWithItsFlashAndDisplayName(): void
     {
@@ -188,8 +187,8 @@ class HotspotControllerTest extends TestCase
     }
 
     /**
-     * The coordinates are a percentage of the image, so a hotspot outside it is refused — and the error reported is
-     * the hotspot's own, not the asset's.
+     * The coordinates are a percentage of the image, so a hotspot outside it is refused with its own error, not the
+     * asset's.
      */
     public function testAHotspotOutsideTheImageIsRefused(): void
     {

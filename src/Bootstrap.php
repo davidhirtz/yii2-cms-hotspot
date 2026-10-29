@@ -150,8 +150,7 @@ class Bootstrap implements ConfigBootstrapInterface
     }
 
     /**
-     * A hotspot is always reached from a cms asset, so its pages belong to the entries item — which the bundle adds
-     * itself rather than leaving the cms to name a bundle that may not be installed.
+     * Added here, since the cms cannot name a bundle that may not be installed.
      */
     protected function addCmsNavItemRoutes(): void
     {

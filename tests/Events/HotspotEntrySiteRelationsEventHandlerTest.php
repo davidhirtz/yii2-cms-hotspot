@@ -227,8 +227,7 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
 }
 
 /**
- * A scratch section model, declared here because a second class in a test file is only autoloadable while that
- * file runs.
+ * A second class in a test file is autoloadable only while that file runs.
  */
 class HotspotBlockSectionModel extends Section
 {
