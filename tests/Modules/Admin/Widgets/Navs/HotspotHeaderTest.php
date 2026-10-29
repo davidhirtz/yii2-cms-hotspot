@@ -178,7 +178,7 @@ class HotspotHeaderTest extends TestCase
      */
     private function getAssetType(): string
     {
-        return Yii::t('media', 'ASSET_ASSET');
+        return Yii::t('media', 'ASSET_SINGULAR');
     }
 
     /**
