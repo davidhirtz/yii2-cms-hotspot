@@ -98,13 +98,13 @@ class HotspotTest extends TestCase
         $hotspot->name = null;
 
         self::assertSame(
-            Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $hotspot->getAdminType(), 'id' => 1]),
+            Yii::t('skeleton', 'MODEL_ID_FORMAT', ['model' => $hotspot->getAdminType(), 'id' => 1]),
             $hotspot->getAdminName(),
         );
 
         // The name is read per row (trail, search), so only the header's subtitle names the total.
         self::assertSame(
-            Yii::t('skeleton', 'COMMON_MODEL_POSITION_TOTAL', [
+            Yii::t('skeleton', 'MODEL_POSITION_FORMAT', [
                 'model' => $hotspot->getAdminType(),
                 'position' => 1,
                 'total' => 2,
@@ -124,7 +124,7 @@ class HotspotTest extends TestCase
         $hotspot->position = 42;
 
         self::assertSame(
-            Yii::t('skeleton', 'COMMON_MODEL_ID', ['model' => $hotspot->getAdminType(), 'id' => 42]),
+            Yii::t('skeleton', 'MODEL_ID_FORMAT', ['model' => $hotspot->getAdminType(), 'id' => 42]),
             $hotspot->getAdminSubtitle(),
         );
     }

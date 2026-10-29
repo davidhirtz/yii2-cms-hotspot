@@ -150,7 +150,7 @@ class HotspotHeaderTest extends TestCase
      */
     private function subtitleItem(string $route, string $type, int $position, int $total): array
     {
-        return [$route, Yii::t('skeleton', 'COMMON_MODEL_POSITION_TOTAL', [
+        return [$route, Yii::t('skeleton', 'MODEL_POSITION_FORMAT', [
             'model' => $type,
             'position' => $position,
             'total' => $total,
