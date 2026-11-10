@@ -92,10 +92,13 @@ looks like this:
 
 ```php
 <?php foreach ($hotspots as $hotspot): ?>
-    <a id="<?= $hotspot->getHtmlId() ?>" href="<?= $hotspot->link ?>"
-       style="left: <?= $hotspot->x ?>%; top: <?= $hotspot->y ?>%"><?= $hotspot->name ?></a>
+    <a id="<?= $hotspot->getHtmlId() ?>" href="<?= Html::encode($hotspot->getVisibleAttribute('link')) ?>"
+       style="left: <?= $hotspot->x ?>%; top: <?= $hotspot->y ?>%"><?= Html::encode($hotspot->getVisibleAttribute('name')) ?></a>
 <?php endforeach; ?>
 ```
+
+`getVisibleAttribute('link')` resolves a picked entry (`entry:12`) to its URL, or `null` while it cannot be reached;
+the raw `$hotspot->link` would print `entry:12`.
 
 `$hotspot->getVisibleAssets()` answers the hotspot's own assets, `hotspotViewFile(false)` renders none, and
 `hotspotWrapper(Closure)` receives the wrapping `Div` for a class or an attribute of its own. The `relative` class is
