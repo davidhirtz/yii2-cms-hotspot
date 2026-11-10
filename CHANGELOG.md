@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Changed the hotspot `link` to a `LinkCustomAttribute`, which takes partial URLs and picks entries
+- Added hotspots to the cms `entryReferenceModelClasses`
 - Changed the `davidhirtz/yii2-cms` requirement to `^3.22` and `davidhirtz/yii2-skeleton` to `^3.27`
 
 ## 3.10.0 (October 31, 2026)
