@@ -23,7 +23,7 @@ use Hirtz\Skeleton\Db\Commands\RenumberPositions;
 use Hirtz\Skeleton\Models\CustomAttributes\CustomAttribute;
 use Hirtz\Skeleton\Models\CustomAttributes\HtmlCustomAttribute;
 use Hirtz\Skeleton\Models\CustomAttributes\TextCustomAttribute;
-use Hirtz\Skeleton\Models\CustomAttributes\UrlCustomAttribute;
+use Hirtz\Skeleton\Models\CustomAttributes\LinkCustomAttribute;
 use Hirtz\Skeleton\Models\Interfaces\CustomAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\DraftStatusAttributeInterface;
 use Hirtz\Skeleton\Models\Interfaces\SearchableInterface;
@@ -274,7 +274,7 @@ class Hotspot extends ActiveRecord implements
             HtmlCustomAttribute::make('content')
                 ->label(Yii::t('hotspot', 'HOTSPOT_CONTENT_LABEL'))
                 ->translatable($this->isTranslatableAttribute('content')),
-            UrlCustomAttribute::make('link')
+            LinkCustomAttribute::make('link')
                 ->label(Yii::t('hotspot', 'HOTSPOT_LINK_LABEL'))
                 ->translatable($this->isTranslatableAttribute('link')),
             ...$this->getOwnCustomAttributes(),

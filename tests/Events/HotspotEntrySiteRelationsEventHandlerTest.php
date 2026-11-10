@@ -8,6 +8,7 @@ use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Test\TestCase;
 use Hirtz\Cms\Hotspot\Test\Traits\HotspotFixtureTrait;
+use Hirtz\Cms\Links\EntryLinks;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Models\Block;
 use Hirtz\Cms\Models\BlockAsset;
@@ -19,6 +20,7 @@ use Hirtz\Cms\Test\Models\TestEntry;
 use Hirtz\Media\Models\CustomAttributes\FileCustomAttribute;
 use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Db\ActiveQuery;
+use Hirtz\Tenant\Models\Collections\TenantCollection;
 use Override;
 use Yii;
 
@@ -32,6 +34,47 @@ class HotspotEntrySiteRelationsEventHandlerTest extends TestCase
         Yii::$container->clear(Hotspot::class);
         Yii::$container->clear(Section::class);
         parent::tearDown();
+    }
+
+    /**
+     * Hotspots load with the assets, so the targets of their links join the assets' batch.
+     */
+    public function testTheLinksOfHotspotsResolveWithoutAQueryOfTheirOwn(): void
+    {
+        ActiveQuery::setStatus(TestEntry::STATUS_ENABLED);
+        EntryLinks::reset();
+        TenantCollection::getAll();
+
+        $hotspot = Hotspot::findOne(1) ?? self::fail('No hotspot.');
+        $hotspot->setAttribute('link', 'entry:1#Ågot');
+        $hotspot->setAttribute('content', '<p><a href="entry:1">Test Page – Enabled</a></p>');
+        $hotspot->updateAttributes(['custom_attributes' => $hotspot->getSerializedCustomAttributes()]);
+
+        try {
+            // Found by its URI, as a request finds it, so a link to the page itself needs no query.
+            $entry = TestEntry::find()->whereUri('test-1')->one() ?? self::fail('No entry.');
+            $preload = new PreloadEntrySiteRelations(['entry' => $entry]);
+
+            $section = current($preload->entry->getRelatedRecords()['sections']) ?: self::fail('No section.');
+            $asset = current($section->getRelatedRecords()['assets']) ?: self::fail('No asset.');
+            $hotspot = current($asset->getRelatedRecords()['hotspots']) ?: self::fail('No hotspot.');
+            self::assertInstanceOf(Hotspot::class, $hotspot);
+
+            $link = null;
+            $content = null;
+
+            $count = $this->countQueries(function () use ($hotspot, &$link, &$content): void {
+                $link = $hotspot->getVisibleAttribute('link');
+                $content = $hotspot->getVisibleAttribute('content');
+            });
+
+            self::assertSame(0, $count);
+            self::assertSame('https://www.domain.localhost/test-1#Ågot', $link);
+            self::assertSame('<p><a href="https://www.domain.localhost/test-1">Test Page – Enabled</a></p>', $content);
+        } finally {
+            EntryLinks::reset();
+            ActiveQuery::resetStatus();
+        }
     }
 
     public function testPreloadEntrySiteRelations(): void

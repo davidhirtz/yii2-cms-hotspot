@@ -69,6 +69,19 @@ class ArtworkTest extends TestCase
         self::assertStringContainsString('href="https://example.com/de/lampe"', $html);
     }
 
+    public function testTheDefaultViewRendersAPartialLink(): void
+    {
+        $hotspot = Hotspot::create();
+        $hotspot->setAttribute('name', 'Lamp');
+        $hotspot->setAttribute('link', '/über-uns#lampe');
+
+        self::assertTrue($hotspot->validate(['link']));
+
+        $html = Yii::$app->getView()->renderFile(dirname(__DIR__, 2) . '/resources/views/widgets/_hotspots.php', ['hotspots' => [$hotspot]]);
+
+        self::assertStringContainsString('href="/über-uns#lampe"', $html);
+    }
+
     public function testNoViewRendersNoHotspots(): void
     {
         $asset = $this->findAssetWithHotspots();

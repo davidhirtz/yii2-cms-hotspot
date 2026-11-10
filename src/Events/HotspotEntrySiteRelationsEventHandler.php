@@ -7,6 +7,7 @@ namespace Hirtz\Cms\Hotspot\Events;
 use Hirtz\Cms\Hotspot\Models\Hotspot;
 use Hirtz\Cms\Hotspot\Models\HotspotAsset;
 use Hirtz\Cms\Hotspot\Modules\ModuleTrait;
+use Hirtz\Cms\Links\EntryLinks;
 use Hirtz\Cms\Models\Actions\PreloadEntrySiteRelations;
 use Hirtz\Cms\Models\Events\EntrySiteRelationsEvent;
 use Hirtz\Media\Models\Actions\LoadCustomAttributeFiles;
@@ -56,10 +57,15 @@ class HotspotEntrySiteRelationsEventHandler
             }
         }
 
-        // The files their custom attributes name share the preload's files query.
+        // The files their custom attributes name share the preload's files query, their linked entries the assets'.
         $event->sender->fileIds = [
             ...$event->sender->fileIds,
             ...LoadCustomAttributeFiles::getFileIds(array_values($hotspots)),
+        ];
+
+        $event->sender->linkedEntryIds = [
+            ...$event->sender->linkedEntryIds,
+            ...EntryLinks::findModelIds(array_values($hotspots)),
         ];
 
         $event->sender->on(PreloadEntrySiteRelations::EVENT_AFTER_LOAD_FILES, function () use ($event, $hotspots): void {
