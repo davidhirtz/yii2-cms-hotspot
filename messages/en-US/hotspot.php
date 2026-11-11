@@ -7,7 +7,7 @@
 return [
     'HOTSPOT_ASSET_ID_LABEL' => 'Asset',
     'HOTSPOT_ASSET_PREVIEW_HINT' => 'Double click on the image to create a hotspot.',
-    'HOTSPOT_ASSET_SINGULAR' => 'Hotspot Asset',
+    'HOTSPOT_ASSET_SINGULAR' => 'Hotspot asset',
     'HOTSPOT_CONTENT_LABEL' => 'Content',
     'HOTSPOT_CREATE_SUCCESS' => 'The hotspot was created.',
     'HOTSPOT_DELETE_BUTTON' => 'Delete hotspot',
