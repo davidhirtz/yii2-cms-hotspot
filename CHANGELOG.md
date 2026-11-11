@@ -1,4 +1,4 @@
-## Unreleased
+## 3.11.0 (November 11, 2026)
 
 - Changed the hotspot `link` to a `LinkCustomAttribute`, which takes partial URLs and picks entries
 - Added hotspots to the cms `entryReferenceModelClasses`
