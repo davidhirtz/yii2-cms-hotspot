@@ -244,6 +244,7 @@ class Hotspot extends ActiveRecord implements
         parent::afterDelete();
     }
 
+    #[Override]
     public function getI18nLanguages(): array
     {
         return $this->asset->getI18nLanguages();
@@ -264,6 +265,7 @@ class Hotspot extends ActiveRecord implements
      *
      * @return list<CustomAttribute>
      */
+    #[Override]
     public function getCustomAttributes(): array
     {
         return [
@@ -320,6 +322,7 @@ class Hotspot extends ActiveRecord implements
     /**
      * @return list<string>
      */
+    #[Override]
     public function getTrailAttributes(): array
     {
         return array_values(array_diff($this->attributes(), [
@@ -335,6 +338,7 @@ class Hotspot extends ActiveRecord implements
     /**
      * @return list<TrailModelInterface>
      */
+    #[Override]
     public function getTrailParents(): array
     {
         $asset = $this->asset;
@@ -342,6 +346,7 @@ class Hotspot extends ActiveRecord implements
         return [$asset, ...$asset->getTrailParents()];
     }
 
+    #[Override]
     public function getAdminType(): string
     {
         return Yii::t('hotspot', 'HOTSPOT_SINGULAR');
@@ -352,16 +357,19 @@ class Hotspot extends ActiveRecord implements
         return 'crosshairs';
     }
 
+    #[Override]
     public function getSearchAttributes(): array
     {
         return ['name', 'content'];
     }
 
+    #[Override]
     public function getSearchWeight(): float
     {
         return 0.4;
     }
 
+    #[Override]
     public static function findSearchable(): HotspotQuery
     {
         return static::find()->with('asset');
@@ -370,6 +378,7 @@ class Hotspot extends ActiveRecord implements
     /**
      * A hotspot answers to the permission of its asset, so its hits are visible where any cms asset's are.
      */
+    #[Override]
     public static function isSearchResultClassVisible(): bool
     {
         foreach ([BlockAsset::class, EntryAsset::class, SectionAsset::class] as $assetClass) {
@@ -399,6 +408,7 @@ class Hotspot extends ActiveRecord implements
         return static::findType(static::normalizeTypeValue($this->type ?? null));
     }
 
+    #[Override]
     public function getAdminRoute(): array|false
     {
         return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
@@ -407,11 +417,13 @@ class Hotspot extends ActiveRecord implements
     /**
      * The position identifies an unnamed hotspot, since the primary key says nothing to whoever places them.
      */
+    #[Override]
     public function getAdminName(): string
     {
         return $this->getAdminNameAttributeValue() ?: $this->getAdminPositionLabel();
     }
 
+    #[Override]
     public function getAdminSubtitle(): string
     {
         return $this->getAdminPositionLabel(total: (int)$this->asset->getAttribute('hotspot_count'));
@@ -420,11 +432,13 @@ class Hotspot extends ActiveRecord implements
     /**
      * A hotspot is listed on the asset's own page rather than in an index of its own, so it has no listing crumb.
      */
+    #[Override]
     public function getAdminParent(): Asset
     {
         return $this->asset;
     }
 
+    #[Override]
     public function getPermissionName(): string
     {
         return $this->asset->getPermissionName();
@@ -443,11 +457,13 @@ class Hotspot extends ActiveRecord implements
         return $this->allowsAssets() ? array_values($this->assets) : [];
     }
 
+    #[Override]
     public function getAssetClass(): string
     {
         return HotspotAsset::class;
     }
 
+    #[Override]
     public function allowsAssets(): bool
     {
         return static::getModule()->enableHotspotAssets && $this->typeAllowsAssets();
@@ -471,6 +487,7 @@ class Hotspot extends ActiveRecord implements
         return 'Hotspot';
     }
 
+    #[Override]
     public function getTranslationModelClass(): string
     {
         return self::class;

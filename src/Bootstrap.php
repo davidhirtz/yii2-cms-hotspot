@@ -92,6 +92,7 @@ class Bootstrap implements ConfigBootstrapInterface
     /**
      * @param Application<User> $app
      */
+    #[Override]
     public function bootstrap($app): void
     {
         Yii::setAlias('@hotspot', __DIR__);
