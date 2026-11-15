@@ -10,15 +10,15 @@ declare(strict_types=1);
  */
 
 use Hirtz\Cms\Hotspot\Models\Hotspot;
-use Hirtz\Skeleton\Helpers\Html;
+use Hirtz\Skeleton\Html\A;
+use Hirtz\Skeleton\Html\Span;
 
 foreach ($hotspots as $hotspot) {
     $link = $hotspot->getVisibleAttribute('link');
 
-    echo Html::tag($link ? 'a' : 'span', Html::encode((string)$hotspot->getVisibleAttribute('name')), [
-        'id' => $hotspot->getHtmlId(),
-        'class' => 'hotspot',
-        'href' => $link ?: null,
-        'style' => "left: $hotspot->x%; top: $hotspot->y%",
-    ]);
+    echo ($link ? A::make()->href($link) : Span::make())
+        ->attribute('id', $hotspot->getHtmlId())
+        ->class('hotspot')
+        ->attribute('style', "left: $hotspot->x%; top: $hotspot->y%")
+        ->text((string)$hotspot->getVisibleAttribute('name'));
 }
