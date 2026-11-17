@@ -247,6 +247,11 @@ class Hotspot extends ActiveRecord implements
     #[Override]
     public function getI18nLanguages(): array
     {
+        // Validation asks before it reports a missing asset.
+        if (!$this->asset_id && !$this->isRelationPopulated('asset')) {
+            return Yii::$app->getI18n()->getLanguages();
+        }
+
         return $this->asset->getI18nLanguages();
     }
 
