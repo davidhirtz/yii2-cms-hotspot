@@ -422,7 +422,7 @@ class Hotspot extends ActiveRecord implements
     #[Override]
     public function getAdminRoute(): array|false
     {
-        return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id] : false;
+        return $this->id ? ['/admin/hotspot/hotspot/update', 'id' => $this->id, ...$this->asset->getAdminTenantRouteParams()] : false;
     }
 
     /**

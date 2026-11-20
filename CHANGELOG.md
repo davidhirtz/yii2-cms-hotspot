@@ -1,6 +1,7 @@
 ## Unreleased
 
-- Changed the `davidhirtz/yii2-media` requirement to `^3.28`
+- Changed a hotspot's admin route to open in its entry's tenant
+- Changed the `davidhirtz/yii2-cms` requirement to `^3.25` and `davidhirtz/yii2-media` to `^3.28`
 - Changed `Hotspot::getSearchTenantId()` to answer its asset's tenant, after a `search/rebuild`
 
 ## 3.11.0 (November 11, 2026)
