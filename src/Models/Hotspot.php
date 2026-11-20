@@ -375,6 +375,12 @@ class Hotspot extends ActiveRecord implements
     }
 
     #[Override]
+    public function getSearchTenantId(): ?int
+    {
+        return $this->asset->getSearchTenantId();
+    }
+
+    #[Override]
     public static function findSearchable(): HotspotQuery
     {
         return static::find()->with('asset');

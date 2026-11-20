@@ -1,3 +1,8 @@
+## Unreleased
+
+- Changed the `davidhirtz/yii2-media` requirement to `^3.28`
+- Changed `Hotspot::getSearchTenantId()` to answer its asset's tenant, after a `search/rebuild`
+
 ## 3.11.0 (November 11, 2026)
 
 - Changed the hotspot `link` to a `LinkCustomAttribute`, which takes partial URLs and picks entries

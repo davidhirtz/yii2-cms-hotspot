@@ -24,6 +24,15 @@ class HotspotSearchTest extends TestCase
         self::assertStringContainsString('Test content for hotspot 1', $document->content);
     }
 
+    public function testTheDocumentCarriesTheTenantOfTheAsset(): void
+    {
+        $hotspot = $this->getHotspotFromFixture('hotspot-1');
+        $tenantId = $hotspot->asset->getSearchTenantId();
+
+        self::assertNotNull($tenantId);
+        self::assertSame($tenantId, $hotspot->getSearchDocuments()[0]->tenantId);
+    }
+
     public function testTheResultIsNamedLikeTheHeader(): void
     {
         // The owner sees every hit, so the result is not hidden by the asset's permission.
