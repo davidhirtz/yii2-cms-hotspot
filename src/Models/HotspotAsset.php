@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hirtz\Cms\Hotspot\Models;
 
 use Hirtz\Media\Models\Asset;
+use Hirtz\Media\Models\File;
 use Hirtz\Skeleton\Models\Interfaces\TrailModelInterface;
 use Override;
 use Yii;
@@ -21,12 +22,19 @@ class HotspotAsset extends Asset
     }
 
     /**
-     * The permission depends on the model the hotspot's own asset hangs on, so it is the record's, not the class's.
+     * The permission depends on the model the hotspot's own asset hangs on, so it is the record's, not the class's. One
+     * whose hotspot is gone (no foreign key on `model_id`) is left to whoever manages files.
      */
     #[Override]
     public function getPermissionName(): string
     {
-        return $this->model->asset->getPermissionName();
+        if (!$this->isRelationPopulated('model')) {
+            $this->populateRelation('model', Hotspot::findOne($this->model_id));
+        }
+
+        $hotspot = $this->getRelatedRecords()['model'] ?? null;
+
+        return $hotspot instanceof Hotspot ? $hotspot->asset->getPermissionName() : File::AUTH_FILE;
     }
 
     #[Override]
