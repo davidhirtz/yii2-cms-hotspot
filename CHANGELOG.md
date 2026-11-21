@@ -1,4 +1,4 @@
-## Unreleased
+## 3.12.0 (November 21, 2026)
 
 - Changed a hotspot's admin route to open in its entry's tenant
 - Changed the `davidhirtz/yii2-cms` requirement to `^3.25` and `davidhirtz/yii2-media` to `^3.28`
